@@ -9,21 +9,21 @@ public class Equipo {
     private String descripcion;
     private String marca;
     private String modelo;
-    private List<String> direccionesIp;
+    private TipoEquipo tipoEquipo;
     private Ubicacion ubicacion;
     private List<Puerto> puertos;
-    private TipoEquipo tipoEquipo;
+    private List<String> direccionesIp;
 
-    public Equipo(String codigo, String descripcion, String marca, String modelo, List<String> direccionesIp, Ubicacion ubicacion, Puerto puerto, TipoEquipo tipoEquipo) {
+    public Equipo(String codigo, String descripcion, String marca, String modelo, TipoEquipo tipoEquipo, Ubicacion ubicacion, Puerto puerto, List<String> direccionesIp) {
         this.codigo = codigo;
         this.descripcion = descripcion;
         this.marca = marca;
         this.modelo = modelo;
-        this.direccionesIp = direccionesIp;
+        this.tipoEquipo = tipoEquipo;
         this.ubicacion = ubicacion;
         this.puertos = new ArrayList<>();
         agregarPuerto(puerto);
-        this.tipoEquipo = tipoEquipo;
+        this.direccionesIp = direccionesIp;
     }
 
     public void agregarPuerto(Puerto puerto) {
