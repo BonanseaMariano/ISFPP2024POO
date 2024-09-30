@@ -10,10 +10,7 @@ import models.*;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
 
 import static utils.Constatnts.DELIMITER;
 
@@ -82,9 +79,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
             }
 
             //Direcciones IP
-            for (String direccionIp : direccionIpString.split(",")) {
-                direccionesIp.add(direccionIp);
-            }
+            Collections.addAll(direccionesIp, direccionIpString.split(","));
 
             Equipo equipo = new Equipo(codigo, descripcion, marca, modelo, tipoEquipo, ubicacion, puertos.getFirst(), direccionesIp);
             for (int i = 1; i < puertos.size(); i++) {
