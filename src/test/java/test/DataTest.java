@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class DataTest {
+class DataTest {
     TreeMap<String, TipoEquipo> tiposEquipos;
     TreeMap<String, TipoPuerto> tiposPuertos;
     TreeMap<String, TipoCable> tiposCables;
@@ -38,7 +38,7 @@ public class DataTest {
     }
 
     @Test
-    public void testUbicacionesFile() {
+    void testUbicacionesFile() {
         assertEquals(6, ubicaciones.size());
         assertTrue(ubicaciones.containsKey("SS"));
         assertTrue(ubicaciones.containsKey("L0"));
@@ -53,7 +53,7 @@ public class DataTest {
     }
 
     @Test
-    public void testTiposEquiposFile() {
+    void testTiposEquiposFile() {
         assertEquals(9, tiposEquipos.size());
         assertTrue(tiposEquipos.containsKey("AP"));
         assertTrue(tiposEquipos.containsKey("CAM"));
@@ -71,7 +71,7 @@ public class DataTest {
     }
 
     @Test
-    public void testTiposPuertosFile() {
+    void testTiposPuertosFile() {
         assertEquals(6, tiposPuertos.size());
         assertTrue(tiposPuertos.containsKey("10M"));
         assertTrue(tiposPuertos.containsKey("100M"));
@@ -86,7 +86,7 @@ public class DataTest {
     }
 
     @Test
-    public void testTiposCablesFile() {
+    void testTiposCablesFile() {
         assertEquals(4, tiposCables.size());
         assertTrue(tiposCables.containsKey("C5"));
         assertTrue(tiposCables.containsKey("C5e"));
@@ -100,7 +100,7 @@ public class DataTest {
 
 
     @Test
-    public void testEquiposFile() {
+    void testEquiposFile() {
         assertEquals(8, equipos.size());
         assertTrue(equipos.containsKey("SE01"));
         assertTrue(equipos.containsKey("PC01"));
@@ -118,7 +118,7 @@ public class DataTest {
 
     //TODO: Implement testConexionesFile
     @Test
-    public void testConexionesFile() {
+    void testConexionesFile() {
 
         System.out.println("\t-- Conexiones --");
         for (Conexion conexion : conexiones.values()) {
