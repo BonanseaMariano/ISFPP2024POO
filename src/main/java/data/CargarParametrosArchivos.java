@@ -10,9 +10,9 @@ public class CargarParametrosArchivos {
     private static String archivoTiposEquipos;
     private static String archivoTiposCables;
     private static String archivoTiposPuertos;
-    public static String archivoUbicaciones;
-    public static String archivoEquipos;
-    public static String archivoConexiones;
+    private static String archivoUbicaciones;
+    private static String archivoEquipos;
+    private static String archivoConexiones;
 
     /**
      * Loads the properties from the "config.properties" file and sets the values

@@ -26,9 +26,9 @@ public class DAOEquipoImplFile implements DAOEquipo {
     }
 
     @Override
-    public TreeMap<String, Equipo> cargarMapa() {
+    public Map<String, Equipo> cargarMapa() {
         String filename = CargarParametrosArchivos.getArchivoEquipos();
-        TreeMap<String, Equipo> equipos = new TreeMap<>();
+        Map<String, Equipo> equipos = new TreeMap<>();
         Scanner read;
 
         try {

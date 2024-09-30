@@ -7,18 +7,18 @@ import models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.TreeMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class DataTest {
-    TreeMap<String, TipoEquipo> tiposEquipos;
-    TreeMap<String, TipoPuerto> tiposPuertos;
-    TreeMap<String, TipoCable> tiposCables;
-    TreeMap<String, Ubicacion> ubicaciones;
-    TreeMap<String, Equipo> equipos;
-    TreeMap<String, Conexion> conexiones;
+    Map<String, TipoEquipo> tiposEquipos;
+    Map<String, TipoPuerto> tiposPuertos;
+    Map<String, TipoCable> tiposCables;
+    Map<String, Ubicacion> ubicaciones;
+    Map<String, Equipo> equipos;
+    Map<String, Conexion> conexiones;
 
     @BeforeEach
     public void setUp() {

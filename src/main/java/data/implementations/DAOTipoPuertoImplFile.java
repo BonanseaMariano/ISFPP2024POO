@@ -6,6 +6,7 @@ import models.TipoPuerto;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -13,9 +14,9 @@ import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoPuertoImplFile implements DAOTipoPuerto {
     @Override
-    public TreeMap<String, TipoPuerto> cargarMapa() {
+    public Map<String, TipoPuerto> cargarMapa() {
         String filename = CargarParametrosArchivos.getArchivoTiposPuertos();
-        TreeMap<String, TipoPuerto> tiposPuertos = new TreeMap<>();
+        Map<String, TipoPuerto> tiposPuertos = new TreeMap<>();
         Scanner read;
 
         try {

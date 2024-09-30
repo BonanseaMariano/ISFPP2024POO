@@ -6,6 +6,7 @@ import models.TipoCable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -13,9 +14,9 @@ import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoCableImplFile implements DAOTipoCable {
     @Override
-    public TreeMap<String, TipoCable> cargarMapa() {
+    public Map<String, TipoCable> cargarMapa() {
         String filename = CargarParametrosArchivos.getArchivoTiposCables();
-        TreeMap<String, TipoCable> tiposCables = new TreeMap<>();
+        Map<String, TipoCable> tiposCables = new TreeMap<>();
         Scanner read;
 
         try {

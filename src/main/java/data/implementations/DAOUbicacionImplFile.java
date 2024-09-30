@@ -8,6 +8,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Map;
 import java.util.Scanner;
 import java.util.TreeMap;
 
@@ -16,8 +17,8 @@ import static utils.Constatnts.DELIMITER;
 public class DAOUbicacionImplFile implements DAOUbicacion {
 
     @Override
-    public TreeMap<String, Ubicacion> cargarMapa() {
-        TreeMap<String, Ubicacion> ubicaciones = new TreeMap<>();
+    public Map<String, Ubicacion> cargarMapa() {
+        Map<String, Ubicacion> ubicaciones = new TreeMap<>();
         String filename = CargarParametrosArchivos.getArchivoUbicaciones();
         Scanner read;
 

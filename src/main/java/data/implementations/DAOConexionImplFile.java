@@ -3,11 +3,11 @@ package data.implementations;
 import data.interfaces.DAOConexion;
 import models.Conexion;
 
-import java.util.TreeMap;
+import java.util.Map;
 
 public class DAOConexionImplFile implements DAOConexion {
     @Override
-    public TreeMap<String, Conexion> cargarMapa() {
+    public Map<String, Conexion> cargarMapa() {
         return null;
     }
 }
