@@ -98,12 +98,18 @@ public class DataTest {
         }
     }
 
-    //TODO: Ver valores del archivo equipos.txt (TIPOS de equipos cargados ahi)
+
     @Test
     public void testEquiposFile() {
-        assertEquals(2, equipos.size());
+        assertEquals(8, equipos.size());
         assertTrue(equipos.containsKey("SE01"));
         assertTrue(equipos.containsKey("PC01"));
+        assertTrue(equipos.containsKey("SW01"));
+        assertTrue(equipos.containsKey("EQ1"));
+        assertTrue(equipos.containsKey("EQ2"));
+        assertTrue(equipos.containsKey("EQ3"));
+        assertTrue(equipos.containsKey("EQ4"));
+        assertTrue(equipos.containsKey("EQ5"));
         System.out.println("\t-- Equipos --");
         for (Equipo equipo : equipos.values()) {
             System.out.println(equipo);

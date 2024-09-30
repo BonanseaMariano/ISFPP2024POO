@@ -48,10 +48,12 @@ public class DAOEquipoImplFile implements DAOEquipo {
         String modelo;
         TipoEquipo tipoEquipo;
         Ubicacion ubicacion;
-        List<Puerto> puertos = new ArrayList<>();
-        List<String> direccionesIp = new ArrayList<>();
+
 
         while (read.hasNext()) {
+            List<Puerto> puertos = new ArrayList<>();
+            List<String> direccionesIp = new ArrayList<>();
+
             codigo = read.next();
             descripcion = read.next();
             marca = read.next();
@@ -66,7 +68,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
                 int cantidad;
                 TipoPuerto tipoPuerto;
 
-                String[] puertoAttributes = puertoString.split("/");
+                String[] puertoAttributes = puerto.split("/");
 
                 try {
                     cantidad = Integer.parseInt(puertoAttributes[0]);
