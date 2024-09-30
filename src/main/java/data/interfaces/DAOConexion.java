@@ -1,6 +1,10 @@
 package data.interfaces;
 
+
 import models.Conexion;
 
-public interface DAOConexion extends CargaMapa<Conexion> {
+import java.util.List;
+
+public interface DAOConexion {
+    List<Conexion> cargarConexiones();
 }

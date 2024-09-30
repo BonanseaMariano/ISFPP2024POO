@@ -1,20 +1,18 @@
 package models;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 public class Red {
     private String nombre;
     private List<Conexion> conexiones;
-    private List<Equipo> equipos;
-    private List<Ubicacion> ubicaciones;
+    private Map<String, Equipo> equipos;
+    private Map<String, Ubicacion> ubicaciones;
 
     public Red(String nombre) {
         this.nombre = nombre;
         this.conexiones = new ArrayList<>();
-        this.equipos = new ArrayList<>();
-        this.ubicaciones = new ArrayList<>();
+        this.equipos = new TreeMap<>();
+        this.ubicaciones = new TreeMap<>();
     }
 
     public void agregarConexion(Conexion conexion) {
@@ -22,11 +20,11 @@ public class Red {
     }
 
     public void agregarEquipo(Equipo equipo) {
-        this.equipos.add(equipo);
+        this.equipos.put(equipo.getCodigo(), equipo);
     }
 
     public void agregarUbicacion(Ubicacion ubicacion) {
-        this.ubicaciones.add(ubicacion);
+        this.ubicaciones.put(ubicacion.getCodigo(), ubicacion);
     }
 
     public String getNombre() {
@@ -41,11 +39,11 @@ public class Red {
         return conexiones;
     }
 
-    public List<Equipo> getEquipos() {
+    public Map<String, Equipo> getEquipos() {
         return equipos;
     }
 
-    public List<Ubicacion> getUbicaciones() {
+    public Map<String, Ubicacion> getUbicaciones() {
         return ubicaciones;
     }
 

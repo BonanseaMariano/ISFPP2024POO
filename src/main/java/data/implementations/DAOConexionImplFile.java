@@ -3,11 +3,12 @@ package data.implementations;
 import data.interfaces.DAOConexion;
 import models.Conexion;
 
-import java.util.Map;
+import java.util.List;
 
 public class DAOConexionImplFile implements DAOConexion {
+
     @Override
-    public Map<String, Conexion> cargarMapa() {
+    public List<Conexion> cargarConexiones() {
         return null;
     }
 }
