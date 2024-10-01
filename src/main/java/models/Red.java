@@ -15,11 +15,11 @@ public class Red {
         this.ubicaciones = new TreeMap<>();
     }
 
-    public void agregarConexion(Conexion conexion) {
+    public void addConexion(Conexion conexion) {
         this.conexiones.add(conexion);
     }
 
-    public void agregarEquipo(Equipo equipo) {
+    public void addEquipo(Equipo equipo) {
         this.equipos.put(equipo.getCodigo(), equipo);
     }
 

@@ -2,7 +2,9 @@ package models;
 
 import java.util.Objects;
 
-public class Conexion {
+import org.jgrapht.graph.DefaultWeightedEdge;
+
+public class Conexion extends DefaultWeightedEdge {
     private TipoCable tipoCable;
     private Equipo equipo1;
     private Equipo equipo2;
@@ -56,5 +58,10 @@ public class Conexion {
                 ", equipo1=" + equipo1 +
                 ", equipo2=" + equipo2 +
                 '}';
+    }
+
+    @Override
+    public double getWeight() {
+        return tipoCable.getVelocidad();
     }
 }

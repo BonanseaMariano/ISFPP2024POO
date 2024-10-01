@@ -7,6 +7,7 @@ import models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -18,7 +19,7 @@ class DataTest {
     Map<String, TipoCable> tiposCables;
     Map<String, Ubicacion> ubicaciones;
     Map<String, Equipo> equipos;
-    Map<String, Conexion> conexiones;
+    List<Conexion> conexiones;
 
     @BeforeEach
     public void setUp() {
@@ -34,7 +35,7 @@ class DataTest {
         tiposCables = daoTipoCable.cargarMapa();
         ubicaciones = daoUbicacion.cargarMapa();
         equipos = daoEquipo.cargarMapa();
-        conexiones = daoConexion.cargarMapa();
+        conexiones = daoConexion.cargarConexiones();
     }
 
     @Test
@@ -121,7 +122,7 @@ class DataTest {
     void testConexionesFile() {
 
         System.out.println("\t-- Conexiones --");
-        for (Conexion conexion : conexiones.values()) {
+        for (Conexion conexion : conexiones) {
             System.out.println(conexion);
         }
     }
