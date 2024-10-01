@@ -14,7 +14,7 @@ public class Equipo {
     private List<Puerto> puertos;
     private List<String> direccionesIp;
 
-    public Equipo(String codigo, String descripcion, String marca, String modelo, TipoEquipo tipoEquipo, Ubicacion ubicacion, Puerto puerto, List<String> direccionesIp) {
+    public Equipo(String codigo, String descripcion, String marca, String modelo, TipoEquipo tipoEquipo, Ubicacion ubicacion, Puerto puerto, String direccionIP) {
         this.codigo = codigo;
         this.descripcion = descripcion;
         this.marca = marca;
@@ -23,7 +23,8 @@ public class Equipo {
         this.ubicacion = ubicacion;
         this.puertos = new ArrayList<>();
         agregarPuerto(puerto);
-        this.direccionesIp = direccionesIp;
+        this.direccionesIp = new ArrayList<>();
+        agregarDireccionIp(direccionIP);
     }
 
     public void agregarPuerto(Puerto puerto) {

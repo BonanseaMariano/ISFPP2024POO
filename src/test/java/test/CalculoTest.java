@@ -43,10 +43,11 @@ class CalculoTest {
         TipoPuerto puerto2 = new TipoPuerto("4SFP", "4 Gbps Fibra", 4000);
 
         // Instantiating 2 types of Equipo
-        equipo1 = new Equipo("PC1", "Equipo1", "HP", "101", tipoEquipo1, ubicacion1, new Puerto(1, puerto1), List.of("166.82.1.10"));
-        equipo2 = new Equipo("PC2", "PC", "HP", "203", tipoEquipo2, ubicacion1, new Puerto(2, puerto2), Arrays.asList("166.82.2.10", "166.82.2.11"));
-        switch1 = new Equipo("SW1", "Switch1", "CISCO", "202", tipoEquipo2, ubicacion2, new Puerto(1, puerto2), List.of("167.83.3.10"));
-        switch2 = new Equipo("SW2", "Switch2", "Generica", "201", tipoEquipo2, ubicacion2, new Puerto(1, puerto2), List.of("167.84.3.10"));
+        equipo1 = new Equipo("PC1", "Equipo1", "HP", "101", tipoEquipo1, ubicacion1, new Puerto(1, puerto1), "166.82.1.10");
+        equipo2 = new Equipo("PC2", "PC", "HP", "203", tipoEquipo2, ubicacion1, new Puerto(2, puerto2), "166.82.2.10");
+        equipo2.agregarDireccionIp("166.82.2.11");
+        switch1 = new Equipo("SW1", "Switch1", "CISCO", "202", tipoEquipo2, ubicacion2, new Puerto(1, puerto2), "167.83.3.10");
+        switch2 = new Equipo("SW2", "Switch2", "Generica", "201", tipoEquipo2, ubicacion2, new Puerto(1, puerto2), "167.84.3.10");
 
         // Instantiating 2 types of Conexion
         conexion = new Conexion(cable1, equipo1, switch1);
@@ -104,5 +105,12 @@ class CalculoTest {
         assertTrue(grafo.containsVertex(equipo1));
         assertTrue(grafo.containsVertex(equipo2));
         assertTrue(grafo.edgeSet().isEmpty());
+    }
+
+
+    @Test
+    void calcularRuta_shouldReturnPath() {
+        Calculo.cargarGrafo(red);
+        Calculo.calcularRuta(equipo1, equipo2);
     }
 }

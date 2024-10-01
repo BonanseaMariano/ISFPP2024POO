@@ -81,11 +81,22 @@ public class DAOEquipoImplFile implements DAOEquipo {
             //Direcciones IP
             Collections.addAll(direccionesIp, direccionIpString.split(","));
 
-            Equipo equipo = new Equipo(codigo, descripcion, marca, modelo, tipoEquipo, ubicacion, puertos.getFirst(), direccionesIp);
-            for (int i = 1; i < puertos.size(); i++) {
-                equipo.agregarPuerto(puertos.get(i));
+            Equipo equipo = new Equipo(codigo, descripcion, marca, modelo, tipoEquipo, ubicacion, puertos.getFirst(), direccionesIp.getFirst());
+            //Si tiene mas de un puerto
+            if (puertos.size() > 1) {
+                for (int i = 1; i < puertos.size(); i++) {
+                    equipo.agregarPuerto(puertos.get(i));
+                }
             }
 
+            //Si tiene mas de una direccion IP
+            if (direccionesIp.size() > 1) {
+                for (int i = 1; i < direccionesIp.size(); i++) {
+                    equipo.agregarDireccionIp(direccionesIp.get(i));
+                }
+            }
+
+            //Cargo todos los equipos en el mapa
             equipos.put(codigo, equipo);
         }
 
