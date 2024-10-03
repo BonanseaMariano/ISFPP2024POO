@@ -37,13 +37,12 @@ public class Logic {
 
         // Add vertices
         for (Equipo equipo : red.getEquipos().values()) {
-            graph.addVertex(equipo);
+            addVertex(equipo);
         }
 
         // Add edges
         for (Conexion conexion : red.getConexiones()) {
-            graph.addEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
-            graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
+            addEdge(conexion);
         }
     }
 
