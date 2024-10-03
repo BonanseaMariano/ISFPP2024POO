@@ -47,6 +47,43 @@ public class Logic {
         }
     }
 
+    /**
+     * Adds a vertex (equipo) to the graph.
+     *
+     * @param equipo the vertex (equipo) to be added to the graph
+     */
+    public static void addVertex(Equipo equipo) {
+        graph.addVertex(equipo);
+    }
+
+    /**
+     * Adds an edge (conexion) to the graph and sets its weight based on the cable type's speed.
+     *
+     * @param conexion the edge (conexion) to be added to the graph
+     */
+    public static void addEdge(Conexion conexion) {
+        graph.addEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
+        graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
+    }
+
+    /**
+     * Removes a vertex (equipo) from the graph.
+     *
+     * @param equipo the vertex (equipo) to be removed from the graph
+     */
+    public static void deleteVertex(Equipo equipo) {
+        graph.removeVertex(equipo);
+    }
+
+    /**
+     * Removes an edge (conexion) from the graph.
+     *
+     * @param conexion the edge (conexion) to be removed from the graph
+     */
+    public static void deleteEdge(Conexion conexion) {
+        graph.removeEdge(conexion);
+    }
+
     //TODO: 3.1 Dado dos equipos mostrar todos los equipos intermedios y sus conexiones. Calcular la velocidad máxima de acuerdo al tipo de puerto y cables por donde se transmiten los datos.
 
     /**
