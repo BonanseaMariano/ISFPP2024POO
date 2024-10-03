@@ -1,5 +1,8 @@
 package models;
 
+import exceptions.InvalidDireccionIPException;
+import utils.Utils;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -31,7 +34,10 @@ public class Equipo {
         puertos.add(puerto);
     }
 
-    public void agregarDireccionIp(String direccionIp) {
+    public void agregarDireccionIp(String direccionIp) throws InvalidDireccionIPException {
+        if (!Utils.validateIP(direccionIp)) {
+            throw new InvalidDireccionIPException("No se puede agregar la dirección IP porque no es válida.");
+        }
         direccionesIp.add(direccionIp);
     }
 

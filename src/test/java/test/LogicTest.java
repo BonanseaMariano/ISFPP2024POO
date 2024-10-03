@@ -1,19 +1,21 @@
 package test;
 
-import logic.Calculo;
+import logic.Logic;
 import models.*;
 import org.jgrapht.Graph;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Arrays;
+
 import java.util.List;
 
-
 import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
-class CalculoTest {
+class LogicTest {
     private Red red;
+    private Ubicacion ubicacion1;
+    private Ubicacion ubicacion2;
     private Equipo equipo1;
     private Equipo equipo2;
     private Equipo switch1;
@@ -22,9 +24,10 @@ class CalculoTest {
     private Conexion conexion2;
     private Conexion conexion3;
 
+
     @BeforeEach
     void setUp() {
-        Calculo.getInstance();
+        Logic.getInstance();
 
         // Instantiating 2 types of TipoCable
         TipoCable cable1 = new TipoCable("Eth", "Ethernet", 100);
@@ -35,8 +38,8 @@ class CalculoTest {
         TipoEquipo tipoEquipo2 = new TipoEquipo("SV", "Server");
 
         // Instantiating 2 types of Ubicacion
-        Ubicacion ubicacion1 = new Ubicacion("LAB1", "Laboratorio 1");
-        Ubicacion ubicacion2 = new Ubicacion("LAB2", "Laboratorio 2");
+        ubicacion1 = new Ubicacion("LAB1", "Laboratorio 1");
+        ubicacion2 = new Ubicacion("LAB2", "Laboratorio 2");
 
         // Instantiating 2 types of TipoPuerto
         TipoPuerto puerto1 = new TipoPuerto("10M", "10 Mbps", 10);
@@ -56,6 +59,8 @@ class CalculoTest {
 
 
         red = new Red("red");
+        red.addUbicacion(ubicacion1);
+        red.addUbicacion(ubicacion2);
         red.addEquipo(equipo1);
         red.addEquipo(equipo2);
         red.addEquipo(switch1);
@@ -67,8 +72,8 @@ class CalculoTest {
 
     @Test
     void cargarGrafo_shouldAddVerticesAndEdges() {
-        Calculo.cargarGrafo(red);
-        Graph<Equipo, Conexion> grafo = Calculo.getGrafo();
+        Logic.updateGraph(red);
+        Graph<Equipo, Conexion> grafo = Logic.getGraph();
 
         assertTrue(grafo.containsVertex(equipo1));
         assertTrue(grafo.containsVertex(equipo2));
@@ -77,17 +82,16 @@ class CalculoTest {
         assertTrue(grafo.containsEdge(conexion));
         assertTrue(grafo.containsEdge(conexion2));
         assertTrue(grafo.containsEdge(conexion3));
-        assertEquals(100, conexion.getWeight());
-        assertEquals(10000, conexion2.getWeight());
-        assertEquals(100, conexion3.getWeight());
+        assertEquals(100, conexion.getTipoCable().getVelocidad());
+        assertEquals(10000, conexion2.getTipoCable().getVelocidad());
+        assertEquals(100, conexion3.getTipoCable().getVelocidad());
     }
 
     @Test
     void cargarGrafo_shouldHandleEmptyRed() {
         Red emptyRed = new Red("emptyRed");
-        Calculo.limpiaGrafo();
-        Calculo.cargarGrafo(emptyRed);
-        Graph<Equipo, Conexion> grafo = Calculo.getGrafo();
+        Logic.updateGraph(emptyRed);
+        Graph<Equipo, Conexion> grafo = Logic.getGraph();
 
         assertTrue(grafo.vertexSet().isEmpty());
         assertTrue(grafo.edgeSet().isEmpty());
@@ -96,11 +100,12 @@ class CalculoTest {
     @Test
     void cargarGrafo_shouldHandleRedWithNoConnections() {
         Red redNoConnections = new Red("redNoConnections");
-        Calculo.limpiaGrafo();
+        redNoConnections.addUbicacion(ubicacion1);
+        redNoConnections.addUbicacion(ubicacion2);
         redNoConnections.addEquipo(equipo1);
         redNoConnections.addEquipo(equipo2);
-        Calculo.cargarGrafo(redNoConnections);
-        Graph<Equipo, Conexion> grafo = Calculo.getGrafo();
+        Logic.updateGraph(redNoConnections);
+        Graph<Equipo, Conexion> grafo = Logic.getGraph();
 
         assertTrue(grafo.containsVertex(equipo1));
         assertTrue(grafo.containsVertex(equipo2));
@@ -110,7 +115,12 @@ class CalculoTest {
 
     @Test
     void calcularRuta_shouldReturnPath() {
-        Calculo.cargarGrafo(red);
-        Calculo.calcularRuta(equipo1, equipo2);
+        Logic.updateGraph(red);
+        List<Conexion> sPath = Logic.shortestPath(equipo1, equipo2);
+        for (Conexion conexion : Logic.shortestPath(equipo1, equipo2)) {
+            System.out.println(conexion);
+        }
+        assertEquals(100, Logic.maxBandwith(sPath));
+        System.out.println("Max Bandwith: " + Logic.maxBandwith(sPath));
     }
 }

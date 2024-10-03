@@ -1,5 +1,8 @@
 package models;
 
+import exceptions.InvalidEquipoException;
+import exceptions.InvalidUbicacionException;
+
 import java.util.*;
 
 public class Red {
@@ -15,15 +18,21 @@ public class Red {
         this.ubicaciones = new TreeMap<>();
     }
 
-    public void addConexion(Conexion conexion) {
+    public void addConexion(Conexion conexion) throws InvalidEquipoException {
+        if (!this.equipos.containsKey(conexion.getEquipo1().getCodigo()) || !this.equipos.containsKey(conexion.getEquipo2().getCodigo())) {
+            throw new InvalidEquipoException("No se puede agregar la conexión porque " + conexion.getEquipo1().getCodigo() + " y/o " + conexion.getEquipo2().getCodigo() + " no existen en la red.");
+        }
         this.conexiones.add(conexion);
     }
 
-    public void addEquipo(Equipo equipo) {
+    public void addEquipo(Equipo equipo) throws InvalidUbicacionException {
+        if (!this.ubicaciones.containsKey(equipo.getUbicacion().getCodigo())) {
+            throw new InvalidUbicacionException("No se puede agregar el equipo porque la ubicación " + equipo.getUbicacion().getCodigo() + " no existe en la red.");
+        }
         this.equipos.put(equipo.getCodigo(), equipo);
     }
 
-    public void agregarUbicacion(Ubicacion ubicacion) {
+    public void addUbicacion(Ubicacion ubicacion) {
         this.ubicaciones.put(ubicacion.getCodigo(), ubicacion);
     }
 

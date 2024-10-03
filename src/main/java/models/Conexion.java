@@ -2,9 +2,7 @@ package models;
 
 import java.util.Objects;
 
-import org.jgrapht.graph.DefaultWeightedEdge;
-
-public class Conexion extends DefaultWeightedEdge {
+public class Conexion {
     private TipoCable tipoCable;
     private Equipo equipo1;
     private Equipo equipo2;
@@ -54,14 +52,12 @@ public class Conexion extends DefaultWeightedEdge {
     @Override
     public String toString() {
         return "Conexion{" +
-                "tipoCable=" + tipoCable +
-                ", equipo1=" + equipo1 +
-                ", equipo2=" + equipo2 +
+                "tipoCable=" + tipoCable.getCodigo() +
+                ", velocidad=" + tipoCable.getVelocidad() +
+                ", equipo1=" + equipo1.getDireccionesIp() +
+                " -> equipo2=" + equipo2.getDireccionesIp() +
                 '}';
     }
 
-    @Override
-    public double getWeight() {
-        return tipoCable.getVelocidad();
-    }
+
 }
