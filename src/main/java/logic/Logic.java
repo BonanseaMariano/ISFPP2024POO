@@ -66,6 +66,18 @@ public class Logic {
     }
 
     /**
+     * Updates the weights of all edges in the graph.
+     * The weight of each edge is set to the difference between the provided top weight and the speed of the cable type associated with the edge.
+     *
+     * @param topWeight the maximum weight to be used as a reference for updating the edge weights
+     */
+    public static void updateEdgesWeight(int topWeight) {
+        for (Conexion conexion : graph.edgeSet()) {
+            graph.setEdgeWeight(conexion, topWeight - conexion.getTipoCable().getVelocidad());
+        }
+    }
+
+    /**
      * Removes a vertex (equipo) from the graph.
      *
      * @param equipo the vertex (equipo) to be removed from the graph
@@ -83,7 +95,8 @@ public class Logic {
         graph.removeEdge(conexion);
     }
 
-    //TODO: 3.1 Dado dos equipos mostrar todos los equipos intermedios y sus conexiones. Calcular la velocidad máxima de acuerdo al tipo de puerto y cables por donde se transmiten los datos.
+    // Dado dos equipos mostrar todos los equipos intermedios y sus conexiones.
+    // Calcular la velocidad máxima de acuerdo al tipo de puerto y cables por donde se transmiten los datos.
 
     /**
      * Finds the shortest path between two given nodes (equipos) in the graph.
@@ -97,7 +110,6 @@ public class Logic {
         return dijkstraAlg.getPath(origin, end).getEdgeList();
     }
 
-
     /**
      * Calculates the maximum bandwidth along a given path.
      *
@@ -105,26 +117,30 @@ public class Logic {
      * @return the maximum bandwidth (minimum weight) along the path
      */
     public static double maxBandwith(List<Conexion> path) {
-//        Teniendo en cuenta unicamente el peso de la conexion (Complejodad O(n))
-        return path.stream()
-                .mapToDouble(conexion -> conexion.getTipoCable().getVelocidad())
-                .min()
-                .orElse(0);
-
         //Teniendo en cuenta el peso de la conexion y el tipo de cable y puerto (Complejidad O(n^2))
-//        double maxBW = 0;
-//        for (Conexion conexion : path) {
-//            if (conexion.getTipoCable().getVelocidad() < maxBW) {
-//                maxBW = conexion.getTipoCable().getVelocidad();
-//            }
-//            for (Puerto puerto : conexion.getEquipo1().getPuertos()) {
-//                if (puerto.getTipoPuerto().getVelocidad() < maxBW) {
-//                    maxBW = puerto.getTipoPuerto().getVelocidad();
-//                }
-//            }
-//        }
-//
-//        return maxBW;
+        double maxBW = 0;
+        for (Conexion conexion : path) {
+            if (conexion.getTipoCable().getVelocidad() < maxBW) {
+                maxBW = conexion.getTipoCable().getVelocidad();
+            }
+            for (Puerto puerto : conexion.getEquipo1().getPuertos()) {
+                if (puerto.getTipoPuerto().getVelocidad() < maxBW) {
+                    maxBW = puerto.getTipoPuerto().getVelocidad();
+                }
+            }
+
+            //Si es el ultimo equipo de la conexion
+            if (path.indexOf(conexion) == path.size() - 1) {
+                for (Puerto puerto : conexion.getEquipo2().getPuertos()) {
+                    if (puerto.getTipoPuerto().getVelocidad() < maxBW) {
+                        maxBW = puerto.getTipoPuerto().getVelocidad();
+                    }
+                }
+            }
+
+        }
+
+        return maxBW;
     }
 
     //TODO: 3.2 Realizar un ping a un equipo. Realizar un ping a un rango de IP. Realizar un mapa del estado actual de los equipos conectados a la red.

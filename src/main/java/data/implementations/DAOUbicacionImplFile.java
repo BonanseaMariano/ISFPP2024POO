@@ -17,7 +17,12 @@ import static utils.Constatnts.DELIMITER;
 public class DAOUbicacionImplFile implements DAOUbicacion {
 
     @Override
-    public Map<String, Ubicacion> cargarMapa() {
+    public void create(Ubicacion ubicacion) {
+
+    }
+
+    @Override
+    public Map<String, Ubicacion> read() {
         Map<String, Ubicacion> ubicaciones = new TreeMap<>();
         String filename = CargarParametrosArchivos.getArchivoUbicaciones();
         Scanner read;
@@ -42,6 +47,16 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
 
         read.close();
         return ubicaciones;
+    }
+
+    @Override
+    public void update(Ubicacion ubicacion) {
+
+    }
+
+    @Override
+    public void delete(Ubicacion ubicacion) {
+
     }
 
     @Override

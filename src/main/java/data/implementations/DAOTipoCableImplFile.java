@@ -14,7 +14,12 @@ import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoCableImplFile implements DAOTipoCable {
     @Override
-    public Map<String, TipoCable> cargarMapa() {
+    public void create(TipoCable tipoCable) {
+
+    }
+
+    @Override
+    public Map<String, TipoCable> read() {
         String filename = CargarParametrosArchivos.getArchivoTiposCables();
         Map<String, TipoCable> tiposCables = new TreeMap<>();
         Scanner read;
@@ -41,5 +46,15 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
 
         read.close();
         return tiposCables;
+    }
+
+    @Override
+    public void update(TipoCable tipoCable) {
+
+    }
+
+    @Override
+    public void delete(TipoCable tipoCable) {
+
     }
 }

@@ -28,8 +28,8 @@ public class DAOConexionImplFile implements DAOConexion {
     public List<Conexion> cargarConexiones() {
         String filename = CargarParametrosArchivos.getArchivoConexiones();
         List<Conexion> conexiones = new ArrayList<>();
-        daoTipoCable = new DAOTipoCableImplFile().cargarMapa();
-        daoEquipo = new DAOEquipoImplFile().cargarMapa();
+        daoTipoCable = new DAOTipoCableImplFile().read();
+        daoEquipo = new DAOEquipoImplFile().read();
         Scanner read;
 
         try {

@@ -30,11 +30,11 @@ class DataTest {
         DAOEquipo daoEquipo = new DAOEquipoImplFile();
         DAOConexion daoConexion = new DAOConexionImplFile();
         CargarParametrosArchivos.parametros();
-        tiposEquipos = daoTipoEquipo.cargarMapa();
-        tiposPuertos = daoTipoPuerto.cargarMapa();
-        tiposCables = daoTipoCable.cargarMapa();
-        ubicaciones = daoUbicacion.cargarMapa();
-        equipos = daoEquipo.cargarMapa();
+        tiposEquipos = daoTipoEquipo.read();
+        tiposPuertos = daoTipoPuerto.read();
+        tiposCables = daoTipoCable.read();
+        ubicaciones = daoUbicacion.read();
+        equipos = daoEquipo.read();
         conexiones = daoConexion.cargarConexiones();
     }
 

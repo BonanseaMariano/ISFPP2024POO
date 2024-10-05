@@ -16,6 +16,7 @@ public class Equipo {
     private Ubicacion ubicacion;
     private List<Puerto> puertos;
     private List<String> direccionesIp;
+    private boolean estado;
 
     public Equipo(String codigo, String descripcion, String marca, String modelo, TipoEquipo tipoEquipo, Ubicacion ubicacion, Puerto puerto, String direccionIP) {
         this.codigo = codigo;
@@ -28,6 +29,7 @@ public class Equipo {
         agregarPuerto(puerto);
         this.direccionesIp = new ArrayList<>();
         agregarDireccionIp(direccionIP);
+        this.estado = true;
     }
 
     public void agregarPuerto(Puerto puerto) {
@@ -87,6 +89,14 @@ public class Equipo {
 
     public void setTipoEquipo(TipoEquipo tipoEquipo) {
         this.tipoEquipo = tipoEquipo;
+    }
+
+    public boolean isEstado() {
+        return estado;
+    }
+
+    public void setEstado(boolean estado) {
+        this.estado = estado;
     }
 
     public List<String> getDireccionesIp() {

@@ -15,7 +15,12 @@ import static utils.Constatnts.DELIMITER;
 public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
 
     @Override
-    public Map<String, TipoEquipo> cargarMapa() {
+    public void create(TipoEquipo tipoEquipo) {
+
+    }
+
+    @Override
+    public Map<String, TipoEquipo> read() {
         String filename = CargarParametrosArchivos.getArchivoTiposEquipos();
         Map<String, TipoEquipo> tiposEquipos = new TreeMap<>();
         Scanner read;
@@ -39,5 +44,15 @@ public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
 
         read.close();
         return tiposEquipos;
+    }
+
+    @Override
+    public void update(TipoEquipo tipoEquipo) {
+
+    }
+
+    @Override
+    public void delete(TipoEquipo tipoEquipo) {
+
     }
 }

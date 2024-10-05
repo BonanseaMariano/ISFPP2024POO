@@ -14,7 +14,12 @@ import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoPuertoImplFile implements DAOTipoPuerto {
     @Override
-    public Map<String, TipoPuerto> cargarMapa() {
+    public void create(TipoPuerto tipoPuerto) {
+
+    }
+
+    @Override
+    public Map<String, TipoPuerto> read() {
         String filename = CargarParametrosArchivos.getArchivoTiposPuertos();
         Map<String, TipoPuerto> tiposPuertos = new TreeMap<>();
         Scanner read;
@@ -41,5 +46,15 @@ public class DAOTipoPuertoImplFile implements DAOTipoPuerto {
 
         read.close();
         return tiposPuertos;
+    }
+
+    @Override
+    public void update(TipoPuerto tipoPuerto) {
+
+    }
+
+    @Override
+    public void delete(TipoPuerto tipoPuerto) {
+
     }
 }

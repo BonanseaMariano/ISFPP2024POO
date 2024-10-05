@@ -26,7 +26,12 @@ public class DAOEquipoImplFile implements DAOEquipo {
     }
 
     @Override
-    public Map<String, Equipo> cargarMapa() {
+    public void create(Equipo equipo) {
+
+    }
+
+    @Override
+    public Map<String, Equipo> read() {
         String filename = CargarParametrosArchivos.getArchivoEquipos();
         Map<String, Equipo> equipos = new TreeMap<>();
         Scanner read;
@@ -55,8 +60,8 @@ public class DAOEquipoImplFile implements DAOEquipo {
             descripcion = read.next();
             marca = read.next();
             modelo = read.next();
-            tipoEquipo = daoTipoEquipo.cargarMapa().get(read.next());
-            ubicacion = daoUbicacion.cargarMapa().get(read.next());
+            tipoEquipo = daoTipoEquipo.read().get(read.next());
+            ubicacion = daoUbicacion.read().get(read.next());
             String puertoString = read.next();
             String direccionIpString = read.next();
 
@@ -69,7 +74,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
 
                 try {
                     cantidad = Integer.parseInt(puertoAttributes[0]);
-                    tipoPuerto = daoTipoPuerto.cargarMapa().get(puertoAttributes[1]);
+                    tipoPuerto = daoTipoPuerto.read().get(puertoAttributes[1]);
                 } catch (NumberFormatException | NullPointerException e) {
                     System.out.println("Error al cargar los puertos del equipo " + codigo);
                     continue;
@@ -101,5 +106,15 @@ public class DAOEquipoImplFile implements DAOEquipo {
         }
 
         return equipos;
+    }
+
+    @Override
+    public void update(Equipo equipo) {
+
+    }
+
+    @Override
+    public void delete(Equipo equipo) {
+
     }
 }
