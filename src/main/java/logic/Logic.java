@@ -1,11 +1,18 @@
 package logic;
 
+import exceptions.InvalidDireccionIPException;
 import models.*;
 import org.jgrapht.Graph;
+import org.jgrapht.alg.interfaces.SpanningTreeAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
+import org.jgrapht.alg.spanning.KruskalMinimumSpanningTree;
+import org.jgrapht.alg.spanning.PrimMinimumSpanningTree;
+import org.jgrapht.graph.AsSubgraph;
 import org.jgrapht.graph.SimpleWeightedGraph;
+import org.jgrapht.traverse.DepthFirstIterator;
+import utils.Utils;
 
-import java.util.List;
+import java.util.*;
 
 public class Logic {
     private static Logic instance;
@@ -143,7 +150,75 @@ public class Logic {
         return maxBW;
     }
 
-    //TODO: 3.2 Realizar un ping a un equipo. Realizar un ping a un rango de IP. Realizar un mapa del estado actual de los equipos conectados a la red.
+
+    // Realizar un ping a un equipo.
+
+    /**
+     * Pings a given IP address to check if it is active.
+     *
+     * @param ip the IP address to ping
+     * @return true if the IP address is active, false otherwise
+     */
+    public static boolean ping(String ip) {
+        for (Equipo equipo : graph.vertexSet()) {
+            for (String direccionIP : equipo.getDireccionesIp()) {
+                if (direccionIP.equals(ip)) {
+                    return equipo.isEstado();
+                }
+            }
+        }
+        return false;
+    }
+
+    // Realizar un ping a un rango de IP.
+
+    /**
+     * Pings a range of IP addresses to check if they are active.
+     *
+     * @param ips a collection of IP addresses to ping
+     * @return a map where the keys are IP addresses and the values are booleans indicating if the IP address is active
+     */
+    public static Map<String, Boolean> pingRange(Collection<String> ips) {
+        Map<String, Boolean> results = new TreeMap<>();
+        for (String ip : ips) {
+            results.put(ip, ping(ip));
+        }
+        return results;
+    }
+
+    // Realizar un mapa del estado actual de los equipos conectados a la red.
+
+    /**
+     * Creates a map of the current status of all equipos (devices) connected to the network.
+     *
+     * @return a map where the keys are Equipo objects and the values are booleans indicating if the equipo is active
+     */
+    public static Map<Equipo, Boolean> mapStatus() {
+        Map<Equipo, Boolean> status = new TreeMap<>();
+        for (Equipo equipo : graph.vertexSet()) {
+            status.put(equipo, equipo.isEstado());
+        }
+        return status;
+    }
+
     //TODO: 3.3 Detectar problemas de conectividad, por ejemplo un usuario de una computadora no puede navegar en Internet. Detectar hasta que parte de la red puede acceder y donde pierde la conectividad.
+
+    public static Set<Equipo> conectionProblems(Equipo equipo) {
+        Set<Equipo> equipos = new HashSet<>();
+        Set<Equipo> visited = new HashSet<>();
+        DepthFirstIterator<Equipo, Conexion> iterator = new DepthFirstIterator<>(graph, equipo);
+
+        while (iterator.hasNext()) {
+            Equipo current = iterator.next();
+            if (!visited.contains(current)) {
+                visited.add(current);
+                if (!current.isEstado()) {
+                    equipos.add(current);
+                }
+            }
+        }
+
+        return equipos;
+    }
 
 }
