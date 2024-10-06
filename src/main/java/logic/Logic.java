@@ -1,16 +1,10 @@
 package logic;
 
-import exceptions.InvalidDireccionIPException;
 import models.*;
 import org.jgrapht.Graph;
-import org.jgrapht.alg.interfaces.SpanningTreeAlgorithm;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
-import org.jgrapht.alg.spanning.KruskalMinimumSpanningTree;
-import org.jgrapht.alg.spanning.PrimMinimumSpanningTree;
-import org.jgrapht.graph.AsSubgraph;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import org.jgrapht.traverse.DepthFirstIterator;
-import utils.Utils;
 
 import java.util.*;
 
@@ -125,23 +119,19 @@ public class Logic {
      */
     public static double maxBandwith(List<Conexion> path) {
         //Teniendo en cuenta el peso de la conexion y el tipo de cable y puerto (Complejidad O(n^2))
-        double maxBW = 0;
+        double maxBW = path.get(0).getTipoCable().getVelocidad();
         for (Conexion conexion : path) {
             if (conexion.getTipoCable().getVelocidad() < maxBW) {
                 maxBW = conexion.getTipoCable().getVelocidad();
             }
-            for (Puerto puerto : conexion.getEquipo1().getPuertos()) {
-                if (puerto.getTipoPuerto().getVelocidad() < maxBW) {
-                    maxBW = puerto.getTipoPuerto().getVelocidad();
-                }
+            if (maxBandwithPort(conexion.getEquipo1()) < maxBW) {
+                maxBW = maxBandwithPort(conexion.getEquipo1());
             }
 
             //Si es el ultimo equipo de la conexion
             if (path.indexOf(conexion) == path.size() - 1) {
-                for (Puerto puerto : conexion.getEquipo2().getPuertos()) {
-                    if (puerto.getTipoPuerto().getVelocidad() < maxBW) {
-                        maxBW = puerto.getTipoPuerto().getVelocidad();
-                    }
+                if (maxBandwithPort(conexion.getEquipo2()) < maxBW) {
+                    maxBW = maxBandwithPort(conexion.getEquipo2());
                 }
             }
 
@@ -150,6 +140,21 @@ public class Logic {
         return maxBW;
     }
 
+    /**
+     * Calculates the maximum bandwidth of the ports of a given equipo (device).
+     *
+     * @param equipo the equipo (device) whose ports' bandwidth is to be calculated
+     * @return the maximum bandwidth (speed) of the ports of the given equipo
+     */
+    public static double maxBandwithPort(Equipo equipo) {
+        double maxBWPort = 0;
+        for (Puerto puerto : equipo.getPuertos()) {
+            if (puerto.getTipoPuerto().getVelocidad() > maxBWPort) {
+                maxBWPort = puerto.getTipoPuerto().getVelocidad();
+            }
+        }
+        return maxBWPort;
+    }
 
     // Realizar un ping a un equipo.
 

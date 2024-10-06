@@ -117,10 +117,11 @@ class LogicTest {
     void calcularRuta_shouldReturnPath() {
         Logic.updateGraph(red);
         List<Conexion> sPath = Logic.shortestPath(equipo1, equipo2);
+        equipo1.agregarPuerto(new Puerto(1, new TipoPuerto("10M", "10 Mbps", 100)));
         for (Conexion conexion : Logic.shortestPath(equipo1, equipo2)) {
             System.out.println(conexion);
         }
-        assertEquals(100, Logic.maxBandwith(sPath));
         System.out.println("Max Bandwith: " + Logic.maxBandwith(sPath));
+        assertEquals(100, Logic.maxBandwith(sPath));
     }
 }

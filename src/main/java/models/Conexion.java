@@ -51,12 +51,19 @@ public class Conexion {
 
     @Override
     public String toString() {
-        return "Conexion{" +
+        String message = "Conexion{" +
                 "tipoCable=" + tipoCable.getCodigo() +
                 ", velocidad=" + tipoCable.getVelocidad() +
-                ", equipo1=" + equipo1.getDireccionesIp() +
-                " -> equipo2=" + equipo2.getDireccionesIp() +
-                '}';
+                ", equipo1=" + equipo1.getDireccionesIp();
+        for (Puerto puerto : equipo1.getPuertos()) {
+            message += " puerto=" + puerto.getTipoPuerto().getCodigo() + " - velocidad=" + puerto.getTipoPuerto().getVelocidad();
+        }
+        message += ", equipo2=" + equipo2.getDireccionesIp();
+        for (Puerto puerto : equipo2.getPuertos()) {
+            message += " puerto=" + puerto.getTipoPuerto().getCodigo() + " - velocidad=" + puerto.getTipoPuerto().getVelocidad();
+        }
+        return message + '}';
+
     }
 
 
