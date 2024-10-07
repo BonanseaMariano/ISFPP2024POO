@@ -1,6 +1,5 @@
 package data.implementations;
 
-import data.CargarParametrosArchivos;
 import data.interfaces.DAOUbicacion;
 import models.Ubicacion;
 
@@ -8,13 +7,19 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static utils.Constatnts.DELIMITER;
 
 public class DAOUbicacionImplFile implements DAOUbicacion {
+    private final String filename;
+
+    public DAOUbicacionImplFile() {
+        ResourceBundle rb = ResourceBundle.getBundle("config");
+        filename = rb.getString("ubicaciones");
+    }
+
 
     @Override
     public void create(Ubicacion ubicacion) {
@@ -23,8 +28,7 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
 
     @Override
     public Map<String, Ubicacion> read() {
-        Map<String, Ubicacion> ubicaciones = new TreeMap<>();
-        String filename = CargarParametrosArchivos.getArchivoUbicaciones();
+        Map<String, Ubicacion> ubicaciones = new ConcurrentHashMap<>();
         Scanner read;
 
         try {
@@ -61,7 +65,6 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
 
     @Override
     public void agregarUbicacion(Ubicacion ubicacion) {
-        String filename = CargarParametrosArchivos.getArchivoUbicaciones();
         String data = ubicacion.getCodigo() + DELIMITER + ubicacion.getDescripcion() + "\n";
 
         try (FileWriter writer = new FileWriter(filename, true)) {

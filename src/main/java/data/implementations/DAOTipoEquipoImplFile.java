@@ -1,18 +1,22 @@
 package data.implementations;
 
-import data.CargarParametrosArchivos;
 import data.interfaces.DAOTipoEquipo;
 import models.TipoEquipo;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
+    private final String filename;
+
+    public DAOTipoEquipoImplFile() {
+        ResourceBundle rb = ResourceBundle.getBundle("config");
+        filename = rb.getString("tiposEquipos");
+    }
 
     @Override
     public void create(TipoEquipo tipoEquipo) {
@@ -21,8 +25,7 @@ public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
 
     @Override
     public Map<String, TipoEquipo> read() {
-        String filename = CargarParametrosArchivos.getArchivoTiposEquipos();
-        Map<String, TipoEquipo> tiposEquipos = new TreeMap<>();
+        Map<String, TipoEquipo> tiposEquipos = new ConcurrentHashMap<>();
         Scanner read;
 
         try {

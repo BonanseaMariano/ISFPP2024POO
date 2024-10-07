@@ -1,18 +1,23 @@
 package data.implementations;
 
-import data.CargarParametrosArchivos;
 import data.interfaces.DAOTipoCable;
 import models.TipoCable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoCableImplFile implements DAOTipoCable {
+    private final String filename;
+
+    public DAOTipoCableImplFile() {
+        ResourceBundle rb = ResourceBundle.getBundle("config");
+        filename = rb.getString("tiposCables");
+    }
+
     @Override
     public void create(TipoCable tipoCable) {
 
@@ -20,8 +25,7 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
 
     @Override
     public Map<String, TipoCable> read() {
-        String filename = CargarParametrosArchivos.getArchivoTiposCables();
-        Map<String, TipoCable> tiposCables = new TreeMap<>();
+        Map<String, TipoCable> tiposCables = new ConcurrentHashMap<>();
         Scanner read;
 
         try {

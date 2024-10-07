@@ -1,11 +1,11 @@
 package test;
 
-import data.CargarParametrosArchivos;
 import data.implementations.*;
 import data.interfaces.*;
 import models.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import services.*;
 
 import java.util.List;
 import java.util.Map;
@@ -23,19 +23,19 @@ class DataTest {
 
     @BeforeEach
     public void setUp() {
-        DAOTipoEquipo daoTipoEquipo = new DAOTipoEquipoImplFile();
-        DAOTipoPuerto daoTipoPuerto = new DAOTipoPuertoImplFile();
-        DAOTipoCable daoTipoCable = new DAOTipoCableImplFile();
-        DAOUbicacion daoUbicacion = new DAOUbicacionImplFile();
-        DAOEquipo daoEquipo = new DAOEquipoImplFile();
-        DAOConexion daoConexion = new DAOConexionImplFile();
-        CargarParametrosArchivos.parametros();
-        tiposEquipos = daoTipoEquipo.read();
-        tiposPuertos = daoTipoPuerto.read();
-        tiposCables = daoTipoCable.read();
-        ubicaciones = daoUbicacion.read();
-        equipos = daoEquipo.read();
-        conexiones = daoConexion.cargarConexiones();
+        TipoEquipoService tipoEquipoService = new TipoEquipoServiceImpl();
+        TipoPuertoService tipoPuertoService = new TipoPuertoServiceImpl();
+        TipoCableService tipoCableService = new TipoCableServiceImpl();
+        UbicacionService ubicacionService = new UbicacionServiceImpl();
+        EquipoService equipoService = new EquipoServiceImpl();
+        ConexionService conexionService = new ConexionServiceImpl();
+
+        tiposEquipos = tipoEquipoService.getAll();
+        tiposPuertos = tipoPuertoService.getAll();
+        tiposCables = tipoCableService.getAll();
+        ubicaciones = ubicacionService.getAll();
+        equipos = equipoService.getAll();
+        conexiones = conexionService.getAll();
     }
 
     @Test

@@ -1,6 +1,5 @@
 package data.implementations;
 
-import data.CargarParametrosArchivos;
 import data.interfaces.DAOEquipo;
 import data.interfaces.DAOTipoEquipo;
 import data.interfaces.DAOTipoPuerto;
@@ -11,10 +10,13 @@ import models.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static utils.Constatnts.DELIMITER;
 
 public class DAOEquipoImplFile implements DAOEquipo {
+    private final String filename;
+
     private static DAOTipoEquipo daoTipoEquipo;
     private static DAOUbicacion daoUbicacion;
     private static DAOTipoPuerto daoTipoPuerto;
@@ -23,6 +25,8 @@ public class DAOEquipoImplFile implements DAOEquipo {
         daoTipoEquipo = new DAOTipoEquipoImplFile();
         daoUbicacion = new DAOUbicacionImplFile();
         daoTipoPuerto = new DAOTipoPuertoImplFile();
+        ResourceBundle rb = ResourceBundle.getBundle("config");
+        filename = rb.getString("equipos");
     }
 
     @Override
@@ -32,8 +36,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
 
     @Override
     public Map<String, Equipo> read() {
-        String filename = CargarParametrosArchivos.getArchivoEquipos();
-        Map<String, Equipo> equipos = new TreeMap<>();
+        Map<String, Equipo> equipos = new ConcurrentHashMap<>();
         Scanner read;
 
         try {

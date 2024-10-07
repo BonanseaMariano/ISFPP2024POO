@@ -1,18 +1,23 @@
 package data.implementations;
 
-import data.CargarParametrosArchivos;
 import data.interfaces.DAOTipoPuerto;
 import models.TipoPuerto;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Map;
-import java.util.Scanner;
-import java.util.TreeMap;
+import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoPuertoImplFile implements DAOTipoPuerto {
+    private final String filename;
+
+    public DAOTipoPuertoImplFile() {
+        ResourceBundle rb = ResourceBundle.getBundle("config");
+        filename = rb.getString("tiposPuertos");
+    }
+
     @Override
     public void create(TipoPuerto tipoPuerto) {
 
@@ -20,8 +25,7 @@ public class DAOTipoPuertoImplFile implements DAOTipoPuerto {
 
     @Override
     public Map<String, TipoPuerto> read() {
-        String filename = CargarParametrosArchivos.getArchivoTiposPuertos();
-        Map<String, TipoPuerto> tiposPuertos = new TreeMap<>();
+        Map<String, TipoPuerto> tiposPuertos = new ConcurrentHashMap<>();
         Scanner read;
 
         try {
