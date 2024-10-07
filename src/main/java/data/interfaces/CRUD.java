@@ -1,12 +1,12 @@
 package data.interfaces;
 
-import java.util.Map;
+import java.util.List;
 
 public interface CRUD<T> {
 
     void create(T t);
 
-    Map<String, T> read();
+    List<T> read();
 
     void update(T t);
 

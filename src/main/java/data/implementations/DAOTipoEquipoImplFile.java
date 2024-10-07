@@ -6,56 +6,92 @@ import models.TipoEquipo;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
     private final String filename;
+    private List<TipoEquipo> list;
+    private boolean actualizar;
 
     public DAOTipoEquipoImplFile() {
         ResourceBundle rb = ResourceBundle.getBundle("config");
         filename = rb.getString("tiposEquipos");
+        actualizar = true;
+    }
+
+    private List<TipoEquipo> readFromFile(String file) {
+        List<TipoEquipo> list = new ArrayList<>();
+        Scanner inFile = null;
+        try {
+            inFile = new Scanner(new File(file));
+            inFile.useDelimiter(DELIMITER);
+            while (inFile.hasNext()) {
+                String codigo = inFile.next();
+                String descripcion = inFile.next();
+                list.add(new TipoEquipo(codigo, descripcion));
+            }
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.err.println("Error opening file.");
+            fileNotFoundException.printStackTrace();
+        } catch (NoSuchElementException noSuchElementException) {
+            System.err.println("Error in file record structure");
+            noSuchElementException.printStackTrace();
+        } catch (IllegalStateException illegalStateException) {
+            System.err.println("Error reading from file.");
+            illegalStateException.printStackTrace();
+        } finally {
+            if (inFile != null)
+                inFile.close();
+        }
+        return list;
+    }
+
+    private void writeToFile(List<TipoEquipo> list, String file) {
+        Formatter outFile = null;
+        try {
+            outFile = new Formatter(file);
+            for (TipoEquipo e : list) {
+                outFile.format("%s;%s;\n", e.getCodigo(), e.getDescripcion());
+            }
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.err.println("Error creating file.");
+        } catch (FormatterClosedException formatterClosedException) {
+            System.err.println("Error writing to file.");
+        } finally {
+            if (outFile != null)
+                outFile.close();
+        }
     }
 
     @Override
     public void create(TipoEquipo tipoEquipo) {
-
+        list.add(tipoEquipo);
+        writeToFile(list, filename);
+        actualizar = true;
     }
 
     @Override
-    public Map<String, TipoEquipo> read() {
-        Map<String, TipoEquipo> tiposEquipos = new ConcurrentHashMap<>();
-        Scanner read;
-
-        try {
-            read = new Scanner(new File(filename));
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encontró el archivo " + filename);
-            return tiposEquipos;
+    public List<TipoEquipo> read() {
+        if (actualizar) {
+            list = readFromFile(filename);
+            actualizar = false;
         }
-        read.useDelimiter(DELIMITER);
-
-        String codigo;
-        String descripcion;
-
-        while (read.hasNext()) {
-            codigo = read.next();
-            descripcion = read.next();
-            tiposEquipos.put(codigo, new TipoEquipo(codigo, descripcion));
-        }
-
-        read.close();
-        return tiposEquipos;
+        return list;
     }
 
     @Override
     public void update(TipoEquipo tipoEquipo) {
-
+        int pos = list.indexOf(tipoEquipo);
+        list.set(pos, tipoEquipo);
+        writeToFile(list, filename);
+        actualizar = true;
     }
 
     @Override
     public void delete(TipoEquipo tipoEquipo) {
-
+        list.remove(tipoEquipo);
+        writeToFile(list, filename);
+        actualizar = true;
     }
 }

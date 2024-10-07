@@ -4,7 +4,7 @@ import data.implementations.DAOTipoCableImplFile;
 import data.interfaces.DAOTipoCable;
 import models.TipoCable;
 
-import java.util.Map;
+import java.util.List;
 
 public class TipoCableServiceImpl implements TipoCableService {
     private DAOTipoCable daoTipoCable;
@@ -15,21 +15,21 @@ public class TipoCableServiceImpl implements TipoCableService {
 
     @Override
     public void insert(TipoCable tipoCable) {
-
+        daoTipoCable.create(tipoCable);
     }
 
     @Override
     public void update(TipoCable tipoCable) {
-
+        daoTipoCable.update(tipoCable);
     }
 
     @Override
     public void delete(TipoCable tipoCable) {
-
+        daoTipoCable.delete(tipoCable);
     }
 
     @Override
-    public Map<String, TipoCable> getAll() {
+    public List<TipoCable> getAll() {
         return daoTipoCable.read();
     }
 }

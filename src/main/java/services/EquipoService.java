@@ -2,7 +2,7 @@ package services;
 
 import models.Equipo;
 
-import java.util.Map;
+import java.util.List;
 
 public interface EquipoService {
     void insert(Equipo equipo);
@@ -11,5 +11,5 @@ public interface EquipoService {
 
     void delete(Equipo equipo);
 
-    Map<String, Equipo> getAll();
+   List<Equipo> getAll();
 }

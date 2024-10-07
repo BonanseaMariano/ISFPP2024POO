@@ -2,7 +2,7 @@ package services;
 
 import models.TipoCable;
 
-import java.util.Map;
+import java.util.List;
 
 public interface TipoCableService {
     void insert(TipoCable tipoCable);
@@ -11,5 +11,5 @@ public interface TipoCableService {
 
     void delete(TipoCable tipoCable);
 
-    Map<String, TipoCable> getAll();
+    List<TipoCable> getAll();
 }

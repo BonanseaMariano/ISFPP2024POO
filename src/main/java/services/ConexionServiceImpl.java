@@ -15,21 +15,21 @@ public class ConexionServiceImpl implements ConexionService {
 
     @Override
     public void insert(Conexion conexion) {
-
+        daoConexion.create(conexion);
     }
 
     @Override
     public void update(Conexion conexion) {
-
+        daoConexion.update(conexion);
     }
 
     @Override
     public void delete(Conexion conexion) {
-
+        daoConexion.delete(conexion);
     }
 
     @Override
     public List<Conexion> getAll() {
-        return daoConexion.cargarConexiones();
+        return daoConexion.read();
     }
 }

@@ -4,7 +4,7 @@ import data.implementations.DAOEquipoImplFile;
 import data.interfaces.DAOEquipo;
 import models.Equipo;
 
-import java.util.Map;
+import java.util.List;
 
 public class EquipoServiceImpl implements EquipoService {
     private DAOEquipo daoEquipo;
@@ -15,21 +15,21 @@ public class EquipoServiceImpl implements EquipoService {
 
     @Override
     public void insert(Equipo equipo) {
-        daoEquipo.update(equipo);
+        daoEquipo.create(equipo);
     }
 
     @Override
     public void update(Equipo equipo) {
-
+        daoEquipo.update(equipo);
     }
 
     @Override
     public void delete(Equipo equipo) {
-
+        daoEquipo.delete(equipo);
     }
 
     @Override
-    public Map<String, Equipo> getAll() {
+    public List<Equipo> getAll() {
         return daoEquipo.read();
     }
 }

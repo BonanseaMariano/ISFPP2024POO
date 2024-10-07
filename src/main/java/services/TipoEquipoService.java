@@ -2,7 +2,7 @@ package services;
 
 import models.TipoEquipo;
 
-import java.util.Map;
+import java.util.List;
 
 public interface TipoEquipoService {
     void insert(TipoEquipo tipoEquipo);
@@ -11,5 +11,5 @@ public interface TipoEquipoService {
 
     void delete(TipoEquipo tipoEquipo);
 
-    Map<String, TipoEquipo> getAll();
+    List<TipoEquipo> getAll();
 }

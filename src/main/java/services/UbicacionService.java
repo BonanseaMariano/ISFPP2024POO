@@ -2,7 +2,7 @@ package services;
 
 import models.Ubicacion;
 
-import java.util.Map;
+import java.util.List;
 
 public interface UbicacionService {
     void insert(Ubicacion ubicacion);
@@ -11,5 +11,5 @@ public interface UbicacionService {
 
     void delete(Ubicacion ubicacion);
 
-    Map<String, Ubicacion> getAll();
+    List<Ubicacion> getAll();
 }

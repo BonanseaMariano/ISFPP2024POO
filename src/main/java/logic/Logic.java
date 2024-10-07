@@ -7,6 +7,7 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import org.jgrapht.traverse.DepthFirstIterator;
 
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Logic {
     private static Logic instance;
@@ -184,7 +185,7 @@ public class Logic {
      * @return a map where the keys are IP addresses and the values are booleans indicating if the IP address is active
      */
     public static Map<String, Boolean> pingRange(Collection<String> ips) {
-        Map<String, Boolean> results = new TreeMap<>();
+        Map<String, Boolean> results = new ConcurrentHashMap<>();
         for (String ip : ips) {
             results.put(ip, ping(ip));
         }
@@ -199,7 +200,7 @@ public class Logic {
      * @return a map where the keys are Equipo objects and the values are booleans indicating if the equipo is active
      */
     public static Map<Equipo, Boolean> mapStatus() {
-        Map<Equipo, Boolean> status = new TreeMap<>();
+        Map<Equipo, Boolean> status = new ConcurrentHashMap<>();
         for (Equipo equipo : graph.vertexSet()) {
             status.put(equipo, equipo.isEstado());
         }

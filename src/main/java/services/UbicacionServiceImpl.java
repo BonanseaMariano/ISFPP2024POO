@@ -4,7 +4,7 @@ import data.implementations.DAOUbicacionImplFile;
 import data.interfaces.DAOUbicacion;
 import models.Ubicacion;
 
-import java.util.Map;
+import java.util.List;
 
 public class UbicacionServiceImpl implements UbicacionService {
     private DAOUbicacion daoUbicacion;
@@ -15,21 +15,21 @@ public class UbicacionServiceImpl implements UbicacionService {
 
     @Override
     public void insert(Ubicacion ubicacion) {
-
+        daoUbicacion.create(ubicacion);
     }
 
     @Override
     public void update(Ubicacion ubicacion) {
-
+        daoUbicacion.update(ubicacion);
     }
 
     @Override
     public void delete(Ubicacion ubicacion) {
-
+        daoUbicacion.delete(ubicacion);
     }
 
     @Override
-    public Map<String, Ubicacion> getAll() {
+    public List<Ubicacion> getAll() {
         return daoUbicacion.read();
     }
 }

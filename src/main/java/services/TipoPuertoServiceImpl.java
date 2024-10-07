@@ -4,7 +4,7 @@ import data.implementations.DAOTipoPuertoImplFile;
 import data.interfaces.DAOTipoPuerto;
 import models.TipoPuerto;
 
-import java.util.Map;
+import java.util.List;
 
 public class TipoPuertoServiceImpl implements TipoPuertoService {
     private DAOTipoPuerto daoTipoPuerto;
@@ -15,21 +15,21 @@ public class TipoPuertoServiceImpl implements TipoPuertoService {
 
     @Override
     public void insert(TipoPuerto tipoPuerto) {
-
+        daoTipoPuerto.create(tipoPuerto);
     }
 
     @Override
     public void update(TipoPuerto tipoPuerto) {
-
+        daoTipoPuerto.update(tipoPuerto);
     }
 
     @Override
     public void delete(TipoPuerto tipoPuerto) {
-
+        daoTipoPuerto.delete(tipoPuerto);
     }
 
     @Override
-    public Map<String, TipoPuerto> getAll() {
+    public List<TipoPuerto> getAll() {
         return daoTipoPuerto.read();
     }
 }

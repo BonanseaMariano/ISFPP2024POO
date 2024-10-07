@@ -13,42 +13,112 @@ import static utils.Constatnts.DELIMITER;
 
 public class DAOConexionImplFile implements DAOConexion {
     private final String filename;
+    private List<Conexion> list;
+    private boolean actualizar;
+    private Hashtable<String, TipoCable> tiposCables;
+    private Hashtable<String, Equipo> equipos;
 
-    private static Map<String, TipoCable> daoTipoCable;
-    private static Map<String, Equipo> daoEquipo;
 
     public DAOConexionImplFile() {
+        tiposCables = loadTiposCables();
+        equipos = loadEquipos();
         ResourceBundle rb = ResourceBundle.getBundle("config");
         filename = rb.getString("conexiones");
+        actualizar = true;
     }
 
 
-    @Override
-    public List<Conexion> cargarConexiones() {
-        List<Conexion> conexiones = new ArrayList<>();
-        daoTipoCable = new DAOTipoCableImplFile().read();
-        daoEquipo = new DAOEquipoImplFile().read();
-        Scanner read;
-
+    private List<Conexion> readFromFile(String file) {
+        List<Conexion> list = new ArrayList<>();
+        Scanner inFile = null;
         try {
-            read = new Scanner(new File(filename));
-        } catch (FileNotFoundException e) {
-            System.out.println("No se encontró el archivo " + filename);
-            return conexiones;
+            inFile = new Scanner(new File(file));
+            inFile.useDelimiter(DELIMITER);
+            while (inFile.hasNext()) {
+                Equipo pc1 = equipos.get(inFile.next());
+                Equipo pc2 = equipos.get(inFile.next());
+                TipoCable tipoCable = tiposCables.get(inFile.next());
+                list.add(new Conexion(tipoCable, pc1, pc2));
+            }
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.err.println("Error opening file.");
+            fileNotFoundException.printStackTrace();
+        } catch (NoSuchElementException noSuchElementException) {
+            System.err.println("Error in file record structure");
+            noSuchElementException.printStackTrace();
+        } catch (IllegalStateException illegalStateException) {
+            System.err.println("Error reading from file.");
+            illegalStateException.printStackTrace();
+        } finally {
+            if (inFile != null)
+                inFile.close();
         }
-        read.useDelimiter(DELIMITER);
+        return list;
+    }
 
-        Equipo pc1;
-        Equipo pc2;
-        TipoCable tipoCable;
-
-        while (read.hasNext()) {
-            pc1 = daoEquipo.get(read.next());
-            pc2 = daoEquipo.get(read.next());
-            tipoCable = daoTipoCable.get(read.next());
-            conexiones.add(new Conexion(tipoCable, pc1, pc2));
+    private void writeToFile(List<Conexion> list, String file) {
+        Formatter outFile = null;
+        try {
+            outFile = new Formatter(file);
+            for (Conexion e : list) {
+                outFile.format("%s;%s;%s;\n", e.getEquipo1(), e.getEquipo2(), e.getTipoCable());
+            }
+        } catch (FileNotFoundException fileNotFoundException) {
+            System.err.println("Error creating file.");
+        } catch (FormatterClosedException formatterClosedException) {
+            System.err.println("Error writing to file.");
+        } finally {
+            if (outFile != null)
+                outFile.close();
         }
-        read.close();
-        return conexiones;
+    }
+
+    @Override
+    public void create(Conexion conexion) {
+        list.add(conexion);
+        writeToFile(list, filename);
+        actualizar = true;
+    }
+
+    @Override
+    public List<Conexion> read() {
+        if (actualizar) {
+            list = readFromFile(filename);
+            actualizar = false;
+        }
+        return list;
+    }
+
+    @Override
+    public void update(Conexion conexion) {
+        int pos = list.indexOf(conexion);
+        list.set(pos, conexion);
+        writeToFile(list, filename);
+        actualizar = true;
+    }
+
+    @Override
+    public void delete(Conexion conexion) {
+        list.remove(conexion);
+        writeToFile(list, filename);
+        actualizar = true;
+    }
+
+    private Hashtable<String, TipoCable> loadTiposCables() {
+        Hashtable<String, TipoCable> tiposCables = new Hashtable<>();
+        List<TipoCable> list = new DAOTipoCableImplFile().read();
+        for (TipoCable e : list) {
+            tiposCables.put(e.getCodigo(), e);
+        }
+        return tiposCables;
+    }
+
+    private Hashtable<String, Equipo> loadEquipos() {
+        Hashtable<String, Equipo> equipos = new Hashtable<>();
+        List<Equipo> list = new DAOEquipoImplFile().read();
+        for (Equipo e : list) {
+            equipos.put(e.getCodigo(), e);
+        }
+        return equipos;
     }
 }

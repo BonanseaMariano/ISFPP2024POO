@@ -2,7 +2,7 @@ package services;
 
 import models.TipoPuerto;
 
-import java.util.Map;
+import java.util.List;
 
 public interface TipoPuertoService {
     void insert(TipoPuerto tipoPuerto);
@@ -11,5 +11,5 @@ public interface TipoPuertoService {
 
     void delete(TipoPuerto tipoPuerto);
 
-    Map<String, TipoPuerto> getAll();
+    List<TipoPuerto> getAll();
 }
