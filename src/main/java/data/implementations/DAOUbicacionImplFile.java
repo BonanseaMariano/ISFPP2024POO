@@ -1,15 +1,11 @@
 package data.implementations;
 
 import data.interfaces.DAOUbicacion;
-import models.TipoEquipo;
 import models.Ubicacion;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static utils.Constatnts.DELIMITER;
 

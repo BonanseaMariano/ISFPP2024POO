@@ -7,7 +7,7 @@ import models.TipoPuerto;
 import java.util.List;
 
 public class TipoPuertoServiceImpl implements TipoPuertoService {
-    private DAOTipoPuerto daoTipoPuerto;
+    private final DAOTipoPuerto daoTipoPuerto;
 
     public TipoPuertoServiceImpl() {
         daoTipoPuerto = new DAOTipoPuertoImplFile();

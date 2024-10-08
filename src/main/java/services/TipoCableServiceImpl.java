@@ -7,7 +7,7 @@ import models.TipoCable;
 import java.util.List;
 
 public class TipoCableServiceImpl implements TipoCableService {
-    private DAOTipoCable daoTipoCable;
+    private final DAOTipoCable daoTipoCable;
 
     public TipoCableServiceImpl() {
         daoTipoCable = new DAOTipoCableImplFile();

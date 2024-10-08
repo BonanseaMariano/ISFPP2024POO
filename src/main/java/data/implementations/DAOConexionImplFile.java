@@ -4,6 +4,7 @@ import data.interfaces.DAOConexion;
 import models.Conexion;
 import models.Equipo;
 import models.TipoCable;
+import models.TipoPuerto;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -17,11 +18,12 @@ public class DAOConexionImplFile implements DAOConexion {
     private boolean actualizar;
     private Hashtable<String, TipoCable> tiposCables;
     private Hashtable<String, Equipo> equipos;
-
+    private Hashtable<String, TipoPuerto> tiposPuertos;
 
     public DAOConexionImplFile() {
         tiposCables = loadTiposCables();
         equipos = loadEquipos();
+        tiposPuertos = loadTiposPuertos();
         ResourceBundle rb = ResourceBundle.getBundle("config");
         filename = rb.getString("conexiones");
         actualizar = true;
@@ -36,9 +38,11 @@ public class DAOConexionImplFile implements DAOConexion {
             inFile.useDelimiter(DELIMITER);
             while (inFile.hasNext()) {
                 Equipo pc1 = equipos.get(inFile.next());
+                TipoPuerto puerto1 = tiposPuertos.get(inFile.next());
                 Equipo pc2 = equipos.get(inFile.next());
+                TipoPuerto puerto2 = tiposPuertos.get(inFile.next());
                 TipoCable tipoCable = tiposCables.get(inFile.next());
-                list.add(new Conexion(tipoCable, pc1, pc2));
+                list.add(new Conexion(tipoCable, pc1, puerto1, pc2, puerto2));
             }
         } catch (FileNotFoundException fileNotFoundException) {
             System.err.println("Error opening file.");
@@ -120,5 +124,14 @@ public class DAOConexionImplFile implements DAOConexion {
             equipos.put(e.getCodigo(), e);
         }
         return equipos;
+    }
+
+    private Hashtable<String, TipoPuerto> loadTiposPuertos() {
+        Hashtable<String, TipoPuerto> tiposPuertos = new Hashtable<>();
+        List<TipoPuerto> list = new DAOTipoPuertoImplFile().read();
+        for (TipoPuerto e : list) {
+            tiposPuertos.put(e.getCodigo(), e);
+        }
+        return tiposPuertos;
     }
 }

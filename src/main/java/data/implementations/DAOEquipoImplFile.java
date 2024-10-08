@@ -10,7 +10,6 @@ import models.*;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 import static utils.Constatnts.DELIMITER;
 
@@ -114,7 +113,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
                     puertos.append(p.getCantidad()).append("/").append(p.getTipoPuerto().getCodigo()).append(",");
                 }
                 // Remove the last comma
-                if (puertos.length() > 0) {
+                if (!puertos.isEmpty()) {
                     puertos.setLength(puertos.length() - 1);
                 }
 
@@ -123,7 +122,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
                     direccionesIp.append(ip).append(",");
                 }
                 // Remove the last comma
-                if (direccionesIp.length() > 0) {
+                if (!direccionesIp.isEmpty()) {
                     direccionesIp.setLength(direccionesIp.length() - 1);
                 }
 

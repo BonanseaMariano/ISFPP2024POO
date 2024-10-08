@@ -7,7 +7,7 @@ import models.Conexion;
 import java.util.List;
 
 public class ConexionServiceImpl implements ConexionService {
-    private DAOConexion daoConexion;
+    private final DAOConexion daoConexion;
 
     public ConexionServiceImpl() {
         daoConexion = new DAOConexionImplFile();

@@ -13,6 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class LogicTest {
+    private Logic logic;
     private Red red;
     private Ubicacion ubicacion1;
     private Ubicacion ubicacion2;
@@ -27,7 +28,7 @@ class LogicTest {
 
     @BeforeEach
     void setUp() {
-        Logic.getInstance();
+        logic = new Logic();
 
         // Instantiating 2 types of TipoCable
         TipoCable cable1 = new TipoCable("Eth", "Ethernet", 100);
@@ -53,9 +54,9 @@ class LogicTest {
         switch2 = new Equipo("SW2", "Switch2", "Generica", "201", tipoEquipo2, ubicacion2, new Puerto(1, puerto2), "167.84.3.10");
 
         // Instantiating 2 types of Conexion
-        conexion = new Conexion(cable1, equipo1, switch1);
-        conexion2 = new Conexion(cable2, switch1, switch2);
-        conexion3 = new Conexion(cable1, switch2, equipo2);
+        conexion = new Conexion(cable1, equipo1, puerto1, switch1, puerto2);
+        conexion2 = new Conexion(cable2, switch1, puerto2, switch2, puerto2);
+        conexion3 = new Conexion(cable1, switch2, puerto2, equipo2, puerto2);
 
 
         red = new Red("red");
@@ -72,8 +73,8 @@ class LogicTest {
 
     @Test
     void cargarGrafo_shouldAddVerticesAndEdges() {
-        Logic.updateGraph(red);
-        Graph<Equipo, Conexion> grafo = Logic.getGraph();
+        logic.updateGraph(red);
+        Graph<Equipo, Conexion> grafo = logic.getGraph();
 
         assertTrue(grafo.containsVertex(equipo1));
         assertTrue(grafo.containsVertex(equipo2));
@@ -90,8 +91,8 @@ class LogicTest {
     @Test
     void cargarGrafo_shouldHandleEmptyRed() {
         Red emptyRed = new Red("emptyRed");
-        Logic.updateGraph(emptyRed);
-        Graph<Equipo, Conexion> grafo = Logic.getGraph();
+        logic.updateGraph(emptyRed);
+        Graph<Equipo, Conexion> grafo = logic.getGraph();
 
         assertTrue(grafo.vertexSet().isEmpty());
         assertTrue(grafo.edgeSet().isEmpty());
@@ -104,8 +105,8 @@ class LogicTest {
         redNoConnections.addUbicacion(ubicacion2);
         redNoConnections.addEquipo(equipo1);
         redNoConnections.addEquipo(equipo2);
-        Logic.updateGraph(redNoConnections);
-        Graph<Equipo, Conexion> grafo = Logic.getGraph();
+        logic.updateGraph(redNoConnections);
+        Graph<Equipo, Conexion> grafo = logic.getGraph();
 
         assertTrue(grafo.containsVertex(equipo1));
         assertTrue(grafo.containsVertex(equipo2));
@@ -115,13 +116,13 @@ class LogicTest {
 
     @Test
     void calcularRuta_shouldReturnPath() {
-        Logic.updateGraph(red);
-        List<Conexion> sPath = Logic.shortestPath(equipo1, equipo2);
+        logic.updateGraph(red);
+        List<Conexion> sPath = logic.shortestPath(equipo1, equipo2);
         equipo1.agregarPuerto(new Puerto(1, new TipoPuerto("10M", "10 Mbps", 100)));
-        for (Conexion conexion : Logic.shortestPath(equipo1, equipo2)) {
+        for (Conexion conexion : logic.shortestPath(equipo1, equipo2)) {
             System.out.println(conexion);
         }
-        System.out.println("Max Bandwith: " + Logic.maxBandwith(sPath));
-        assertEquals(100, Logic.maxBandwith(sPath));
+        System.out.println("Max Bandwith: " + logic.maxBandwith(sPath));
+        assertEquals(100, logic.maxBandwith(sPath));
     }
 }

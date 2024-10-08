@@ -10,21 +10,13 @@ import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Logic {
-    private static Logic instance;
-    private static Graph<Equipo, Conexion> graph;
+    private Graph<Equipo, Conexion> graph;
 
-    private Logic() {
+    public Logic() {
         graph = new SimpleWeightedGraph<>(Conexion.class);
     }
 
-    public static Logic getInstance() {
-        if (instance == null) {
-            instance = new Logic();
-        }
-        return instance;
-    }
-
-    public static Graph<Equipo, Conexion> getGraph() {
+    public Graph<Equipo, Conexion> getGraph() {
         return graph;
     }
 
@@ -33,7 +25,7 @@ public class Logic {
      *
      * @param red the network containing the vertices (Equipos) and edges (Conexiones) to be added to the graph
      */
-    public static void updateGraph(Red red) {
+    public void updateGraph(Red red) {
         // Clear the graph
         graph = new SimpleWeightedGraph<>(Conexion.class);
 
@@ -53,7 +45,7 @@ public class Logic {
      *
      * @param equipo the vertex (equipo) to be added to the graph
      */
-    public static void addVertex(Equipo equipo) {
+    public void addVertex(Equipo equipo) {
         graph.addVertex(equipo);
     }
 
@@ -62,21 +54,9 @@ public class Logic {
      *
      * @param conexion the edge (conexion) to be added to the graph
      */
-    public static void addEdge(Conexion conexion) {
+    public void addEdge(Conexion conexion) {
         graph.addEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
         graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
-    }
-
-    /**
-     * Updates the weights of all edges in the graph.
-     * The weight of each edge is set to the difference between the provided top weight and the speed of the cable type associated with the edge.
-     *
-     * @param topWeight the maximum weight to be used as a reference for updating the edge weights
-     */
-    public static void updateEdgesWeight(int topWeight) {
-        for (Conexion conexion : graph.edgeSet()) {
-            graph.setEdgeWeight(conexion, topWeight - conexion.getTipoCable().getVelocidad());
-        }
     }
 
     /**
@@ -84,7 +64,7 @@ public class Logic {
      *
      * @param equipo the vertex (equipo) to be removed from the graph
      */
-    public static void deleteVertex(Equipo equipo) {
+    public void deleteVertex(Equipo equipo) {
         graph.removeVertex(equipo);
     }
 
@@ -93,7 +73,7 @@ public class Logic {
      *
      * @param conexion the edge (conexion) to be removed from the graph
      */
-    public static void deleteEdge(Conexion conexion) {
+    public void deleteEdge(Conexion conexion) {
         graph.removeEdge(conexion);
     }
 
@@ -107,7 +87,7 @@ public class Logic {
      * @param end    the ending node (equipo) of the path
      * @return a list of Conexion objects representing the edges in the shortest path
      */
-    public static List<Conexion> shortestPath(Equipo origin, Equipo end) {
+    public List<Conexion> shortestPath(Equipo origin, Equipo end) {
         DijkstraShortestPath<Equipo, Conexion> dijkstraAlg = new DijkstraShortestPath<>(graph);
         return dijkstraAlg.getPath(origin, end).getEdgeList();
     }
@@ -118,9 +98,9 @@ public class Logic {
      * @param path a list of Conexion objects representing the path
      * @return the maximum bandwidth (minimum weight) along the path
      */
-    public static double maxBandwith(List<Conexion> path) {
+    public double maxBandwith(List<Conexion> path) {
         //Teniendo en cuenta el peso de la conexion y el tipo de cable y puerto (Complejidad O(n^2))
-        double maxBW = path.get(0).getTipoCable().getVelocidad();
+        double maxBW = path.getFirst().getTipoCable().getVelocidad();
         for (Conexion conexion : path) {
             if (conexion.getTipoCable().getVelocidad() < maxBW) {
                 maxBW = conexion.getTipoCable().getVelocidad();
@@ -147,7 +127,7 @@ public class Logic {
      * @param equipo the equipo (device) whose ports' bandwidth is to be calculated
      * @return the maximum bandwidth (speed) of the ports of the given equipo
      */
-    public static double maxBandwithPort(Equipo equipo) {
+    public double maxBandwithPort(Equipo equipo) {
         double maxBWPort = 0;
         for (Puerto puerto : equipo.getPuertos()) {
             if (puerto.getTipoPuerto().getVelocidad() > maxBWPort) {
@@ -165,7 +145,7 @@ public class Logic {
      * @param ip the IP address to ping
      * @return true if the IP address is active, false otherwise
      */
-    public static boolean ping(String ip) {
+    public boolean ping(String ip) {
         for (Equipo equipo : graph.vertexSet()) {
             for (String direccionIP : equipo.getDireccionesIp()) {
                 if (direccionIP.equals(ip)) {
@@ -184,7 +164,7 @@ public class Logic {
      * @param ips a collection of IP addresses to ping
      * @return a map where the keys are IP addresses and the values are booleans indicating if the IP address is active
      */
-    public static Map<String, Boolean> pingRange(Collection<String> ips) {
+    public Map<String, Boolean> pingRange(Collection<String> ips) {
         Map<String, Boolean> results = new ConcurrentHashMap<>();
         for (String ip : ips) {
             results.put(ip, ping(ip));
@@ -199,7 +179,7 @@ public class Logic {
      *
      * @return a map where the keys are Equipo objects and the values are booleans indicating if the equipo is active
      */
-    public static Map<Equipo, Boolean> mapStatus() {
+    public Map<Equipo, Boolean> mapStatus() {
         Map<Equipo, Boolean> status = new ConcurrentHashMap<>();
         for (Equipo equipo : graph.vertexSet()) {
             status.put(equipo, equipo.isEstado());
@@ -209,7 +189,7 @@ public class Logic {
 
     //TODO: 3.3 Detectar problemas de conectividad, por ejemplo un usuario de una computadora no puede navegar en Internet. Detectar hasta que parte de la red puede acceder y donde pierde la conectividad.
 
-    public static Set<Equipo> conectionProblems(Equipo equipo) {
+    public Set<Equipo> conectionProblems(Equipo equipo) {
         Set<Equipo> equipos = new HashSet<>();
         Set<Equipo> visited = new HashSet<>();
         DepthFirstIterator<Equipo, Conexion> iterator = new DepthFirstIterator<>(graph, equipo);

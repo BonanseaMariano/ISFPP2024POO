@@ -7,7 +7,7 @@ import models.Equipo;
 import java.util.List;
 
 public class EquipoServiceImpl implements EquipoService {
-    private DAOEquipo daoEquipo;
+    private final DAOEquipo daoEquipo;
 
     public EquipoServiceImpl() {
         daoEquipo = new DAOEquipoImplFile();

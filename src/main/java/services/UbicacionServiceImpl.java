@@ -7,7 +7,7 @@ import models.Ubicacion;
 import java.util.List;
 
 public class UbicacionServiceImpl implements UbicacionService {
-    private DAOUbicacion daoUbicacion;
+    private final DAOUbicacion daoUbicacion;
 
     public UbicacionServiceImpl() {
         daoUbicacion = new DAOUbicacionImplFile();
