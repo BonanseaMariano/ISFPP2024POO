@@ -2,6 +2,7 @@ package logic;
 
 import models.*;
 import org.jgrapht.Graph;
+import org.jgrapht.Graphs;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleWeightedGraph;
 import org.jgrapht.traverse.BreadthFirstIterator;
@@ -198,4 +199,36 @@ public class Logic {
         return newGraph;
     }
 
+    public Graph<Equipo, Conexion> getConnectedPart(Equipo vertex) {
+        // Crea un nuevo grafo para almacenar la parte conectada
+        Graph<Equipo, Conexion> newGraph = new SimpleWeightedGraph<>(Conexion.class);
+
+        // Utiliza un algoritmo DFS para recorrer el grafo
+        dfs(vertex, newGraph);
+
+        for (Conexion conexion : graph.edgeSet()) {
+            Equipo source = graph.getEdgeSource(conexion);
+            Equipo target = graph.getEdgeTarget(conexion);
+            if (newGraph.containsVertex(source) && newGraph.containsVertex(target)) {
+                newGraph.addEdge(source, target, conexion);
+                newGraph.setEdgeWeight(conexion, graph.getEdgeWeight(conexion));
+            }
+        }
+
+        return newGraph;
+    }
+
+    private void dfs(Equipo vertex, Graph<Equipo, Conexion> parteConectada) {
+        // Agrega el vértice al grafo conectado
+        parteConectada.addVertex(vertex);
+
+        // Recorre los vértices adyacentes
+        for (Equipo adjacentVertex : Graphs.neighborListOf(graph, vertex)) {
+            // Si el vértice adyacente no ha sido visitado, agrega al grafo conectado y recorre
+            if (!parteConectada.containsVertex(adjacentVertex) && adjacentVertex.isEstado()) {
+                parteConectada.addEdge(vertex, adjacentVertex);
+                dfs(adjacentVertex, parteConectada);
+            }
+        }
+    }
 }
