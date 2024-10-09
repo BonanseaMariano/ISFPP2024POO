@@ -105,15 +105,12 @@ public class Logic {
             if (conexion.getTipoCable().getVelocidad() < maxBW) {
                 maxBW = conexion.getTipoCable().getVelocidad();
             }
-            if (maxBandwithPort(conexion.getEquipo1()) < maxBW) {
+            if (conexion.getPuerto1().getVelocidad() < maxBW) {
                 maxBW = maxBandwithPort(conexion.getEquipo1());
             }
 
-            //Si es el ultimo equipo de la conexion
-            if (path.indexOf(conexion) == path.size() - 1) {
-                if (maxBandwithPort(conexion.getEquipo2()) < maxBW) {
-                    maxBW = maxBandwithPort(conexion.getEquipo2());
-                }
+            if(conexion.getPuerto2().getVelocidad() < maxBW){
+                maxBW = maxBandwithPort(conexion.getEquipo2());
             }
 
         }
