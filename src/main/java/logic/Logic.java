@@ -4,6 +4,7 @@ import models.*;
 import org.jgrapht.Graph;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleWeightedGraph;
+import org.jgrapht.traverse.BreadthFirstIterator;
 import org.jgrapht.traverse.DepthFirstIterator;
 
 import java.util.*;
@@ -109,7 +110,7 @@ public class Logic {
                 maxBW = maxBandwithPort(conexion.getEquipo1());
             }
 
-            if(conexion.getPuerto2().getVelocidad() < maxBW){
+            if (conexion.getPuerto2().getVelocidad() < maxBW) {
                 maxBW = maxBandwithPort(conexion.getEquipo2());
             }
 
@@ -186,22 +187,32 @@ public class Logic {
 
     //TODO: 3.3 Detectar problemas de conectividad, por ejemplo un usuario de una computadora no puede navegar en Internet. Detectar hasta que parte de la red puede acceder y donde pierde la conectividad.
 
-    public Set<Equipo> conectionProblems(Equipo equipo) {
-        Set<Equipo> equipos = new HashSet<>();
-        Set<Equipo> visited = new HashSet<>();
-        DepthFirstIterator<Equipo, Conexion> iterator = new DepthFirstIterator<>(graph, equipo);
+    /**
+     * Creates a copy of the graph, removing vertices and edges where isEstado() == false.
+     *
+     * @return a new graph with only active vertices and edges
+     */
+    public Graph<Equipo, Conexion> copyGraph() {
+        Graph<Equipo, Conexion> newGraph = new SimpleWeightedGraph<>(Conexion.class);
 
-        while (iterator.hasNext()) {
-            Equipo current = iterator.next();
-            if (!visited.contains(current)) {
-                visited.add(current);
-                if (!current.isEstado()) {
-                    equipos.add(current);
-                }
+        // Add vertices with isEstado() == true
+        for (Equipo equipo : graph.vertexSet()) {
+            if (equipo.isEstado()) {
+                newGraph.addVertex(equipo);
             }
         }
 
-        return equipos;
+        // Add edges where both vertices are in the new graph
+        for (Conexion conexion : graph.edgeSet()) {
+            Equipo source = graph.getEdgeSource(conexion);
+            Equipo target = graph.getEdgeTarget(conexion);
+            if (newGraph.containsVertex(source) && newGraph.containsVertex(target)) {
+                newGraph.addEdge(source, target, conexion);
+                newGraph.setEdgeWeight(conexion, graph.getEdgeWeight(conexion));
+            }
+        }
+
+        return newGraph;
     }
 
 }
