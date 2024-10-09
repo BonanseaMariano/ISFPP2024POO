@@ -107,32 +107,15 @@ public class Logic {
                 maxBW = conexion.getTipoCable().getVelocidad();
             }
             if (conexion.getPuerto1().getVelocidad() < maxBW) {
-                maxBW = maxBandwithPort(conexion.getEquipo1());
+                maxBW = conexion.getPuerto1().getVelocidad();
             }
 
             if (conexion.getPuerto2().getVelocidad() < maxBW) {
-                maxBW = maxBandwithPort(conexion.getEquipo2());
+                maxBW = conexion.getPuerto2().getVelocidad();
             }
 
         }
-
         return maxBW;
-    }
-
-    /**
-     * Calculates the maximum bandwidth of the ports of a given equipo (device).
-     *
-     * @param equipo the equipo (device) whose ports' bandwidth is to be calculated
-     * @return the maximum bandwidth (speed) of the ports of the given equipo
-     */
-    public double maxBandwithPort(Equipo equipo) {
-        double maxBWPort = 0;
-        for (Puerto puerto : equipo.getPuertos()) {
-            if (puerto.getTipoPuerto().getVelocidad() > maxBWPort) {
-                maxBWPort = puerto.getTipoPuerto().getVelocidad();
-            }
-        }
-        return maxBWPort;
     }
 
     // Realizar un ping a un equipo.
