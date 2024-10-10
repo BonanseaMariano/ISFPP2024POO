@@ -26,8 +26,7 @@ public class Red {
     private TipoEquipoService tipoEquipoService;
     private TipoPuertoService tipoPuertoService;
 
-    public Red(String nombre) {
-        this.nombre = nombre;
+    public Red() {
         this.conexiones = new ArrayList<>();
         this.equipos = new TreeMap<>();
         this.ubicaciones = new TreeMap<>();
@@ -46,7 +45,7 @@ public class Red {
 
     public static Red getEmpresa() {
         if(red == null){
-            getEmpresa() = new Red();
+            red = new Red();
         }
         return red;
     }

@@ -1,6 +1,5 @@
 package services;
 
-import data.implementations.DAOTipoEquipoImplFile;
 import data.interfaces.DAOTipoEquipo;
 import factory.Factory;
 import models.TipoEquipo;

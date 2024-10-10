@@ -1,6 +1,5 @@
 package services;
 
-import data.implementations.DAOTipoCableImplFile;
 import data.interfaces.DAOTipoCable;
 import factory.Factory;
 import models.TipoCable;

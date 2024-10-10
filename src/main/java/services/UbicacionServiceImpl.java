@@ -1,6 +1,5 @@
 package services;
 
-import data.implementations.DAOUbicacionImplFile;
 import data.interfaces.DAOUbicacion;
 import factory.Factory;
 import models.Ubicacion;
