@@ -273,6 +273,7 @@ public class Red {
 
 
     public String getNombre() {
+
         return nombre;
     }
 
