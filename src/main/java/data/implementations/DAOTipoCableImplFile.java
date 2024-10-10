@@ -15,7 +15,7 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
     private boolean actualizar;
 
     public DAOTipoCableImplFile() {
-        ResourceBundle rb = ResourceBundle.getBundle("config");
+        ResourceBundle rb = ResourceBundle.getBundle("secuencial");
         filename = rb.getString("tiposCables");
         actualizar = true;
     }

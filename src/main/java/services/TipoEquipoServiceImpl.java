@@ -2,6 +2,7 @@ package services;
 
 import data.implementations.DAOTipoEquipoImplFile;
 import data.interfaces.DAOTipoEquipo;
+import factory.Factory;
 import models.TipoEquipo;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class TipoEquipoServiceImpl implements TipoEquipoService {
     private static DAOTipoEquipo daoTipoEquipo;
 
     public TipoEquipoServiceImpl() {
-        daoTipoEquipo = new DAOTipoEquipoImplFile();
+        daoTipoEquipo = (DAOTipoEquipo) Factory.getInstance("TIPO_EQUIPO");
     }
 
     @Override

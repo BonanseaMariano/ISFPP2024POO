@@ -2,6 +2,7 @@ package services;
 
 import data.implementations.DAOTipoCableImplFile;
 import data.interfaces.DAOTipoCable;
+import factory.Factory;
 import models.TipoCable;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class TipoCableServiceImpl implements TipoCableService {
     private final DAOTipoCable daoTipoCable;
 
     public TipoCableServiceImpl() {
-        daoTipoCable = new DAOTipoCableImplFile();
+        daoTipoCable = (DAOTipoCable) Factory.getInstance("TIPO_CABLE");
     }
 
     @Override

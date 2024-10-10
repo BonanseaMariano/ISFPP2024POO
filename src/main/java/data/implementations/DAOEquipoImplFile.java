@@ -25,7 +25,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
         tiposEquipos = loadTipoEquipos();
         ubicaciones = loadUbicaciones();
         tiposPuertos = loadTipoPuertos();
-        ResourceBundle rb = ResourceBundle.getBundle("config");
+        ResourceBundle rb = ResourceBundle.getBundle("secuencial");
         filename = rb.getString("equipos");
         actualizar = true;
     }

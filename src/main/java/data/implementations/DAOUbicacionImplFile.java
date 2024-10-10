@@ -15,7 +15,7 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
     private boolean actualizar;
 
     public DAOUbicacionImplFile() {
-        ResourceBundle rb = ResourceBundle.getBundle("config");
+        ResourceBundle rb = ResourceBundle.getBundle("secuencial");
         filename = rb.getString("ubicaciones");
         actualizar = true;
     }
