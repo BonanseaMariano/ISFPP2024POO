@@ -24,7 +24,7 @@ public class DAOConexionImplFile implements DAOConexion {
         tiposCables = loadTiposCables();
         equipos = loadEquipos();
         tiposPuertos = loadTiposPuertos();
-        ResourceBundle rb = ResourceBundle.getBundle("config");
+        ResourceBundle rb = ResourceBundle.getBundle("secuencial");
         filename = rb.getString("conexiones");
         actualizar = true;
     }

@@ -2,6 +2,7 @@ package services;
 
 import data.implementations.DAOUbicacionImplFile;
 import data.interfaces.DAOUbicacion;
+import factory.Factory;
 import models.Ubicacion;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class UbicacionServiceImpl implements UbicacionService {
     private final DAOUbicacion daoUbicacion;
 
     public UbicacionServiceImpl() {
-        daoUbicacion = new DAOUbicacionImplFile();
+        daoUbicacion = (DAOUbicacion) Factory.getInstance("UBICACION");
     }
 
     @Override

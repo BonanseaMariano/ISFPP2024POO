@@ -2,6 +2,7 @@ package services;
 
 import data.implementations.DAOTipoPuertoImplFile;
 import data.interfaces.DAOTipoPuerto;
+import factory.Factory;
 import models.TipoPuerto;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class TipoPuertoServiceImpl implements TipoPuertoService {
     private final DAOTipoPuerto daoTipoPuerto;
 
     public TipoPuertoServiceImpl() {
-        daoTipoPuerto = new DAOTipoPuertoImplFile();
+        daoTipoPuerto = (DAOTipoPuerto) Factory.getInstance("TIPO_PUERTO");
     }
 
     @Override

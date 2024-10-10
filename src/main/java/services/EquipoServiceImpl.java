@@ -2,6 +2,7 @@ package services;
 
 import data.implementations.DAOEquipoImplFile;
 import data.interfaces.DAOEquipo;
+import factory.Factory;
 import models.Equipo;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class EquipoServiceImpl implements EquipoService {
     private final DAOEquipo daoEquipo;
 
     public EquipoServiceImpl() {
-        daoEquipo = new DAOEquipoImplFile();
+        daoEquipo = (DAOEquipo) Factory.getInstance("EQUIPO");
     }
 
     @Override

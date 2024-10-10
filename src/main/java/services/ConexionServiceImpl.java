@@ -2,6 +2,7 @@ package services;
 
 import data.implementations.DAOConexionImplFile;
 import data.interfaces.DAOConexion;
+import factory.Factory;
 import models.Conexion;
 
 import java.util.List;
@@ -10,7 +11,7 @@ public class ConexionServiceImpl implements ConexionService {
     private final DAOConexion daoConexion;
 
     public ConexionServiceImpl() {
-        daoConexion = new DAOConexionImplFile();
+        daoConexion = (DAOConexion) Factory.getInstance("CONEXION");
     }
 
     @Override
