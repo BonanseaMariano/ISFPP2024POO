@@ -1,6 +1,7 @@
-package models;
+package logic;
 
 import exceptions.*;
+import models.*;
 import services.*;
 import utils.Utils;
 
@@ -12,8 +13,8 @@ public class Red {
 
     private String nombre;
     private List<Conexion> conexiones;
-    private Map<String, Equipo> equipos;
-    private Map<String, Ubicacion> ubicaciones;
+    private List<Equipo> equipos;
+    private List<Ubicacion> ubicaciones;
     private List<TipoCable> tiposCables;
     private List<TipoEquipo> tiposEquipos;
     private List<TipoPuerto> tiposPuertos;
@@ -28,8 +29,8 @@ public class Red {
 
     private Red() {
         this.conexiones = new ArrayList<>();
-        this.equipos = new TreeMap<>();
-        this.ubicaciones = new TreeMap<>();
+        this.equipos = new ArrayList<>();
+        this.ubicaciones = new ArrayList<>();
         this.tiposCables = new ArrayList<>();
         this.tiposEquipos = new ArrayList<>();
         this.tiposPuertos = new ArrayList<>();
@@ -41,6 +42,13 @@ public class Red {
         this.tipoCableService = new TipoCableServiceImpl();
         this.tipoEquipoService = new TipoEquipoServiceImpl();
         this.tipoPuertoService = new TipoPuertoServiceImpl();
+
+        tiposCables.addAll(tipoCableService.getAll());
+        tiposEquipos.addAll(tipoEquipoService.getAll());
+        tiposPuertos.addAll(tipoPuertoService.getAll());
+        ubicaciones.addAll(ubicacionService.getAll());
+        equipos.addAll(equipoService.getAll());
+        conexiones.addAll(conexionService.getAll());
     }
 
     public static Red getRed() {
@@ -64,7 +72,7 @@ public class Red {
         if (conexiones.contains(conexion)) {
             throw new InvalidEquipoException("No se puede agregar la conexión porque ya existe.");
         }
-        if (!this.equipos.containsKey(conexion.getEquipo1().getCodigo()) || !this.equipos.containsKey(conexion.getEquipo2().getCodigo())) {
+        if (!this.equipos.contains(conexion.getEquipo1()) || !this.equipos.contains(conexion.getEquipo2())) {
             throw new InvalidEquipoException("No se puede agregar la conexión porque " + conexion.getEquipo1().getCodigo() + " y/o " + conexion.getEquipo2().getCodigo() + " no existen en la red.");
         }
         this.conexiones.add(conexion);
@@ -106,10 +114,10 @@ public class Red {
         if (!equipo.getDireccionesIp().stream().anyMatch(Utils::validateIP)) {
             throw new InvalidUbicacionException("No se puede agregar porque la IP es invalida " + equipo.getDireccionesIp());
         }
-        if (!this.ubicaciones.containsKey(equipo.getUbicacion().getCodigo())) {
+        if (!this.ubicaciones.contains(equipo.getUbicacion())) {
             throw new InvalidUbicacionException("No se puede agregar el equipo porque la ubicación " + equipo.getUbicacion().getCodigo() + " no existe en la red.");
         }
-        this.equipos.put(equipo.getCodigo(), equipo);
+        this.equipos.add(equipo);
         this.equipoService.insert(equipo);
     }
 
@@ -120,7 +128,7 @@ public class Red {
      * @throws InvalidEquipoException if the equipo is connected to another equipo
      */
     public void deleteEquipo(Equipo equipo) throws InvalidEquipoException {
-        if (!this.equipos.containsKey(equipo.getCodigo())) {
+        if (!this.equipos.contains(equipo)) {
             throw new InvalidEquipoException("No se puede eliminar el equipo porque no existe.");
         }
         for (Conexion conexion : this.conexiones) {
@@ -134,10 +142,11 @@ public class Red {
 
 
     public void modifyEquipo(Equipo equipo) throws InvalidEquipoException {
-        if (!this.equipos.containsKey(equipo.getCodigo())) {
+        if (!this.equipos.contains(equipo)) {
             throw new InvalidEquipoException("No se puede modificar el equipo porque no existe.");
         }
-        this.equipos.replace(equipo.getCodigo(), equipo);
+        int pos = this.equipos.indexOf(equipo);
+        this.equipos.set(pos, equipo);
         this.equipoService.update(equipo);
     }
 
@@ -145,10 +154,10 @@ public class Red {
     /* ----------------------------- Ubicacion  ----------------------------- */
 
     public void addUbicacion(Ubicacion ubicacion) {
-        if (this.ubicaciones.containsKey(ubicacion.getCodigo())) {
+        if (this.ubicaciones.contains(ubicacion)) {
             throw new InvalidUbicacionException("No se puede agregar la ubicación porque ya existe.");
         }
-        this.ubicaciones.put(ubicacion.getCodigo(), ubicacion);
+        this.ubicaciones.add(ubicacion);
         this.ubicacionService.insert(ubicacion);
     }
 
@@ -159,10 +168,10 @@ public class Red {
      * @throws InvalidUbicacionException if there are teams (equipos) in the location
      */
     public void deleteUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
-        if (!this.ubicaciones.containsKey(ubicacion.getCodigo())) {
+        if (!this.ubicaciones.contains(ubicacion)) {
             throw new InvalidUbicacionException("No se puede eliminar la ubicación porque no existe.");
         }
-        if (this.equipos.values().stream().anyMatch(equipo -> equipo.getUbicacion().equals(ubicacion))) {
+        if (this.equipos.stream().anyMatch(equipo -> equipo.getUbicacion().equals(ubicacion))) {
             throw new InvalidUbicacionException("No se puede eliminar la ubicación porque hay equipos en ella.");
         }
         this.ubicaciones.remove(ubicacion.getCodigo());
@@ -170,10 +179,11 @@ public class Red {
     }
 
     public void modifyUbicacion(Ubicacion ubicacion) {
-        if (!this.ubicaciones.containsKey(ubicacion.getCodigo())) {
+        if (!this.ubicaciones.contains(ubicacion)) {
             throw new InvalidUbicacionException("No se puede modificar la ubicación porque no existe.");
         }
-        this.ubicaciones.replace(ubicacion.getCodigo(), ubicacion);
+        int pos = this.ubicaciones.indexOf(ubicacion);
+        this.ubicaciones.set(pos, ubicacion);
         this.ubicacionService.update(ubicacion);
     }
 
@@ -223,7 +233,7 @@ public class Red {
         if (!this.tiposEquipos.contains(tipoEquipo)) {
             throw new InvalidTipoEquipoException("No se puede eliminar el tipo de equipo porque no existe en la red.");
         }
-        if (this.equipos.values().stream().anyMatch(equipo -> (equipo.getTipoEquipo().equals(tipoEquipo)))) {
+        if (this.equipos.stream().anyMatch(equipo -> (equipo.getTipoEquipo().equals(tipoEquipo)))) {
             throw new InvalidTipoEquipoException("No se puede eliminar el tipo de equipo porque hay equipos con ese tipo de equipo.");
         }
         this.tiposEquipos.remove(tipoEquipo);
@@ -253,7 +263,7 @@ public class Red {
         if (!this.tiposPuertos.contains(tipoPuerto)) {
             throw new InvalidTipoPuertoException("No se puede eliminar el tipo de puerto porque no existe en la red.");
         }
-        if (this.equipos.values().stream().anyMatch(equipo -> (equipo.getPuertos().stream().anyMatch(puerto -> (puerto.getTipoPuerto().equals(tipoPuerto)))))) {
+        if (this.equipos.stream().anyMatch(equipo -> (equipo.getPuertos().stream().anyMatch(puerto -> (puerto.getTipoPuerto().equals(tipoPuerto)))))) {
             throw new InvalidTipoPuertoException("No se puede eliminar el tipo de puerto porque hay puertos con ese tipo de puerto.");
         }
         this.tiposPuertos.remove(tipoPuerto);
@@ -283,11 +293,11 @@ public class Red {
         return conexiones;
     }
 
-    public Map<String, Equipo> getEquipos() {
+    public List<Equipo> getEquipos() {
         return equipos;
     }
 
-    public Map<String, Ubicacion> getUbicaciones() {
+    public List<Ubicacion> getUbicaciones() {
         return ubicaciones;
     }
 

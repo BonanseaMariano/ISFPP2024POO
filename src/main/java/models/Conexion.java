@@ -71,14 +71,10 @@ public class Conexion {
 
     @Override
     public String toString() {
-        return "Conexion{" +
-                "tipoCable=" + tipoCable.getCodigo() +
-                ", velocidad=" + tipoCable.getVelocidad() +
-                ", equipo1=" + equipo1.getDireccionesIp() +
-                " puerto=" + puerto1.getCodigo() +
-                " - " + puerto1.getVelocidad() + " Mbps" +
-                ", equipo2=" + equipo2.getDireccionesIp() +
-                " puerto=" + puerto2.getCodigo() +
-                " - " + puerto2.getVelocidad() + " Mbps" + '}';
+        return "Conexion{velocidad=" + tipoCable.getVelocidad() +
+                ", equipo1=" + equipo1.getCodigo() +
+                " velocidadPuerto=" + puerto1.getVelocidad() + " Mbps" +
+                " -> equipo2=" + equipo2.getCodigo() +
+                " velocidadPuerto=" + puerto2.getVelocidad() + " Mbps}";
     }
 }

@@ -3,11 +3,10 @@ package controller;
 import exceptions.InvalidConexionException;
 import exceptions.InvalidEquipoException;
 import logic.Logic;
+import logic.Red;
 import models.*;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Coordinator {
     private Red red;
@@ -33,18 +32,18 @@ public class Coordinator {
         try {
             red.addConexion(conexion);
             logic.addEdge(conexion);
-        }catch (InvalidConexionException e){
+        } catch (InvalidConexionException e) {
             System.out.println(e.getMessage());
         }
     }
 
     public void deleteConnection(Conexion conexion) {
-       try {
-           red.deleteConexion(conexion);
-           logic.deleteEdge(conexion);
-       }catch (InvalidConexionException e){
-           System.out.println(e.getMessage());
-       }
+        try {
+            red.deleteConexion(conexion);
+            logic.deleteEdge(conexion);
+        } catch (InvalidConexionException e) {
+            System.out.println(e.getMessage());
+        }
     }
 
     public void modifyConnection(Conexion conexion) {
@@ -56,7 +55,7 @@ public class Coordinator {
         try {
             red.addEquipo(equipo);
             logic.addVertex(equipo);
-        }catch (InvalidEquipoException e){
+        } catch (InvalidEquipoException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -65,7 +64,7 @@ public class Coordinator {
         try {
             red.deleteEquipo(equipo);
             logic.deleteVertex(equipo);
-        }catch (InvalidEquipoException e){
+        } catch (InvalidEquipoException e) {
             System.out.println(e.getMessage());
         }
     }
@@ -98,29 +97,30 @@ public class Coordinator {
         red.modifyTipoCable(tipoCable);
     }
 
-    public void addTipoPuerto(TipoPuerto TipoPuerto){
+    public void addTipoPuerto(TipoPuerto TipoPuerto) {
         red.addTipoPuerto(TipoPuerto);
     }
 
-    public void deleteTipoPuerto(TipoPuerto TipoPuerto){
+    public void deleteTipoPuerto(TipoPuerto TipoPuerto) {
         red.deleteTipoPuerto(TipoPuerto);
     }
 
-    public void modifyTipoPuerto(TipoPuerto TipoPuerto){
+    public void modifyTipoPuerto(TipoPuerto TipoPuerto) {
         red.modifyTipoPuerto(TipoPuerto);
     }
 
-    public void addTipoEquipo(TipoEquipo tipoEquipo){
+    public void addTipoEquipo(TipoEquipo tipoEquipo) {
         red.addTipoEquipo(tipoEquipo);
     }
 
-    public void deleteTipoEquipo(TipoEquipo tipoEquipo){
+    public void deleteTipoEquipo(TipoEquipo tipoEquipo) {
         red.deleteTipoEquipo(tipoEquipo);
     }
 
-    public void modifyTipoEquipo(TipoEquipo tipoEquipo){
+    public void modifyTipoEquipo(TipoEquipo tipoEquipo) {
         red.modifyTipoEquipo(tipoEquipo);
     }
+
 
     public List<Conexion> shortestPath(Equipo equipo1, Equipo equipo2) {
         return logic.shortestPath(equipo1, equipo2);
@@ -142,5 +142,21 @@ public class Coordinator {
         return logic.mapStatus();
     }
 
+    //Red
+    public List<Equipo> getEquipos() {
+        return red.getEquipos();
+    }
 
+    public List<Conexion> getConexiones() {
+        return red.getConexiones();
+    }
+
+    //Logic
+    public Map<String, Equipo> getVertexMap() {
+        Map<String, Equipo> vertexMap = new TreeMap<>();
+        for (Equipo equipo : logic.getGraph().vertexSet()) {
+            vertexMap.put(equipo.getCodigo(), equipo);
+        }
+        return vertexMap;
+    }
 }

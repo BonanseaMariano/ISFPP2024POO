@@ -1,15 +1,19 @@
 package logic;
 
+import controller.Coordinator;
 import models.*;
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleWeightedGraph;
+
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class Logic {
+    private Coordinator coordinator;
     private Graph<Equipo, Conexion> graph;
+
 
     public Logic() {
         graph = new SimpleWeightedGraph<>(Conexion.class);
@@ -19,22 +23,25 @@ public class Logic {
         return graph;
     }
 
+
     /**
-     * Updates the graph with the vertices and edges from the given network (Red).
+     * Updates the graph data with the provided lists of equipos (vertices) and conexiones (edges).
+     * This method clears the existing graph and repopulates it with the new data.
      *
-     * @param red the network containing the vertices (Equipos) and edges (Conexiones) to be added to the graph
+     * @param equipos    a list of Equipo objects representing the vertices to be added to the graph
+     * @param conexiones a list of Conexion objects representing the edges to be added to the graph
      */
-    public void updateGraph(Red red) {
+    public void updateData(List<Equipo> equipos, List<Conexion> conexiones) {
         // Clear the graph
         graph = new SimpleWeightedGraph<>(Conexion.class);
 
         // Add vertices
-        for (Equipo equipo : red.getEquipos().values()) {
+        for (Equipo equipo : equipos) {
             addVertex(equipo);
         }
 
         // Add edges
-        for (Conexion conexion : red.getConexiones()) {
+        for (Conexion conexion : conexiones) {
             addEdge(conexion);
         }
     }
@@ -227,5 +234,9 @@ public class Logic {
                 dfs(adjacentVertex, parteConectada);
             }
         }
+    }
+
+    public void setCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
     }
 }
