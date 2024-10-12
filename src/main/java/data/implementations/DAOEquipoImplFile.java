@@ -48,17 +48,18 @@ public class DAOEquipoImplFile implements DAOEquipo {
                 Ubicacion ubicacion = ubicaciones.get(inFile.next());
                 String puertoString = inFile.next();
                 String direccionIpString = inFile.next();
+                Boolean estado = inFile.nextBoolean();
 
                 //Puertos
-                for (String puerto : puertoString.split(",")) {
+                for (String puerto : puertoString.split("/")) {
                     int cantidad;
                     TipoPuerto tipoPuerto;
 
-                    String[] puertoAttributes = puerto.split("/");
+                    String[] puertoAttributes = puerto.split(",");
 
                     try {
-                        cantidad = Integer.parseInt(puertoAttributes[0]);
-                        tipoPuerto = tiposPuertos.get(puertoAttributes[1]);
+                        tipoPuerto = tiposPuertos.get(puertoAttributes[0]);
+                        cantidad = Integer.parseInt(puertoAttributes[1]);
                     } catch (NumberFormatException | NullPointerException e) {
                         System.out.println("Error al cargar los puertos del equipo " + codigo);
                         continue;
@@ -70,7 +71,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
                 //Direcciones IP
                 Collections.addAll(direccionesIp, direccionIpString.split(","));
 
-                Equipo equipo = new Equipo(codigo, descripcion, marca, modelo, tipoEquipo, ubicacion, puertos.getFirst(), direccionesIp.getFirst());
+                Equipo equipo = new Equipo(codigo, descripcion, marca, modelo, tipoEquipo, ubicacion, puertos.getFirst(), direccionesIp.getFirst(), estado);
 
                 //Si tiene mas de un puerto
                 if (puertos.size() > 1) {

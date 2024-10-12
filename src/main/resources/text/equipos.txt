@@ -1,8 +1,0 @@
-SE01;Servidor Principal;HP;DL380G9;COM;SS;4/1G,1/10SFP+;166.82.1.10,166.82.1.11,166.82.1.12,166.82.1.13,200.10.240.251;
-PC01;PC para alumnos;HP;1930 48G;COM;L0;1/1G;166.82.100.100;
-SW01;Switch 1;Intellinet;4SFP/SFP+;SW;SS;8/100M;166.82.100.10;
-EQ1;Descripcion 1;Marca 1;Modelo 1;COM;SS;4/1G;192.168.45.23;
-EQ2;Descripcion 2;Marca 2;Modelo 2;SW;L0;2/10SFP+;192.168.123.45;
-EQ3;Descripcion 3;Marca 3;Modelo 3;PC;SS;1/100M;192.168.67.89;
-EQ4;Descripcion 4;Marca 4;Modelo 4;COM;L0;3/1G;192.168.12.34;
-EQ5;Descripcion 5;Marca 5;Modelo 5;SW;SS;5/10SFP+;192.168.98.76;

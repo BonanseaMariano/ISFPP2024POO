@@ -18,7 +18,7 @@ public class Equipo {
     private List<String> direccionesIp;
     private boolean estado;
 
-    public Equipo(String codigo, String descripcion, String marca, String modelo, TipoEquipo tipoEquipo, Ubicacion ubicacion, Puerto puerto, String direccionIP) {
+    public Equipo(String codigo, String descripcion, String marca, String modelo, TipoEquipo tipoEquipo, Ubicacion ubicacion, Puerto puerto, String direccionIP, Boolean estado) {
         this.codigo = codigo;
         this.descripcion = descripcion;
         this.marca = marca;
@@ -29,7 +29,7 @@ public class Equipo {
         agregarPuerto(puerto);
         this.direccionesIp = new ArrayList<>();
         agregarDireccionIp(direccionIP);
-        this.estado = true;
+        this.estado = estado;
     }
 
     public void agregarPuerto(Puerto puerto) {
@@ -37,7 +37,7 @@ public class Equipo {
     }
 
     public void agregarDireccionIp(String direccionIp) throws InvalidDireccionIPException {
-        if (!Utils.validateIP(direccionIp)) {
+        if (!direccionIp.isBlank() && !Utils.validateIP(direccionIp)) {
             throw new InvalidDireccionIPException("No se puede agregar la dirección IP porque no es válida.");
         }
         direccionesIp.add(direccionIp);

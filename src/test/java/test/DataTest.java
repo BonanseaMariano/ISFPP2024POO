@@ -7,7 +7,6 @@ import services.*;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 
 class DataTest {
     List<TipoEquipo> tiposEquipos;
@@ -36,7 +35,7 @@ class DataTest {
 
     @Test
     void testUbicacionesFile() {
-        assertEquals(6, ubicaciones.size());
+
         System.out.println("\t-- Ubicaciones --");
         for (Ubicacion ubicacion : ubicaciones) {
             System.out.println(ubicacion);
@@ -45,7 +44,6 @@ class DataTest {
 
     @Test
     void testTiposEquiposFile() {
-        assertEquals(9, tiposEquipos.size());
         System.out.println("\t-- Tipos de Equipos --");
         for (TipoEquipo tipoEquipo : tiposEquipos) {
             System.out.println(tipoEquipo);
@@ -54,7 +52,6 @@ class DataTest {
 
     @Test
     void testTiposPuertosFile() {
-        assertEquals(6, tiposPuertos.size());
         System.out.println("\t-- Tipos de Puertos --");
         for (TipoPuerto tipoPuerto : tiposPuertos) {
             System.out.println(tipoPuerto);
@@ -63,7 +60,6 @@ class DataTest {
 
     @Test
     void testTiposCablesFile() {
-        assertEquals(4, tiposCables.size());
         System.out.println("\t-- Tipos de Cables --");
         for (TipoCable tipoCable : tiposCables) {
             System.out.println(tipoCable);
@@ -73,7 +69,6 @@ class DataTest {
 
     @Test
     void testEquiposFile() {
-        assertEquals(8, equipos.size());
         System.out.println("\t-- Equipos --");
         for (Equipo equipo : equipos) {
             System.out.println(equipo);

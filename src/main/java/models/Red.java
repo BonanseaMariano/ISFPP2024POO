@@ -26,7 +26,7 @@ public class Red {
     private TipoEquipoService tipoEquipoService;
     private TipoPuertoService tipoPuertoService;
 
-    public Red() {
+    private Red() {
         this.conexiones = new ArrayList<>();
         this.equipos = new TreeMap<>();
         this.ubicaciones = new TreeMap<>();
@@ -43,8 +43,8 @@ public class Red {
         this.tipoPuertoService = new TipoPuertoServiceImpl();
     }
 
-    public static Red getEmpresa() {
-        if(red == null){
+    public static Red getRed() {
+        if (red == null) {
             red = new Red();
         }
         return red;
@@ -52,7 +52,7 @@ public class Red {
 
 
 
-/* ----------------------------- Conexion ----------------------------- */
+    /* ----------------------------- Conexion ----------------------------- */
 
     /**
      * Adds a connection (conexion) to the network (red).
@@ -61,7 +61,7 @@ public class Red {
      * @throws InvalidEquipoException if either of the equipos in the conexion do not exist in the network
      */
     public void addConexion(Conexion conexion) throws InvalidEquipoException {
-        if (conexiones.contains(conexion)){
+        if (conexiones.contains(conexion)) {
             throw new InvalidEquipoException("No se puede agregar la conexión porque ya existe.");
         }
         if (!this.equipos.containsKey(conexion.getEquipo1().getCodigo()) || !this.equipos.containsKey(conexion.getEquipo2().getCodigo())) {
@@ -76,16 +76,16 @@ public class Red {
      *
      * @param conexion the connection (conexion) to be removed
      */
-    public void deleteConexion(Conexion conexion) throws InvalidConexionException{
-        if (!this.conexiones.contains(conexion)){
+    public void deleteConexion(Conexion conexion) throws InvalidConexionException {
+        if (!this.conexiones.contains(conexion)) {
             throw new InvalidEquipoException("No se puede eliminar la conexión porque no existe.");
         }
         this.conexiones.remove(conexion);
         this.conexionService.delete(conexion);
     }
 
-    public void modifyConnection(Conexion conexion){
-        if (!this.conexiones.contains(conexion)){
+    public void modifyConnection(Conexion conexion) {
+        if (!this.conexiones.contains(conexion)) {
             throw new InvalidEquipoException("No se puede modificar la conexión porque no existe.");
         }
         int aux = this.conexiones.indexOf(conexion);
@@ -94,7 +94,7 @@ public class Red {
     }
 
 
-/* ----------------------------- Equipo ----------------------------- */
+    /* ----------------------------- Equipo ----------------------------- */
 
     /**
      * Adds a team (equipo) to the network (red).
@@ -103,7 +103,7 @@ public class Red {
      * @throws InvalidUbicacionException if the location (ubicacion) of the team does not exist in the network
      */
     public void addEquipo(Equipo equipo) throws InvalidUbicacionException {
-        if(!equipo.getDireccionesIp().stream().anyMatch(Utils::validateIP)){
+        if (!equipo.getDireccionesIp().stream().anyMatch(Utils::validateIP)) {
             throw new InvalidUbicacionException("No se puede agregar porque la IP es invalida " + equipo.getDireccionesIp());
         }
         if (!this.ubicaciones.containsKey(equipo.getUbicacion().getCodigo())) {
@@ -133,8 +133,8 @@ public class Red {
     }
 
 
-    public void modifyEquipo(Equipo equipo) throws InvalidEquipoException{
-        if (!this.equipos.containsKey(equipo.getCodigo())){
+    public void modifyEquipo(Equipo equipo) throws InvalidEquipoException {
+        if (!this.equipos.containsKey(equipo.getCodigo())) {
             throw new InvalidEquipoException("No se puede modificar el equipo porque no existe.");
         }
         this.equipos.replace(equipo.getCodigo(), equipo);
@@ -142,10 +142,10 @@ public class Red {
     }
 
 
-/* ----------------------------- Ubicacion  ----------------------------- */
+    /* ----------------------------- Ubicacion  ----------------------------- */
 
     public void addUbicacion(Ubicacion ubicacion) {
-        if(this.ubicaciones.containsKey(ubicacion.getCodigo())){
+        if (this.ubicaciones.containsKey(ubicacion.getCodigo())) {
             throw new InvalidUbicacionException("No se puede agregar la ubicación porque ya existe.");
         }
         this.ubicaciones.put(ubicacion.getCodigo(), ubicacion);
@@ -159,7 +159,7 @@ public class Red {
      * @throws InvalidUbicacionException if there are teams (equipos) in the location
      */
     public void deleteUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
-        if(!this.ubicaciones.containsKey(ubicacion.getCodigo())){
+        if (!this.ubicaciones.containsKey(ubicacion.getCodigo())) {
             throw new InvalidUbicacionException("No se puede eliminar la ubicación porque no existe.");
         }
         if (this.equipos.values().stream().anyMatch(equipo -> equipo.getUbicacion().equals(ubicacion))) {
@@ -169,8 +169,8 @@ public class Red {
         this.ubicacionService.delete(ubicacion);
     }
 
-    public void modifyUbicacion(Ubicacion ubicacion){
-        if(!this.ubicaciones.containsKey(ubicacion.getCodigo())){
+    public void modifyUbicacion(Ubicacion ubicacion) {
+        if (!this.ubicaciones.containsKey(ubicacion.getCodigo())) {
             throw new InvalidUbicacionException("No se puede modificar la ubicación porque no existe.");
         }
         this.ubicaciones.replace(ubicacion.getCodigo(), ubicacion);
@@ -178,10 +178,10 @@ public class Red {
     }
 
 
-/* ----------------------------- TipoCable ----------------------------- */
+    /* ----------------------------- TipoCable ----------------------------- */
 
     public void addTipoCable(TipoCable tipoCable) throws InvalidTipoCableException {
-        if(tiposCables.contains(tipoCable)){
+        if (tiposCables.contains(tipoCable)) {
             throw new InvalidTipoCableException("No se puede agregar el tipo de cable porque ya existe en la red.");
         }
         this.tiposCables.add(tipoCable);
@@ -189,18 +189,18 @@ public class Red {
     }
 
     public void deleteTipoCable(TipoCable tipoCable) throws InvalidTipoCableException {
-        if(!this.tiposCables.contains(tipoCable)){
+        if (!this.tiposCables.contains(tipoCable)) {
             throw new InvalidTipoCableException("No se puede eliminar el tipo de cable porque no existe en la red.");
         }
-        if(this.conexiones.stream().anyMatch(conexion -> (conexion.getTipoCable().equals(tipoCable)))){
+        if (this.conexiones.stream().anyMatch(conexion -> (conexion.getTipoCable().equals(tipoCable)))) {
             throw new InvalidTipoCableException("No se puede eliminar el tipo de cable porque hay conexiones con ese tipo de cable.");
         }
         this.tiposCables.remove(tipoCable);
         this.tipoCableService.delete(tipoCable);
     }
 
-    public void modifyTipoCable(TipoCable tipoCable){
-        if (!this.tiposCables.contains(tipoCable)){
+    public void modifyTipoCable(TipoCable tipoCable) {
+        if (!this.tiposCables.contains(tipoCable)) {
             throw new InvalidTipoCableException("No se puede modificar el tipo de cable porque no existe en la red.");
         }
         int aux = this.tiposCables.indexOf(tipoCable);
@@ -209,10 +209,10 @@ public class Red {
     }
 
 
-/* ----------------------------- TipoEquipo ----------------------------- */
+    /* ----------------------------- TipoEquipo ----------------------------- */
 
     public void addTipoEquipo(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
-        if(tiposEquipos.contains(tipoEquipo)){
+        if (tiposEquipos.contains(tipoEquipo)) {
             throw new InvalidTipoEquipoException("No se puede agregar el tipo de equipo porque ya existe en la red.");
         }
         this.tiposEquipos.add(tipoEquipo);
@@ -220,18 +220,18 @@ public class Red {
     }
 
     public void deleteTipoEquipo(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
-        if(!this.tiposEquipos.contains(tipoEquipo)){
+        if (!this.tiposEquipos.contains(tipoEquipo)) {
             throw new InvalidTipoEquipoException("No se puede eliminar el tipo de equipo porque no existe en la red.");
         }
-        if(this.equipos.values().stream().anyMatch(equipo -> (equipo.getTipoEquipo().equals(tipoEquipo)))){
+        if (this.equipos.values().stream().anyMatch(equipo -> (equipo.getTipoEquipo().equals(tipoEquipo)))) {
             throw new InvalidTipoEquipoException("No se puede eliminar el tipo de equipo porque hay equipos con ese tipo de equipo.");
         }
         this.tiposEquipos.remove(tipoEquipo);
         this.tipoEquipoService.delete(tipoEquipo);
     }
 
-    public void modifyTipoEquipo(TipoEquipo tipoEquipo){
-        if (!this.tiposEquipos.contains(tipoEquipo)){
+    public void modifyTipoEquipo(TipoEquipo tipoEquipo) {
+        if (!this.tiposEquipos.contains(tipoEquipo)) {
             throw new InvalidTipoEquipoException("No se puede modificar el tipo de equipo porque no existe en la red.");
         }
         int aux = this.tiposEquipos.indexOf(tipoEquipo);
@@ -239,10 +239,10 @@ public class Red {
         this.tipoEquipoService.update(tipoEquipo);
     }
 
-/* ----------------------------- TipoPuerto ----------------------------- */
+    /* ----------------------------- TipoPuerto ----------------------------- */
 
     public void addTipoPuerto(TipoPuerto tipoPuerto) throws InvalidTipoPuertoException {
-        if(tiposPuertos.contains(tipoPuerto)){
+        if (tiposPuertos.contains(tipoPuerto)) {
             throw new InvalidTipoPuertoException("No se puede agregar el tipo de puerto porque ya existe en la red.");
         }
         this.tiposPuertos.add(tipoPuerto);
@@ -250,25 +250,24 @@ public class Red {
     }
 
     public void deleteTipoPuerto(TipoPuerto tipoPuerto) throws InvalidTipoPuertoException {
-        if(!this.tiposPuertos.contains(tipoPuerto)){
+        if (!this.tiposPuertos.contains(tipoPuerto)) {
             throw new InvalidTipoPuertoException("No se puede eliminar el tipo de puerto porque no existe en la red.");
         }
-        if(this.equipos.values().stream().anyMatch(equipo -> (equipo.getPuertos().stream().anyMatch(puerto -> (puerto.getTipoPuerto().equals(tipoPuerto)))))){
+        if (this.equipos.values().stream().anyMatch(equipo -> (equipo.getPuertos().stream().anyMatch(puerto -> (puerto.getTipoPuerto().equals(tipoPuerto)))))) {
             throw new InvalidTipoPuertoException("No se puede eliminar el tipo de puerto porque hay puertos con ese tipo de puerto.");
         }
         this.tiposPuertos.remove(tipoPuerto);
         this.tipoPuertoService.delete(tipoPuerto);
     }
 
-    public void modifyTipoPuerto(TipoPuerto tipoPuerto){
-        if (!this.tiposPuertos.contains(tipoPuerto)){
+    public void modifyTipoPuerto(TipoPuerto tipoPuerto) {
+        if (!this.tiposPuertos.contains(tipoPuerto)) {
             throw new InvalidTipoPuertoException("No se puede modificar el tipo de puerto porque no existe en la red.");
         }
         int aux = this.tiposPuertos.indexOf(tipoPuerto);
         this.tiposPuertos.set(aux, tipoPuerto);
         this.tipoPuertoService.update(tipoPuerto);
     }
-
 
 
     public String getNombre() {
