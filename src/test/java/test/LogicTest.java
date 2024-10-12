@@ -8,6 +8,9 @@ import models.Equipo;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+import java.util.Map;
+
 public class LogicTest {
     Red red;
     Logic logic;
@@ -44,9 +47,19 @@ public class LogicTest {
 
     @Test
     public void testConsulta1() {
-        for (String equipo : coordinator.getVertexMap().keySet()) {
-            System.out.println(equipo);
+        System.out.println("\t---- Path ----");
+        logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
+        List<Conexion> path = logic.shortestPath(coordinator.getVertexMap().get("FW02"), coordinator.getVertexMap().get("SWAM"));
+        System.out.println(path);
+        System.out.println("Max BW :" + coordinator.maxBandwith(path));
+    }
+
+    @Test
+    public void testConsulta2() {
+        System.out.println("\t---- Status Map ----");
+        logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
+        for (Map.Entry<Equipo, Boolean> entry : coordinator.mapStatus().entrySet()) {
+            System.out.println(entry.getKey().getCodigo() + " " + entry.getValue());
         }
-//        System.out.println(logic.shortestPath(coordinator.getVertexMap().get(""), coordinator.getVertexMap().get("AP01")));
     }
 }
