@@ -111,9 +111,9 @@ public class DAOEquipoImplFile implements DAOEquipo {
             for (Equipo e : list) {
                 StringBuilder puertos = new StringBuilder();
                 for (Puerto p : e.getPuertos()) {
-                    puertos.append(p.getCantidad()).append("/").append(p.getTipoPuerto().getCodigo()).append(",");
+                    puertos.append(p.getCantidad()).append(",").append(p.getTipoPuerto().getCodigo()).append("/");
                 }
-                // Remove the last comma
+                // Remove the last slash
                 if (!puertos.isEmpty()) {
                     puertos.setLength(puertos.length() - 1);
                 }
@@ -127,7 +127,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
                     direccionesIp.setLength(direccionesIp.length() - 1);
                 }
 
-                outFile.format("%s;%s;%s;%s;%s;%s;%s;%s;\n",
+                outFile.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;\n",
                         e.getCodigo(),
                         e.getDescripcion(),
                         e.getMarca(),
@@ -135,7 +135,8 @@ public class DAOEquipoImplFile implements DAOEquipo {
                         e.getTipoEquipo().getCodigo(),
                         e.getUbicacion().getCodigo(),
                         puertos,
-                        direccionesIp);
+                        direccionesIp,
+                        e.isEstado());
             }
         } catch (FileNotFoundException fileNotFoundException) {
             System.err.println("Error creating file.");
