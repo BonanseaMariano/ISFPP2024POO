@@ -33,7 +33,10 @@ public class LogicTest {
 
     @Test
     public void testUpdateData() {
+
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
+
+
         System.out.println("\t---- Eqipos grafo ----");
         for (Equipo equipo : logic.getGraph().vertexSet()) {
             System.out.println(equipo);
@@ -47,17 +50,19 @@ public class LogicTest {
 
     @Test
     public void testConsulta1() {
-        System.out.println("\t---- Path ----");
+
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
-        List<Conexion> path = logic.shortestPath(coordinator.getVertexMap().get("FW02"), coordinator.getVertexMap().get("SWAM"));
+
+        System.out.println("\t---- Path ----");
+        List<Conexion> path = logic.shortestPath(coordinator.getVertexMap().get("SWGR"), coordinator.getVertexMap().get("FW02"));
         System.out.println(path);
         System.out.println("Max BW :" + coordinator.maxBandwith(path));
     }
 
     @Test
     public void testConsulta2() {
-        System.out.println("\t---- Status Map ----");
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
+        System.out.println("\t---- Status Map ----");
         for (Map.Entry<Equipo, Boolean> entry : coordinator.mapStatus().entrySet()) {
             System.out.println(entry.getKey().getCodigo() + " " + entry.getValue());
         }

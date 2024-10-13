@@ -1,6 +1,8 @@
 package logic;
 
 import controller.Coordinator;
+import exceptions.CicleException;
+import exceptions.LoopException;
 import models.*;
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
@@ -42,7 +44,13 @@ public class Logic {
 
         // Add edges
         for (Conexion conexion : conexiones) {
-            addEdge(conexion);
+            try {
+                addEdge(conexion);
+            } catch (LoopException e) {
+                throw new RuntimeException(e);
+            } catch (CicleException e) {
+                throw new RuntimeException(e);
+            }
         }
     }
 
@@ -61,8 +69,16 @@ public class Logic {
      * @param conexion the edge (conexion) to be added to the graph
      */
     public void addEdge(Conexion conexion) {
+        if (conexion.getEquipo1().equals(conexion.getEquipo2())) {
+            System.out.println("No se puede agregar " + conexion + " porque los equipos son iguales");
+            return;
+        }
         graph.addEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
         graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
+        if (ciclesValidation()) {
+            deleteEdge(conexion);
+            System.out.println("No se puede agregar " + conexion + " porque se forma un ciclo");
+        }
     }
 
     /**
@@ -81,6 +97,46 @@ public class Logic {
      */
     public void deleteEdge(Conexion conexion) {
         graph.removeEdge(conexion);
+    }
+
+    /**
+     * Verifies if there is any cycle in the undirected graph.
+     *
+     * @return true if there is a cycle, false otherwise
+     */
+    private boolean ciclesValidation() {
+        Set<Equipo> visited = new HashSet<>();
+        for (Equipo equipo : graph.vertexSet()) {
+            if (!visited.contains(equipo)) {
+                if (validationDfs(equipo, null, visited)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Helper method to perform DFS and check for cycles.
+     *
+     * @param current the current node being visited
+     * @param parent  the parent node of the current node
+     * @param visited the set of visited nodes
+     * @return true if a cycle is detected, false otherwise
+     */
+    private boolean validationDfs(Equipo current, Equipo parent, Set<Equipo> visited) {
+        visited.add(current);
+        for (Conexion conexion : graph.edgesOf(current)) {
+            Equipo neighbor = Graphs.getOppositeVertex(graph, conexion, current);
+            if (!visited.contains(neighbor)) {
+                if (validationDfs(neighbor, current, visited)) {
+                    return true;
+                }
+            } else if (!neighbor.equals(parent)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     // Dado dos equipos mostrar todos los equipos intermedios y sus conexiones.
@@ -208,7 +264,7 @@ public class Logic {
         Graph<Equipo, Conexion> newGraph = new SimpleWeightedGraph<>(Conexion.class);
 
         // Utiliza un algoritmo DFS para recorrer el grafo
-        dfs(vertex, newGraph);
+        validationDfs(vertex, newGraph);
 
         for (Conexion conexion : graph.edgeSet()) {
             Equipo source = graph.getEdgeSource(conexion);
@@ -222,7 +278,7 @@ public class Logic {
         return newGraph;
     }
 
-    private void dfs(Equipo vertex, Graph<Equipo, Conexion> parteConectada) {
+    private void validationDfs(Equipo vertex, Graph<Equipo, Conexion> parteConectada) {
         // Agrega el vértice al grafo conectado
         parteConectada.addVertex(vertex);
 
@@ -231,7 +287,7 @@ public class Logic {
             // Si el vértice adyacente no ha sido visitado, agrega al grafo conectado y recorre
             if (!parteConectada.containsVertex(adjacentVertex) && adjacentVertex.isEstado()) {
                 parteConectada.addEdge(vertex, adjacentVertex);
-                dfs(adjacentVertex, parteConectada);
+                validationDfs(adjacentVertex, parteConectada);
             }
         }
     }
