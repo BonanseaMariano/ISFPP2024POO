@@ -17,6 +17,7 @@ public class Frame extends JFrame {
         initStyle();
         mainPanel = new MainPanel();
         add(mainPanel);
+        pack();
         setVisible(true);
     }
 
@@ -28,7 +29,7 @@ public class Frame extends JFrame {
     }
 
     public void visualizeGraph(List<Equipo> equipos, List<Conexion> conexiones) {
-        mainPanel.visualizeGraph(equipos, conexiones);
+        mainPanel.visualizeGraph(coordinator.getEquipos(), coordinator.getConexiones());
     }
 
     public void setCoordinator(Coordinator coordinator) {

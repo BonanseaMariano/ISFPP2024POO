@@ -5,8 +5,6 @@ import gui.Frame;
 import logic.Logic;
 import logic.Red;
 
-import static java.lang.Thread.sleep;
-
 public class GuiTest {
     Red red;
     Logic logic;
@@ -36,6 +34,8 @@ public class GuiTest {
         coordinator.setGui(frame);
 
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
+        System.out.println(coordinator.getEquipos());
+        System.out.println(coordinator.getConexiones());
         frame.visualizeGraph(coordinator.getEquipos(), coordinator.getConexiones());
     }
 
