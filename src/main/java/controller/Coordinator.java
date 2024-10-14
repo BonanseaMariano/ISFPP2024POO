@@ -2,6 +2,7 @@ package controller;
 
 import exceptions.InvalidConexionException;
 import exceptions.InvalidEquipoException;
+import gui.Frame;
 import logic.Logic;
 import logic.Red;
 import models.*;
@@ -11,6 +12,7 @@ import java.util.*;
 public class Coordinator {
     private Red red;
     private Logic logic;
+    private Frame frame;
 
     public Red getRed() {
         return red;
@@ -26,6 +28,14 @@ public class Coordinator {
 
     public void setLogic(Logic logic) {
         this.logic = logic;
+    }
+
+    public Frame getGui() {
+        return frame;
+    }
+
+    public void setGui(Frame gui) {
+        this.frame = gui;
     }
 
     public void addConnection(Conexion conexion) {
