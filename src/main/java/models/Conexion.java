@@ -61,12 +61,12 @@ public class Conexion {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (!(o instanceof Conexion conexion)) return false;
-        return Objects.equals(tipoCable, conexion.tipoCable) && Objects.equals(equipo1, conexion.equipo1) && Objects.equals(equipo2, conexion.equipo2);
+        return Objects.equals(tipoCable, conexion.tipoCable) && Objects.equals(equipo1, conexion.equipo1) && Objects.equals(puerto1, conexion.puerto1) && Objects.equals(equipo2, conexion.equipo2) && Objects.equals(puerto2, conexion.puerto2);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(tipoCable, equipo1, equipo2);
+        return Objects.hash(tipoCable, equipo1, puerto1, equipo2, puerto2);
     }
 
     @Override

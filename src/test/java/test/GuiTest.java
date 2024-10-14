@@ -4,6 +4,7 @@ import controller.Coordinator;
 import gui.Frame;
 import logic.Logic;
 import logic.Red;
+import models.Conexion;
 
 public class GuiTest {
     Red red;
@@ -34,8 +35,9 @@ public class GuiTest {
         coordinator.setGui(frame);
 
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
-        System.out.println(coordinator.getEquipos());
-        System.out.println(coordinator.getConexiones());
+        for (Conexion conexion : coordinator.getConexiones()) {
+            System.out.println(conexion.getEquipo1().getCodigo() + " -> " + conexion.getEquipo2().getCodigo());
+        }
         frame.visualizeGraph(coordinator.getEquipos(), coordinator.getConexiones());
     }
 

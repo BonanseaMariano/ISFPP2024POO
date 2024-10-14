@@ -5,6 +5,7 @@ import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 import models.Conexion;
 import models.Equipo;
+import models.TipoCable;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -12,13 +13,34 @@ import java.util.List;
 import java.util.Map;
 
 public class MainPanel extends javax.swing.JPanel {
+    private mxGraph mxGraph;
+    Map<Equipo, Object> vertexMap;
+    private static final String VERTEX_STYLE = "fontColor=white;strokeColor=black;fillColor=";
+    private static final String EDGE_STYLE = "endArrow=none;strokeColor=";
 
     /**
      * Creates new form MainJPanel
      */
     public MainPanel() {
         initComponents();
+        initMxGraphStyle();
     }
+
+    private void initMxGraphStyle() {
+        mxGraph = new mxGraph() {
+            @Override
+            public boolean isCellConnectable(Object cell) {
+                return false; // Deshabilitar la creación de nuevas aristas
+            }
+
+            @Override
+            public boolean isCellMovable(Object cell) {
+                return !getModel().isEdge(cell); // Permitir mover solo los vértices
+            }
+        };
+        vertexMap = new HashMap<>();
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -189,49 +211,75 @@ public class MainPanel extends javax.swing.JPanel {
         menuJP.add(lowerMenu);
 
         graphJP.setPreferredSize(new java.awt.Dimension(500, 600));
-
-        javax.swing.GroupLayout graphJPLayout = new javax.swing.GroupLayout(graphJP);
-        graphJP.setLayout(graphJPLayout);
-        graphJPLayout.setHorizontalGroup(
-            graphJPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 488, Short.MAX_VALUE)
-        );
-        graphJPLayout.setVerticalGroup(
-            graphJPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 0, Short.MAX_VALUE)
-        );
+        graphJP.setLayout(new java.awt.BorderLayout());
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(menuJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createSequentialGroup()
+                                .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(menuJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menuJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(menuJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void agregarEquipoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarEquipoBTActionPerformed
         // TODO add your handling code here:
+        //DEBUG
+        Equipo equipo = vertexMap.keySet().iterator().next();
+        equipo.setCodigo("Equipo Test");
+        System.out.println(equipo.getCodigo());
+        addVisualVertex(equipo);
     }//GEN-LAST:event_agregarEquipoBTActionPerformed
 
     private void modificarEquipoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarEquipoBTActionPerformed
         // TODO add your handling code here:
+        //DEBUG
+        Equipo modificado = null;
+        for (Equipo equipo : vertexMap.keySet()) {
+            if (equipo.getCodigo().equals("SW04")) {
+                modificado = equipo;
+                break;
+            }
+        }
+        modificado.setEstado(!modificado.isEstado());
+        modifyVisualVertex(modificado);
     }//GEN-LAST:event_modificarEquipoBTActionPerformed
 
     private void eliminarEquipoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarEquipoBTActionPerformed
         // TODO add your handling code here:
+        Equipo modificado = null;
+        for (Equipo equipo : vertexMap.keySet()) {
+            if (equipo.getCodigo().equals("SW04")) {
+                modificado = equipo;
+                break;
+            }
+        }
+        removeVisualVertex(modificado);
     }//GEN-LAST:event_eliminarEquipoBTActionPerformed
 
     private void agregarConexionBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarConexionBTActionPerformed
         // TODO add your handling code here:
+        //DEBUG
+        Equipo e1 = null;
+        Equipo e2 = null;
+        for (Equipo equipo : vertexMap.keySet()) {
+            if (equipo.getCodigo().equals("SWAP")) {
+                e1 = equipo;
+            }
+            if (equipo.getCodigo().equals("AP03")) {
+                e2 = equipo;
+            }
+        }
+        Conexion conexion = new Conexion(new TipoCable("T", "Cable Test", 10), e1, e1.getPuertos().getFirst().getTipoPuerto(), e2, e2.getPuertos().getFirst().getTipoPuerto());
+        addVisualEdge(conexion);
     }//GEN-LAST:event_agregarConexionBTActionPerformed
 
     private void modificarConexionBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarConexionBTActionPerformed
@@ -259,31 +307,16 @@ public class MainPanel extends javax.swing.JPanel {
     }//GEN-LAST:event_problemasBTActionPerformed
 
     protected void visualizeGraph(List<Equipo> equipos, List<Conexion> conexiones) {
-        mxGraph mxGraph = new mxGraph() {
-            @Override
-            public boolean isCellConnectable(Object cell) {
-                return false; // Deshabilitar la creación de nuevas aristas
-            }
 
-            @Override
-            public boolean isCellMovable(Object cell) {
-                return !getModel().isEdge(cell); // Permitir mover solo los vértices
-            }
-        };
         Object parent = mxGraph.getDefaultParent();
 
         mxGraph.getModel().beginUpdate();
         try {
-            Map<Equipo, Object> vertexMap = new HashMap<>();
             for (Equipo equipo : equipos) {
-                Object v = mxGraph.insertVertex(parent, null, equipo.getCodigo(), 0, 0, 40, 30);
-                vertexMap.put(equipo, v);
+                insertColoredVertex(equipo);
             }
             for (Conexion conexion : conexiones) {
-                Equipo source = conexion.getEquipo1();
-                Equipo target = conexion.getEquipo2();
-                String edgeStyle = "endArrow=none";
-                mxGraph.insertEdge(parent, null, conexion.getTipoCable().getVelocidad(), vertexMap.get(source), vertexMap.get(target), edgeStyle);
+                insertColoredEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
             }
         } finally {
             mxGraph.getModel().endUpdate();
@@ -296,12 +329,133 @@ public class MainPanel extends javax.swing.JPanel {
         graphComponent.setConnectable(false); // Deshabilitar la conexión de nuevos arcos
         graphComponent.zoomAndCenter(); // Centrar y ajustar el zoom del grafo
 
-        graphJP.setLayout(new BorderLayout()); // Asegúrate de que el LayoutManager sea BorderLayout
         graphJP.removeAll();
         graphJP.add(graphComponent, BorderLayout.CENTER);
         graphJP.revalidate();
         graphJP.repaint();
     }
+
+    public void addVisualVertex(Equipo equipo) {
+        Object parent = mxGraph.getDefaultParent();
+        mxGraph.getModel().beginUpdate();
+        try {
+            insertColoredVertex(equipo);
+        } finally {
+            mxGraph.getModel().endUpdate();
+            graphJP.repaint();
+        }
+    }
+
+    public void removeVisualVertex(Equipo equipo) {
+        Object parent = mxGraph.getDefaultParent();
+        mxGraph.getModel().beginUpdate();
+        try {
+            Object v = vertexMap.get(equipo);
+            // Remove all edges connected to the vertex
+            Object[] edges = mxGraph.getEdges(v);
+            for (Object edge : edges) {
+                mxGraph.getModel().remove(edge);
+            }
+            // Remove the vertex
+            mxGraph.getModel().remove(v);
+            vertexMap.remove(equipo);
+        } finally {
+            mxGraph.getModel().endUpdate();
+            graphJP.repaint();
+        }
+    }
+
+    public void modifyVisualVertex(Equipo equipo) {
+        Object parent = mxGraph.getDefaultParent();
+        mxGraph.getModel().beginUpdate();
+        try {
+            Object v = vertexMap.get(equipo);
+            if (equipo.isEstado()) {
+                mxGraph.getModel().setStyle(v, VERTEX_STYLE + "green");
+            } else {
+                mxGraph.getModel().setStyle(v, VERTEX_STYLE + "red");
+            }
+
+            Object[] edges = mxGraph.getEdges(v);
+            for (Object edge : edges) {
+                if (equipo.isEstado()) {
+                    mxGraph.getModel().setStyle(edge, EDGE_STYLE + "green");
+                } else {
+                    mxGraph.getModel().setStyle(edge, EDGE_STYLE + "red");
+                }
+            }
+
+            mxGraph.getModel().setValue(v, equipo.getCodigo());
+        } finally {
+            mxGraph.getModel().endUpdate();
+            graphJP.repaint();
+        }
+    }
+
+    public void addVisualEdge(Conexion conexion) {
+        Object parent = mxGraph.getDefaultParent();
+        mxGraph.getModel().beginUpdate();
+        try {
+            insertColoredEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
+        } finally {
+            mxGraph.getModel().endUpdate();
+            graphJP.repaint();
+        }
+    }
+
+    private void insertColoredVertex(Equipo equipo) {
+        Object parent = mxGraph.getDefaultParent();
+        String fillColor;
+        if (equipo.isEstado()) {
+            fillColor = "green";
+        } else {
+            fillColor = "red";
+        }
+        Object v = mxGraph.insertVertex(parent, null, equipo.getCodigo(), 0, 0, 40, 30, VERTEX_STYLE + fillColor);
+        vertexMap.put(equipo, v);
+    }
+
+    public void removeVisualEdge(Conexion conexion) {
+        Object parent = mxGraph.getDefaultParent();
+        mxGraph.getModel().beginUpdate();
+        try {
+            Equipo source = conexion.getEquipo1();
+            Equipo target = conexion.getEquipo2();
+            Object edge = mxGraph.getEdgesBetween(vertexMap.get(source), vertexMap.get(target))[0];
+            mxGraph.getModel().remove(edge);
+        } finally {
+            mxGraph.getModel().endUpdate();
+            graphJP.repaint();
+        }
+    }
+
+    public void modifyVisualEdge(Conexion conexion) {
+        Object parent = mxGraph.getDefaultParent();
+        mxGraph.getModel().beginUpdate();
+        try {
+            Equipo source = conexion.getEquipo1();
+            Equipo target = conexion.getEquipo2();
+            Object edge = mxGraph.getEdgesBetween(vertexMap.get(source), vertexMap.get(target))[0];
+            mxGraph.getModel().setValue(edge, conexion.getTipoCable().getVelocidad());
+        } finally {
+            mxGraph.getModel().endUpdate();
+            graphJP.repaint();
+        }
+    }
+
+    private void insertColoredEdge(Equipo source, Equipo target, Conexion conexion) {
+        Object parent = mxGraph.getDefaultParent();
+
+        String strokeColor;
+        if (source.isEstado() && target.isEstado()) {
+            strokeColor = "green";
+        } else {
+            strokeColor = "red";
+        }
+
+        mxGraph.insertEdge(parent, null, conexion.getTipoCable().getVelocidad(), vertexMap.get(source), vertexMap.get(target), EDGE_STYLE + strokeColor);
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarConexionBT;
