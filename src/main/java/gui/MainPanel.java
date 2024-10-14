@@ -13,10 +13,14 @@ import java.util.List;
 import java.util.Map;
 
 public class MainPanel extends javax.swing.JPanel {
-    private mxGraph mxGraph;
-    Map<Equipo, Object> vertexMap;
     private static final String VERTEX_STYLE = "fontColor=white;strokeColor=black;fillColor=";
     private static final String EDGE_STYLE = "endArrow=none;strokeColor=";
+    private static final int VERTEX_WIDTH = 40;
+    private static final int VERTEX_HEIGHT = 30;
+
+    private mxGraph mxGraph;
+    Map<Equipo, Object> vertexMap;
+
 
     /**
      * Creates new form MainJPanel
@@ -411,7 +415,7 @@ public class MainPanel extends javax.swing.JPanel {
         } else {
             fillColor = "red";
         }
-        Object v = mxGraph.insertVertex(parent, null, equipo.getCodigo(), 0, 0, 40, 30, VERTEX_STYLE + fillColor);
+        Object v = mxGraph.insertVertex(parent, null, equipo.getCodigo(), 0, 0, VERTEX_WIDTH, VERTEX_HEIGHT, VERTEX_STYLE + fillColor);
         vertexMap.put(equipo, v);
     }
 
