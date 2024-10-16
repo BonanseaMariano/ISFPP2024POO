@@ -2,6 +2,7 @@ package logic;
 
 import controller.Coordinator;
 import exceptions.CicleException;
+import exceptions.InvalidEquipoException;
 import exceptions.LoopException;
 import models.*;
 import org.jgrapht.Graph;
@@ -69,6 +70,12 @@ public class Logic {
      * @param conexion the edge (conexion) to be added to the graph
      */
     public void addEdge(Conexion conexion) {
+        if (graph.containsEdge(conexion)) {
+            throw new InvalidEquipoException("No se puede agregar la conexión porque ya existe.");
+        }
+        if (!this.graph.containsVertex(conexion.getEquipo1()) || !this.graph.containsVertex(conexion.getEquipo2())) {
+            throw new InvalidEquipoException("No se puede agregar la conexión porque " + conexion.getEquipo1().getCodigo() + " y/o " + conexion.getEquipo2().getCodigo() + " no existen en la red.");
+        }
         if (conexion.getEquipo1().equals(conexion.getEquipo2())) {
             System.out.println("No se puede agregar " + conexion + " porque los equipos son iguales");
             return;

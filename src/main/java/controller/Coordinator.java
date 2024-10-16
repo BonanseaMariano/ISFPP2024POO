@@ -40,8 +40,8 @@ public class Coordinator {
 
     public void addConnection(Conexion conexion) {
         try {
-            red.addConexion(conexion);
             logic.addEdge(conexion);
+            red.addConexion(conexion);
         } catch (InvalidConexionException e) {
             System.out.println(e.getMessage());
         }
@@ -49,8 +49,8 @@ public class Coordinator {
 
     public void deleteConnection(Conexion conexion) {
         try {
-            red.deleteConexion(conexion);
             logic.deleteEdge(conexion);
+            red.deleteConexion(conexion);
         } catch (InvalidConexionException e) {
             System.out.println(e.getMessage());
         }
@@ -63,8 +63,8 @@ public class Coordinator {
 
     public void addEquipo(Equipo equipo) {
         try {
-            red.addEquipo(equipo);
             logic.addVertex(equipo);
+            red.addEquipo(equipo);
         } catch (InvalidEquipoException e) {
             System.out.println(e.getMessage());
         }
@@ -72,8 +72,8 @@ public class Coordinator {
 
     public void deleteEquipo(Equipo equipo) {
         try {
-            red.deleteEquipo(equipo);
             logic.deleteVertex(equipo);
+            red.deleteEquipo(equipo);
         } catch (InvalidEquipoException e) {
             System.out.println(e.getMessage());
         }

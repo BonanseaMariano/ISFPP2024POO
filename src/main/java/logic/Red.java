@@ -69,12 +69,6 @@ public class Red {
      * @throws InvalidEquipoException if either of the equipos in the conexion do not exist in the network
      */
     public void addConexion(Conexion conexion) throws InvalidEquipoException {
-        if (conexiones.contains(conexion)) {
-            throw new InvalidEquipoException("No se puede agregar la conexión porque ya existe.");
-        }
-        if (!this.equipos.contains(conexion.getEquipo1()) || !this.equipos.contains(conexion.getEquipo2())) {
-            throw new InvalidEquipoException("No se puede agregar la conexión porque " + conexion.getEquipo1().getCodigo() + " y/o " + conexion.getEquipo2().getCodigo() + " no existen en la red.");
-        }
         this.conexiones.add(conexion);
         this.conexionService.insert(conexion);
     }
