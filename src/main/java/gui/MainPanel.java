@@ -1,6 +1,6 @@
 package gui;
 
-import com.mxgraph.layout.mxOrganicLayout;
+import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
 import models.Conexion;
@@ -310,76 +310,127 @@ public class MainPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_problemasBTActionPerformed
 
+    /**
+     * Visualizes the graph by adding vertices and edges, and applying a hierarchical layout.
+     *
+     * @param equipos    List of Equipo objects representing the vertices of the graph.
+     * @param conexiones List of Conexion objects representing the edges of the graph.
+     */
     protected void visualizeGraph(List<Equipo> equipos, List<Conexion> conexiones) {
 
+        // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
 
+        // Begin updating the graph model
         mxGraph.getModel().beginUpdate();
         try {
+            // Insert vertices for each Equipo object
             for (Equipo equipo : equipos) {
                 insertColoredVertex(equipo);
             }
+            // Insert edges for each Conexion object
             for (Conexion conexion : conexiones) {
                 insertColoredEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
             }
         } finally {
+            // End updating the graph model
             mxGraph.getModel().endUpdate();
         }
 
-        mxOrganicLayout layout = new mxOrganicLayout(mxGraph);
+        // Apply a hierarchical layout to the graph
+        mxHierarchicalLayout layout = new mxHierarchicalLayout(mxGraph);
         layout.execute(mxGraph.getDefaultParent());
 
+        // Create a graph component to display the graph
         mxGraphComponent graphComponent = new mxGraphComponent(mxGraph);
-        graphComponent.setConnectable(false); // Deshabilitar la conexión de nuevos arcos
-        graphComponent.zoomAndCenter(); // Centrar y ajustar el zoom del grafo
+        graphComponent.setSize(graphJP.getSize()); // Set the size of the graph component to match the panel
+        graphComponent.setConnectable(false); // Disable connecting new edges
+        graphComponent.zoomAndCenter(); // Center and zoom the graph
 
+        // Add the graph component to the panel
         graphJP.removeAll();
         graphJP.add(graphComponent, BorderLayout.CENTER);
         graphJP.revalidate();
         graphJP.repaint();
     }
 
+    /**
+     * Adds a visual representation of a vertex to the graph.
+     *
+     * @param equipo The Equipo object representing the vertex to be added.
+     */
     public void addVisualVertex(Equipo equipo) {
+        // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
+
+        // Begin updating the graph model
         mxGraph.getModel().beginUpdate();
         try {
+            // Insert the vertex with the specified color
             insertColoredVertex(equipo);
         } finally {
+            // End updating the graph model and repaint the panel
             mxGraph.getModel().endUpdate();
             graphJP.repaint();
         }
     }
 
+    /**
+     * Removes a visual representation of a vertex from the graph.
+     *
+     * @param equipo The Equipo object representing the vertex to be removed.
+     */
     public void removeVisualVertex(Equipo equipo) {
+        // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
+
+        // Begin updating the graph model
         mxGraph.getModel().beginUpdate();
         try {
+            // Get the vertex associated with the Equipo object
             Object v = vertexMap.get(equipo);
+
             // Remove all edges connected to the vertex
             Object[] edges = mxGraph.getEdges(v);
             for (Object edge : edges) {
                 mxGraph.getModel().remove(edge);
             }
-            // Remove the vertex
+
+            // Remove the vertex from the graph model
             mxGraph.getModel().remove(v);
+
+            // Remove the vertex from the vertex map
             vertexMap.remove(equipo);
         } finally {
+            // End updating the graph model and repaint the panel
             mxGraph.getModel().endUpdate();
             graphJP.repaint();
         }
     }
 
+    /**
+     * Modifies the visual representation of a vertex in the graph.
+     *
+     * @param equipo The Equipo object representing the vertex to be modified.
+     */
     public void modifyVisualVertex(Equipo equipo) {
+        // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
+
+        // Begin updating the graph model
         mxGraph.getModel().beginUpdate();
         try {
+            // Get the vertex associated with the Equipo object
             Object v = vertexMap.get(equipo);
+
+            // Set the vertex style based on the estado of the Equipo
             if (equipo.isEstado()) {
                 mxGraph.getModel().setStyle(v, VERTEX_STYLE + "green");
             } else {
                 mxGraph.getModel().setStyle(v, VERTEX_STYLE + "red");
             }
 
+            // Get all edges connected to the vertex and set their style based on the estado of the Equipo
             Object[] edges = mxGraph.getEdges(v);
             for (Object edge : edges) {
                 if (equipo.isEstado()) {
@@ -389,67 +440,128 @@ public class MainPanel extends javax.swing.JPanel {
                 }
             }
 
+            // Update the vertex value with the codigo of the Equipo
             mxGraph.getModel().setValue(v, equipo.getCodigo());
         } finally {
+            // End updating the graph model and repaint the panel
             mxGraph.getModel().endUpdate();
             graphJP.repaint();
         }
     }
 
+    /**
+     * Adds a visual representation of an edge to the graph.
+     *
+     * @param conexion The Conexion object representing the edge to be added.
+     */
     public void addVisualEdge(Conexion conexion) {
+        // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
+
+        // Begin updating the graph model
         mxGraph.getModel().beginUpdate();
         try {
+            // Insert the edge with the specified color
             insertColoredEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
         } finally {
+            // End updating the graph model and repaint the panel
             mxGraph.getModel().endUpdate();
             graphJP.repaint();
         }
     }
 
+    /**
+     * Inserts a colored vertex into the graph.
+     *
+     * @param equipo The Equipo object representing the vertex to be added.
+     */
     private void insertColoredVertex(Equipo equipo) {
+        // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
+
+        // Determine the fill color based on the estado of the Equipo
         String fillColor;
         if (equipo.isEstado()) {
             fillColor = "green";
         } else {
             fillColor = "red";
         }
+
+        // Insert the vertex with the specified color and dimensions
         Object v = mxGraph.insertVertex(parent, null, equipo.getCodigo(), 0, 0, VERTEX_WIDTH, VERTEX_HEIGHT, VERTEX_STYLE + fillColor);
+
+        // Map the Equipo object to the inserted vertex
         vertexMap.put(equipo, v);
     }
 
+    /**
+     * Removes a visual representation of an edge from the graph.
+     *
+     * @param conexion The Conexion object representing the edge to be removed.
+     */
     public void removeVisualEdge(Conexion conexion) {
+        // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
+
+        // Begin updating the graph model
         mxGraph.getModel().beginUpdate();
         try {
+            // Get the source and target vertices associated with the Conexion object
             Equipo source = conexion.getEquipo1();
             Equipo target = conexion.getEquipo2();
+
+            // Get the edge between the source and target vertices
             Object edge = mxGraph.getEdgesBetween(vertexMap.get(source), vertexMap.get(target))[0];
+
+            // Remove the edge from the graph model
             mxGraph.getModel().remove(edge);
         } finally {
+            // End updating the graph model and repaint the panel
             mxGraph.getModel().endUpdate();
             graphJP.repaint();
         }
     }
 
+    /**
+     * Modifies the visual representation of an edge in the graph.
+     *
+     * @param conexion The Conexion object representing the edge to be modified.
+     */
     public void modifyVisualEdge(Conexion conexion) {
+        // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
+
+        // Begin updating the graph model
         mxGraph.getModel().beginUpdate();
         try {
+            // Get the source and target vertices associated with the Conexion object
             Equipo source = conexion.getEquipo1();
             Equipo target = conexion.getEquipo2();
+
+            // Get the edge between the source and target vertices
             Object edge = mxGraph.getEdgesBetween(vertexMap.get(source), vertexMap.get(target))[0];
+
+            // Update the edge value with the velocidad of the TipoCable
             mxGraph.getModel().setValue(edge, conexion.getTipoCable().getVelocidad());
         } finally {
+            // End updating the graph model and repaint the panel
             mxGraph.getModel().endUpdate();
             graphJP.repaint();
         }
     }
 
+    /**
+     * Inserts a colored edge into the graph.
+     *
+     * @param source   The source Equipo object representing the starting vertex of the edge.
+     * @param target   The target Equipo object representing the ending vertex of the edge.
+     * @param conexion The Conexion object representing the edge to be added.
+     */
     private void insertColoredEdge(Equipo source, Equipo target, Conexion conexion) {
+        // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
 
+        // Determine the stroke color based on the estado of the source and target Equipos
         String strokeColor;
         if (source.isEstado() && target.isEstado()) {
             strokeColor = "green";
@@ -457,6 +569,7 @@ public class MainPanel extends javax.swing.JPanel {
             strokeColor = "red";
         }
 
+        // Insert the edge with the specified color and velocidad
         mxGraph.insertEdge(parent, null, conexion.getTipoCable().getVelocidad(), vertexMap.get(source), vertexMap.get(target), EDGE_STYLE + strokeColor);
     }
 
