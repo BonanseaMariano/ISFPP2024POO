@@ -1,7 +1,9 @@
 package controller;
 
+import exceptions.CicleException;
 import exceptions.InvalidConexionException;
 import exceptions.InvalidEquipoException;
+import exceptions.LoopException;
 import gui.Frame;
 import logic.Logic;
 import logic.Red;
@@ -42,7 +44,7 @@ public class Coordinator {
         try {
             logic.addEdge(conexion);
             red.addConexion(conexion);
-        } catch (InvalidConexionException e) {
+        } catch (InvalidConexionException | LoopException | CicleException e) {
             System.out.println(e.getMessage());
         }
     }

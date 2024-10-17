@@ -45,13 +45,7 @@ public class Logic {
 
         // Add edges
         for (Conexion conexion : conexiones) {
-            try {
-                addEdge(conexion);
-            } catch (LoopException e) {
-                throw new RuntimeException(e);
-            } catch (CicleException e) {
-                throw new RuntimeException(e);
-            }
+            addEdge(conexion);
         }
     }
 
@@ -69,7 +63,7 @@ public class Logic {
      *
      * @param conexion the edge (conexion) to be added to the graph
      */
-    public void addEdge(Conexion conexion) {
+    public void addEdge(Conexion conexion) throws InvalidEquipoException, LoopException, CicleException {
         if (graph.containsEdge(conexion)) {
             throw new InvalidEquipoException("No se puede agregar la conexión porque ya existe.");
         }
@@ -77,14 +71,13 @@ public class Logic {
             throw new InvalidEquipoException("No se puede agregar la conexión porque " + conexion.getEquipo1().getCodigo() + " y/o " + conexion.getEquipo2().getCodigo() + " no existen en la red.");
         }
         if (conexion.getEquipo1().equals(conexion.getEquipo2())) {
-            System.out.println("No se puede agregar " + conexion + " porque los equipos son iguales");
-            return;
+            throw new LoopException("No se puede agregar " + conexion + " porque los equipos son iguales");
         }
         graph.addEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
         graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
         if (ciclesValidation()) {
             deleteEdge(conexion);
-            System.out.println("No se puede agregar " + conexion + " porque se forma un ciclo");
+            throw new CicleException("No se puede agregar " + conexion + " porque se forma un ciclo");
         }
     }
 
