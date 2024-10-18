@@ -16,17 +16,39 @@ import java.util.concurrent.ConcurrentHashMap;
 
 public class Logic {
     private Coordinator coordinator;
+    /**
+     * A graph representing the network of equipos (devices) and conexiones (connections).
+     * The vertices are Equipo objects and the edges are Conexion objects.
+     */
     private Graph<Equipo, Conexion> graph;
+    /**
+     * A map that stores the equipos (devices) in the network.
+     * The keys are strings representing the device identifiers,
+     * and the values are Equipo objects representing the devices.
+     */
+    private Map<String, Equipo> equipos;
+    /**
+     * A map that stores the connections (conexiones) in the network.
+     * The keys are strings representing the connection identifiers,
+     * and the values are Conexion objects representing the connections.
+     */
+    private Map<String, Conexion> conexiones;
 
 
     public Logic() {
         graph = new SimpleWeightedGraph<>(Conexion.class);
+        equipos = new ConcurrentHashMap<>();
+        conexiones = new ConcurrentHashMap<>();
     }
 
+    /**
+     * Retrieves the graph representing the network of equipos (devices) and conexiones (connections).
+     *
+     * @return the graph representing the network
+     */
     public Graph<Equipo, Conexion> getGraph() {
         return graph;
     }
-
 
     /**
      * Updates the graph data with the provided lists of equipos (vertices) and conexiones (edges).
@@ -57,6 +79,7 @@ public class Logic {
      */
     public void addVertex(Equipo equipo) {
         graph.addVertex(equipo);
+        equipos.put(equipo.getCodigo(), equipo);
     }
 
     /**
@@ -65,19 +88,16 @@ public class Logic {
      * @param conexion the edge (conexion) to be added to the graph
      */
     public void addEdge(Conexion conexion) throws InvalidEquipoException, LoopException, CicleException {
-        System.out.println(conexion);
         if (graph.containsEdge(conexion)) {
             throw new InvalidEquipoException("No se puede agregar la conexión porque ya existe.");
         }
         if (!this.graph.containsVertex(conexion.getEquipo1()) || !this.graph.containsVertex(conexion.getEquipo2())) {
-            System.out.println(this.graph.containsVertex(conexion.getEquipo1()) );
-            System.out.println(this.graph.containsVertex(conexion.getEquipo2()) );
             throw new InvalidEquipoException("No se puede agregar la conexión porque " + conexion.getEquipo1().getCodigo() + " y/o " + conexion.getEquipo2().getCodigo() + " no existen en la red.");
         }
         if (conexion.getEquipo1().equals(conexion.getEquipo2())) {
             throw new LoopException("No se puede agregar " + conexion + " porque los equipos son iguales");
         }
-        if(!availablePorts(conexion.getEquipo1()) || !availablePorts(conexion.getEquipo2())){
+        if (!availablePorts(conexion.getEquipo1()) || !availablePorts(conexion.getEquipo2())) {
             throw new InvalidConexionException("No se puede agregar " + conexion + " porque no hay puerto disponible");
         }
         graph.addEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
@@ -86,6 +106,7 @@ public class Logic {
             deleteEdge(conexion);
             throw new CicleException("No se puede agregar " + conexion + " porque se forma un ciclo");
         }
+        conexiones.put(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
     }
 
     /**
@@ -95,6 +116,7 @@ public class Logic {
      */
     public void deleteVertex(Equipo equipo) {
         graph.removeVertex(equipo);
+        equipos.remove(equipo.getCodigo());
     }
 
     /**
@@ -104,6 +126,7 @@ public class Logic {
      */
     public void deleteEdge(Conexion conexion) {
         graph.removeEdge(conexion);
+        conexiones.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
     }
 
     /**
@@ -146,9 +169,6 @@ public class Logic {
         return false;
     }
 
-    // Dado dos equipos mostrar todos los equipos intermedios y sus conexiones.
-    // Calcular la velocidad máxima de acuerdo al tipo de puerto y cables por donde se transmiten los datos.
-
     /**
      * Finds the shortest path between two given nodes (equipos) in the graph.
      *
@@ -186,8 +206,6 @@ public class Logic {
         return maxBW;
     }
 
-    // Realizar un ping a un equipo.
-
     /**
      * Pings a given IP address to check if it is active.
      *
@@ -205,8 +223,6 @@ public class Logic {
         return false;
     }
 
-    // Realizar un ping a un rango de IP.
-
     /**
      * Pings a range of IP addresses to check if they are active.
      *
@@ -221,8 +237,6 @@ public class Logic {
         return results;
     }
 
-    // Realizar un mapa del estado actual de los equipos conectados a la red.
-
     /**
      * Creates a map of the current status of all equipos (devices) connected to the network.
      *
@@ -235,8 +249,6 @@ public class Logic {
         }
         return status;
     }
-
-    //TODO: 3.3 Detectar problemas de conectividad, por ejemplo un usuario de una computadora no puede navegar en Internet. Detectar hasta que parte de la red puede acceder y donde pierde la conectividad.
 
     /**
      * Creates a copy of the graph, removing vertices and edges where isEstado() == false.
@@ -266,13 +278,22 @@ public class Logic {
         return newGraph;
     }
 
+    /**
+     * Retrieves the connected part of the network starting from a given vertex.
+     * This method creates a new graph containing only the vertices and edges
+     * that are reachable from the specified vertex using a Depth-First Search (DFS) approach.
+     *
+     * @param vertex the starting vertex from which the connected part is determined
+     * @return a new graph containing the connected part of the network
+     */
     public Graph<Equipo, Conexion> getConnectedPart(Equipo vertex) {
-        // Crea un nuevo grafo para almacenar la parte conectada
+        // Create a new graph to store the connected part
         Graph<Equipo, Conexion> newGraph = new SimpleWeightedGraph<>(Conexion.class);
 
-        // Utiliza un algoritmo DFS para recorrer el grafo
+        // Use a DFS algorithm to traverse the graph
         validationDfs(vertex, newGraph);
 
+        // Add edges to the new graph where both vertices are present in the new graph
         for (Conexion conexion : graph.edgeSet()) {
             Equipo source = graph.getEdgeSource(conexion);
             Equipo target = graph.getEdgeTarget(conexion);
@@ -285,13 +306,20 @@ public class Logic {
         return newGraph;
     }
 
+    /**
+     * Performs a Depth-First Search (DFS) to find and add all reachable vertices
+     * from the given starting vertex to the connected subgraph.
+     *
+     * @param vertex         the starting vertex for the DFS traversal
+     * @param parteConectada the graph that will store the connected subgraph
+     */
     private void validationDfs(Equipo vertex, Graph<Equipo, Conexion> parteConectada) {
-        // Agrega el vértice al grafo conectado
+        // Add the vertex to the connected subgraph
         parteConectada.addVertex(vertex);
 
-        // Recorre los vértices adyacentes
+        // Iterate through adjacent vertices
         for (Equipo adjacentVertex : Graphs.neighborListOf(graph, vertex)) {
-            // Si el vértice adyacente no ha sido visitado, agrega al grafo conectado y recorre
+            // If the adjacent vertex has not been visited, add it to the connected subgraph and continue DFS
             if (!parteConectada.containsVertex(adjacentVertex) && adjacentVertex.isEstado()) {
                 parteConectada.addEdge(vertex, adjacentVertex);
                 validationDfs(adjacentVertex, parteConectada);
@@ -299,14 +327,35 @@ public class Logic {
         }
     }
 
+    /**
+     * Sets the coordinator for the logic.
+     *
+     * @param coordinator the Coordinator object to be set
+     */
     public void setCoordinator(Coordinator coordinator) {
         this.coordinator = coordinator;
     }
 
+    /**
+     * Checks if the given equipo (device) has available ports.
+     * This method compares the number of edges connected to the equipo
+     * with the total number of ports available on the equipo.
+     *
+     * @param equipo the equipo (device) to check for available ports
+     * @return true if the number of connected edges is less than or equal to the number of available ports, false otherwise
+     */
     public boolean availablePorts(Equipo equipo) {
         return edgeLength(equipo) <= equipo.getCantidadPuertos();
     }
 
+    /**
+     * Calculates the number of edges connected to a given vertex (equipo).
+     * This method iterates through all edges in the graph and counts how many
+     * are connected to the specified vertex.
+     *
+     * @param vertice the vertex (equipo) for which the edge count is calculated
+     * @return the number of edges connected to the specified vertex
+     */
     private int edgeLength(Equipo vertice) {
         int edgeLength = 0;
         for (Conexion c : graph.edgeSet()) {
