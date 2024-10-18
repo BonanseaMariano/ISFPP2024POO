@@ -2,6 +2,7 @@ package logic;
 
 import controller.Coordinator;
 import exceptions.CicleException;
+import exceptions.InvalidConexionException;
 import exceptions.InvalidEquipoException;
 import exceptions.LoopException;
 import models.*;
@@ -64,14 +65,20 @@ public class Logic {
      * @param conexion the edge (conexion) to be added to the graph
      */
     public void addEdge(Conexion conexion) throws InvalidEquipoException, LoopException, CicleException {
+        System.out.println(conexion);
         if (graph.containsEdge(conexion)) {
             throw new InvalidEquipoException("No se puede agregar la conexión porque ya existe.");
         }
         if (!this.graph.containsVertex(conexion.getEquipo1()) || !this.graph.containsVertex(conexion.getEquipo2())) {
+            System.out.println(this.graph.containsVertex(conexion.getEquipo1()) );
+            System.out.println(this.graph.containsVertex(conexion.getEquipo2()) );
             throw new InvalidEquipoException("No se puede agregar la conexión porque " + conexion.getEquipo1().getCodigo() + " y/o " + conexion.getEquipo2().getCodigo() + " no existen en la red.");
         }
         if (conexion.getEquipo1().equals(conexion.getEquipo2())) {
             throw new LoopException("No se puede agregar " + conexion + " porque los equipos son iguales");
+        }
+        if(!availablePorts(conexion.getEquipo1()) || !availablePorts(conexion.getEquipo2())){
+            throw new InvalidConexionException("No se puede agregar " + conexion + " porque no hay puerto disponible");
         }
         graph.addEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
         graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
@@ -295,4 +302,19 @@ public class Logic {
     public void setCoordinator(Coordinator coordinator) {
         this.coordinator = coordinator;
     }
+
+    public boolean availablePorts(Equipo equipo) {
+        return edgeLength(equipo) <= equipo.getCantidadPuertos();
+    }
+
+    private int edgeLength(Equipo vertice) {
+        int edgeLength = 0;
+        for (Conexion c : graph.edgeSet()) {
+            if (c.getEquipo1().equals(vertice) || c.getEquipo2().equals(vertice)) {
+                edgeLength++;
+            }
+        }
+        return edgeLength;
+    }
+
 }

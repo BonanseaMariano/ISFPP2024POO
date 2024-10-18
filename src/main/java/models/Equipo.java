@@ -43,6 +43,14 @@ public class Equipo {
         direccionesIp.add(direccionIp);
     }
 
+    public int getCantidadPuertos(){
+        int cantPuertos = 0;
+        for(Puerto p : puertos){
+            cantPuertos +=p.getCantidad();
+        }
+        return cantPuertos;
+    }
+
     public String getCodigo() {
         return codigo;
     }
