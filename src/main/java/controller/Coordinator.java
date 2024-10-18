@@ -4,7 +4,7 @@ import exceptions.CicleException;
 import exceptions.InvalidConexionException;
 import exceptions.InvalidEquipoException;
 import exceptions.LoopException;
-import gui.Frame;
+import gui.Gui;
 import logic.Logic;
 import logic.Red;
 import models.*;
@@ -14,7 +14,7 @@ import java.util.*;
 public class Coordinator {
     private Red red;
     private Logic logic;
-    private Frame frame;
+    private Gui gui;
 
     public Red getRed() {
         return red;
@@ -32,12 +32,12 @@ public class Coordinator {
         this.logic = logic;
     }
 
-    public Frame getGui() {
-        return frame;
+    public Gui getGui() {
+        return gui;
     }
 
-    public void setGui(Frame gui) {
-        this.frame = gui;
+    public void setGui(Gui gui) {
+        this.gui = gui;
     }
 
     public void addConnection(Conexion conexion) {

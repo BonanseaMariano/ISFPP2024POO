@@ -3,6 +3,7 @@ package gui;
 import com.mxgraph.layout.hierarchical.mxHierarchicalLayout;
 import com.mxgraph.swing.mxGraphComponent;
 import com.mxgraph.view.mxGraph;
+import controller.Coordinator;
 import models.Conexion;
 import models.Equipo;
 import models.TipoCable;
@@ -12,37 +13,29 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class MainPanel extends javax.swing.JPanel {
+public class Gui extends javax.swing.JFrame {
+    private Coordinator coordinator;
+    private LoadEquipoDialog loadEquipoDialog;
     private static final String VERTEX_STYLE = "fontColor=white;strokeColor=black;fillColor=";
     private static final String EDGE_STYLE = "endArrow=none;strokeColor=";
     private static final int VERTEX_WIDTH = 40;
     private static final int VERTEX_HEIGHT = 30;
 
-    private mxGraph mxGraph;
+    private com.mxgraph.view.mxGraph mxGraph;
     Map<Equipo, Object> vertexMap;
 
-
     /**
-     * Creates new form MainJPanel
+     * Creates new form Gui
      */
-    public MainPanel() {
+    public Gui() {
+        this.loadEquipoDialog = new LoadEquipoDialog(this);
         initComponents();
+        initStyles();
         initMxGraphStyle();
     }
 
-    private void initMxGraphStyle() {
-        mxGraph = new mxGraph() {
-            @Override
-            public boolean isCellConnectable(Object cell) {
-                return false; // Deshabilitar la creación de nuevas aristas
-            }
-
-            @Override
-            public boolean isCellMovable(Object cell) {
-                return !getModel().isEdge(cell); // Permitir mover solo los vértices
-            }
-        };
-        vertexMap = new HashMap<>();
+    private void initStyles() {
+        this.setLocationRelativeTo(null);
     }
 
 
@@ -55,6 +48,7 @@ public class MainPanel extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
         menuJP = new javax.swing.JPanel();
         upperMenu = new javax.swing.JPanel();
         titleLB = new javax.swing.JLabel();
@@ -77,7 +71,10 @@ public class MainPanel extends javax.swing.JPanel {
         problemasBT = new javax.swing.JButton();
         graphJP = new javax.swing.JPanel();
 
-        setPreferredSize(new java.awt.Dimension(800, 600));
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Red Lan");
+
+        jPanel1.setPreferredSize(new java.awt.Dimension(800, 600));
 
         menuJP.setMinimumSize(new java.awt.Dimension(0, 400));
         menuJP.setPreferredSize(new java.awt.Dimension(300, 600));
@@ -217,30 +214,50 @@ public class MainPanel extends javax.swing.JPanel {
         graphJP.setPreferredSize(new java.awt.Dimension(500, 600));
         graphJP.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(layout.createSequentialGroup()
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(menuJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(6, 6, 6))
         );
-        layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+        jPanel1Layout.setVerticalGroup(
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(menuJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 800, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(0, 0, 0)))
+        );
+        layout.setVerticalGroup(
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 600, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, 0)
+                                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(0, 0, 0)))
+        );
+
+        pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void agregarEquipoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarEquipoBTActionPerformed
         // TODO add your handling code here:
         //DEBUG
-        Equipo equipo = vertexMap.keySet().iterator().next();
-        equipo.setCodigo("Equipo Test");
-        System.out.println(equipo.getCodigo());
-        addVisualVertex(equipo);
+        loadEquipoDialog.setVisible(true);
     }//GEN-LAST:event_agregarEquipoBTActionPerformed
 
     private void modificarEquipoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarEquipoBTActionPerformed
@@ -310,13 +327,28 @@ public class MainPanel extends javax.swing.JPanel {
         // TODO add your handling code here:
     }//GEN-LAST:event_problemasBTActionPerformed
 
+    private void initMxGraphStyle() {
+        mxGraph = new mxGraph() {
+            @Override
+            public boolean isCellConnectable(Object cell) {
+                return false; // Deshabilitar la creación de nuevas aristas
+            }
+
+            @Override
+            public boolean isCellMovable(Object cell) {
+                return !getModel().isEdge(cell); // Permitir mover solo los vértices
+            }
+        };
+        vertexMap = new HashMap<>();
+    }
+
     /**
      * Visualizes the graph by adding vertices and edges, and applying a hierarchical layout.
      *
      * @param equipos    List of Equipo objects representing the vertices of the graph.
      * @param conexiones List of Conexion objects representing the edges of the graph.
      */
-    protected void visualizeGraph(List<Equipo> equipos, List<Conexion> conexiones) {
+    public void visualizeGraph(List<Equipo> equipos, List<Conexion> conexiones) {
 
         // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
@@ -573,6 +605,23 @@ public class MainPanel extends javax.swing.JPanel {
         mxGraph.insertEdge(parent, null, conexion.getTipoCable().getVelocidad(), vertexMap.get(source), vertexMap.get(target), EDGE_STYLE + strokeColor);
     }
 
+    public void setCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
+        loadEquipoDialog.setCoordinator(coordinator);
+    }
+
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new Gui().setVisible(true);
+            }
+        });
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton agregarConexionBT;
@@ -586,6 +635,7 @@ public class MainPanel extends javax.swing.JPanel {
     private javax.swing.JPanel graphJP;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel lowerMenu;
     private javax.swing.JPanel menuJP;
     private javax.swing.JButton modificarConexionBT;
