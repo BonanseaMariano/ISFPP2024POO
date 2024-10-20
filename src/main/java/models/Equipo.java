@@ -43,10 +43,10 @@ public class Equipo {
         direccionesIp.add(direccionIp);
     }
 
-    public int getCantidadPuertos(){
+    public int getCantidadPuertos() {
         int cantPuertos = 0;
-        for(Puerto p : puertos){
-            cantPuertos +=p.getCantidad();
+        for (Puerto p : puertos) {
+            cantPuertos += p.getCantidad();
         }
         return cantPuertos;
     }
@@ -111,8 +111,16 @@ public class Equipo {
         return direccionesIp;
     }
 
+    public void setDireccionesIp(List<String> direccionesIp) {
+        this.direccionesIp = direccionesIp;
+    }
+
     public List<Puerto> getPuertos() {
         return puertos;
+    }
+
+    public void setPuertos(List<Puerto> puertos) {
+        this.puertos = puertos;
     }
 
     @Override

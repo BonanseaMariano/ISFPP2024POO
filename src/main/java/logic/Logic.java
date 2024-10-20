@@ -1,10 +1,7 @@
 package logic;
 
 import controller.Coordinator;
-import exceptions.CicleException;
-import exceptions.InvalidConexionException;
-import exceptions.InvalidEquipoException;
-import exceptions.LoopException;
+import exceptions.*;
 import models.*;
 import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
@@ -14,7 +11,15 @@ import org.jgrapht.graph.SimpleWeightedGraph;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
 
+/**
+ * The Logic class is responsible for managing the network of equipos (devices) and conexiones (connections).
+ * It provides methods to manipulate the graph, such as adding, modifying, and deleting vertices and edges,
+ * as well as performing various network operations like finding the shortest path and checking for cycles.
+ */
 public class Logic {
+    /**
+     * The coordinator responsible for managing the logic operations.
+     */
     private Coordinator coordinator;
     /**
      * A graph representing the network of equipos (devices) and conexiones (connections).
@@ -26,19 +31,18 @@ public class Logic {
      * The keys are strings representing the device identifiers,
      * and the values are Equipo objects representing the devices.
      */
-    private Map<String, Equipo> equipos;
+    private Map<String, Equipo> equiposMap;
     /**
      * A map that stores the connections (conexiones) in the network.
      * The keys are strings representing the connection identifiers,
      * and the values are Conexion objects representing the connections.
      */
-    private Map<String, Conexion> conexiones;
-
+    private Map<String, Conexion> conexionesMap;
 
     public Logic() {
         graph = new SimpleWeightedGraph<>(Conexion.class);
-        equipos = new ConcurrentHashMap<>();
-        conexiones = new ConcurrentHashMap<>();
+        equiposMap = new ConcurrentHashMap<>();
+        conexionesMap = new ConcurrentHashMap<>();
     }
 
     /**
@@ -48,6 +52,35 @@ public class Logic {
      */
     public Graph<Equipo, Conexion> getGraph() {
         return graph;
+    }
+
+    /**
+     * Sets the coordinator for the logic.
+     *
+     * @param coordinator the Coordinator object to be set
+     */
+    public void setCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
+    }
+
+    /**
+     * Retrieves the map of equipos (devices) in the network.
+     *
+     * @return a map where the keys are strings representing the device identifiers,
+     * and the values are Equipo objects representing the devices
+     */
+    public Map<String, Equipo> getEquiposMap() {
+        return equiposMap;
+    }
+
+    /**
+     * Retrieves the map of conexiones (connections) in the network.
+     *
+     * @return a map where the keys are strings representing the connection identifiers,
+     * and the values are Conexion objects representing the connections
+     */
+    public Map<String, Conexion> getConexionesMap() {
+        return conexionesMap;
     }
 
     /**
@@ -79,54 +112,150 @@ public class Logic {
      */
     public void addVertex(Equipo equipo) {
         graph.addVertex(equipo);
-        equipos.put(equipo.getCodigo(), equipo);
+        equiposMap.put(equipo.getCodigo(), equipo);
     }
 
     /**
-     * Adds an edge (conexion) to the graph and sets its weight based on the cable type's speed.
+     * Modifies the properties of an existing vertex (equipo) in the graph.
+     * <p>
+     * This method updates the properties of the specified equipo in the equipos map and the graph.
+     * The graph structure remains unchanged, so the edges (conexiones) associated with the equipo are not affected.
      *
-     * @param conexion the edge (conexion) to be added to the graph
+     * @param equipo the vertex (equipo) with updated properties
+     * @throws InvalidEquipoException if the equipo does not exist in the graph
      */
-    public void addEdge(Conexion conexion) throws InvalidEquipoException, LoopException, CicleException {
-        if (graph.containsEdge(conexion)) {
-            throw new InvalidEquipoException("No se puede agregar la conexión porque ya existe.");
+    public void modifyVertex(Equipo equipo) throws InvalidEquipoException {
+        if (equiposMap.containsKey(equipo.getCodigo())) {
+            Equipo existingEquipo = equiposMap.get(equipo.getCodigo());
+            // Update properties of the existing equipo in the map
+            existingEquipo.setCodigo(equipo.getCodigo());
+            existingEquipo.setDescripcion(equipo.getDescripcion());
+            existingEquipo.setMarca(equipo.getMarca());
+            existingEquipo.setModelo(equipo.getModelo());
+            existingEquipo.setUbicacion(equipo.getUbicacion());
+            existingEquipo.setPuertos(equipo.getPuertos());
+            existingEquipo.setDireccionesIp(equipo.getDireccionesIp());
+            existingEquipo.setEstado(equipo.isEstado());
+
+            // Update the equipo in the graph
+            for (Equipo vertex : graph.vertexSet()) {
+                if (vertex.equals(existingEquipo)) {
+                    vertex.setCodigo(equipo.getCodigo());
+                    vertex.setDescripcion(equipo.getDescripcion());
+                    vertex.setMarca(equipo.getMarca());
+                    vertex.setModelo(equipo.getModelo());
+                    vertex.setUbicacion(equipo.getUbicacion());
+                    vertex.setPuertos(equipo.getPuertos());
+                    vertex.setDireccionesIp(equipo.getDireccionesIp());
+                    vertex.setEstado(equipo.isEstado());
+                    // Add any other properties that need to be updated
+                    break;
+                }
+            }
+        } else {
+            throw new InvalidEquipoException("No se puede modificar el equipo porque no existe");
         }
-        if (!this.graph.containsVertex(conexion.getEquipo1()) || !this.graph.containsVertex(conexion.getEquipo2())) {
-            throw new InvalidEquipoException("No se puede agregar la conexión porque " + conexion.getEquipo1().getCodigo() + " y/o " + conexion.getEquipo2().getCodigo() + " no existen en la red.");
+    }
+
+    /**
+     * Deletes a vertex (equipo) from the graph.
+     * <p>
+     * This method removes the specified equipo from the graph and also removes all
+     * associated edges (conexiones) connected to the equipo. Additionally, it removes
+     * the equipo from the equipos map.
+     *
+     * @param equipo the vertex (equipo) to be removed from the graph
+     * @throws InvalidEquipoException if the equipo does not exist in the graph
+     */
+    public void deleteVertex(Equipo equipo) throws InvalidEquipoException {
+        if (graph.removeVertex(equipo)) {
+            equiposMap.remove(equipo.getCodigo());
+        } else {
+            throw new InvalidEquipoException("No se puede eliminar el equipo porque no existe");
         }
+    }
+
+    /**
+     * Validates the given connection (conexion) for loops and available ports.
+     *
+     * @param conexion the connection to be validated
+     * @throws LoopException             if the connection forms a loop (i.e., both equipos are the same)
+     * @throws NoAvailablePortsException if there are no available ports on either of the equipos
+     */
+    private void edgeValidation(Conexion conexion) throws LoopException, NoAvailablePortsException {
         if (conexion.getEquipo1().equals(conexion.getEquipo2())) {
-            throw new LoopException("No se puede agregar " + conexion + " porque los equipos son iguales");
+            throw new LoopException("No se puede agregar la conexion porque los equipos son iguales");
         }
         if (!availablePorts(conexion.getEquipo1()) || !availablePorts(conexion.getEquipo2())) {
-            throw new InvalidConexionException("No se puede agregar " + conexion + " porque no hay puerto disponible");
+            throw new NoAvailablePortsException("No se puede agregar la conexion porque no hay puertos disponibles en alguno de los dos equipos");
         }
+    }
+
+    /**
+     * Adds an edge (conexion) to the graph.
+     * <p>
+     * This method first checks if the edge already exists in the graph. If it does, an InvalidConexionException is thrown.
+     * It then validates the edge for loops, cycles, and available ports. If the edge passes validation, it is added to the graph,
+     * and its weight is set based on the type of cable. If adding the edge forms a cycle, the edge is removed, and a CicleException is thrown.
+     * Finally, the edge is added to the conexiones map.
+     *
+     * @param conexion the edge (conexion) to be added to the graph
+     * @throws InvalidConexionException  if the edge already exists in the graph
+     * @throws LoopException             if the edge forms a loop (i.e., both equipos are the same)
+     * @throws CicleException            if the edge forms a cycle in the graph
+     * @throws NoAvailablePortsException if there are no available ports on either of the equipos
+     */
+    public void addEdge(Conexion conexion) throws InvalidConexionException, LoopException, CicleException, NoAvailablePortsException {
+        if (graph.containsEdge(conexion)) {
+            throw new InvalidConexionException("No se puede agregar la conexión porque ya existe");
+        }
+        edgeValidation(conexion);
         graph.addEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
         graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
         if (ciclesValidation()) {
             deleteEdge(conexion);
             throw new CicleException("No se puede agregar " + conexion + " porque se forma un ciclo");
         }
-        conexiones.put(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
+        conexionesMap.put(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
     }
 
     /**
-     * Removes a vertex (equipo) from the graph.
+     * Modifies an existing edge (conexion) in the graph.
+     * <p>
+     * This method first attempts to remove the specified edge from the graph.
+     * If the edge is successfully removed, it then adds the modified edge back to the graph.
+     * If the edge does not exist in the graph, an InvalidConexionException is thrown.
      *
-     * @param equipo the vertex (equipo) to be removed from the graph
+     * @param conexion the edge (conexion) to be modified in the graph
+     * @throws InvalidConexionException  if the edge does not exist in the graph
+     * @throws LoopException             if the edge forms a loop (i.e., both equipos are the same)
+     * @throws CicleException            if the edge forms a cycle in the graph
+     * @throws NoAvailablePortsException if there are no available ports on either of the equipos
      */
-    public void deleteVertex(Equipo equipo) {
-        graph.removeVertex(equipo);
-        equipos.remove(equipo.getCodigo());
+    public void modifyEdge(Conexion conexion) throws InvalidConexionException, LoopException, CicleException, NoAvailablePortsException {
+        if (graph.removeEdge(conexion)) {
+            addEdge(conexion);
+        } else {
+            throw new InvalidConexionException("No se puede modificar la conexión porque no existe");
+        }
     }
 
     /**
-     * Removes an edge (conexion) from the graph.
+     * Deletes an edge (conexion) from the graph.
+     * <p>
+     * This method removes the specified conexion from the graph and also removes
+     * the conexion from the conexiones map. If the conexion does not exist in the graph,
+     * an InvalidConexionException is thrown.
      *
      * @param conexion the edge (conexion) to be removed from the graph
+     * @throws InvalidConexionException if the conexion does not exist in the graph
      */
-    public void deleteEdge(Conexion conexion) {
-        graph.removeEdge(conexion);
-        conexiones.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
+    public void deleteEdge(Conexion conexion) throws InvalidConexionException {
+        if (graph.removeEdge(conexion)) {
+            conexionesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
+        } else {
+            throw new InvalidConexionException("No se puede eliminar la conexión porque no existe");
+        }
     }
 
     /**
@@ -328,15 +457,6 @@ public class Logic {
     }
 
     /**
-     * Sets the coordinator for the logic.
-     *
-     * @param coordinator the Coordinator object to be set
-     */
-    public void setCoordinator(Coordinator coordinator) {
-        this.coordinator = coordinator;
-    }
-
-    /**
      * Checks if the given equipo (device) has available ports.
      * This method compares the number of edges connected to the equipo
      * with the total number of ports available on the equipo.
@@ -344,8 +464,8 @@ public class Logic {
      * @param equipo the equipo (device) to check for available ports
      * @return true if the number of connected edges is less than or equal to the number of available ports, false otherwise
      */
-    public boolean availablePorts(Equipo equipo) {
-        return edgeLength(equipo) <= equipo.getCantidadPuertos();
+    private boolean availablePorts(Equipo equipo) {
+        return edgeLength(equipo) < equipo.getCantidadPuertos();
     }
 
     /**
