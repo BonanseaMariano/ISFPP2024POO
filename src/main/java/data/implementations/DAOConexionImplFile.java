@@ -65,7 +65,7 @@ public class DAOConexionImplFile implements DAOConexion {
         try {
             outFile = new Formatter(file);
             for (Conexion e : list) {
-                outFile.format("%s;%s;%s;%s;%s;\n", e.getEquipo1().getCodigo(), e.getPuerto1(), e.getEquipo2().getCodigo(), e.getPuerto2(), e.getTipoCable());
+                outFile.format("%s;%s;%s;%s;%s;\n", e.getEquipo1().getCodigo(), e.getPuerto1().getCodigo(), e.getEquipo2().getCodigo(), e.getPuerto2().getCodigo(), e.getTipoCable().getCodigo());
             }
         } catch (FileNotFoundException fileNotFoundException) {
             System.err.println("Error creating file.");
