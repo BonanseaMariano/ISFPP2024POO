@@ -81,9 +81,9 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
     }
 
     @Override
-    public void update(Ubicacion ubicacion) {
-        int pos = list.indexOf(ubicacion);
-        list.set(pos, ubicacion);
+    public void update(Ubicacion o, Ubicacion n) {
+        int pos = list.indexOf(o);
+        list.set(pos, n);
         writeToFile(list, filename);
         actualizar = true;
     }

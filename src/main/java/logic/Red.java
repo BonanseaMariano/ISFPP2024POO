@@ -173,30 +173,34 @@ public class Red {
         this.conexionService.insert(conexion);
     }
 
-
     /**
-     * Modifies an existing connection (conexion) in the network (red). Also updates the connection in the database.
+     * Modifies an existing connection (conexion) in the network (red).
      * <p>
-     * This method first validates the connection. If the connection is invalid due to various exceptions such as
-     * InvalidEquipoException, InvalidConexionException, NoAvailablePortsException, InvalidTipoCableException, or InvalidTipoPuertoException,
-     * the exception is thrown. If the connection does not exist in the network, an InvalidConexionException is thrown.
-     * If the connection is successfully validated and exists, it is updated in the network and the database.
+     * This method validates the modified connection, replaces the old connection with the modified connection in the map,
+     * and updates the connection in the database.
      *
-     * @param conexion the connection (conexion) to be modified
+     * @param old      the existing connection (conexion) to be replaced
+     * @param modified the new connection (conexion) to replace the old one
      * @throws InvalidEquipoException     if one of the devices (equipos) does not exist in the network
-     * @throws InvalidConexionException   if the connection does not exist or is invalid
+     * @throws InvalidConexionException   if the old connection does not exist or if the modification results in a duplicate connection
      * @throws NoAvailablePortsException  if there are no available ports on either device
      * @throws InvalidTipoCableException  if the type of cable does not exist
      * @throws InvalidTipoPuertoException if one of the types of ports does not exist
      */
-    public void modifyConnection(Conexion conexion) throws InvalidEquipoException, InvalidConexionException, NoAvailablePortsException, InvalidTipoCableException, InvalidTipoPuertoException {
-        String conexionkey = conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo();
-        connectionValidation(conexion);
-        if (!this.conexiones.containsKey(conexionkey)) {
-            throw new InvalidConexionException("No se puede modificar la conexión porque no existe.");
+    public void modifyConnection(Conexion old, Conexion modified) throws InvalidEquipoException, InvalidConexionException, NoAvailablePortsException, InvalidTipoCableException, InvalidTipoPuertoException {
+        String oldkey = old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo();
+        String modifiedKey = modified.getEquipo1().getCodigo() + "-" + modified.getEquipo2().getCodigo();
+        connectionValidation(modified);
+        if (!this.conexiones.containsKey(oldkey)) {
+            throw new InvalidConexionException("No se puede modificar la conexión porque no existe");
         }
-        this.conexiones.put(conexionkey, conexion);
-        this.conexionService.update(conexion);
+        if (!oldkey.equals(modifiedKey) && this.conexiones.containsKey(modifiedKey)) {
+            throw new InvalidConexionException("No se puede modificar la conexión porque la modificaion se traduce en una conexión ya existente");
+        }
+
+        this.conexiones.remove(oldkey);
+        this.conexiones.put(modifiedKey, modified);
+        this.conexionService.update(old, modified);
     }
 
     /**
@@ -263,23 +267,28 @@ public class Red {
     }
 
     /**
-     * Modifies an existing device (equipo) in the network (red). It does not alter connections assosiated with it. Also updates the device in the database.
+     * Modifies an existing device (equipo) in the network (red).
+     * <p>
+     * This method validates the new device, replaces the old device with the new device in the map,
+     * and updates the device in the database.
      *
-     * @param equipo the device (equipo) to be modified
-     * @throws InvalidEquipoException      if the device does not exist in the network
-     * @throws InvalidUbicacionException   if the location (ubicacion) of the device does not exist in the network
-     * @throws InvalidTipoEquipoException  if the type of device does not exist in the network
-     * @throws InvalidTipoPuertoException  if one of the types of ports does not exist in the network
-     * @throws InvalidDireccionIPException if the IP address of the device is invalid
+     * @param oldEquipo the existing device (equipo) to be replaced
+     * @param newEquipo the new device (equipo) to replace the old one
+     * @throws InvalidEquipoException      if the old device does not exist in the network
+     * @throws InvalidUbicacionException   if the location of the new device does not exist in the network
+     * @throws InvalidTipoEquipoException  if the type of the new device does not exist in the network
+     * @throws InvalidTipoPuertoException  if one of the types of ports of the new device does not exist in the network
+     * @throws InvalidDireccionIPException if the IP address of the new device is invalid
      */
-    public void modifyEquipo(Equipo equipo) throws InvalidEquipoException, InvalidUbicacionException, InvalidTipoEquipoException, InvalidTipoPuertoException, InvalidDireccionIPException {
-        if (!this.equipos.containsKey(equipo.getCodigo())) {
+    public void modifyEquipo(Equipo oldEquipo, Equipo newEquipo) throws InvalidEquipoException, InvalidUbicacionException, InvalidTipoEquipoException, InvalidTipoPuertoException, InvalidDireccionIPException {
+        if (!this.equipos.containsKey(oldEquipo.getCodigo())) {
             throw new InvalidEquipoException("No se puede modificar el equipo porque no existe.");
         }
-        equipoValidation(equipo);
+        equipoValidation(newEquipo);
 
-        this.equipos.put(equipo.getCodigo(), equipo);
-        this.equipoService.update(equipo);
+        this.equipos.remove(oldEquipo.getCodigo());
+        this.equipos.put(newEquipo.getCodigo(), newEquipo);
+        this.equipoService.update(oldEquipo, newEquipo);
     }
 
     /**
@@ -353,15 +362,23 @@ public class Red {
     }
 
     /**
-     * Modifies an existing location (ubicacion) in the network (red). Also updates the location in the database.
+     * Modifies an existing location (ubicacion) in the network (red).
+     * <p>
+     * This method validates the old location, replaces it with the new location in the map,
+     * and updates the location in the database.
      *
-     * @param ubicacion the location (ubicacion) to be modified
-     * @throws InvalidUbicacionException if the location does not exist in the network or if there are devices (equipos) in the location
+     * @param oldUbicacion the existing location (ubicacion) to be replaced
+     * @param newUbicacion the new location (ubicacion) to replace the old one
+     * @throws InvalidUbicacionException if the old location does not exist in the network or if the new location already exists
      */
-    public void modifyUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
-        ubicationValidation(ubicacion);
-        this.ubicaciones.put(ubicacion.getCodigo(), ubicacion);
-        this.ubicacionService.update(ubicacion);
+    public void modifyUbicacion(Ubicacion oldUbicacion, Ubicacion newUbicacion) throws InvalidUbicacionException {
+        ubicationValidation(oldUbicacion);
+        if (!oldUbicacion.getCodigo().equals(newUbicacion.getCodigo()) && this.ubicaciones.containsKey(newUbicacion.getCodigo())) {
+            throw new InvalidUbicacionException("No se puede modificar la ubicación porque la modificación se traduce en una ubicación ya existente");
+        }
+        this.ubicaciones.remove(oldUbicacion.getCodigo());
+        this.ubicaciones.put(newUbicacion.getCodigo(), newUbicacion);
+        this.ubicacionService.update(oldUbicacion, newUbicacion);
     }
 
     /**
@@ -409,15 +426,23 @@ public class Red {
     }
 
     /**
-     * Modifies an existing type of cable (tipoCable) in the network (red). Also updates the type of cable in the database.
+     * Modifies an existing type of cable (tipoCable) in the network (red).
+     * <p>
+     * This method validates the old type of cable, replaces it with the new type of cable in the map,
+     * and updates the type of cable in the database.
      *
-     * @param tipoCable the type of cable (tipoCable) to be modified
-     * @throws InvalidTipoCableException if the type of cable does not exist in the network or if there are connections using this type of cable
+     * @param oldTipoCable the existing type of cable (tipoCable) to be replaced
+     * @param newTipoCable the new type of cable (tipoCable) to replace the old one
+     * @throws InvalidTipoCableException if the old type of cable does not exist in the network or if there are connections using this type of cable
      */
-    public void modifyTipoCable(TipoCable tipoCable) throws InvalidTipoCableException {
-        tipoCableValidation(tipoCable);
-        this.tiposCables.put(tipoCable.getCodigo(), tipoCable);
-        this.tipoCableService.update(tipoCable);
+    public void modifyTipoCable(TipoCable oldTipoCable, TipoCable newTipoCable) throws InvalidTipoCableException {
+        tipoCableValidation(oldTipoCable);
+        if (!oldTipoCable.getCodigo().equals(newTipoCable.getCodigo()) && this.tiposCables.containsKey(newTipoCable.getCodigo())) {
+            throw new InvalidTipoCableException("No se puede modificar el tipo de cable porque la modificación se traduce en un tipo de cable ya existente");
+        }
+        this.tiposCables.remove(oldTipoCable.getCodigo());
+        this.tiposCables.put(newTipoCable.getCodigo(), newTipoCable);
+        this.tipoCableService.update(oldTipoCable, newTipoCable);
     }
 
     /**
@@ -465,15 +490,23 @@ public class Red {
     }
 
     /**
-     * Modifies an existing type of device (tipoEquipo) in the network (red). Also updates the type of device in the database.
+     * Modifies an existing type of device (tipoEquipo) in the network (red).
+     * <p>
+     * This method validates the old type of device, replaces it with the new type of device in the map,
+     * and updates the type of device in the database.
      *
-     * @param tipoEquipo the type of device (tipoEquipo) to be modified
-     * @throws InvalidTipoEquipoException if the type of device does not exist in the network or if there are devices using this type of device
+     * @param oldTipoEquipo the existing type of device (tipoEquipo) to be replaced
+     * @param newTipoEquipo the new type of device (tipoEquipo) to replace the old one
+     * @throws InvalidTipoEquipoException if the old type of device does not exist in the network or if there are devices using this type of device
      */
-    public void modifyTipoEquipo(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
-        tipoEquipoValidation(tipoEquipo);
-        this.tiposEquipos.put(tipoEquipo.getCodigo(), tipoEquipo);
-        this.tipoEquipoService.update(tipoEquipo);
+    public void modifyTipoEquipo(TipoEquipo oldTipoEquipo, TipoEquipo newTipoEquipo) throws InvalidTipoEquipoException {
+        tipoEquipoValidation(oldTipoEquipo);
+        if (!oldTipoEquipo.getCodigo().equals(newTipoEquipo.getCodigo()) && this.tiposEquipos.containsKey(newTipoEquipo.getCodigo())) {
+            throw new InvalidTipoEquipoException("No se puede modificar el tipo de equipo porque la modificación se traduce en un tipo de equipo ya existente");
+        }
+        this.tiposEquipos.remove(oldTipoEquipo.getCodigo());
+        this.tiposEquipos.put(newTipoEquipo.getCodigo(), newTipoEquipo);
+        this.tipoEquipoService.update(oldTipoEquipo, newTipoEquipo);
     }
 
     /**
@@ -524,15 +557,23 @@ public class Red {
     }
 
     /**
-     * Modifies an existing type of port (tipoPuerto) in the network (red). Also updates the type of port in the database.
+     * Modifies an existing type of port (tipoPuerto) in the network (red).
+     * <p>
+     * This method validates the old type of port, replaces it with the new type of port in the map,
+     * and updates the type of port in the database.
      *
-     * @param tipoPuerto the type of port (tipoPuerto) to be modified
-     * @throws InvalidTipoPuertoException if the type of port does not exist in the network or if there are devices or connections using this type of port
+     * @param oldTipoPuerto the existing type of port (tipoPuerto) to be replaced
+     * @param newTipoPuerto the new type of port (tipoPuerto) to replace the old one
+     * @throws InvalidTipoPuertoException if the old type of port does not exist in the network or if there are devices or connections using this type of port
      */
-    public void modifyTipoPuerto(TipoPuerto tipoPuerto) throws InvalidTipoPuertoException {
-        tipoPuertoValidation(tipoPuerto);
-        this.tiposPuertos.put(tipoPuerto.getCodigo(), tipoPuerto);
-        this.tipoPuertoService.update(tipoPuerto);
+    public void modifyTipoPuerto(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto) throws InvalidTipoPuertoException {
+        tipoPuertoValidation(oldTipoPuerto);
+        if (!oldTipoPuerto.getCodigo().equals(newTipoPuerto.getCodigo()) && this.tiposPuertos.containsKey(newTipoPuerto.getCodigo())) {
+            throw new InvalidTipoPuertoException("No se puede modificar el tipo de puerto porque la modificación se traduce en un tipo de puerto ya existente");
+        }
+        this.tiposPuertos.remove(oldTipoPuerto.getCodigo());
+        this.tiposPuertos.put(newTipoPuerto.getCodigo(), newTipoPuerto);
+        this.tipoPuertoService.update(oldTipoPuerto, newTipoPuerto);
     }
 
     /**

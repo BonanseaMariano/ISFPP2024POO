@@ -94,9 +94,9 @@ public class DAOConexionImplFile implements DAOConexion {
     }
 
     @Override
-    public void update(Conexion conexion) {
-        int pos = list.indexOf(conexion);
-        list.set(pos, conexion);
+    public void update(Conexion o, Conexion n) {
+        int pos = list.indexOf(o);
+        list.set(pos, n);
         writeToFile(list, filename);
         actualizar = true;
     }

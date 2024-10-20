@@ -81,9 +81,9 @@ public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
     }
 
     @Override
-    public void update(TipoEquipo tipoEquipo) {
-        int pos = list.indexOf(tipoEquipo);
-        list.set(pos, tipoEquipo);
+    public void update(TipoEquipo o, TipoEquipo n) {
+        int pos = list.indexOf(o);
+        list.set(pos, n);
         writeToFile(list, filename);
         actualizar = true;
     }

@@ -82,9 +82,9 @@ public class DAOTipoPuertoImplFile implements DAOTipoPuerto {
     }
 
     @Override
-    public void update(TipoPuerto tipoPuerto) {
-        int pos = list.indexOf(tipoPuerto);
-        list.set(pos, tipoPuerto);
+    public void update(TipoPuerto o, TipoPuerto n) {
+        int pos = list.indexOf(o);
+        list.set(pos, n);
         writeToFile(list, filename);
         actualizar = true;
     }

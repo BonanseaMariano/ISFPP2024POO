@@ -19,8 +19,8 @@ public class UbicacionServiceImpl implements UbicacionService {
     }
 
     @Override
-    public void update(Ubicacion ubicacion) {
-        daoUbicacion.update(ubicacion);
+    public void update(Ubicacion oldUbicacion, Ubicacion newUbicacion) {
+        daoUbicacion.update(oldUbicacion, newUbicacion);
     }
 
     @Override

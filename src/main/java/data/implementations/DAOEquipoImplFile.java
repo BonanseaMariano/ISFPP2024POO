@@ -165,9 +165,9 @@ public class DAOEquipoImplFile implements DAOEquipo {
     }
 
     @Override
-    public void update(Equipo equipo) {
-        int pos = list.indexOf(equipo);
-        list.set(pos, equipo);
+    public void update(Equipo o, Equipo n) {
+        int pos = list.indexOf(o);
+        list.set(pos, n);
         writeToFile(list, filename);
         actualizar = true;
     }

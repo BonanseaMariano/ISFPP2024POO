@@ -19,8 +19,8 @@ public class TipoPuertoServiceImpl implements TipoPuertoService {
     }
 
     @Override
-    public void update(TipoPuerto tipoPuerto) {
-        daoTipoPuerto.update(tipoPuerto);
+    public void update(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto) {
+        daoTipoPuerto.update(oldTipoPuerto, newTipoPuerto);
     }
 
     @Override

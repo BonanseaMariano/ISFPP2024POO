@@ -143,35 +143,31 @@ public class Coordinator {
     /**
      * Modifies an existing connection (conexion) in the network.
      * <p>
-     * This method first attempts to modify the connection in the logic layer. If the connection is invalid due to
-     * various exceptions such as InvalidConexionException, LoopException, CicleException, or NoAvailablePortsException,
-     * the exception message is printed and the method returns. If the connection is successfully modified in the logic layer,
-     * it then attempts to modify the connection in the network (red). If modifying the connection in the network fails due to an
-     * InvalidEquipoException, InvalidConexionException, NoAvailablePortsException, InvalidTipoCableException, or InvalidTipoPuertoException,
-     * the original connection is restored in the logic layer and the exception message is printed.
+     * This method attempts to modify the connection in both the logic layer and the network (red). If the modification fails
+     * in the logic layer due to various exceptions such as InvalidConexionException, LoopException, CicleException, or NoAvailablePortsException,
+     * the exception message is printed and the method returns. If the modification fails in the network due to InvalidConexionException,
+     * NoAvailablePortsException, InvalidEquipoException, InvalidTipoCableException, or InvalidTipoPuertoException, the changes in the logic layer
+     * are reverted and the exception message is printed.
      *
-     * @param conexion the connection to be modified
+     * @param oldConexion the existing connection to be replaced
+     * @param newConexion the new connection to replace the old one
      */
-    public void modifyConnection(Conexion conexion) {
+    public void modifyConnection(Conexion oldConexion, Conexion newConexion) {
         Conexion oldConnection = null;
         try {
-            logic.modifyEdge(conexion);
-        } catch (InvalidConexionException e) {
+            logic.modifyEdge(oldConexion, newConexion);
+        } catch (InvalidConexionException | LoopException | CicleException | NoAvailablePortsException e) {
             System.out.println(e.getMessage());
-            return;
-        } catch (LoopException | CicleException | NoAvailablePortsException e) {
-            System.out.println(e.getMessage());
-            oldConnection = logic.getConexionesMap().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
             return;
         }
 
         try {
-            red.modifyConnection(conexion);
+            red.modifyConnection(oldConexion, newConexion);
         } catch (InvalidConexionException | NoAvailablePortsException e) {
             System.out.println(e.getMessage());
         } catch (InvalidEquipoException |
                  InvalidTipoCableException | InvalidTipoPuertoException e) {
-            logic.modifyEdge(oldConnection);
+            logic.modifyEdge(newConexion, oldConnection); // Revert changes
             System.out.println(e.getMessage());
         }
     }
@@ -215,16 +211,17 @@ public class Coordinator {
     /**
      * Modifies an existing device (equipo) in the network.
      * <p>
-     * This method attempts to modify the device in both the network (red) and the logic layer.
-     * If the device is invalid due to various exceptions such as InvalidEquipoException, InvalidUbicacionException,
-     * InvalidTipoEquipoException, InvalidTipoPuertoException, or InvalidDireccionIPException, the exception message is printed.
+     * This method attempts to modify the device in both the network (red) and the logic layer. If the modification fails
+     * due to various exceptions such as InvalidEquipoException, InvalidUbicacionException, InvalidTipoEquipoException,
+     * InvalidTipoPuertoException, or InvalidDireccionIPException, the exception message is printed.
      *
-     * @param equipo the device to be modified
+     * @param oldEquipo the existing device to be replaced
+     * @param newEquipo the new device to replace the old one
      */
-    public void modifyEquipo(Equipo equipo) {
+    public void modifyEquipo(Equipo oldEquipo, Equipo newEquipo) {
         try {
-            red.modifyEquipo(equipo);
-            logic.modifyVertex(equipo);
+            red.modifyEquipo(oldEquipo, newEquipo);
+            logic.modifyVertex(oldEquipo, newEquipo);
         } catch (InvalidEquipoException | InvalidUbicacionException | InvalidTipoEquipoException |
                  InvalidTipoPuertoException | InvalidDireccionIPException e) {
             System.out.println(e.getMessage());
@@ -287,14 +284,15 @@ public class Coordinator {
     /**
      * Modifies an existing location (ubicacion) in the network.
      * <p>
-     * This method attempts to modify the location in the network (red).
-     * If the location is invalid and cannot be modified, an InvalidUbicacionException is caught and its message is printed.
+     * This method attempts to modify the location in the network (red). If the modification fails due to an
+     * InvalidUbicacionException, the exception message is printed.
      *
-     * @param ubicacion the location to be modified
+     * @param oldUbicacion the existing location to be replaced
+     * @param newUbicacion the new location to replace the old one
      */
-    public void modifyUbicacion(Ubicacion ubicacion) {
+    public void modifyUbicacion(Ubicacion oldUbicacion, Ubicacion newUbicacion) {
         try {
-            red.modifyUbicacion(ubicacion);
+            red.modifyUbicacion(oldUbicacion, newUbicacion);
         } catch (InvalidUbicacionException e) {
             System.out.println(e.getMessage());
         }
@@ -335,14 +333,15 @@ public class Coordinator {
     /**
      * Modifies an existing cable type (tipoCable) in the network.
      * <p>
-     * This method attempts to modify the cable type in the network (red).
-     * If the cable type is invalid and cannot be modified, an InvalidTipoCableException is caught and its message is printed.
+     * This method attempts to modify the cable type in the network (red). If the modification fails due to an
+     * InvalidTipoCableException, the exception message is printed.
      *
-     * @param tipoCable the cable type to be modified
+     * @param oldTipoCable the existing cable type to be replaced
+     * @param newTipoCable the new cable type to replace the old one
      */
-    public void modifyTipoCable(TipoCable tipoCable) {
+    public void modifyTipoCable(TipoCable oldTipoCable, TipoCable newTipoCable) {
         try {
-            red.modifyTipoCable(tipoCable);
+            red.modifyTipoCable(oldTipoCable, newTipoCable);
         } catch (InvalidTipoCableException e) {
             System.out.println(e.getMessage());
         }
@@ -381,16 +380,17 @@ public class Coordinator {
     }
 
     /**
-     * Modifies an existing port type (TipoPuerto) in the network.
+     * Modifies an existing port type (tipoPuerto) in the network.
      * <p>
-     * This method attempts to modify the port type in the network (red).
-     * If the port type is invalid and cannot be modified, an InvalidTipoPuertoException is caught and its message is printed.
+     * This method attempts to modify the port type in the network (red). If the modification fails due to an
+     * InvalidTipoPuertoException, the exception message is printed.
      *
-     * @param TipoPuerto the port type to be modified
+     * @param oldTipoPuerto the existing port type to be replaced
+     * @param newTipoPuerto the new port type to replace the old one
      */
-    public void modifyTipoPuerto(TipoPuerto TipoPuerto) {
+    public void modifyTipoPuerto(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto) {
         try {
-            red.modifyTipoPuerto(TipoPuerto);
+            red.modifyTipoPuerto(oldTipoPuerto, newTipoPuerto);
         } catch (InvalidTipoPuertoException e) {
             System.out.println(e.getMessage());
         }
@@ -431,14 +431,15 @@ public class Coordinator {
     /**
      * Modifies an existing device type (tipoEquipo) in the network.
      * <p>
-     * This method attempts to modify the device type in the network (red).
-     * If the device type is invalid and cannot be modified, an InvalidTipoEquipoException is caught and its message is printed.
+     * This method attempts to modify the device type in the network (red). If the modification fails due to an
+     * InvalidTipoEquipoException, the exception message is printed.
      *
-     * @param tipoEquipo the device type to be modified
+     * @param oldTipoEquipo the existing device type to be replaced
+     * @param newTipoEquipo the new device type to replace the old one
      */
-    public void modifyTipoEquipo(TipoEquipo tipoEquipo) {
+    public void modifyTipoEquipo(TipoEquipo oldTipoEquipo, TipoEquipo newTipoEquipo) {
         try {
-            red.modifyTipoEquipo(tipoEquipo);
+            red.modifyTipoEquipo(oldTipoEquipo, newTipoEquipo);
         } catch (InvalidTipoEquipoException e) {
             System.out.println(e.getMessage());
         }

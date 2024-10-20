@@ -82,9 +82,9 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
     }
 
     @Override
-    public void update(TipoCable tipoCable) {
-        int pos = list.indexOf(tipoCable);
-        list.set(pos, tipoCable);
+    public void update(TipoCable o, TipoCable n) {
+        int pos = list.indexOf(o);
+        list.set(pos, n);
         writeToFile(list, filename);
         actualizar = true;
     }

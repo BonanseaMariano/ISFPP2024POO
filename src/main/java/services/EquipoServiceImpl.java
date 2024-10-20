@@ -19,8 +19,8 @@ public class EquipoServiceImpl implements EquipoService {
     }
 
     @Override
-    public void update(Equipo equipo) {
-        daoEquipo.update(equipo);
+    public void update(Equipo oldEquipo, Equipo newEquipo) {
+        daoEquipo.update(oldEquipo, newEquipo);
     }
 
     @Override

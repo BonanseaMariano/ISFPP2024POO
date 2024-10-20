@@ -8,7 +8,7 @@ public interface CRUD<T> {
 
     List<T> read();
 
-    void update(T t);
+    void update(T o, T n);
 
     void delete(T t);
 }

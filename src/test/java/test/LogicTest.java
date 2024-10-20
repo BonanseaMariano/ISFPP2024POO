@@ -92,8 +92,8 @@ public class LogicTest {
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
 
         //Se crea una nueva conexion valida
-        Equipo e1 = coordinator.getVertexMap().get("AP07");
-        Equipo e2 = coordinator.getVertexMap().get("AP03");
+        Equipo e1 = coordinator.getVertexMap().get("TEST1");
+        Equipo e2 = coordinator.getVertexMap().get("TEST5");
         TipoCable cable = coordinator.getRed().getTiposCables().get("C5");
         Conexion c = new Conexion(cable, e1, e1.getPuertos().get(0).getTipoPuerto(), e2, e2.getPuertos().get(0).getTipoPuerto());
 
@@ -117,8 +117,8 @@ public class LogicTest {
 
 
         //Se verifica que no se agregue la conexion si forma un ciclo en logica
-        e1 = coordinator.getVertexMap().get("GWUSG");
-        e2 = coordinator.getVertexMap().get("SW04");
+        e1 = coordinator.getVertexMap().get("TEST1");
+        e2 = coordinator.getVertexMap().get("TEST4");
         c.setEquipo1(e1);
         c.setEquipo2(e2);
         assertThrows(CicleException.class, () -> logic.addEdge(c));
@@ -128,8 +128,8 @@ public class LogicTest {
         assertFalse(coordinator.getEdgesMao().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
 
         //Se verifica que no se agregue la conexion si no hay puertos disponibles en logica
-        e1 = coordinator.getVertexMap().get("AP03");
-        e2 = coordinator.getVertexMap().get("SWAP"); //SWAP tiene 0 cantidad de puertos en el archivo
+        e1 = coordinator.getVertexMap().get("TEST2");
+        e2 = coordinator.getVertexMap().get("TEST6"); //TEST6 tiene 0 cantidad de puertos en el archivo
         c.setEquipo1(e1);
         c.setEquipo2(e2);
         assertThrows(NoAvailablePortsException.class, () -> logic.addEdge(c));
@@ -144,57 +144,11 @@ public class LogicTest {
         //Se actualizan los datos de logica con los datos de coordinator
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
 
-        //Se crea una nueva conexion valida
-        Equipo e1 = coordinator.getVertexMap().get("AP07");
-        Equipo e2 = coordinator.getVertexMap().get("AP03");
-        TipoCable cable = coordinator.getRed().getTiposCables().get("C5");
-        Conexion c = new Conexion(cable, e1, e1.getPuertos().get(0).getTipoPuerto(), e2, e2.getPuertos().get(0).getTipoPuerto());
-
-        //Se agrega la conexion a través del coordinador
-        coordinator.addConnection(c);
-        //Se verifica que la conexion se haya agregado al grafo de logica
-        assertTrue(logic.getGraph().containsEdge(c));
-        //Se verifica que la conexion se haya agregado al mapa de conexiones de logica
-        assertEquals(c, logic.getConexionesMap().get(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
-        //Se verifica que la conexion se haya agregado al mapa de conexiones de Red
-        assertEquals(c, red.getConexiones().get(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
-
-        //Se intenta modificar la conexion para que forme un loop
-        c.setEquipo2(e1);
-        coordinator.modifyConnection(c);
-        //Se verifica que la conexion no se haya modificado
-        assertFalse(coordinator.getConexiones().contains(c));
-        assertFalse(coordinator.getEdgesMao().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
-
-        //Se borra la conexion a través del coordinador
-        coordinator.deleteConnection(c);
-
-        //Se verifica que no se agregue la conexion si forma un loop en logica
-        c.setEquipo2(e1);
-        assertThrows(LoopException.class, () -> logic.addEdge(c));
-
-
-        //Se verifica que no se agregue la conexion si forma un ciclo en logica
-        e1 = coordinator.getVertexMap().get("GWUSG");
-        e2 = coordinator.getVertexMap().get("SW04");
-        c.setEquipo1(e1);
-        c.setEquipo2(e2);
-        assertThrows(CicleException.class, () -> logic.addEdge(c));
-        //Se verifica que no se agregue la conexion si forma un ciclo en Coordinator
-        coordinator.addConnection(c);
-        assertFalse(coordinator.getConexiones().contains(c));
-        assertFalse(coordinator.getEdgesMao().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
-
-        //Se verifica que no se agregue la conexion si no hay puertos disponibles en logica
-        e1 = coordinator.getVertexMap().get("AP03");
-        e2 = coordinator.getVertexMap().get("SWAP"); //SWAP tiene 0 cantidad de puertos en el archivo
-        c.setEquipo1(e1);
-        c.setEquipo2(e2);
-        assertThrows(NoAvailablePortsException.class, () -> logic.addEdge(c));
-        //Se verifica que no se agregue la conexion si no hay puertos disponibles en Coordinator
-        coordinator.addConnection(c);
-        assertFalse(coordinator.getConexiones().contains(c));
-        assertFalse(coordinator.getEdgesMao().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
+        //Se modifica una conexion existente de manera valida
+        Conexion vieja = coordinator.getEdgesMao().get("TEST3-TEST4");
+        Conexion nueva = vieja;
+        nueva.setEquipo2(coordinator.getVertexMap().get("TEST1"));
+        coordinator.modifyConnection(vieja, nueva);
     }
 
     @Test

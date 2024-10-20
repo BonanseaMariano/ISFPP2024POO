@@ -7,7 +7,7 @@ import java.util.List;
 public interface ConexionService {
     void insert(Conexion conexion);
 
-    void update(Conexion conexion);
+    void update(Conexion oldConexion, Conexion newConexion);
 
     void delete(Conexion conexion);
 

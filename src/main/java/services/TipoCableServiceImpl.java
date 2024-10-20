@@ -19,8 +19,8 @@ public class TipoCableServiceImpl implements TipoCableService {
     }
 
     @Override
-    public void update(TipoCable tipoCable) {
-        daoTipoCable.update(tipoCable);
+    public void update(TipoCable oldTipoCable, TipoCable newTipoCable) {
+        daoTipoCable.update(oldTipoCable, newTipoCable);
     }
 
     @Override

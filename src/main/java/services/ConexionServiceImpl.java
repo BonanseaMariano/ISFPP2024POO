@@ -19,8 +19,8 @@ public class ConexionServiceImpl implements ConexionService {
     }
 
     @Override
-    public void update(Conexion conexion) {
-        daoConexion.update(conexion);
+    public void update(Conexion oldConexion, Conexion newConexion) {
+        daoConexion.update(oldConexion, newConexion);
     }
 
     @Override

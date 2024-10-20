@@ -19,8 +19,8 @@ public class TipoEquipoServiceImpl implements TipoEquipoService {
     }
 
     @Override
-    public void update(TipoEquipo tipoEquipo) {
-        daoTipoEquipo.update(tipoEquipo);
+    public void update(TipoEquipo oldTipoEquipo, TipoEquipo newTipoEquipo) {
+        daoTipoEquipo.update(oldTipoEquipo, newTipoEquipo);
     }
 
     @Override

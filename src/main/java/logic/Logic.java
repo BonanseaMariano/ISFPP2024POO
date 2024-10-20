@@ -116,42 +116,52 @@ public class Logic {
     }
 
     /**
-     * Modifies the properties of an existing vertex (equipo) in the graph.
+     * Modifies an existing vertex (equipo) in the graph.
      * <p>
-     * This method updates the properties of the specified equipo in the equipos map and the graph.
-     * The graph structure remains unchanged, so the edges (conexiones) associated with the equipo are not affected.
+     * This method validates the old and new equipo, replaces the old equipo with the new equipo in the graph and map,
+     * and reconnects all edges from the old equipo to the new equipo.
      *
-     * @param equipo the vertex (equipo) with updated properties
-     * @throws InvalidEquipoException if the equipo does not exist in the graph
+     * @param oldEquipo the existing equipo to be replaced
+     * @param newEquipo the new equipo to replace the old one
+     * @throws InvalidEquipoException if the old equipo does not exist in the graph or if the new equipo already exists
      */
-    public void modifyVertex(Equipo equipo) throws InvalidEquipoException {
-        if (equiposMap.containsKey(equipo.getCodigo())) {
-            Equipo existingEquipo = equiposMap.get(equipo.getCodigo());
-            // Update properties of the existing equipo in the map
-            existingEquipo.setCodigo(equipo.getCodigo());
-            existingEquipo.setDescripcion(equipo.getDescripcion());
-            existingEquipo.setMarca(equipo.getMarca());
-            existingEquipo.setModelo(equipo.getModelo());
-            existingEquipo.setUbicacion(equipo.getUbicacion());
-            existingEquipo.setPuertos(equipo.getPuertos());
-            existingEquipo.setDireccionesIp(equipo.getDireccionesIp());
-            existingEquipo.setEstado(equipo.isEstado());
+    public void modifyVertex(Equipo oldEquipo, Equipo newEquipo) throws InvalidEquipoException {
+        if (equiposMap.containsKey(oldEquipo.getCodigo())) {
+            if (!oldEquipo.getCodigo().equals(newEquipo.getCodigo()) && equiposMap.containsKey(newEquipo.getCodigo())) {
+                throw new InvalidEquipoException("No se puede modificar el equipo porque la modificacion se traduce en un equipo ya existente");
+            }
 
-            // Update the equipo in the graph
-            for (Equipo vertex : graph.vertexSet()) {
-                if (vertex.equals(existingEquipo)) {
-                    vertex.setCodigo(equipo.getCodigo());
-                    vertex.setDescripcion(equipo.getDescripcion());
-                    vertex.setMarca(equipo.getMarca());
-                    vertex.setModelo(equipo.getModelo());
-                    vertex.setUbicacion(equipo.getUbicacion());
-                    vertex.setPuertos(equipo.getPuertos());
-                    vertex.setDireccionesIp(equipo.getDireccionesIp());
-                    vertex.setEstado(equipo.isEstado());
-                    // Add any other properties that need to be updated
-                    break;
+            // Add newEquipo to the graph and map
+            addVertex(newEquipo);
+            equiposMap.put(newEquipo.getCodigo(), newEquipo);
+
+            // Reconnect all edges from oldEquipo to newEquipo
+            for (Conexion conexion : graph.edgesOf(oldEquipo)) {
+                if (conexion.getEquipo1().equals(oldEquipo)) {
+                    // Modify the conexion
+                    conexion.setEquipo1(newEquipo);
+                    // Add the new edge to the graph
+                    graph.addEdge(newEquipo, conexion.getEquipo2(), conexion);
+                    graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
+                    // Update the conexiones map
+                    conexionesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
+                    conexionesMap.put(conexion.getEquipo1().getCodigo() + "-" + newEquipo.getCodigo(), conexion);
+                } else if (conexion.getEquipo2().equals(oldEquipo)) {
+                    // Modify the conexion
+                    conexion.setEquipo2(newEquipo);
+                    // Add the new edge to the graph
+                    graph.addEdge(conexion.getEquipo1(), newEquipo, conexion);
+                    graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
+                    // Update the conexiones map
+                    conexionesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
+                    conexionesMap.put(newEquipo.getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
                 }
             }
+
+            // Remove oldEquipo from the graph and map
+            graph.removeVertex(oldEquipo);
+            equiposMap.remove(oldEquipo.getCodigo());
+
         } else {
             throw new InvalidEquipoException("No se puede modificar el equipo porque no existe");
         }
@@ -222,19 +232,19 @@ public class Logic {
     /**
      * Modifies an existing edge (conexion) in the graph.
      * <p>
-     * This method first attempts to remove the specified edge from the graph.
-     * If the edge is successfully removed, it then adds the modified edge back to the graph.
-     * If the edge does not exist in the graph, an InvalidConexionException is thrown.
+     * This method first attempts to remove the old edge from the graph. If successful, it adds the modified edge.
+     * If the old edge does not exist in the graph, an InvalidConexionException is thrown.
      *
-     * @param conexion the edge (conexion) to be modified in the graph
-     * @throws InvalidConexionException  if the edge does not exist in the graph
-     * @throws LoopException             if the edge forms a loop (i.e., both equipos are the same)
-     * @throws CicleException            if the edge forms a cycle in the graph
+     * @param old      the existing edge (conexion) to be removed
+     * @param modified the new edge (conexion) to be added
+     * @throws InvalidConexionException  if the old edge does not exist in the graph
+     * @throws LoopException             if the modified edge forms a loop (i.e., both equipos are the same)
+     * @throws CicleException            if the modified edge forms a cycle in the graph
      * @throws NoAvailablePortsException if there are no available ports on either of the equipos
      */
-    public void modifyEdge(Conexion conexion) throws InvalidConexionException, LoopException, CicleException, NoAvailablePortsException {
-        if (graph.removeEdge(conexion)) {
-            addEdge(conexion);
+    public void modifyEdge(Conexion old, Conexion modified) throws InvalidConexionException, LoopException, CicleException, NoAvailablePortsException {
+        if (graph.removeEdge(old)) {
+            addEdge(modified);
         } else {
             throw new InvalidConexionException("No se puede modificar la conexión porque no existe");
         }

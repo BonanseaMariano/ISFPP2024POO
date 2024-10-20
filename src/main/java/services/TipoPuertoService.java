@@ -7,7 +7,7 @@ import java.util.List;
 public interface TipoPuertoService {
     void insert(TipoPuerto tipoPuerto);
 
-    void update(TipoPuerto tipoPuerto);
+    void update(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto);
 
     void delete(TipoPuerto tipoPuerto);
 
