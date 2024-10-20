@@ -467,7 +467,6 @@ public class Logic {
         for (Equipo adjacentVertex : Graphs.neighborListOf(graph, vertex)) {
             // If the adjacent vertex has not been visited, add it to the connected subgraph and continue DFS
             if (!parteConectada.containsVertex(adjacentVertex) && adjacentVertex.isEstado()) {
-                parteConectada.addEdge(vertex, adjacentVertex);
                 validationDfs(adjacentVertex, parteConectada);
             }
         }
