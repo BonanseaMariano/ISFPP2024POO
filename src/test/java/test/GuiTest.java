@@ -27,6 +27,7 @@ public class GuiTest {
 
         /* Se establecen las relaciones entre clases */
         logic.setCoordinator(coordinator);
+        red.setCoordinator(coordinator);
         gui.setCoordinator(coordinator);
 
         /* Se establecen relaciones con la clase coordinador */

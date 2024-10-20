@@ -1,5 +1,6 @@
 package logic;
 
+import controller.Coordinator;
 import exceptions.*;
 import models.*;
 import services.*;
@@ -19,6 +20,10 @@ public class Red {
      * Singleton instance of the network (Red).
      */
     private static Red red;
+    /**
+     * The coordinator for the network (Red).
+     */
+    private Coordinator coordinator;
     /**
      * Name of the network (Red).
      */
@@ -129,6 +134,14 @@ public class Red {
         return red;
     }
 
+    /**
+     * Sets the coordinator for the network (Red).
+     *
+     * @param coordinator the coordinator to be set
+     */
+    public void setCoordinator(Coordinator coordinator) {
+        this.coordinator = coordinator;
+    }
 
     /* ----------------------------- Conexion ----------------------------- */
 
@@ -682,4 +695,6 @@ public class Red {
                 ", ubicaciones=" + ubicaciones +
                 '}';
     }
+
+
 }

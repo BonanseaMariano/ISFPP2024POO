@@ -32,6 +32,8 @@ public class LogicTest {
 
         /* Se establecen las relaciones entre clases */
         logic.setCoordinator(coordinator);
+        red.setCoordinator(coordinator);
+
 
         /* Se establecen relaciones con la clase coordinador */
         coordinator.setRed(red);
