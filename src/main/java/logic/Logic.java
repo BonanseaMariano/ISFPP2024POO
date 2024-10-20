@@ -308,15 +308,22 @@ public class Logic {
         return false;
     }
 
+
     /**
-     * Finds the shortest path between two given nodes (equipos) in the graph.
+     * Finds the shortest path between two devices (equipos) in the network.
+     * <p>
+     * This method uses Dijkstra's algorithm to find the shortest path between the origin and end devices.
+     * If no path exists, it returns null.
      *
-     * @param origin the starting node (equipo) of the path
-     * @param end    the ending node (equipo) of the path
-     * @return a list of Conexion objects representing the edges in the shortest path
+     * @param origin the starting device (equipo) for the path
+     * @param end    the ending device (equipo) for the path
+     * @return a list of Conexion objects representing the shortest path, or null if no path exists
      */
     public List<Conexion> shortestPath(Equipo origin, Equipo end) {
         DijkstraShortestPath<Equipo, Conexion> dijkstraAlg = new DijkstraShortestPath<>(graph);
+        if (dijkstraAlg.getPath(origin, end) == null) {
+            return null;
+        }
         return dijkstraAlg.getPath(origin, end).getEdgeList();
     }
 
@@ -394,7 +401,7 @@ public class Logic {
      *
      * @return a new graph with only active vertices and edges
      */
-    public Graph<Equipo, Conexion> copyGraph() {
+    private Graph<Equipo, Conexion> copyGraph() {
         Graph<Equipo, Conexion> newGraph = new SimpleWeightedGraph<>(Conexion.class);
 
         // Add vertices with isEstado() == true

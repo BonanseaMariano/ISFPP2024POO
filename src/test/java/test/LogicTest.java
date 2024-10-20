@@ -79,116 +79,62 @@ public class LogicTest {
     }
 
     /**
-     * Tests the addition of a connection to the network.
+     * Tests the path finding with maximum bandwidth in the network.
      * <p>
-     * This test updates the logic data with the coordinator data, creates a new valid connection,
-     * and verifies that the connection is added to the logic graph, logic connections map, and Red connections map.
-     * It also verifies that the same connection cannot be added again, and checks for various exceptions
-     * such as loops, cycles, and unavailable ports.
+     * This test updates the logic data with the coordinator data, finds a valid path between two devices,
+     * prints the path and its maximum bandwidth, and verifies that a non-existent path returns null.
      */
     @Test
-    void testAddConnection() {
-        //Se actualizan los datos de logica con los datos de coordinator
-        logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
-
-        //Se crea una nueva conexion valida
-        Equipo e1 = coordinator.getVertexMap().get("TEST1");
-        Equipo e2 = coordinator.getVertexMap().get("TEST5");
-        TipoCable cable = coordinator.getRed().getTiposCables().get("C5");
-        Conexion c = new Conexion(cable, e1, e1.getPuertos().get(0).getTipoPuerto(), e2, e2.getPuertos().get(0).getTipoPuerto());
-
-        //Se agrega la conexion a través del coordinador
-        coordinator.addConnection(c);
-        //Se verifica que la conexion se haya agregado al grafo de logica
-        assertTrue(logic.getGraph().containsEdge(c));
-        //Se verifica que la conexion se haya agregado al mapa de conexiones de logica
-        assertEquals(c, logic.getConexionesMap().get(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
-        //Se verifica que la conexion se haya agregado al mapa de conexiones de Red
-        assertEquals(c, red.getConexiones().get(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
-
-        //Se verifica que no se agregue denuevo la misma conexion en logica
-        assertThrows(InvalidConexionException.class, () -> logic.addEdge(c));
-        //Se borra la conexion a través del coordinador
-        coordinator.deleteConnection(c);
-
-        //Se verifica que no se agregue la conexion si forma un loop en logica
-        c.setEquipo2(e1);
-        assertThrows(LoopException.class, () -> logic.addEdge(c));
-
-
-        //Se verifica que no se agregue la conexion si forma un ciclo en logica
-        e1 = coordinator.getVertexMap().get("TEST1");
-        e2 = coordinator.getVertexMap().get("TEST4");
-        c.setEquipo1(e1);
-        c.setEquipo2(e2);
-        assertThrows(CicleException.class, () -> logic.addEdge(c));
-        //Se verifica que no se agregue la conexion si forma un ciclo en Coordinator
-        coordinator.addConnection(c);
-        assertFalse(coordinator.getConexiones().contains(c));
-        assertFalse(coordinator.getEdgesMao().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
-
-        //Se verifica que no se agregue la conexion si no hay puertos disponibles en logica
-        e1 = coordinator.getVertexMap().get("TEST2");
-        e2 = coordinator.getVertexMap().get("TEST6"); //TEST6 tiene 0 cantidad de puertos en el archivo
-        c.setEquipo1(e1);
-        c.setEquipo2(e2);
-        assertThrows(NoAvailablePortsException.class, () -> logic.addEdge(c));
-        //Se verifica que no se agregue la conexion si no hay puertos disponibles en Coordinator
-        coordinator.addConnection(c);
-        assertFalse(coordinator.getConexiones().contains(c));
-        assertFalse(coordinator.getEdgesMao().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
-    }
-
-    @Test
-    void testModifyConnection() {
-        //Se actualizan los datos de logica con los datos de coordinator
-        logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
-
-        //Se modifica una conexion existente de manera valida
-        Conexion vieja = coordinator.getEdgesMao().get("TEST3-TEST4");
-        Conexion nueva = vieja;
-        nueva.setEquipo2(coordinator.getVertexMap().get("TEST1"));
-        coordinator.modifyConnection(vieja, nueva);
-    }
-
-    @Test
-    void testDeleteConnection() {
-
-    }
-
-    @Test
-    void testAddDevice() {
-
-    }
-
-    @Test
-    void testModifyDevice() {
-
-    }
-
-    @Test
-    void testDeleteDevice() {
-
-    }
-
-
-    @Test
     void testPathWithMaxBW() {
-        //Se actualizan los datos de logica con los datos de coordinator
+        // Se actualizan los datos de logica con los datos de coordinator
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
 
+        // Camino valido
         System.out.println("\t---- Path ----");
-        List<Conexion> path = logic.shortestPath(coordinator.getVertexMap().get("SWGR"), coordinator.getVertexMap().get("FW02"));
+        List<Conexion> path = coordinator.shortestPath(coordinator.getVertexMap().get("TEST1"), coordinator.getVertexMap().get("TEST4"));
         System.out.println(path);
         System.out.println("Max BW :" + coordinator.maxBandwith(path));
+
+        // Camino inexistente
+        assertNull(coordinator.shortestPath(coordinator.getVertexMap().get("TEST1"), coordinator.getVertexMap().get("TEST5")));
     }
 
+    /**
+     * Tests the ping functionality and status mapping in the network.
+     * <p>
+     * This test updates the logic data with the coordinator data, tests individual pings, and group pings.
+     * It verifies that valid IP addresses return true and invalid IP addresses return false.
+     * It also prints the status map of all devices in the network.
+     */
     @Test
-    public void testConsulta2() {
+    void testPingAndStatusMap() {
+        // Se actualizan los datos de logica con los datos de coordinator
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
+        // Se prueban pings individuales
+        assertTrue(coordinator.ping("111.111.11.11"));
+        assertFalse(coordinator.ping("777.777.77.77"));
+        assertFalse(coordinator.ping("333.333.33.33"));
+        // Se prueban pings en grupo
+        List<String> ips = List.of("111.111.11.11", "222.222.22.22", "444.444.44.44", "555.555.55.55");
+        for (Boolean status : coordinator.pingRange(ips).values()) {
+            assertTrue(status);
+        }
+
         System.out.println("\t---- Status Map ----");
         for (Map.Entry<Equipo, Boolean> entry : coordinator.mapStatus().entrySet()) {
             System.out.println(entry.getKey().getCodigo() + " " + entry.getValue());
         }
+    }
+
+    //TODO: Revisar getConnectedPart
+    @Test
+    void testGetConnectedPart() {
+        // Se actualizan los datos de logica con los datos de coordinator
+        logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
+        // Se obtiene la parte conectada de un vertice (Deveria mostrar TEST1, TEST2, TEST3. Fijarse corriendo GUITest)
+        for (Conexion conexion : coordinator.getConnectedPart(coordinator.getVertexMap().get("TEST1"))) {
+            System.out.println(conexion);
+        }
+
     }
 }

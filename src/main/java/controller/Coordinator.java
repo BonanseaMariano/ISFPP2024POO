@@ -477,7 +477,7 @@ public class Coordinator {
      *
      * @param equipo1 the starting device
      * @param equipo2 the destination device
-     * @return a list of connections representing the shortest path between the two devices
+     * @return a list of connections representing the shortest path between the two devices or null if no path is found
      */
     public List<Conexion> shortestPath(Equipo equipo1, Equipo equipo2) {
         return logic.shortestPath(equipo1, equipo2);
@@ -527,7 +527,7 @@ public class Coordinator {
      * @param equipo the device for which to get the connected part of the network
      * @return a set of connections representing the connected part of the network for the specified device
      */
-    public Set<Conexion> getConectedPart(Equipo equipo) {
+    public Set<Conexion> getConnectedPart(Equipo equipo) {
         return logic.getConnectedPart(equipo).edgeSet();
     }
 
