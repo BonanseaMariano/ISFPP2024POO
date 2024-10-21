@@ -5,7 +5,6 @@ import gui.Gui;
 import logic.Logic;
 import logic.Red;
 import models.*;
-import org.jgrapht.Graph;
 
 import java.util.*;
 
@@ -157,7 +156,7 @@ public class Coordinator {
         try {
             logic.modifyEdge(oldConexion, newConexion);
         } catch (InvalidConexionException | LoopException | CicleException | NoAvailablePortsException e) {
-            System.out.println(e.getMessage());
+            System.out.println(e.getMessage() + " en logic");
             return;
         }
 
@@ -466,7 +465,7 @@ public class Coordinator {
      *
      * @return a map where the key is the connection code and the value is the connection
      */
-    public Map<String, Conexion> getEdgesMao() {
+    public Map<String, Conexion> getEdgesMap() {
         return logic.getConexionesMap();
     }
 

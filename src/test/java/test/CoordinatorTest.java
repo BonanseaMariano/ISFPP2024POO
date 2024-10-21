@@ -124,7 +124,7 @@ public class CoordinatorTest {
         //Se verifica que no se agregue la conexion si forma un ciclo en Coordinator
         coordinator.addConnection(c);
         assertFalse(coordinator.getConexiones().contains(c));
-        assertFalse(coordinator.getEdgesMao().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
+        assertFalse(coordinator.getEdgesMap().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
 
         //Se verifica que no se agregue la conexion si no hay puertos disponibles en logica
         e1 = coordinator.getVertexMap().get("TEST2");
@@ -135,32 +135,37 @@ public class CoordinatorTest {
         //Se verifica que no se agregue la conexion si no hay puertos disponibles en Coordinator
         coordinator.addConnection(c);
         assertFalse(coordinator.getConexiones().contains(c));
-        assertFalse(coordinator.getEdgesMao().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
+        assertFalse(coordinator.getEdgesMap().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
     }
 
-    //TODO: Revisar modify
-//    @Test
-//    void testModifyConnection() {
-//        //Se actualizan los datos de logica con los datos de coordinator
-//        logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
-//
-//        //Se modifica una conexion existente de manera valida
-//        Conexion vieja = coordinator.getEdgesMao().get("TEST3-TEST4");
-//        System.out.println(vieja);
-//        Conexion nueva = vieja;
-//        nueva.setEquipo2(coordinator.getVertexMap().get("TEST1"));
-//        nueva.setTipoCable(coordinator.getRed().getTiposCables().get("C5"));
-//        coordinator.modifyConnection(vieja, nueva);
-//        //Se verifica que la conexion se haya modificado
-//        assertTrue(coordinator.getEdgesMao().containsKey(nueva.getEquipo1().getCodigo() + "-" + nueva.getEquipo2().getCodigo()));
-//        assertTrue(coordinator.getConexiones().contains(nueva));
-//        //Se verifica que la conexion vieja no exista
-//        assertFalse(coordinator.getEdgesMao().containsKey(vieja.getEquipo1().getCodigo() + "-" + vieja.getEquipo2().getCodigo()));
-//        assertFalse(coordinator.getConexiones().contains(vieja));
-//
-//        //Se revierten los cambios
-//        coordinator.modifyConnection(nueva, vieja);
-//    }
+    /**
+     * Tests the modification of an existing connection in the network.
+     * <p>
+     * This test updates the logic data with the coordinator data, modifies an existing valid connection,
+     * and verifies that the connection is updated in the logic graph, logic connections map, and Red connections map.
+     * It also verifies that the old connection no longer exists.
+     * Finally, it restores the original connection.
+     */
+    @Test
+    void testModifyConnection() {
+        // Update logic data with coordinator data
+        logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
+
+        // Modify an existing valid connection
+        Conexion vieja = coordinator.getEdgesMap().get("TEST3-TEST4");
+        Conexion nueva = new Conexion(coordinator.getRed().getTiposCables().get("C5"), vieja.getEquipo1(), vieja.getPuerto1(), coordinator.getVertexMap().get("TEST5"), coordinator.getVertexMap().get("TEST5").getPuertos().getFirst().getTipoPuerto());
+
+        coordinator.modifyConnection(vieja, nueva);
+        // Verify that the connection has been modified
+        assertTrue(coordinator.getEdgesMap().containsKey(nueva.getEquipo1().getCodigo() + "-" + nueva.getEquipo2().getCodigo()));
+        assertTrue(coordinator.getConexiones().contains(nueva));
+        // Verify that the old connection no longer exists
+        assertFalse(coordinator.getEdgesMap().containsKey(vieja.getEquipo1().getCodigo() + "-" + vieja.getEquipo2().getCodigo()));
+        assertFalse(coordinator.getConexiones().contains(vieja));
+
+        // Revert the changes
+        coordinator.modifyConnection(nueva, vieja);
+    }
 
     /**
      * Tests the deletion of a connection from the network.
@@ -176,14 +181,14 @@ public class CoordinatorTest {
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
 
         // Se elimina una conexion existente de manera valida
-        Conexion c = coordinator.getEdgesMao().get("TEST1-TEST2");
+        Conexion c = coordinator.getEdgesMap().get("TEST1-TEST2");
 
         // Se borra la conexion a través del coordinador
         coordinator.deleteConnection(c);
         // Se verifica que la conexion se haya eliminado del grafo de logica
         assertFalse(coordinator.getLogic().getGraph().containsEdge(c));
         // Se verifica que la conexion se haya eliminado del mapa de conexiones de logica
-        assertFalse(coordinator.getEdgesMao().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
+        assertFalse(coordinator.getEdgesMap().containsKey(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
         // Se verifica que la conexion se haya eliminado del mapa de conexiones de Red
         assertFalse(coordinator.getConexiones().contains(c));
 
@@ -195,15 +200,14 @@ public class CoordinatorTest {
         coordinator.addConnection(c);
     }
 
+    //TODO: Revisar addEquipo (Tiene algun problema el DAO con la ubicacion)
     @Test
     void testAddDevice() {
         //Se actualizan los datos de logica con los datos de coordinator
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
 
         //Se crea un nuevo equipo valido
-        Equipo e = coordinator.getRed().getEquipos().get("TEST1");
-        e.setCodigo("TEST7");
-        e.setDescripcion("TEST7");
+        Equipo e = new Equipo("TEST7", "Test7", "Test7", "Test7", coordinator.getRed().getTiposEquipos().get(0), coordinator.getRed().getUbicaciones().get(0), coordinator.getEquipos().get(0).getPuertos().get(0), "777.777.77.77", true);
 
         //Se agrega el equipo a través del coordinador
         coordinator.addEquipo(e);

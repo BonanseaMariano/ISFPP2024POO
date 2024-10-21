@@ -244,6 +244,7 @@ public class Logic {
      */
     public void modifyEdge(Conexion old, Conexion modified) throws InvalidConexionException, LoopException, CicleException, NoAvailablePortsException {
         if (graph.removeEdge(old)) {
+            conexionesMap.remove(old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo());
             addEdge(modified);
         } else {
             throw new InvalidConexionException("No se puede modificar la conexión porque no existe");
