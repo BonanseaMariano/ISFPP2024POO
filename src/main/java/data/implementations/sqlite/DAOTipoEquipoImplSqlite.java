@@ -1,97 +1,133 @@
 package data.implementations.sqlite;
 
 import data.interfaces.DAOTipoEquipo;
+import database.DBConnection;
 import models.TipoEquipo;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
 
-import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoEquipoImplSqlite implements DAOTipoEquipo {
-    private final String filename;
-    private List<TipoEquipo> list;
-    private boolean actualizar;
-
-    public DAOTipoEquipoImplSqlite() {
-        ResourceBundle rb = ResourceBundle.getBundle("secuencial");
-        filename = rb.getString("tiposEquipos");
-        actualizar = true;
-    }
-
-    private List<TipoEquipo> readFromFile(String file) {
-        List<TipoEquipo> list = new ArrayList<>();
-        Scanner inFile = null;
-        try {
-            inFile = new Scanner(new File(file));
-            inFile.useDelimiter(DELIMITER);
-            while (inFile.hasNext()) {
-                String codigo = inFile.next();
-                String descripcion = inFile.next();
-                list.add(new TipoEquipo(codigo, descripcion));
-            }
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.err.println("Error opening file.");
-            fileNotFoundException.printStackTrace();
-        } catch (NoSuchElementException noSuchElementException) {
-            System.err.println("Error in file record structure");
-            noSuchElementException.printStackTrace();
-        } catch (IllegalStateException illegalStateException) {
-            System.err.println("Error reading from file.");
-            illegalStateException.printStackTrace();
-        } finally {
-            if (inFile != null)
-                inFile.close();
-        }
-        return list;
-    }
-
-    private void writeToFile(List<TipoEquipo> list, String file) {
-        Formatter outFile = null;
-        try {
-            outFile = new Formatter(file);
-            for (TipoEquipo e : list) {
-                outFile.format("%s;%s;\n", e.getCodigo(), e.getDescripcion());
-            }
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.err.println("Error creating file.");
-        } catch (FormatterClosedException formatterClosedException) {
-            System.err.println("Error writing to file.");
-        } finally {
-            if (outFile != null)
-                outFile.close();
-        }
-    }
 
     @Override
     public void create(TipoEquipo tipoEquipo) {
-        list.add(tipoEquipo);
-        writeToFile(list, filename);
-        actualizar = true;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "";
+            sql += "INSERT INTO tipos_equipos (codigo, descripcion) ";
+            sql += "VALUES(?,?) ";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, tipoEquipo.getCodigo());
+            pstm.setString(2, tipoEquipo.getDescripcion());
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @Override
     public List<TipoEquipo> read() {
-        if (actualizar) {
-            list = readFromFile(filename);
-            actualizar = false;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "SELECT codigo, descripcion FROM tipos_equipos ";
+            pstm = con.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            List<TipoEquipo> ret = new ArrayList<>();
+            while (rs.next()) {
+                ret.add(new TipoEquipo(rs.getString("codigo"), rs.getString("descripcion")));
+            }
+            return ret;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
         }
-        return list;
     }
 
     @Override
     public void update(TipoEquipo o, TipoEquipo n) {
-        int pos = list.indexOf(o);
-        list.set(pos, n);
-        writeToFile(list, filename);
-        actualizar = true;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "UPDATE tipos_equipos ";
+            sql += "SET descripcion = ? ";
+            sql += "WHERE codigo = ? ";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, n.getDescripcion());
+            pstm.setString(2, o.getCodigo());
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @Override
     public void delete(TipoEquipo tipoEquipo) {
-        list.remove(tipoEquipo);
-        writeToFile(list, filename);
-        actualizar = true;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "";
+            sql += "DELETE FROM tipos_equipos WHERE codigo = ? ";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, tipoEquipo.getCodigo());
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 }

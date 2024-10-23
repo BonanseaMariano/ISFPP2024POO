@@ -3,16 +3,12 @@ package data.implementations.sqlite;
 import data.interfaces.DAOTipoPuerto;
 import database.DBConnection;
 import models.TipoPuerto;
-import models.Ubicacion;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 
-import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
 
@@ -24,7 +20,7 @@ public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
         try {
             con = DBConnection.getConnection();
             String sql = "";
-            sql += "INSERT INTO tipospuerto (codigo, descripcion, velocidad) ";
+            sql += "INSERT INTO tipos_puertos (codigo, descripcion, velocidad) ";
             sql += "VALUES(?,?,?) ";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, tipoPuerto.getCodigo());
@@ -54,10 +50,10 @@ public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
         ResultSet rs = null;
         try {
             con = DBConnection.getConnection();
-            String sql = "SELECT codigo, descripcion, velocidad FROM tipospuertos ";
+            String sql = "SELECT codigo, descripcion, velocidad FROM tipos_puertos ";
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
-            List<TipoPuerto> ret = new ArrayList<TipoPuerto>();
+            List<TipoPuerto> ret = new ArrayList<>();
             while (rs.next()) {
                 ret.add(new TipoPuerto(rs.getString("codigo"), rs.getString("descripcion"), rs.getInt("velocidad")));
             }
@@ -85,8 +81,8 @@ public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
         ResultSet rs = null;
         try {
             con = DBConnection.getConnection();
-            String sql = "UPDATE tipospuerto ";
-            sql += "SET descripcion = ?, velocidad = ? ";
+            String sql = "UPDATE tipos_puertos ";
+            sql += "SET descripcion = ?, velocidad = ?";
             sql += "WHERE codigo = ? ";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, n.getDescripcion());
@@ -117,7 +113,7 @@ public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
         try {
             con = DBConnection.getConnection();
             String sql = "";
-            sql += "DELETE FROM tipospuerto WHERE codigo = ? ";
+            sql += "DELETE FROM tipos_puertos WHERE codigo = ? ";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, tipoPuerto.getCodigo());
             pstm.executeUpdate();
