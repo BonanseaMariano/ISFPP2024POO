@@ -1,7 +1,7 @@
-package data.implementations;
+package data.implementations.file;
 
-import data.interfaces.DAOTipoCable;
-import models.TipoCable;
+import data.interfaces.DAOUbicacion;
+import models.Ubicacion;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,19 +9,19 @@ import java.util.*;
 
 import static utils.Constatnts.DELIMITER;
 
-public class DAOTipoCableImplFile implements DAOTipoCable {
+public class DAOUbicacionImplFile implements DAOUbicacion {
     private final String filename;
-    private List<TipoCable> list;
+    private List<Ubicacion> list;
     private boolean actualizar;
 
-    public DAOTipoCableImplFile() {
+    public DAOUbicacionImplFile() {
         ResourceBundle rb = ResourceBundle.getBundle("secuencial");
-        filename = rb.getString("tiposCables");
+        filename = rb.getString("ubicaciones");
         actualizar = true;
     }
 
-    private List<TipoCable> readFromFile(String file) {
-        List<TipoCable> list = new ArrayList<>();
+    private List<Ubicacion> readFromFile(String file) {
+        List<Ubicacion> list = new ArrayList<>();
         Scanner inFile = null;
         try {
             inFile = new Scanner(new File(file));
@@ -29,8 +29,7 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
             while (inFile.hasNext()) {
                 String codigo = inFile.next();
                 String descripcion = inFile.next();
-                int velocidad = inFile.nextInt();
-                list.add(new TipoCable(codigo, descripcion, velocidad));
+                list.add(new Ubicacion(codigo, descripcion));
             }
         } catch (FileNotFoundException fileNotFoundException) {
             System.err.println("Error opening file.");
@@ -48,12 +47,12 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
         return list;
     }
 
-    private void writeToFile(List<TipoCable> list, String file) {
+    private void writeToFile(List<Ubicacion> list, String file) {
         Formatter outFile = null;
         try {
             outFile = new Formatter(file);
-            for (TipoCable e : list) {
-                outFile.format("%s;%s;%s;\n", e.getCodigo(), e.getDescripcion(), e.getVelocidad());
+            for (Ubicacion e : list) {
+                outFile.format("%s;%s;\n", e.getCodigo(), e.getDescripcion());
             }
         } catch (FileNotFoundException fileNotFoundException) {
             System.err.println("Error creating file.");
@@ -66,14 +65,14 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
     }
 
     @Override
-    public void create(TipoCable tipoCable) {
-        list.add(tipoCable);
+    public void create(Ubicacion ubicacion) {
+        list.add(ubicacion);
         writeToFile(list, filename);
         actualizar = true;
     }
 
     @Override
-    public List<TipoCable> read() {
+    public List<Ubicacion> read() {
         if (actualizar) {
             list = readFromFile(filename);
             actualizar = false;
@@ -82,7 +81,7 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
     }
 
     @Override
-    public void update(TipoCable o, TipoCable n) {
+    public void update(Ubicacion o, Ubicacion n) {
         int pos = list.indexOf(o);
         list.set(pos, n);
         writeToFile(list, filename);
@@ -90,9 +89,10 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
     }
 
     @Override
-    public void delete(TipoCable tipoCable) {
-        list.remove(tipoCable);
+    public void delete(Ubicacion ubicacion) {
+        list.remove(ubicacion);
         writeToFile(list, filename);
         actualizar = true;
     }
+
 }
