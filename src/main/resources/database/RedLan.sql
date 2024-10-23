@@ -1,68 +1,76 @@
-CREATE TABLE ubicaciones
+create table tipos_cables
 (
-    codigo      VARCHAR(10) PRIMARY KEY,
-    descripcion VARCHAR(30)
-);
-
-CREATE TABLE tipos_cables
-(
-    codigo      VARCHAR(10) PRIMARY KEY,
+    codigo      VARCHAR(10)
+        primary key,
     descripcion VARCHAR(30),
     velocidad   INTEGER
 );
 
-CREATE TABLE tipos_puertos
+create table tipos_equipos
 (
-    codigo      VARCHAR(10) PRIMARY KEY,
+    codigo      VARCHAR(10)
+        primary key,
+    descripcion VARCHAR(30)
+);
+
+create table tipos_puertos
+(
+    codigo      VARCHAR(10)
+        primary key,
     descripcion VARCHAR(30),
     velocidad   INTEGER
 );
 
-CREATE TABLE tipos_equipos
+create table ubicaciones
 (
-    codigo      VARCHAR(10) PRIMARY KEY,
+    codigo      VARCHAR(10)
+        primary key,
     descripcion VARCHAR(30)
 );
 
-CREATE TABLE equipos
+create table equipos
 (
-    codigo      VARCHAR(10) PRIMARY KEY,
+    codigo      VARCHAR(10)
+        primary key,
     marca       VARCHAR(30),
     modelo      VARCHAR(30),
-    tipo_equipo VARCHAR(10),
-    ubicacion   VARCHAR(10),
-    FOREIGN KEY (tipo_equipo) REFERENCES tipos_equipos (codigo),
-    FOREIGN KEY (ubicacion) REFERENCES ubicaciones (codigo)
+    tipo_equipo VARCHAR(10)
+        references tipos_equipos,
+    ubicacion   VARCHAR(10)
+        references ubicaciones,
+    estado      integer default 0
 );
 
-CREATE TABLE direcciones_ip
+create table conexiones
 (
-    ip     VARCHAR(11) PRIMARY KEY,
-    equipo VARCHAR(10),
-    FOREIGN KEY (equipo) REFERENCES equipos (codigo)
+    equipo1      VARCHAR(10)
+        references equipos,
+    equipo2      VARCHAR(10)
+        references equipos,
+    tipo_cable   VARCHAR(10)
+        references tipos_cables,
+    tipo_puerto1 VARCHAR(10)
+        references tipos_puertos,
+    tipo_puerto2 VARCHAR(10)
+        references tipos_puertos,
+    primary key (equipo1, equipo2)
 );
 
-CREATE TABLE puertos
+create table direcciones_ip
 (
-    equipo      VARCHAR(10),
-    tipo_puerto VARCHAR(10),
+    ip     VARCHAR(11)
+        primary key,
+    equipo VARCHAR(10)
+        references equipos
+);
+
+create table puertos
+(
+    equipo      VARCHAR(10)
+        references equipos,
+    tipo_puerto VARCHAR(10)
+        references tipos_puertos,
     cantidad    INTEGER,
-    FOREIGN KEY (equipo) REFERENCES equipos (codigo),
-    FOREIGN KEY (tipo_puerto) REFERENCES tipos_puertos (codigo),
-    PRIMARY KEY (equipo, tipo_puerto)
+    primary key (equipo, tipo_puerto)
 );
 
-CREATE TABLE conexiones
-(
-    equipo1      VARCHAR(10),
-    equipo2      VARCHAR(10),
-    tipo_cable   VARCHAR(10),
-    tipo_puerto1 VARCHAR(10),
-    tipo_puerto2 VARCHAR(10),
-    FOREIGN KEY (equipo1) REFERENCES equipos (codigo),
-    FOREIGN KEY (equipo2) REFERENCES equipos (codigo),
-    FOREIGN KEY (tipo_cable) REFERENCES tipos_cables (codigo),
-    FOREIGN KEY (tipo_puerto1) REFERENCES tipos_puertos (codigo),
-    FOREIGN KEY (tipo_puerto2) REFERENCES tipos_puertos (codigo),
-    PRIMARY KEY (equipo1, equipo2)
-);

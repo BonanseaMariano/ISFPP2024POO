@@ -1,21 +1,20 @@
 package data.implementations.sqlite;
 
 import data.interfaces.DAOConexion;
+import database.DBConnection;
 import models.Conexion;
 import models.Equipo;
 import models.TipoCable;
 import models.TipoPuerto;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
 
-import static utils.Constatnts.DELIMITER;
 
 public class DAOConexionImplSqlite implements DAOConexion {
-    private final String filename;
-    private List<Conexion> list;
-    private boolean actualizar;
     private Hashtable<String, TipoCable> tiposCables;
     private Hashtable<String, Equipo> equipos;
     private Hashtable<String, TipoPuerto> tiposPuertos;
@@ -24,88 +23,140 @@ public class DAOConexionImplSqlite implements DAOConexion {
         tiposCables = loadTiposCables();
         equipos = loadEquipos();
         tiposPuertos = loadTiposPuertos();
-        ResourceBundle rb = ResourceBundle.getBundle("secuencial");
-        filename = rb.getString("conexiones");
-        actualizar = true;
-    }
-
-
-    private List<Conexion> readFromFile(String file) {
-        List<Conexion> list = new ArrayList<>();
-        Scanner inFile = null;
-        try {
-            inFile = new Scanner(new File(file));
-            inFile.useDelimiter(DELIMITER);
-            while (inFile.hasNext()) {
-                Equipo pc1 = equipos.get(inFile.next());
-                TipoPuerto puerto1 = tiposPuertos.get(inFile.next());
-                Equipo pc2 = equipos.get(inFile.next());
-                TipoPuerto puerto2 = tiposPuertos.get(inFile.next());
-                TipoCable tipoCable = tiposCables.get(inFile.next());
-                list.add(new Conexion(tipoCable, pc1, puerto1, pc2, puerto2));
-            }
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.err.println("Error opening file.");
-            fileNotFoundException.printStackTrace();
-        } catch (NoSuchElementException noSuchElementException) {
-            System.err.println("Error in file record structure");
-            noSuchElementException.printStackTrace();
-        } catch (IllegalStateException illegalStateException) {
-            System.err.println("Error reading from file.");
-            illegalStateException.printStackTrace();
-        } finally {
-            if (inFile != null)
-                inFile.close();
-        }
-        return list;
-    }
-
-    private void writeToFile(List<Conexion> list, String file) {
-        Formatter outFile = null;
-        try {
-            outFile = new Formatter(file);
-            for (Conexion e : list) {
-                outFile.format("%s;%s;%s;%s;%s;\n", e.getEquipo1().getCodigo(), e.getPuerto1().getCodigo(), e.getEquipo2().getCodigo(), e.getPuerto2().getCodigo(), e.getTipoCable().getCodigo());
-            }
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.err.println("Error creating file.");
-        } catch (FormatterClosedException formatterClosedException) {
-            System.err.println("Error writing to file.");
-        } finally {
-            if (outFile != null)
-                outFile.close();
-        }
     }
 
     @Override
     public void create(Conexion conexion) {
-        list.add(conexion);
-        writeToFile(list, filename);
-        actualizar = true;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "";
+            sql += "INSERT INTO conexiones (equipo1, equipo2, tipo_cable, tipo_puerto1, tipo_puerto2) ";
+            sql += "VALUES(?,?,?,?,?) ";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, conexion.getEquipo1().getCodigo());
+            pstm.setString(2, conexion.getEquipo2().getCodigo());
+            pstm.setString(3, conexion.getTipoCable().getCodigo());
+            pstm.setString(4, conexion.getPuerto1().getCodigo());
+            pstm.setString(5, conexion.getPuerto2().getCodigo());
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @Override
     public List<Conexion> read() {
-        if (actualizar) {
-            list = readFromFile(filename);
-            actualizar = false;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "SELECT equipo1, equipo2, tipo_cable, tipo_puerto1, tipo_puerto2 FROM conexiones ";
+            pstm = con.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            List<Conexion> ret = new ArrayList<>();
+            while (rs.next()) {
+                Conexion c = new Conexion();
+                c.setEquipo1(equipos.get(rs.getString("equipo1")));
+                c.setEquipo2(equipos.get(rs.getString("equipo2")));
+                c.setTipoCable(tiposCables.get(rs.getString("tipo_cable")));
+                c.setPuerto1(tiposPuertos.get(rs.getString("tipo_puerto1")));
+                c.setPuerto2(tiposPuertos.get(rs.getString("tipo_puerto2")));
+                ret.add(c);
+            }
+            return ret;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
         }
-        return list;
     }
 
     @Override
     public void update(Conexion o, Conexion n) {
-        int pos = list.indexOf(o);
-        list.set(pos, n);
-        writeToFile(list, filename);
-        actualizar = true;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "UPDATE conexiones ";
+            sql += "SET equipo1 = ?, equipo2 = ?, tipo_cable = ?, tipo_puerto1 = ?, tipo_puerto2 = ? ";
+            sql += "WHERE equipo1 = ? AND equipo2 = ? ";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, n.getEquipo1().getCodigo());
+            pstm.setString(2, n.getEquipo2().getCodigo());
+            pstm.setString(3, n.getTipoCable().getCodigo());
+            pstm.setString(4, n.getPuerto1().getCodigo());
+            pstm.setString(5, n.getPuerto2().getCodigo());
+            pstm.setString(6, o.getEquipo1().getCodigo());
+            pstm.setString(7, o.getEquipo2().getCodigo());
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @Override
     public void delete(Conexion conexion) {
-        list.remove(conexion);
-        writeToFile(list, filename);
-        actualizar = true;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "";
+            sql += "DELETE FROM conexiones WHERE equipo1 = ? AND equipo2 = ? ";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, conexion.getEquipo1().getCodigo());
+            pstm.setString(2, conexion.getEquipo2().getCodigo());
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     private Hashtable<String, TipoCable> loadTiposCables() {

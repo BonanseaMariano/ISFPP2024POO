@@ -13,15 +13,10 @@ import java.sql.ResultSet;
 import java.util.*;
 
 
-
 public class DAOEquipoImplSqlite implements DAOEquipo {
-
     private Hashtable<String, TipoEquipo> tiposEquipos;
     private Hashtable<String, Ubicacion> ubicaciones;
     private Hashtable<String, TipoPuerto> tiposPuertos;
-    private List<Equipo> list = new ArrayList<>(); // Define list
-    private String filename = "equipos.txt"; // Define filename
-    private boolean actualizar = false; // Define actualizar
 
     public DAOEquipoImplSqlite() {
         tiposEquipos = loadTipoEquipos();
@@ -37,14 +32,15 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
         try {
             con = DBConnection.getConnection();
             String sql = "";
-            sql += "INSERT INTO equipos (codigo, marca, modelo, tipo_equipo,ubicacion) ";
-            sql += "VALUES(?,?,?,?,?) ";
+            sql += "INSERT INTO equipos (codigo,marca,modelo,tipo_equipo,ubicacion,estado) ";
+            sql += "VALUES(?,?,?,?,?,?) ";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, equipo.getCodigo());
             pstm.setString(2, equipo.getMarca());
             pstm.setString(3, equipo.getModelo());
             pstm.setString(4, equipo.getTipoEquipo().getCodigo());
             pstm.setString(5, equipo.getUbicacion().getCodigo());
+            pstm.setInt(6, equipo.isEstado() ? 1 : 0);
             pstm.executeUpdate();
 
             for (Puerto puerto : equipo.getPuertos()) {
@@ -91,7 +87,7 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
         ResultSet rs = null;
         try {
             con = DBConnection.getConnection();
-            String sql = "SELECT codigo, marca, modelo, tipo_equipo, ubicacion FROM equipos ";
+            String sql = "SELECT codigo, marca, modelo, tipo_equipo, ubicacion, estado FROM equipos ";
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
             Equipo e = new Equipo();
@@ -101,6 +97,8 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
                 e.setMarca(rs.getString("marca"));
                 e.setModelo(rs.getString("modelo"));
                 e.setTipoEquipo(tiposEquipos.get(rs.getString("tipo_equipo")));
+                e.setUbicacion(ubicaciones.get(rs.getString("ubicacion")));
+                e.setEstado(rs.getInt("estado") == 1);
             }
 
             sql = "SELECT cantidad, tipo_puerto FROM puertos ";
@@ -147,14 +145,15 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
         try {
             con = DBConnection.getConnection();
             String sql = "UPDATE equipos ";
-            sql += "SET marca = ?, modelo = ? ,ubicacion = ? ,tipo_equipo = ? ";
+            sql += "SET marca = ?, modelo = ? ,ubicacion = ? ,tipo_equipo = ? ,estado = ? ";
             sql += "WHERE codigo = ? ";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, n.getMarca());
             pstm.setString(2, n.getModelo());
             pstm.setString(3, n.getUbicacion().getCodigo());
             pstm.setString(4, n.getTipoEquipo().getCodigo());
-            pstm.setString(5, o.getCodigo());
+            pstm.setInt(5, n.isEstado() ? 1 : 0);
+            pstm.setString(6, o.getCodigo());
             pstm.executeUpdate();
 
             sql = "UPDATE puertos ";
@@ -245,7 +244,6 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
             }
         }
     }
-
 
     private Hashtable<String, TipoEquipo> loadTipoEquipos() {
         Hashtable<String, TipoEquipo> tiposEquipos = new Hashtable<>();

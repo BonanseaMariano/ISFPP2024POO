@@ -17,6 +17,9 @@ public class Conexion {
         this.puerto2 = puerto2;
     }
 
+    public Conexion() {
+    }
+
     public TipoCable getTipoCable() {
         return tipoCable;
     }
