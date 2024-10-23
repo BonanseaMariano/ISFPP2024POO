@@ -200,7 +200,6 @@ public class CoordinatorTest {
         coordinator.addConnection(c);
     }
 
-    //TODO: Revisar addEquipo (Tiene algun problema el DAO con la ubicacion)
     @Test
     void testAddDevice() {
         //Se actualizan los datos de logica con los datos de coordinator
