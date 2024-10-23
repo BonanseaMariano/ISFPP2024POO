@@ -185,7 +185,7 @@ public class Coordinator {
             red.addEquipo(equipo);
             logic.addVertex(equipo);
         } catch (InvalidEquipoException | InvalidUbicacionException | InvalidTipoEquipoException |
-                 InvalidTipoPuertoException | InvalidDireccionIPException e) {
+                 InvalidTipoPuertoException | InvalidDireccionIPException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }

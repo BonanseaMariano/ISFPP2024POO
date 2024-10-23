@@ -205,9 +205,8 @@ public class CoordinatorTest {
     void testAddDevice() {
         //Se actualizan los datos de logica con los datos de coordinator
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
-
         //Se crea un nuevo equipo valido
-        Equipo e = new Equipo("TEST7", "Test7", "Test7", "Test7", coordinator.getRed().getTiposEquipos().get(0), coordinator.getRed().getUbicaciones().get(0), coordinator.getEquipos().get(0).getPuertos().get(0), "777.777.77.77", true);
+        Equipo e = new Equipo("TEST7", "Test7", "Test7", "Test7", coordinator.getRed().getTiposEquipos().get("COM"), coordinator.getRed().getUbicaciones().get("RL3"), coordinator.getEquipos().getFirst().getPuertos().getFirst(), "777.777.77.77", true);
 
         //Se agrega el equipo a través del coordinador
         coordinator.addEquipo(e);

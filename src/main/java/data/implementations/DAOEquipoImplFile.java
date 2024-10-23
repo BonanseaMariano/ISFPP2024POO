@@ -58,8 +58,8 @@ public class DAOEquipoImplFile implements DAOEquipo {
                     String[] puertoAttributes = puerto.split(",");
 
                     try {
-                        tipoPuerto = tiposPuertos.get(puertoAttributes[0]);
-                        cantidad = Integer.parseInt(puertoAttributes[1]);
+                        cantidad = Integer.parseInt(puertoAttributes[0]);
+                        tipoPuerto = tiposPuertos.get(puertoAttributes[1]);
                     } catch (NumberFormatException | NullPointerException e) {
                         System.out.println("Error al cargar los puertos del equipo " + codigo);
                         continue;
@@ -106,6 +106,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
 
     private void writeToFile(List<Equipo> list, String file) {
         Formatter outFile = null;
+        boolean isFirst = true;
         try {
             outFile = new Formatter(file);
             for (Equipo e : list) {
@@ -126,8 +127,12 @@ public class DAOEquipoImplFile implements DAOEquipo {
                 if (!direccionesIp.isEmpty()) {
                     direccionesIp.setLength(direccionesIp.length() - 1);
                 }
-
-                outFile.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;\n",
+                if(!isFirst) {
+                    outFile.format("\n");
+                }else{
+                    isFirst = false;
+                }
+                outFile.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;",
                         e.getCodigo(),
                         e.getDescripcion(),
                         e.getMarca(),
@@ -138,6 +143,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
                         direccionesIp,
                         e.isEstado());
             }
+
         } catch (FileNotFoundException fileNotFoundException) {
             System.err.println("Error creating file.");
         } catch (FormatterClosedException formatterClosedException) {

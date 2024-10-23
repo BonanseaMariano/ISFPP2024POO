@@ -110,7 +110,10 @@ public class Logic {
      *
      * @param equipo the vertex (equipo) to be added to the graph
      */
-    public void addVertex(Equipo equipo) {
+    public void addVertex(Equipo equipo) throws IllegalArgumentException {
+        if(equiposMap.containsKey(equipo.getCodigo())) {
+            throw new IllegalArgumentException("El equipo ya existe");
+        }
         graph.addVertex(equipo);
         equiposMap.put(equipo.getCodigo(), equipo);
     }

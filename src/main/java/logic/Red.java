@@ -244,6 +244,7 @@ public class Red {
      * @throws InvalidDireccionIPException if the IP address of the device is invalid
      */
     private void equipoValidation(Equipo equipo) throws InvalidUbicacionException, InvalidTipoEquipoException, InvalidTipoPuertoException, InvalidDireccionIPException {
+        System.out.println(equipo.getUbicacion().getCodigo());
         if (!this.ubicaciones.containsKey(equipo.getUbicacion().getCodigo())) {
             throw new InvalidUbicacionException("No se puede agregar el equipo porque la ubicación no existe en la red.");
         }
@@ -273,7 +274,7 @@ public class Red {
     public void addEquipo(Equipo equipo) throws InvalidEquipoException, InvalidUbicacionException, InvalidTipoEquipoException, InvalidTipoPuertoException, InvalidDireccionIPException {
         equipoValidation(equipo);
         if (this.equipos.containsKey(equipo.getCodigo())) {
-            throw new InvalidEquipoException("No se puede agregar el equipo porque ya existe.");
+            throw new IllegalArgumentException("No se puede agregar el equipo porque ya existe.");
         }
         this.equipos.put(equipo.getCodigo(), equipo);
         this.equipoService.insert(equipo);
