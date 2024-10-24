@@ -55,13 +55,15 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
             }
 
             for (String direccionIp : equipo.getDireccionesIp()) {
-                sql = "";
-                sql += "INSERT INTO direcciones_ip (equipo, direccion_ip) ";
-                sql += "VALUES(?,?) ";
-                pstm = con.prepareStatement(sql);
-                pstm.setString(1, equipo.getCodigo());
-                pstm.setString(2, direccionIp);
-                pstm.executeUpdate();
+                if (!direccionIp.isBlank()) {
+                    sql = "";
+                    sql += "INSERT INTO direcciones_ip (equipo, ip) ";
+                    sql += "VALUES(?,?) ";
+                    pstm = con.prepareStatement(sql);
+                    pstm.setString(1, equipo.getCodigo());
+                    pstm.setString(2, direccionIp);
+                    pstm.executeUpdate();
+                }
             }
 
         } catch (Exception ex) {

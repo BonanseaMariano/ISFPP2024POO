@@ -33,7 +33,8 @@ public class Equipo {
     }
 
     public Equipo() {
-
+        this.puertos = new ArrayList<>();
+        this.direccionesIp = new ArrayList<>();
     }
 
     public void agregarPuerto(Puerto puerto) {

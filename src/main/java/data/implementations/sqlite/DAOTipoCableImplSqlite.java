@@ -1,98 +1,136 @@
 package data.implementations.sqlite;
 
 import data.interfaces.DAOTipoCable;
+import database.DBConnection;
 import models.TipoCable;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.*;
 
-import static utils.Constatnts.DELIMITER;
 
 public class DAOTipoCableImplSqlite implements DAOTipoCable {
-    private final String filename;
-    private List<TipoCable> list;
-    private boolean actualizar;
-
-    public DAOTipoCableImplSqlite() {
-        ResourceBundle rb = ResourceBundle.getBundle("secuencial");
-        filename = rb.getString("tiposCables");
-        actualizar = true;
-    }
-
-    private List<TipoCable> readFromFile(String file) {
-        List<TipoCable> list = new ArrayList<>();
-        Scanner inFile = null;
-        try {
-            inFile = new Scanner(new File(file));
-            inFile.useDelimiter(DELIMITER);
-            while (inFile.hasNext()) {
-                String codigo = inFile.next();
-                String descripcion = inFile.next();
-                int velocidad = inFile.nextInt();
-                list.add(new TipoCable(codigo, descripcion, velocidad));
-            }
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.err.println("Error opening file.");
-            fileNotFoundException.printStackTrace();
-        } catch (NoSuchElementException noSuchElementException) {
-            System.err.println("Error in file record structure");
-            noSuchElementException.printStackTrace();
-        } catch (IllegalStateException illegalStateException) {
-            System.err.println("Error reading from file.");
-            illegalStateException.printStackTrace();
-        } finally {
-            if (inFile != null)
-                inFile.close();
-        }
-        return list;
-    }
-
-    private void writeToFile(List<TipoCable> list, String file) {
-        Formatter outFile = null;
-        try {
-            outFile = new Formatter(file);
-            for (TipoCable e : list) {
-                outFile.format("%s;%s;%s;\n", e.getCodigo(), e.getDescripcion(), e.getVelocidad());
-            }
-        } catch (FileNotFoundException fileNotFoundException) {
-            System.err.println("Error creating file.");
-        } catch (FormatterClosedException formatterClosedException) {
-            System.err.println("Error writing to file.");
-        } finally {
-            if (outFile != null)
-                outFile.close();
-        }
-    }
 
     @Override
     public void create(TipoCable tipoCable) {
-        list.add(tipoCable);
-        writeToFile(list, filename);
-        actualizar = true;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "";
+            sql += "INSERT INTO tipos_cables (codigo, descripcion, velocidad) ";
+            sql += "VALUES(?,?,?) ";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, tipoCable.getCodigo());
+            pstm.setString(2, tipoCable.getDescripcion());
+            pstm.setInt(3, tipoCable.getVelocidad());
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @Override
     public List<TipoCable> read() {
-        if (actualizar) {
-            list = readFromFile(filename);
-            actualizar = false;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "SELECT codigo, descripcion, velocidad FROM tipos_cables ";
+            pstm = con.prepareStatement(sql);
+            rs = pstm.executeQuery();
+            List<TipoCable> ret = new ArrayList<>();
+            while (rs.next()) {
+                ret.add(new TipoCable(rs.getString("codigo"), rs.getString("descripcion"), rs.getInt("velocidad")));
+            }
+            return ret;
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
         }
-        return list;
     }
 
     @Override
     public void update(TipoCable o, TipoCable n) {
-        int pos = list.indexOf(o);
-        list.set(pos, n);
-        writeToFile(list, filename);
-        actualizar = true;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "UPDATE tipos_cables ";
+            sql += "SET descripcion = ? ";
+            sql += "SET velocidad = ? ";
+            sql += "WHERE codigo = ? ";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, n.getDescripcion());
+            pstm.setInt(2, n.getVelocidad());
+            pstm.setString(3, o.getCodigo());
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 
     @Override
     public void delete(TipoCable tipoCable) {
-        list.remove(tipoCable);
-        writeToFile(list, filename);
-        actualizar = true;
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = DBConnection.getConnection();
+            String sql = "";
+            sql += "DELETE FROM tipos_cables WHERE codigo = ? ";
+            pstm = con.prepareStatement(sql);
+            pstm.setString(1, tipoCable.getCodigo());
+            pstm.executeUpdate();
+        } catch (Exception ex) {
+            ex.printStackTrace();
+            throw new RuntimeException(ex);
+        } finally {
+            try {
+                if (rs != null)
+                    rs.close();
+                if (pstm != null)
+                    pstm.close();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                throw new RuntimeException(ex);
+            }
+        }
     }
 }
