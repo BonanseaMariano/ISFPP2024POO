@@ -32,6 +32,10 @@ public class Equipo {
         this.estado = estado;
     }
 
+    public Equipo() {
+
+    }
+
     public void agregarPuerto(Puerto puerto) {
         puertos.add(puerto);
     }

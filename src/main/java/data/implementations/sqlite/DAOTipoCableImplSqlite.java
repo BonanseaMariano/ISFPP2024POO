@@ -1,7 +1,7 @@
-package data.implementations;
+package data.implementations.sqlite;
 
-import data.interfaces.DAOUbicacion;
-import models.Ubicacion;
+import data.interfaces.DAOTipoCable;
+import models.TipoCable;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -9,19 +9,19 @@ import java.util.*;
 
 import static utils.Constatnts.DELIMITER;
 
-public class DAOUbicacionImplFile implements DAOUbicacion {
+public class DAOTipoCableImplSqlite implements DAOTipoCable {
     private final String filename;
-    private List<Ubicacion> list;
+    private List<TipoCable> list;
     private boolean actualizar;
 
-    public DAOUbicacionImplFile() {
+    public DAOTipoCableImplSqlite() {
         ResourceBundle rb = ResourceBundle.getBundle("secuencial");
-        filename = rb.getString("ubicaciones");
+        filename = rb.getString("tiposCables");
         actualizar = true;
     }
 
-    private List<Ubicacion> readFromFile(String file) {
-        List<Ubicacion> list = new ArrayList<>();
+    private List<TipoCable> readFromFile(String file) {
+        List<TipoCable> list = new ArrayList<>();
         Scanner inFile = null;
         try {
             inFile = new Scanner(new File(file));
@@ -29,7 +29,8 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
             while (inFile.hasNext()) {
                 String codigo = inFile.next();
                 String descripcion = inFile.next();
-                list.add(new Ubicacion(codigo, descripcion));
+                int velocidad = inFile.nextInt();
+                list.add(new TipoCable(codigo, descripcion, velocidad));
             }
         } catch (FileNotFoundException fileNotFoundException) {
             System.err.println("Error opening file.");
@@ -47,12 +48,12 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
         return list;
     }
 
-    private void writeToFile(List<Ubicacion> list, String file) {
+    private void writeToFile(List<TipoCable> list, String file) {
         Formatter outFile = null;
         try {
             outFile = new Formatter(file);
-            for (Ubicacion e : list) {
-                outFile.format("%s;%s;\n", e.getCodigo(), e.getDescripcion());
+            for (TipoCable e : list) {
+                outFile.format("%s;%s;%s;\n", e.getCodigo(), e.getDescripcion(), e.getVelocidad());
             }
         } catch (FileNotFoundException fileNotFoundException) {
             System.err.println("Error creating file.");
@@ -65,14 +66,14 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
     }
 
     @Override
-    public void create(Ubicacion ubicacion) {
-        list.add(ubicacion);
+    public void create(TipoCable tipoCable) {
+        list.add(tipoCable);
         writeToFile(list, filename);
         actualizar = true;
     }
 
     @Override
-    public List<Ubicacion> read() {
+    public List<TipoCable> read() {
         if (actualizar) {
             list = readFromFile(filename);
             actualizar = false;
@@ -81,7 +82,7 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
     }
 
     @Override
-    public void update(Ubicacion o, Ubicacion n) {
+    public void update(TipoCable o, TipoCable n) {
         int pos = list.indexOf(o);
         list.set(pos, n);
         writeToFile(list, filename);
@@ -89,10 +90,9 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
     }
 
     @Override
-    public void delete(Ubicacion ubicacion) {
-        list.remove(ubicacion);
+    public void delete(TipoCable tipoCable) {
+        list.remove(tipoCable);
         writeToFile(list, filename);
         actualizar = true;
     }
-
 }

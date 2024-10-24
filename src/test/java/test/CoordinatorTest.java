@@ -9,6 +9,7 @@ import logic.Logic;
 import logic.Red;
 import models.Conexion;
 import models.Equipo;
+import models.Puerto;
 import models.TipoCable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -200,12 +201,14 @@ public class CoordinatorTest {
         coordinator.addConnection(c);
     }
 
+    //TODO: Revisar addEquipo (Tiene algun problema el DAO con la ubicacion)
     @Test
     void testAddDevice() {
         //Se actualizan los datos de logica con los datos de coordinator
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
+
         //Se crea un nuevo equipo valido
-        Equipo e = new Equipo("TEST7", "Test7", "Test7", "Test7", coordinator.getRed().getTiposEquipos().get("COM"), coordinator.getRed().getUbicaciones().get("RL3"), coordinator.getEquipos().getFirst().getPuertos().getFirst(), "777.777.77.77", true);
+        Equipo e = new Equipo("TEST7", "Test7", "Test7", "Test7", coordinator.getRed().getTiposEquipos().get("AP"), coordinator.getRed().getUbicaciones().get("RL3"), new Puerto(1,coordinator.getRed().getTiposPuertos().get("100M")), "777.777.77.77", true);
 
         //Se agrega el equipo a través del coordinador
         coordinator.addEquipo(e);

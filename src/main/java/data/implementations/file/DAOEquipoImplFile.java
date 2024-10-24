@@ -1,4 +1,4 @@
-package data.implementations;
+package data.implementations.file;
 
 import data.interfaces.DAOEquipo;
 import data.interfaces.DAOTipoEquipo;
