@@ -110,7 +110,7 @@
                       <Font name="Unispace" size="18" style="1"/>
                     </Property>
                     <Property name="horizontalAlignment" type="int" value="0"/>
-                    <Property name="text" type="java.lang.String" value="Red Lan Computadoras"/>
+                    <Property name="text" type="java.lang.String" value="Red Lan"/>
                   </Properties>
                 </Component>
                 <Container class="javax.swing.JPanel" name="upperButtonsPanel">
@@ -210,7 +210,7 @@
 
               <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
                 <Property name="columns" type="int" value="1"/>
-                <Property name="rows" type="int" value="4"/>
+                <Property name="rows" type="int" value="5"/>
                 <Property name="verticalGap" type="int" value="5"/>
               </Layout>
               <SubComponents>
@@ -227,13 +227,24 @@
                 </Component>
                 <Component class="javax.swing.JButton" name="pingBT">
                   <Properties>
-                    <Property name="text" type="java.lang.String" value="Ping Equipo"/>
+                    <Property name="text" type="java.lang.String" value="Ping"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
                       <Color id="Hand Cursor"/>
                     </Property>
                   </Properties>
                   <Events>
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pingBTActionPerformed"/>
+                  </Events>
+                </Component>
+                <Component class="javax.swing.JButton" name="pingRangeBT">
+                  <Properties>
+                    <Property name="text" type="java.lang.String" value="Ping Rango"/>
+                    <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
+                      <Color id="Hand Cursor"/>
+                    </Property>
+                  </Properties>
+                  <Events>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="pingRangeBTActionPerformed"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="statusMapBT">
@@ -247,7 +258,7 @@
                     <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="statusMapBTActionPerformed"/>
                   </Events>
                 </Component>
-                <Component class="javax.swing.JButton" name="problemasBT">
+                <Component class="javax.swing.JButton" name="problemsBT">
                   <Properties>
                     <Property name="text" type="java.lang.String" value="Problemas Conectividad"/>
                     <Property name="cursor" type="java.awt.Cursor" editor="org.netbeans.modules.form.editors2.CursorEditor">
@@ -255,7 +266,7 @@
                     </Property>
                   </Properties>
                   <Events>
-                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="problemasBTActionPerformed"/>
+                    <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="problemsBTActionPerformed"/>
                   </Events>
                 </Component>
               </SubComponents>

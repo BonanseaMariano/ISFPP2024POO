@@ -62,8 +62,9 @@ public class Gui extends javax.swing.JFrame {
         lowerMenu = new javax.swing.JPanel();
         tracerouteBT = new javax.swing.JButton();
         pingBT = new javax.swing.JButton();
+        pingRangeBT = new javax.swing.JButton();
         statusMapBT = new javax.swing.JButton();
-        problemasBT = new javax.swing.JButton();
+        problemsBT = new javax.swing.JButton();
         graphJP = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -80,7 +81,7 @@ public class Gui extends javax.swing.JFrame {
 
         titleLB.setFont(new java.awt.Font("Unispace", 1, 18)); // NOI18N
         titleLB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleLB.setText("Red Lan Computadoras");
+        titleLB.setText("Red Lan");
         upperMenu.add(titleLB);
 
         upperButtonsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 5, 1));
@@ -145,7 +146,7 @@ public class Gui extends javax.swing.JFrame {
         menuJP.add(upperMenu);
 
         lowerMenu.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 5));
-        lowerMenu.setLayout(new java.awt.GridLayout(4, 1, 0, 5));
+        lowerMenu.setLayout(new java.awt.GridLayout(5, 1, 0, 5));
 
         tracerouteBT.setText("Ruta entre Equipos");
         tracerouteBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -156,7 +157,7 @@ public class Gui extends javax.swing.JFrame {
         });
         lowerMenu.add(tracerouteBT);
 
-        pingBT.setText("Ping Equipo");
+        pingBT.setText("Ping");
         pingBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pingBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -164,6 +165,15 @@ public class Gui extends javax.swing.JFrame {
             }
         });
         lowerMenu.add(pingBT);
+
+        pingRangeBT.setText("Ping Rango");
+        pingRangeBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        pingRangeBT.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                pingRangeBTActionPerformed(evt);
+            }
+        });
+        lowerMenu.add(pingRangeBT);
 
         statusMapBT.setText("Mapa de estado equipos");
         statusMapBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -174,14 +184,14 @@ public class Gui extends javax.swing.JFrame {
         });
         lowerMenu.add(statusMapBT);
 
-        problemasBT.setText("Problemas Conectividad");
-        problemasBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        problemasBT.addActionListener(new java.awt.event.ActionListener() {
+        problemsBT.setText("Problemas Conectividad");
+        problemsBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        problemsBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                problemasBTActionPerformed(evt);
+                problemsBTActionPerformed(evt);
             }
         });
-        lowerMenu.add(problemasBT);
+        lowerMenu.add(problemsBT);
 
         menuJP.add(lowerMenu);
 
@@ -237,12 +247,16 @@ public class Gui extends javax.swing.JFrame {
     }//GEN-LAST:event_pingBTActionPerformed
 
     private void statusMapBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusMapBTActionPerformed
+        System.out.println("\t---- Status Map ----");
+        for (Map.Entry<Equipo, Boolean> entry : coordinator.mapStatus().entrySet()) {
+            System.out.println(entry.getKey().getCodigo() + " " + entry.getValue());
+        }
         // TODO add your handling code here:
     }//GEN-LAST:event_statusMapBTActionPerformed
 
-    private void problemasBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_problemasBTActionPerformed
+    private void problemsBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_problemsBTActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_problemasBTActionPerformed
+    }//GEN-LAST:event_problemsBTActionPerformed
 
     private void equiposBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equiposBTActionPerformed
         // TODO add your handling code here:
@@ -267,6 +281,10 @@ public class Gui extends javax.swing.JFrame {
     private void ubicacionesBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubicacionesBTActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ubicacionesBTActionPerformed
+
+    private void pingRangeBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pingRangeBTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_pingRangeBTActionPerformed
 
     private void initMxGraphStyle() {
         mxGraph = new mxGraph() {
@@ -460,9 +478,9 @@ public class Gui extends javax.swing.JFrame {
             fillColor = "red";
         }
 
-        String value = equipo.getCodigo() + "\n";
+        String value = equipo.getCodigo();
         if (!equipo.getDireccionesIp().isEmpty()) {
-            value += equipo.getDireccionesIp().get(0);
+            value += "\n" + equipo.getDireccionesIp().get(0);
         }
         // Insert the vertex with the specified color and dimensions
         Object v = mxGraph.insertVertex(parent, null, value, 0, 0, VERTEX_WIDTH, VERTEX_HEIGHT, VERTEX_STYLE + fillColor);
@@ -576,7 +594,8 @@ public class Gui extends javax.swing.JFrame {
     private javax.swing.JPanel lowerMenu;
     private javax.swing.JPanel menuJP;
     private javax.swing.JButton pingBT;
-    private javax.swing.JButton problemasBT;
+    private javax.swing.JButton pingRangeBT;
+    private javax.swing.JButton problemsBT;
     private javax.swing.JButton statusMapBT;
     private javax.swing.JButton tiposCablesBT;
     private javax.swing.JButton tiposEquiposBT;

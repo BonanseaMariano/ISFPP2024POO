@@ -22,8 +22,9 @@ public class GuiTest {
         /* Se instancian las clases */
         red = Red.getRed();
         logic = new Logic();
-        coordinator = new Coordinator();
         gui = new Gui();
+        coordinator = new Coordinator();
+
 
         /* Se establecen las relaciones entre clases */
         logic.setCoordinator(coordinator);
