@@ -52,18 +52,13 @@ public class Gui extends javax.swing.JFrame {
         menuJP = new javax.swing.JPanel();
         upperMenu = new javax.swing.JPanel();
         titleLB = new javax.swing.JLabel();
-        euiposOptionsPanel = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        buttonsJP = new javax.swing.JPanel();
-        agregarEquipoBT = new javax.swing.JButton();
-        modificarEquipoBT = new javax.swing.JButton();
-        eliminarEquipoBT = new javax.swing.JButton();
-        conexionesOptionsPanel = new javax.swing.JPanel();
-        jLabel2 = new javax.swing.JLabel();
-        buttonsJP1 = new javax.swing.JPanel();
-        agregarConexionBT = new javax.swing.JButton();
-        modificarConexionBT = new javax.swing.JButton();
-        eliminarConexionBT = new javax.swing.JButton();
+        upperButtonsPanel = new javax.swing.JPanel();
+        equiposBT = new javax.swing.JButton();
+        conexionesBT = new javax.swing.JButton();
+        tiposEquiposBT = new javax.swing.JButton();
+        tiposCablesBT = new javax.swing.JButton();
+        tiposPuertosBT = new javax.swing.JButton();
+        ubicacionesBT = new javax.swing.JButton();
         lowerMenu = new javax.swing.JPanel();
         tracerouteBT = new javax.swing.JButton();
         pingBT = new javax.swing.JButton();
@@ -81,92 +76,71 @@ public class Gui extends javax.swing.JFrame {
         menuJP.setLayout(new java.awt.GridLayout(2, 1, 0, 10));
 
         upperMenu.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 5));
-        upperMenu.setLayout(new java.awt.GridLayout(3, 1));
+        upperMenu.setLayout(new java.awt.GridLayout(2, 1));
 
         titleLB.setFont(new java.awt.Font("Unispace", 1, 18)); // NOI18N
         titleLB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         titleLB.setText("Red Lan Computadoras");
         upperMenu.add(titleLB);
 
-        euiposOptionsPanel.setLayout(new java.awt.GridLayout(2, 1, 3, 0));
+        upperButtonsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 5, 1));
+        upperButtonsPanel.setLayout(new java.awt.GridLayout(3, 2, 5, 5));
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Equipos");
-        euiposOptionsPanel.add(jLabel1);
-
-        buttonsJP.setLayout(new java.awt.GridLayout(1, 3, 3, 0));
-
-        agregarEquipoBT.setText("Agregar");
-        agregarEquipoBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        agregarEquipoBT.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        agregarEquipoBT.addActionListener(new java.awt.event.ActionListener() {
+        equiposBT.setText("Equipos");
+        equiposBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        equiposBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarEquipoBTActionPerformed(evt);
+                equiposBTActionPerformed(evt);
             }
         });
-        buttonsJP.add(agregarEquipoBT);
+        upperButtonsPanel.add(equiposBT);
 
-        modificarEquipoBT.setText("Modificar ");
-        modificarEquipoBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        modificarEquipoBT.addActionListener(new java.awt.event.ActionListener() {
+        conexionesBT.setText("Conexiones");
+        conexionesBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        conexionesBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modificarEquipoBTActionPerformed(evt);
+                conexionesBTActionPerformed(evt);
             }
         });
-        buttonsJP.add(modificarEquipoBT);
+        upperButtonsPanel.add(conexionesBT);
 
-        eliminarEquipoBT.setText("Eliminar ");
-        eliminarEquipoBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        eliminarEquipoBT.addActionListener(new java.awt.event.ActionListener() {
+        tiposEquiposBT.setText("Tipos Equipos");
+        tiposEquiposBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tiposEquiposBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarEquipoBTActionPerformed(evt);
+                tiposEquiposBTActionPerformed(evt);
             }
         });
-        buttonsJP.add(eliminarEquipoBT);
+        upperButtonsPanel.add(tiposEquiposBT);
 
-        euiposOptionsPanel.add(buttonsJP);
-
-        upperMenu.add(euiposOptionsPanel);
-
-        conexionesOptionsPanel.setLayout(new java.awt.GridLayout(2, 1, 3, 0));
-
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Conexiones");
-        conexionesOptionsPanel.add(jLabel2);
-
-        buttonsJP1.setLayout(new java.awt.GridLayout(1, 3, 3, 0));
-
-        agregarConexionBT.setText("Agregar");
-        agregarConexionBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        agregarConexionBT.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
-        agregarConexionBT.addActionListener(new java.awt.event.ActionListener() {
+        tiposCablesBT.setText("Tipos Cables");
+        tiposCablesBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tiposCablesBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                agregarConexionBTActionPerformed(evt);
+                tiposCablesBTActionPerformed(evt);
             }
         });
-        buttonsJP1.add(agregarConexionBT);
+        upperButtonsPanel.add(tiposCablesBT);
 
-        modificarConexionBT.setText("Modificar ");
-        modificarConexionBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        modificarConexionBT.addActionListener(new java.awt.event.ActionListener() {
+        tiposPuertosBT.setText("Tipos Puertos");
+        tiposPuertosBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tiposPuertosBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modificarConexionBTActionPerformed(evt);
+                tiposPuertosBTActionPerformed(evt);
             }
         });
-        buttonsJP1.add(modificarConexionBT);
+        upperButtonsPanel.add(tiposPuertosBT);
 
-        eliminarConexionBT.setText("Eliminar ");
-        eliminarConexionBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        eliminarConexionBT.addActionListener(new java.awt.event.ActionListener() {
+        ubicacionesBT.setText("Ubicaciones");
+        ubicacionesBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        ubicacionesBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                eliminarConexionBTActionPerformed(evt);
+                ubicacionesBTActionPerformed(evt);
             }
         });
-        buttonsJP1.add(eliminarConexionBT);
+        upperButtonsPanel.add(ubicacionesBT);
 
-        conexionesOptionsPanel.add(buttonsJP1);
-
-        upperMenu.add(conexionesOptionsPanel);
+        upperMenu.add(upperButtonsPanel);
 
         menuJP.add(upperMenu);
 
@@ -217,99 +191,42 @@ public class Gui extends javax.swing.JFrame {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(menuJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6))
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6))
         );
         jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(menuJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menuJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 800, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, 0)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(0, 0, 0)))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(0, 0, 0)))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 600, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, 0)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(0, 0, 0)))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 600, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(0, 0, 0)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void agregarEquipoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarEquipoBTActionPerformed
-        // TODO add your handling code here:
-        //DEBUG
-        loadEquipoDialog.setVisible(true);
-    }//GEN-LAST:event_agregarEquipoBTActionPerformed
-
-    private void modificarEquipoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarEquipoBTActionPerformed
-        // TODO add your handling code here:
-        //DEBUG
-        Equipo modificado = null;
-        for (Equipo equipo : vertexMap.keySet()) {
-            if (equipo.getCodigo().equals("SW04")) {
-                modificado = equipo;
-                break;
-            }
-        }
-        modificado.setEstado(!modificado.isEstado());
-        modifyVisualVertex(modificado);
-    }//GEN-LAST:event_modificarEquipoBTActionPerformed
-
-    private void eliminarEquipoBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarEquipoBTActionPerformed
-        // TODO add your handling code here:
-        Equipo modificado = null;
-        for (Equipo equipo : vertexMap.keySet()) {
-            if (equipo.getCodigo().equals("SW04")) {
-                modificado = equipo;
-                break;
-            }
-        }
-        removeVisualVertex(modificado);
-    }//GEN-LAST:event_eliminarEquipoBTActionPerformed
-
-    private void agregarConexionBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_agregarConexionBTActionPerformed
-        // TODO add your handling code here:
-        //DEBUG
-        Equipo e1 = null;
-        Equipo e2 = null;
-        for (Equipo equipo : vertexMap.keySet()) {
-            if (equipo.getCodigo().equals("SWAP")) {
-                e1 = equipo;
-            }
-            if (equipo.getCodigo().equals("AP03")) {
-                e2 = equipo;
-            }
-        }
-        Conexion conexion = new Conexion(new TipoCable("T", "Cable Test", 10), e1, e1.getPuertos().getFirst().getTipoPuerto(), e2, e2.getPuertos().getFirst().getTipoPuerto());
-        addVisualEdge(conexion);
-    }//GEN-LAST:event_agregarConexionBTActionPerformed
-
-    private void modificarConexionBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificarConexionBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_modificarConexionBTActionPerformed
-
-    private void eliminarConexionBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_eliminarConexionBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_eliminarConexionBTActionPerformed
 
     private void tracerouteBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tracerouteBTActionPerformed
         // TODO add your handling code here:
@@ -326,6 +243,30 @@ public class Gui extends javax.swing.JFrame {
     private void problemasBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_problemasBTActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_problemasBTActionPerformed
+
+    private void equiposBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equiposBTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_equiposBTActionPerformed
+
+    private void conexionesBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conexionesBTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_conexionesBTActionPerformed
+
+    private void tiposEquiposBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiposEquiposBTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiposEquiposBTActionPerformed
+
+    private void tiposCablesBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiposCablesBTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiposCablesBTActionPerformed
+
+    private void tiposPuertosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiposPuertosBTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_tiposPuertosBTActionPerformed
+
+    private void ubicacionesBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubicacionesBTActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ubicacionesBTActionPerformed
 
     private void initMxGraphStyle() {
         mxGraph = new mxGraph() {
@@ -624,27 +565,22 @@ public class Gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton agregarConexionBT;
-    private javax.swing.JButton agregarEquipoBT;
-    private javax.swing.JPanel buttonsJP;
-    private javax.swing.JPanel buttonsJP1;
-    private javax.swing.JPanel conexionesOptionsPanel;
-    private javax.swing.JButton eliminarConexionBT;
-    private javax.swing.JButton eliminarEquipoBT;
-    private javax.swing.JPanel euiposOptionsPanel;
+    private javax.swing.JButton conexionesBT;
+    private javax.swing.JButton equiposBT;
     private javax.swing.JPanel graphJP;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel lowerMenu;
     private javax.swing.JPanel menuJP;
-    private javax.swing.JButton modificarConexionBT;
-    private javax.swing.JButton modificarEquipoBT;
     private javax.swing.JButton pingBT;
     private javax.swing.JButton problemasBT;
     private javax.swing.JButton statusMapBT;
+    private javax.swing.JButton tiposCablesBT;
+    private javax.swing.JButton tiposEquiposBT;
+    private javax.swing.JButton tiposPuertosBT;
     private javax.swing.JLabel titleLB;
     private javax.swing.JButton tracerouteBT;
+    private javax.swing.JButton ubicacionesBT;
+    private javax.swing.JPanel upperButtonsPanel;
     private javax.swing.JPanel upperMenu;
     // End of variables declaration//GEN-END:variables
 }
