@@ -92,36 +92,37 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
             String sql = "SELECT codigo, marca, modelo, tipo_equipo, ubicacion, estado FROM equipos ";
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
-            Equipo e = new Equipo();
             List<Equipo> ret = new ArrayList<>();
-            while (rs.next()) {
+            while (rs.next()) { //Primer while para cargar los equipos
+                Equipo e = new Equipo();
                 e.setCodigo(rs.getString("codigo"));
                 e.setMarca(rs.getString("marca"));
                 e.setModelo(rs.getString("modelo"));
                 e.setTipoEquipo(tiposEquipos.get(rs.getString("tipo_equipo")));
                 e.setUbicacion(ubicaciones.get(rs.getString("ubicacion")));
                 e.setEstado(rs.getInt("estado") == 1);
+                ret.add(e);
             }
 
-            sql = "SELECT cantidad, tipo_puerto FROM puertos ";
-            sql += "WHERE equipo = ? ";
-            pstm = con.prepareStatement(sql);
-            pstm.setString(1, e.getCodigo());
-            rs = pstm.executeQuery();
-            while (rs.next()) {
-                e.agregarPuerto(new Puerto(rs.getInt("cantidad"), tiposPuertos.get(rs.getString("tipo_puerto"))));
-            }
+            for (Equipo equipo : ret) { //Segundo while para cargar los puertos y direcciones ip a cada equipo
+                sql = "SELECT cantidad, tipo_puerto FROM puertos ";
+                sql += "WHERE equipo = ? ";
+                pstm = con.prepareStatement(sql);
+                pstm.setString(1, equipo.getCodigo());
+                rs = pstm.executeQuery();
+                while (rs.next()) {
+                    equipo.agregarPuerto(new Puerto(rs.getInt("cantidad"), tiposPuertos.get(rs.getString("tipo_puerto"))));
+                }
 
-            sql = "SELECT ip FROM direcciones_ip ";
-            sql += "WHERE equipo = ? ";
-            pstm = con.prepareStatement(sql);
-            pstm.setString(1, e.getCodigo());
-            rs = pstm.executeQuery();
-            while (rs.next()) {
-                e.agregarDireccionIp(rs.getString("ip"));
+                sql = "SELECT ip FROM direcciones_ip ";
+                sql += "WHERE equipo = ? ";
+                pstm = con.prepareStatement(sql);
+                pstm.setString(1, equipo.getCodigo());
+                rs = pstm.executeQuery();
+                while (rs.next()) {
+                    equipo.agregarDireccionIp(rs.getString("ip"));
+                }
             }
-
-            ret.add(e);
             return ret;
         } catch (Exception ex) {
             ex.printStackTrace();

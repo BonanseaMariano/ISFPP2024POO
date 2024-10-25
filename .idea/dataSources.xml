@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="RedLan" uuid="ab1f2905-2727-4f2a-b16b-102ac95a7410">
+    <data-source source="LOCAL" name="RedLan" uuid="ad0e3cca-d826-45a5-8fbf-081896702e09">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.sqlite.JDBC</jdbc-driver>
-      <jdbc-url>jdbc:sqlite:C:\Users\Usuario\OneDrive\Documents\Proyectos Java\ISFPP2024POO\src\main\resources\database\RedLan.db</jdbc-url>
+      <jdbc-url>jdbc:sqlite:E:\Proyectos Java\ISFPP2024POO\src\main\resources\database\RedLan.db</jdbc-url>
       <jdbc-additional-properties>
         <property name="com.intellij.clouds.kubernetes.db.enabled" value="false" />
       </jdbc-additional-properties>

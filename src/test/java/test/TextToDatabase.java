@@ -5,7 +5,7 @@ import data.implementations.sqlite.*;
 import data.interfaces.*;
 import models.*;
 
-public class DatabaseTest {
+public class TextToDatabase {
     //Para correrlo hay que hacerlo en partes (primero tipos y ubicaciones, desp equipos y finalmente conexiones)
     //Pasa los datos de los archivos a la base de datos sqlite
     public static void main(String[] args) {
