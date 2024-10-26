@@ -15,11 +15,11 @@ import javax.swing.*;
 public class PingDialog extends javax.swing.JDialog {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
+    private javax.swing.JButton jButtonPing;
+    private javax.swing.JComboBox<String> jComboBox;
+    private javax.swing.JLabel tituloJ;
+    private javax.swing.JPanel jPanelBG;
+    private javax.swing.JPanel jPanelBox;
     private Coordinator coordinator;
     // End of variables declaration//GEN-END:variables
 
@@ -30,6 +30,7 @@ public class PingDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.coordinator = coordinator;
         initComponents();
+        initStyles();
     }
 
     /**
@@ -42,21 +43,21 @@ public class PingDialog extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel1 = new javax.swing.JPanel();
-        jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        jPanelBG = new javax.swing.JPanel();
+        jPanelBox = new javax.swing.JPanel();
+        tituloJ = new javax.swing.JLabel();
+        jComboBox = new javax.swing.JComboBox<>();
+        jButtonPing = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ping Status");
 
-        jPanel1.setName("bg"); // NOI18N
+        jPanelBG.setName("bg"); // NOI18N
 
-        jPanel2.setLayout(new java.awt.GridBagLayout());
+        jPanelBox.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Equipo");
+        tituloJ.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        tituloJ.setText("Equipo");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -64,9 +65,9 @@ public class PingDialog extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 212;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(89, 72, 0, 78);
-        jPanel2.add(jLabel1, gridBagConstraints);
+        jPanelBox.add(tituloJ, gridBagConstraints);
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(coordinator.getEquiposIps()));
+        jComboBox.setModel(new javax.swing.DefaultComboBoxModel<>(coordinator.getEquiposIps()));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
@@ -74,15 +75,15 @@ public class PingDialog extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 174;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(12, 72, 0, 78);
-        jPanel2.add(jComboBox1, gridBagConstraints);
+        jPanelBox.add(jComboBox, gridBagConstraints);
 
-        jButton1.setText("Realizar Ping");
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButtonPing.setText("Realizar Ping");
+        jButtonPing.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        jButtonPing.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                String conexionText = "El equipo " + jComboBox1.getSelectedItem().toString() + " se encuentra: ";
+                String conexionText = "El equipo " + jComboBox.getSelectedItem().toString() + " se encuentra: ";
 
-                if(coordinator.ping(jComboBox1.getSelectedItem().toString())) {
+                if(coordinator.ping(jComboBox.getSelectedItem().toString())) {
                     conexionText += "Conectado";
                 }else{
                     conexionText += "Desconectado";
@@ -101,23 +102,27 @@ public class PingDialog extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 11;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(18, 139, 112, 0);
-        jPanel2.add(jButton1, gridBagConstraints);
+        jPanelBox.add(jButtonPing, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanelBG);
+        jPanelBG.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelBox, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanelBG, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void initStyles() {
+        this.setLocationRelativeTo(null);
+    }
 
     /**
      * @param args the command line arguments

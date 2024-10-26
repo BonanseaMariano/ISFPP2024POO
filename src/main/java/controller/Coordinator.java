@@ -245,6 +245,10 @@ public class Coordinator {
         return new ArrayList<>(red.getEquipos().values());
     }
 
+    public String[] getEquiposKeys(){
+        return red.getEquipos().keySet().toArray(new String[red.getEquipos().size()]);
+    }
+
     public String[] getEquiposIps() {
         ArrayList<String> ips = new ArrayList<>();
 
@@ -253,6 +257,10 @@ public class Coordinator {
         }
 
         return ips.toArray(new String[ips.size()]);
+    }
+
+    public Equipo getEquipo(String codigo) {
+        return red.getEquipos().get(codigo);
     }
 
     /**

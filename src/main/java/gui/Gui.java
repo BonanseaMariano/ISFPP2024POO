@@ -239,7 +239,7 @@ public class Gui extends javax.swing.JFrame {
     private void tracerouteBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tracerouteBTActionPerformed
         // TODO add your handling code here:
 
-        TraceRouteDialog traceRouteDialog = new TraceRouteDialog(this, true);
+        TraceRouteDialog traceRouteDialog = new TraceRouteDialog(this, true, coordinator);
         traceRouteDialog.setVisible(true);
     }//GEN-LAST:event_tracerouteBTActionPerformed
 
@@ -263,7 +263,7 @@ public class Gui extends javax.swing.JFrame {
     private void problemsBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_problemsBTActionPerformed
         // TODO add your handling code here:
 
-        ConnectivityProblemsDialog connectivityProblemsDialog = new ConnectivityProblemsDialog(this, true);
+        ConnectivityProblemsDialog connectivityProblemsDialog = new ConnectivityProblemsDialog(this, true, coordinator);
         connectivityProblemsDialog.setVisible(true);
     }//GEN-LAST:event_problemsBTActionPerformed
 
@@ -293,6 +293,9 @@ public class Gui extends javax.swing.JFrame {
 
     private void pingRangeBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pingRangeBTActionPerformed
         // TODO add your handling code here:
+
+        PingRangeDialog pingRangeDialog = new PingRangeDialog(this, true);
+        pingRangeDialog.setVisible(true);
     }//GEN-LAST:event_pingRangeBTActionPerformed
 
     private void initMxGraphStyle() {
