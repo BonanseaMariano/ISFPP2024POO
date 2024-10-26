@@ -21,7 +21,7 @@ public class Gui extends javax.swing.JFrame {
     private static final int VERTEX_HEIGHT = 30;
 
     private com.mxgraph.view.mxGraph mxGraph;
-    Map<Equipo, Object> vertexMap;
+    private Map<Equipo, Object> vertexMap;
 
     /**
      * Creates new form Gui
@@ -256,7 +256,7 @@ public class Gui extends javax.swing.JFrame {
             System.out.println(entry.getKey().getCodigo() + " " + entry.getValue());
         }
         // TODO add your handling code here:
-        StateMapEquiposDialog stateMapEquiposDialog = new StateMapEquiposDialog(this, true);
+        StateMapEquiposDialog stateMapEquiposDialog = new StateMapEquiposDialog(this, true,coordinator);
         stateMapEquiposDialog.setVisible(true);
     }//GEN-LAST:event_statusMapBTActionPerformed
 

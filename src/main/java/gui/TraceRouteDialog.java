@@ -27,7 +27,7 @@ public class TraceRouteDialog extends javax.swing.JDialog {
     private javax.swing.JPanel jPanelBox;
     // End of variables declaration//GEN-END:variables
 
-    Coordinator coordinator;
+    private Coordinator coordinator;
     /**
      * Creates new form TraceRoute
      */

@@ -28,8 +28,8 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
     private static final int VERTEX_HEIGHT = 30;
 
     private com.mxgraph.view.mxGraph mxGraph;
-    Map<Equipo, Object> vertexMap;
-    Coordinator coordinator;
+    private Map<Equipo, Object> vertexMap;
+    private Coordinator coordinator;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel titleJLabel;
