@@ -60,14 +60,14 @@
                   </Group>
                   <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="jTextField1" min="-2" pref="220" max="-2" attributes="0"/>
-                      <Component id="jTextField2" min="-2" pref="220" max="-2" attributes="0"/>
-                      <Component id="jTextField3" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                      <Component id="jTextField4" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                      <Component id="jToggleButton1" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                      <Component id="jButton1" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
-                      <Component id="jCheckBox1" min="-2" pref="85" max="-2" attributes="0"/>
+                      <Component id="codigoTF" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="descripcionTF" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="marcaTF" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="modeloTF" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="tipoEquipoCB" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="puertosBT" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="ipsBT" alignment="0" min="-2" pref="220" max="-2" attributes="0"/>
+                      <Component id="EstadoCB" min="-2" pref="85" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace min="-2" max="-2" attributes="0"/>
               </Group>
@@ -79,42 +79,42 @@
                   <EmptySpace min="-2" pref="8" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="codigoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="codigoTF" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="descripcionLbl" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField2" min="-2" max="-2" attributes="0"/>
+                      <Component id="descripcionTF" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="marcaLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField3" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="marcaTF" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="modeloLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jTextField4" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="modeloTF" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="tipoEquipoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jComboBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="tipoEquipoCB" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="puertosLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jToggleButton1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="puertosBT" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Component id="ipsLbl" min="-2" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <Component id="ipsBT" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace type="separate" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
                       <Component id="estadoLbl" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jCheckBox1" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="EstadoCB" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <EmptySpace pref="7" max="32767" attributes="0"/>
               </Group>
@@ -162,15 +162,15 @@
             <Property name="text" type="java.lang.String" value="Estado:"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField1">
+        <Component class="javax.swing.JTextField" name="codigoTF">
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField2">
+        <Component class="javax.swing.JTextField" name="descripcionTF">
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField3">
+        <Component class="javax.swing.JTextField" name="marcaTF">
         </Component>
-        <Component class="javax.swing.JTextField" name="jTextField4">
+        <Component class="javax.swing.JTextField" name="modeloTF">
         </Component>
-        <Component class="javax.swing.JComboBox" name="jComboBox1">
+        <Component class="javax.swing.JComboBox" name="tipoEquipoCB">
           <Properties>
             <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
               <StringArray count="4">
@@ -185,17 +185,20 @@
             <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
           </AuxValues>
         </Component>
-        <Component class="javax.swing.JToggleButton" name="jToggleButton1">
+        <Component class="javax.swing.JToggleButton" name="puertosBT">
           <Properties>
             <Property name="text" type="java.lang.String" value="Puertos Equipo"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JButton" name="jButton1">
+        <Component class="javax.swing.JButton" name="ipsBT">
           <Properties>
             <Property name="text" type="java.lang.String" value="Drecciones Ip Equipo"/>
           </Properties>
         </Component>
-        <Component class="javax.swing.JCheckBox" name="jCheckBox1">
+        <Component class="javax.swing.JCheckBox" name="EstadoCB">
+          <Properties>
+            <Property name="selected" type="boolean" value="true"/>
+          </Properties>
         </Component>
       </SubComponents>
     </Container>
