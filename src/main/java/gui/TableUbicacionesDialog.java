@@ -10,8 +10,22 @@ import java.util.Map;
  * in the system. It allows the user to add, modify and delete locations.
  */
 public class TableUbicacionesDialog extends javax.swing.JDialog {
-    Coordinator coordinator;
+    // Table displaying the locations
+    private javax.swing.JTable table;
 
+    // Coordinator instance to manage the application's business logic
+    private Coordinator coordinator;
+
+    /**
+     * Constructs a new TableUbicacionesDialog.
+     * <p>
+     * This constructor initializes the dialog with the specified parent frame, modality, and coordinator.
+     * It sets up the components, styles, and content of the dialog, and makes it visible.
+     *
+     * @param parent      the parent frame of the dialog
+     * @param modal       specifies whether the dialog blocks user input to other top-level windows when shown
+     * @param coordinator the coordinator instance to manage the application's business logic
+     */
     public TableUbicacionesDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
         this.coordinator = coordinator;
@@ -21,12 +35,25 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Initializes the style of the dialog.
+     * <p>
+     * This method sets the dialog's location relative to its parent,
+     * sets the title of the dialog to "Ubicaciones", and specifies
+     * the default close operation to dispose the dialog when closed.
+     */
     private void initStyle() {
         this.setLocationRelativeTo(null);
         this.setTitle("Ubicaciones");
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Initializes the content of the dialog.
+     * <p>
+     * This method retrieves the table model, clears any existing rows, and adds each location
+     * from the coordinator to the table model. It then attempts to sort the table.
+     */
     private void initContent() {
         // Get the table model
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) table.getModel();
@@ -45,15 +72,28 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         sorter.sort();
     }
 
+    /**
+     * Initializes the components of the dialog.
+     * <p>
+     * This method sets up the main background panel, the scroll pane containing the table,
+     * and the bottom panel with action buttons. It also configures the table model,
+     * selection mode, and row sorter.
+     */
     private void initComponents() {
 
-        bg = new javax.swing.JPanel();
-        scrollPane = new javax.swing.JScrollPane();
+        // Main background panel of the dialog
+        javax.swing.JPanel bg = new javax.swing.JPanel();
+        // Scroll pane that contains the table
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        bottomPanel = new javax.swing.JPanel();
-        agregarBT = new javax.swing.JButton();
-        modificarBT = new javax.swing.JButton();
-        eliminarBT = new javax.swing.JButton();
+        // Panel at the bottom of the dialog containing action buttons
+        javax.swing.JPanel bottomPanel = new javax.swing.JPanel();
+        // Button to add a new location
+        javax.swing.JButton agregarBT = new javax.swing.JButton();
+        // Button to modify a selected location
+        javax.swing.JButton modificarBT = new javax.swing.JButton();
+        // Button to delete a selected location
+        javax.swing.JButton eliminarBT = new javax.swing.JButton();
 
         // Set the table model with 2 columns: "Codigo" and "Descripcion"
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
@@ -121,6 +161,12 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         pack();
     }
 
+    /**
+     * Handles the action event for the "Agregar" button.
+     * <p>
+     * This method creates a form to add a new location, displays a confirmation dialog,
+     * and processes the input to add the new location to the table and the coordinator.
+     */
     private void agregarBTActionPerformed() {
         // Crear el formulario
         javax.swing.JTextField codigoField = new javax.swing.JTextField(10);
@@ -161,6 +207,12 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Handles the action event for the "Modificar" button.
+     * <p>
+     * This method retrieves the selected row from the table, displays a form with the current values,
+     * and updates the location in the coordinator and the table model if the user confirms the changes.
+     */
     private void modificarBTActionPerformed() {
         // Obtener el índice de la fila seleccionada
         int selectedRow = table.getSelectedRow();
@@ -212,6 +264,12 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Handles the action event for the "Eliminar" button.
+     * <p>
+     * This method retrieves the selected row from the table, displays a confirmation dialog,
+     * and deletes the location from the coordinator and the table model if the user confirms the deletion.
+     */
     private void eliminarBTActionPerformed() {
         // Obtener el índice de la fila seleccionada
         int selectedRow = table.getSelectedRow();
@@ -246,6 +304,17 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Creates a form panel with the specified text fields for code and description.
+     * <p>
+     * This method configures the editability of the code field, creates a panel with a grid layout,
+     * and adds labels and text fields for code and description to the panel.
+     *
+     * @param codigoField      the text field for the code
+     * @param descripcionField the text field for the description
+     * @param isEditable       specifies whether the code field is editable
+     * @return the created form panel
+     */
     private javax.swing.JPanel createFormPanel(javax.swing.JTextField codigoField, javax.swing.JTextField descripcionField, boolean isEditable) {
         // Configurar la editabilidad del campo de código
         codigoField.setEditable(isEditable);
@@ -262,11 +331,4 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         return panel;
     }
 
-    private javax.swing.JButton agregarBT;
-    private javax.swing.JPanel bg;
-    private javax.swing.JPanel bottomPanel;
-    private javax.swing.JButton eliminarBT;
-    private javax.swing.JScrollPane scrollPane;
-    private javax.swing.JButton modificarBT;
-    private javax.swing.JTable table;
 }

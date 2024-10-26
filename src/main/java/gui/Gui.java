@@ -271,9 +271,9 @@ public class Gui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_equiposBTActionPerformed
 
-    private void conexionesBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_conexionesBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_conexionesBTActionPerformed
+    private void conexionesBTActionPerformed(java.awt.event.ActionEvent evt) {
+        new TableConexionesDialog(this, true, coordinator);
+    }
 
     private void tiposEquiposBTActionPerformed(java.awt.event.ActionEvent evt) {
         new TableTiposEquiposDialog(this, true, coordinator);

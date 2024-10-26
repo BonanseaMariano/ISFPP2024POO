@@ -10,8 +10,21 @@ import java.util.Map;
  * in the system. It allows the user to add, modify and delete port types.
  */
 public class TableTiposPuertosDialog extends javax.swing.JDialog {
-    Coordinator coordinator;
+    // Table displaying the port types
+    private javax.swing.JTable table;
+    // Coordinator instance to manage the application's business logic
+    private Coordinator coordinator;
 
+    /**
+     * Constructs a new TableTiposPuertosDialog.
+     * <p>
+     * This constructor initializes the dialog with the specified parent frame, modality, and coordinator.
+     * It also sets up the components, style, and content of the dialog, and makes it visible.
+     *
+     * @param parent      the parent frame of the dialog
+     * @param modal       specifies whether the dialog blocks user input to other top-level windows when shown
+     * @param coordinator the coordinator instance to manage the application's business logic
+     */
     public TableTiposPuertosDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
         this.coordinator = coordinator;
@@ -21,12 +34,24 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Initializes the style of the dialog.
+     * <p>
+     * This method sets the location of the dialog relative to its parent,
+     * sets the title of the dialog, and specifies the default close operation.
+     */
     private void initStyle() {
         this.setLocationRelativeTo(null);
         this.setTitle("Tipos de Puertos");
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Initializes the content of the dialog.
+     * <p>
+     * This method retrieves the table model, clears any existing rows, and adds each
+     * TipoPuerto from the coordinator to the table model. Finally, it sorts the table.
+     */
     private void initContent() {
         // Get the table model
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) table.getModel();
@@ -45,14 +70,27 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
         sorter.sort();
     }
 
+    /**
+     * Initializes the components of the dialog.
+     * <p>
+     * This method sets up the main background panel, the scroll pane containing the table,
+     * and the bottom panel with action buttons. It also configures the table model,
+     * selection mode, and action listeners for the buttons.
+     */
     private void initComponents() {
-        bg = new javax.swing.JPanel();
-        scrollPane = new javax.swing.JScrollPane();
+        // Main background panel of the dialog
+        javax.swing.JPanel bg = new javax.swing.JPanel();
+        // Scroll pane that contains the table
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        bottomPanel = new javax.swing.JPanel();
-        agregarBT = new javax.swing.JButton();
-        modificarBT = new javax.swing.JButton();
-        eliminarBT = new javax.swing.JButton();
+        // Panel at the bottom of the dialog containing action buttons
+        javax.swing.JPanel bottomPanel = new javax.swing.JPanel();
+        // Button to add a new port type
+        javax.swing.JButton agregarBT = new javax.swing.JButton();
+        // Button to modify a selected port type
+        javax.swing.JButton modificarBT = new javax.swing.JButton();
+        // Button to delete a selected port type
+        javax.swing.JButton eliminarBT = new javax.swing.JButton();
 
         // Set the table model with 3 columns: "Codigo", "Descripcion", and "Velocidad"
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
@@ -120,6 +158,12 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
         pack();
     }
 
+    /**
+     * Handles the action performed when the "Agregar" button is clicked.
+     * <p>
+     * This method creates a form to input a new TipoPuerto, validates the input,
+     * and adds the new TipoPuerto to the coordinator and the table if the input is valid.
+     */
     private void agregarBTActionPerformed() {
         // Create the form
         javax.swing.JTextField codigoField = new javax.swing.JTextField(10);
@@ -168,6 +212,12 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Handles the action performed when the "Modificar" button is clicked.
+     * <p>
+     * This method retrieves the selected row from the table, displays a form with the current values,
+     * and updates the TipoPuerto in the coordinator and the table if the input is valid.
+     */
     private void modificarBTActionPerformed() {
         // Get the index of the selected row
         int selectedRow = table.getSelectedRow();
@@ -230,6 +280,12 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Handles the action performed when the "Eliminar" button is clicked.
+     * <p>
+     * This method retrieves the selected row from the table, confirms the deletion,
+     * and removes the TipoPuerto from the coordinator and the table if confirmed.
+     */
     private void eliminarBTActionPerformed() {
         // Get the index of the selected row
         int selectedRow = table.getSelectedRow();
@@ -264,6 +320,19 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Creates a form panel with the specified text fields and sets the editability of the code field.
+     * <p>
+     * This method creates a panel with a grid layout and adds labels and text fields for "Codigo",
+     * "Descripcion", and "Velocidad". The editability of the "Codigo" field is set based on the
+     * provided boolean parameter.
+     *
+     * @param codigoField      the text field for the code
+     * @param descripcionField the text field for the description
+     * @param velocidadField   the text field for the speed
+     * @param isEditable       specifies whether the code field is editable
+     * @return the created form panel
+     */
     private javax.swing.JPanel createFormPanel(javax.swing.JTextField codigoField, javax.swing.JTextField descripcionField, javax.swing.JTextField velocidadField, boolean isEditable) {
         // Set the editability of the code field
         codigoField.setEditable(isEditable);
@@ -282,11 +351,4 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
         return panel;
     }
 
-    private javax.swing.JButton agregarBT;
-    private javax.swing.JPanel bg;
-    private javax.swing.JPanel bottomPanel;
-    private javax.swing.JButton eliminarBT;
-    private javax.swing.JScrollPane scrollPane;
-    private javax.swing.JButton modificarBT;
-    private javax.swing.JTable table;
 }
