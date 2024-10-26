@@ -10,8 +10,22 @@ import java.util.Map;
  * in the system. It allows the user to add, modify and delete cable types.
  */
 public class TableTiposCablesDialog extends javax.swing.JDialog {
-    Coordinator coordinator;
+    // Table that displays the cable types
+    private javax.swing.JTable table;
 
+    // Coordinator instance that manages the connections and other related data
+    private Coordinator coordinator;
+
+    /**
+     * Constructs a new TableTiposCablesDialog.
+     * <p>
+     * This constructor initializes the dialog with the specified parent frame, modality, and coordinator.
+     * It sets up the components, styles, and content of the dialog, and makes it visible.
+     *
+     * @param parent      the parent frame of the dialog
+     * @param modal       specifies whether dialog blocks user input to other top-level windows when shown
+     * @param coordinator the coordinator instance that manages the connections and other related data
+     */
     public TableTiposCablesDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
         this.coordinator = coordinator;
@@ -21,12 +35,26 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
         this.setVisible(true);
     }
 
+    /**
+     * Initializes the style of the dialog.
+     * <p>
+     * This method sets the dialog's location to be relative to null,
+     * sets the title of the dialog to "Tipos de Cables",
+     * and specifies the default close operation to dispose on close.
+     */
     private void initStyle() {
         this.setLocationRelativeTo(null);
         this.setTitle("Tipos de Cables");
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Initializes the content of the dialog.
+     * <p>
+     * This method retrieves the table model, clears any existing rows,
+     * adds each `TipoCable` from the coordinator to the table model,
+     * and sorts the table.
+     */
     private void initContent() {
         // Get the table model
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) table.getModel();
@@ -45,14 +73,27 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
         sorter.sort();
     }
 
+    /**
+     * Initializes the components of the dialog.
+     * <p>
+     * This method sets up the main background panel, the scroll pane containing the table,
+     * the bottom panel with action buttons, and configures the table model and its sorter.
+     * It also sets the layout and adds the components to the dialog.
+     */
     private void initComponents() {
-        bg = new javax.swing.JPanel();
-        scrollPane = new javax.swing.JScrollPane();
+        // Main background panel of the dialog
+        javax.swing.JPanel bg = new javax.swing.JPanel();
+        // Scroll pane that contains the table
+        javax.swing.JScrollPane scrollPane = new javax.swing.JScrollPane();
         table = new javax.swing.JTable();
-        bottomPanel = new javax.swing.JPanel();
-        agregarBT = new javax.swing.JButton();
-        modificarBT = new javax.swing.JButton();
-        eliminarBT = new javax.swing.JButton();
+        // Panel at the bottom of the dialog containing action buttons
+        javax.swing.JPanel bottomPanel = new javax.swing.JPanel();
+        // Button to add a new cable type
+        javax.swing.JButton agregarBT = new javax.swing.JButton();
+        // Button to modify a selected cable type
+        javax.swing.JButton modificarBT = new javax.swing.JButton();
+        // Button to delete a selected cable type
+        javax.swing.JButton eliminarBT = new javax.swing.JButton();
 
         // Set the table model with 3 columns: "Codigo", "Descripcion", and "Velocidad"
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
@@ -120,6 +161,12 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
         pack();
     }
 
+    /**
+     * Handles the action performed when the "Agregar" button is clicked.
+     * <p>
+     * This method creates a form for adding a new `TipoCable`, displays it in a `JOptionPane`,
+     * and processes the input to add the new `TipoCable` to the table and the coordinator.
+     */
     private void agregarBTActionPerformed() {
         // Create the form
         javax.swing.JTextField codigoField = new javax.swing.JTextField(10);
@@ -168,6 +215,12 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Handles the action performed when the "Modificar" button is clicked.
+     * <p>
+     * This method retrieves the selected row from the table, displays a form with the current values,
+     * and updates the `TipoCable` in the coordinator and the table model if the user confirms the changes.
+     */
     private void modificarBTActionPerformed() {
         // Get the index of the selected row
         int selectedRow = table.getSelectedRow();
@@ -230,6 +283,12 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Handles the action performed when the "Eliminar" button is clicked.
+     * <p>
+     * This method retrieves the selected row from the table, confirms the deletion with the user,
+     * and removes the `TipoCable` from the coordinator and the table model if the user confirms the deletion.
+     */
     private void eliminarBTActionPerformed() {
         // Get the index of the selected row
         int selectedRow = table.getSelectedRow();
@@ -264,6 +323,18 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
         }
     }
 
+    /**
+     * Creates a form panel with the specified fields and layout.
+     * <p>
+     * This method sets the editability of the code field, creates a panel with a grid layout,
+     * and adds the provided text fields and their corresponding labels to the panel.
+     *
+     * @param codigoField      the text field for the code
+     * @param descripcionField the text field for the description
+     * @param velocidadField   the text field for the speed
+     * @param isEditable       specifies whether the code field is editable
+     * @return the created form panel
+     */
     private javax.swing.JPanel createFormPanel(javax.swing.JTextField codigoField, javax.swing.JTextField descripcionField, javax.swing.JTextField velocidadField, boolean isEditable) {
         // Set the editability of the code field
         codigoField.setEditable(isEditable);
@@ -282,11 +353,4 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
         return panel;
     }
 
-    private javax.swing.JButton agregarBT;
-    private javax.swing.JPanel bg;
-    private javax.swing.JPanel bottomPanel;
-    private javax.swing.JButton eliminarBT;
-    private javax.swing.JScrollPane scrollPane;
-    private javax.swing.JButton modificarBT;
-    private javax.swing.JTable table;
 }

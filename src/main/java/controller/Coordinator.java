@@ -92,18 +92,18 @@ public class Coordinator {
     /**
      * Adds a connection (Conexion) to the network.
      * <p>
-     * This method attempts to add the connection to the logic layer first. If successful, it then adds the connection
-     * to the network (Red) and updates the graphical user interface (Gui) to reflect the new connection.
-     * If any exception occurs during the process, the connection is not added and an error message is printed.
+     * This method attempts to add the connection to both the logic layer and the network (Red).
+     * If the connection is invalid, an InvalidConexionException is thrown.
+     * The graphical user interface (Gui) is also updated to reflect the new connection.
      *
      * @param conexion the connection to be added
+     * @throws InvalidConexionException if the connection is invalid
      */
-    public void addConnection(Conexion conexion) {
+    public void addConnection(Conexion conexion) throws InvalidConexionException {
         try {
             logic.addEdge(conexion);
         } catch (InvalidConexionException | LoopException | CicleException | NoAvailablePortsException e) {
-            System.out.println(e.getMessage());
-            return;
+            throw new InvalidConexionException(e.getMessage());
         }
 
         try {
@@ -112,7 +112,7 @@ public class Coordinator {
         } catch (InvalidEquipoException | InvalidConexionException | NoAvailablePortsException |
                  InvalidTipoCableException | InvalidTipoPuertoException e) {
             logic.deleteEdge(conexion);
-            System.out.println(e.getMessage());
+            throw new InvalidConexionException(e.getMessage());
         }
     }
 
@@ -120,45 +120,34 @@ public class Coordinator {
     /**
      * Deletes a connection (Conexion) from the network.
      * <p>
-     * This method attempts to delete the connection from the network (Red) and the logic layer.
-     * If the connection is invalid and cannot be deleted, an InvalidConexionException is caught and its message is printed.
-     * The graphical user interface (Gui) is also updated to reflect the removal of the connection.
+     * This method removes the connection from the network (Red), logic layer, and graphical user interface (Gui).
      *
      * @param conexion the connection to be deleted
+     * @throws InvalidConexionException if the connection is invalid
      */
-    public void deleteConnection(Conexion conexion) {
-        try {
-            red.deleteConexion(conexion);
-        } catch (InvalidConexionException e) {
-            System.out.println(e.getMessage());
-        }
-
-        try {
-            logic.deleteEdge(conexion);
-            gui.removeVisualEdge(conexion);
-        } catch (InvalidConexionException e) {
-            System.out.println(e.getMessage());
-        }
+    public void deleteConnection(Conexion conexion) throws InvalidConexionException {
+        red.deleteConexion(conexion);
+        logic.deleteEdge(conexion);
+        gui.removeVisualEdge(conexion);
     }
 
 
     /**
      * Modifies an existing connection (Conexion) in the network.
      * <p>
-     * This method attempts to modify the connection in the logic layer first. If successful, it then modifies the connection
-     * in the network (Red) and updates the graphical user interface (Gui) to reflect the new connection.
-     * If any exception occurs during the process, the connection is reverted to its original state and an error message is printed.
+     * This method attempts to modify the connection in the logic layer, network (Red), and graphical user interface (Gui).
+     * If any exception occurs during the process, the connection is not modified and an error message is printed.
+     * If an exception occurs while modifying the network or GUI, the changes in the logic layer are reverted.
      *
      * @param oldConexion the existing connection to be replaced
      * @param newConexion the new connection to replace the old one
+     * @throws InvalidConexionException if the connection is invalid
      */
-    public void modifyConnection(Conexion oldConexion, Conexion newConexion) {
-        Conexion oldConnection = null;
+    public void modifyConnection(Conexion oldConexion, Conexion newConexion) throws InvalidConexionException {
         try {
             logic.modifyEdge(oldConexion, newConexion);
         } catch (InvalidConexionException | LoopException | CicleException | NoAvailablePortsException e) {
-            System.out.println(e.getMessage() + " en logic");
-            return;
+            throw new InvalidConexionException(e.getMessage());
         }
 
         try {
@@ -168,8 +157,8 @@ public class Coordinator {
             System.out.println(e.getMessage());
         } catch (InvalidEquipoException |
                  InvalidTipoCableException | InvalidTipoPuertoException e) {
-            logic.modifyEdge(newConexion, oldConnection); // Revert changes
-            System.out.println(e.getMessage());
+            logic.modifyEdge(newConexion, oldConexion); // Revert changes
+            throw new InvalidConexionException(e.getMessage());
         }
     }
 
@@ -246,6 +235,17 @@ public class Coordinator {
     }
 
     /**
+     * Gets the map of devices (equipos) in the network.
+     * <p>
+     * This method retrieves the map of devices from the network (Red).
+     *
+     * @return a map where the key is the device code and the value is the device
+     */
+    public Map<String, Equipo> getEquiposMap() {
+        return red.getEquipos();
+    }
+
+    /**
      * Gets the list of connections (conexiones) in the network.
      *
      * @return a list of connections in the network
@@ -254,6 +254,16 @@ public class Coordinator {
         return new ArrayList<>(red.getConexiones().values());
     }
 
+    /**
+     * Gets the map of connections (Conexiones) in the network.
+     * <p>
+     * This method retrieves the map of connections from the network (Red).
+     *
+     * @return a map where the key is the connection code and the value is the connection
+     */
+    public Map<String, Conexion> getConexionesMap() {
+        return red.getConexiones();
+    }
 
     /**
      * Gets the map of locations (Ubicaciones) in the network.
