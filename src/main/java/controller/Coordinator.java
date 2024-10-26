@@ -88,15 +88,13 @@ public class Coordinator {
 
     /* ----------------------------- Synchronized methods  ----------------------------- */
 
+
     /**
-     * Adds a connection (conexion) to the network.
+     * Adds a connection (Conexion) to the network.
      * <p>
-     * This method first attempts to add the connection to the logic layer. If the connection is invalid due to
-     * various exceptions such as InvalidConexionException, LoopException, CicleException, or NoAvailablePortsException,
-     * the exception message is printed and the method returns. If the connection is successfully added to the logic layer,
-     * it then attempts to add the connection to the network (red). If adding the connection to the network fails due to an
-     * InvalidEquipoException, InvalidConexionException, NoAvailablePortsException, InvalidTipoCableException, or InvalidTipoPuertoException,
-     * the connection is removed from the logic layer and the exception message is printed.
+     * This method attempts to add the connection to the logic layer first. If successful, it then adds the connection
+     * to the network (Red) and updates the graphical user interface (Gui) to reflect the new connection.
+     * If any exception occurs during the process, the connection is not added and an error message is printed.
      *
      * @param conexion the connection to be added
      */
@@ -110,6 +108,7 @@ public class Coordinator {
 
         try {
             red.addConexion(conexion);
+            gui.addVisualEdge(conexion);
         } catch (InvalidEquipoException | InvalidConexionException | NoAvailablePortsException |
                  InvalidTipoCableException | InvalidTipoPuertoException e) {
             logic.deleteEdge(conexion);
@@ -117,11 +116,13 @@ public class Coordinator {
         }
     }
 
+
     /**
-     * Deletes a connection (conexion) from the network.
+     * Deletes a connection (Conexion) from the network.
      * <p>
-     * This method attempts to delete the connection from both the network (red) and the logic layer.
+     * This method attempts to delete the connection from the network (Red) and the logic layer.
      * If the connection is invalid and cannot be deleted, an InvalidConexionException is caught and its message is printed.
+     * The graphical user interface (Gui) is also updated to reflect the removal of the connection.
      *
      * @param conexion the connection to be deleted
      */
@@ -134,19 +135,19 @@ public class Coordinator {
 
         try {
             logic.deleteEdge(conexion);
+            gui.removeVisualEdge(conexion);
         } catch (InvalidConexionException e) {
             System.out.println(e.getMessage());
         }
     }
 
+
     /**
-     * Modifies an existing connection (conexion) in the network.
+     * Modifies an existing connection (Conexion) in the network.
      * <p>
-     * This method attempts to modify the connection in both the logic layer and the network (red). If the modification fails
-     * in the logic layer due to various exceptions such as InvalidConexionException, LoopException, CicleException, or NoAvailablePortsException,
-     * the exception message is printed and the method returns. If the modification fails in the network due to InvalidConexionException,
-     * NoAvailablePortsException, InvalidEquipoException, InvalidTipoCableException, or InvalidTipoPuertoException, the changes in the logic layer
-     * are reverted and the exception message is printed.
+     * This method attempts to modify the connection in the logic layer first. If successful, it then modifies the connection
+     * in the network (Red) and updates the graphical user interface (Gui) to reflect the new connection.
+     * If any exception occurs during the process, the connection is reverted to its original state and an error message is printed.
      *
      * @param oldConexion the existing connection to be replaced
      * @param newConexion the new connection to replace the old one
@@ -162,6 +163,7 @@ public class Coordinator {
 
         try {
             red.modifyConnection(oldConexion, newConexion);
+            gui.modifyVisualEdge(oldConexion, newConexion);
         } catch (InvalidConexionException | NoAvailablePortsException e) {
             System.out.println(e.getMessage());
         } catch (InvalidEquipoException |
@@ -171,12 +173,12 @@ public class Coordinator {
         }
     }
 
+
     /**
-     * Adds a device (equipo) to the network.
+     * Adds a device (Equipo) to the network.
      * <p>
-     * This method attempts to add the device to both the network (red) and the logic layer.
-     * If the device is invalid due to various exceptions such as InvalidEquipoException, InvalidUbicacionException,
-     * InvalidTipoEquipoException, InvalidTipoPuertoException, or InvalidDireccionIPException, the exception message is printed.
+     * This method attempts to add the device to the network (Red), logic layer, and graphical user interface (Gui).
+     * If any exception occurs during the process, the device is not added and an error message is printed.
      *
      * @param equipo the device to be added
      */
@@ -184,16 +186,18 @@ public class Coordinator {
         try {
             red.addEquipo(equipo);
             logic.addVertex(equipo);
+            gui.addVisualVertex(equipo);
         } catch (InvalidEquipoException | InvalidUbicacionException | InvalidTipoEquipoException |
                  InvalidTipoPuertoException | InvalidDireccionIPException | IllegalArgumentException e) {
             System.out.println(e.getMessage());
         }
     }
 
+
     /**
-     * Deletes a device (equipo) from the network.
+     * Deletes a device (Equipo) from the network.
      * <p>
-     * This method attempts to delete the device from both the network (red) and the logic layer.
+     * This method attempts to delete the device from the network (Red), logic layer, and graphical user interface (Gui).
      * If the device is invalid and cannot be deleted, an InvalidEquipoException is caught and its message is printed.
      *
      * @param equipo the device to be deleted
@@ -202,17 +206,18 @@ public class Coordinator {
         try {
             red.deleteEquipo(equipo);
             logic.deleteVertex(equipo);
+            gui.removeVisualVertex(equipo);
         } catch (InvalidEquipoException e) {
             System.out.println(e.getMessage());
         }
     }
 
+
     /**
-     * Modifies an existing device (equipo) in the network.
+     * Modifies an existing device (Equipo) in the network.
      * <p>
-     * This method attempts to modify the device in both the network (red) and the logic layer. If the modification fails
-     * due to various exceptions such as InvalidEquipoException, InvalidUbicacionException, InvalidTipoEquipoException,
-     * InvalidTipoPuertoException, or InvalidDireccionIPException, the exception message is printed.
+     * This method attempts to modify the device in the network (Red), logic layer, and graphical user interface (Gui).
+     * If any exception occurs during the process, the device is not modified and an error message is printed.
      *
      * @param oldEquipo the existing device to be replaced
      * @param newEquipo the new device to replace the old one
@@ -221,6 +226,7 @@ public class Coordinator {
         try {
             red.modifyEquipo(oldEquipo, newEquipo);
             logic.modifyVertex(oldEquipo, newEquipo);
+            gui.modifyVisualVertex(oldEquipo, newEquipo);
         } catch (InvalidEquipoException | InvalidUbicacionException | InvalidTipoEquipoException |
                  InvalidTipoPuertoException | InvalidDireccionIPException e) {
             System.out.println(e.getMessage());
@@ -258,200 +264,212 @@ public class Coordinator {
         return new ArrayList<>(red.getConexiones().values());
     }
 
+
     /**
-     * Adds a location (ubicacion) to the network.
+     * Gets the map of locations (Ubicaciones) in the network.
      * <p>
-     * This method attempts to add the location to the network (red).
-     * If the location is invalid and cannot be added, an InvalidUbicacionException is caught and its message is printed.
+     * This method retrieves the map of locations from the network (Red).
+     *
+     * @return a map where the key is the location code and the value is the location
+     */
+    public Map<String, Ubicacion> getUbicaciones() {
+        return red.getUbicaciones();
+    }
+
+    /**
+     * Adds a location (Ubicacion) to the network.
+     * <p>
+     * This method attempts to add the location to the network (Red).
+     * If the location is invalid and cannot be added, an InvalidUbicacionException is thrown.
      *
      * @param ubicacion the location to be added
+     * @throws InvalidUbicacionException if the location is invalid
      */
-    public void addUbicacion(Ubicacion ubicacion) {
-        try {
-            red.addUbicacion(ubicacion);
-        } catch (InvalidUbicacionException e) {
-            System.out.println(e.getMessage());
-        }
+    public void addUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
+        red.addUbicacion(ubicacion);
     }
 
     /**
-     * Deletes a location (ubicacion) from the network.
+     * Deletes a location (Ubicacion) from the network.
      * <p>
-     * This method attempts to delete the location from the network (red).
-     * If the location is invalid and cannot be deleted, an InvalidUbicacionException is caught and its message is printed.
+     * This method attempts to delete the location from the network (Red).
+     * If the location is invalid and cannot be deleted, an InvalidUbicacionException is thrown.
      *
      * @param ubicacion the location to be deleted
+     * @throws InvalidUbicacionException if the location is invalid
      */
-    public void deleteUbicacion(Ubicacion ubicacion) {
-        try {
-            red.deleteUbicacion(ubicacion);
-        } catch (InvalidUbicacionException e) {
-            System.out.println(e.getMessage());
-        }
+    public void deleteUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
+        red.deleteUbicacion(ubicacion);
     }
 
     /**
-     * Modifies an existing location (ubicacion) in the network.
+     * Modifies an existing location (Ubicacion) in the network.
      * <p>
-     * This method attempts to modify the location in the network (red). If the modification fails due to an
-     * InvalidUbicacionException, the exception message is printed.
+     * This method attempts to modify the location in the network (Red).
+     * If the location is invalid and cannot be modified, an InvalidUbicacionException is thrown.
      *
      * @param oldUbicacion the existing location to be replaced
      * @param newUbicacion the new location to replace the old one
+     * @throws InvalidUbicacionException if the location is invalid
      */
-    public void modifyUbicacion(Ubicacion oldUbicacion, Ubicacion newUbicacion) {
-        try {
-            red.modifyUbicacion(oldUbicacion, newUbicacion);
-        } catch (InvalidUbicacionException e) {
-            System.out.println(e.getMessage());
-        }
+    public void modifyUbicacion(Ubicacion oldUbicacion, Ubicacion newUbicacion) throws InvalidUbicacionException {
+        red.modifyUbicacion(oldUbicacion, newUbicacion);
+    }
+
+
+    /**
+     * Gets the map of cable types (TipoCable) in the network.
+     * <p>
+     * This method retrieves the map of cable types from the network (Red).
+     *
+     * @return a map where the key is the cable type code and the value is the cable type
+     */
+    public Map<String, TipoCable> getTiposCables() {
+        return red.getTiposCables();
     }
 
     /**
-     * Adds a cable type (tipoCable) to the network.
+     * Adds a cable type (TipoCable) to the network.
      * <p>
-     * This method attempts to add the cable type to the network (red).
-     * If the cable type is invalid and cannot be added, an InvalidTipoCableException is caught and its message is printed.
+     * This method attempts to add the cable type to the network (Red).
+     * If the cable type is invalid and cannot be added, an InvalidTipoCableException is thrown.
      *
      * @param tipoCable the cable type to be added
+     * @throws InvalidTipoCableException if the cable type is invalid
      */
-    public void addTipoCable(TipoCable tipoCable) {
-        try {
-            red.addTipoCable(tipoCable);
-        } catch (InvalidTipoCableException e) {
-            System.out.println(e.getMessage());
-        }
+    public void addTipoCable(TipoCable tipoCable) throws InvalidTipoCableException {
+        red.addTipoCable(tipoCable);
     }
 
     /**
-     * Deletes a cable type (tipoCable) from the network.
+     * Deletes a cable type (TipoCable) from the network.
      * <p>
-     * This method attempts to delete the cable type from the network (red).
-     * If the cable type is invalid and cannot be deleted, an InvalidTipoCableException is caught and its message is printed.
+     * This method attempts to delete the cable type from the network (Red).
+     * If the cable type is invalid and cannot be deleted, an InvalidTipoCableException is thrown.
      *
      * @param tipoCable the cable type to be deleted
+     * @throws InvalidTipoCableException if the cable type is invalid
      */
-    public void deleteTipoCable(TipoCable tipoCable) {
-        try {
-            red.deleteTipoCable(tipoCable);
-        } catch (InvalidTipoCableException e) {
-            System.out.println(e.getMessage());
-        }
+    public void deleteTipoCable(TipoCable tipoCable) throws InvalidTipoCableException {
+        red.deleteTipoCable(tipoCable);
     }
 
     /**
-     * Modifies an existing cable type (tipoCable) in the network.
+     * Modifies an existing cable type (TipoCable) in the network.
      * <p>
-     * This method attempts to modify the cable type in the network (red). If the modification fails due to an
-     * InvalidTipoCableException, the exception message is printed.
+     * This method attempts to modify the cable type in the network (Red).
+     * If the cable type is invalid and cannot be modified, an InvalidTipoCableException is thrown.
      *
      * @param oldTipoCable the existing cable type to be replaced
      * @param newTipoCable the new cable type to replace the old one
+     * @throws InvalidTipoCableException if the cable type is invalid
      */
-    public void modifyTipoCable(TipoCable oldTipoCable, TipoCable newTipoCable) {
-        try {
-            red.modifyTipoCable(oldTipoCable, newTipoCable);
-        } catch (InvalidTipoCableException e) {
-            System.out.println(e.getMessage());
-        }
+    public void modifyTipoCable(TipoCable oldTipoCable, TipoCable newTipoCable) throws InvalidTipoCableException {
+        red.modifyTipoCable(oldTipoCable, newTipoCable);
+    }
+
+
+    /**
+     * Gets the map of port types (TipoPuerto) in the network.
+     * <p>
+     * This method retrieves the map of port types from the network (Red).
+     *
+     * @return a map where the key is the port type code and the value is the port type
+     */
+    public Map<String, TipoPuerto> getTiposPuertos() {
+        return red.getTiposPuertos();
     }
 
     /**
      * Adds a port type (TipoPuerto) to the network.
      * <p>
-     * This method attempts to add the port type to the network (red).
-     * If the port type is invalid and cannot be added, an InvalidTipoPuertoException is caught and its message is printed.
+     * This method attempts to add the port type to the network (Red).
+     * If the port type is invalid and cannot be added, an InvalidTipoPuertoException is thrown.
      *
      * @param TipoPuerto the port type to be added
+     * @throws InvalidTipoPuertoException if the port type is invalid
      */
-    public void addTipoPuerto(TipoPuerto TipoPuerto) {
-        try {
-            red.addTipoPuerto(TipoPuerto);
-        } catch (InvalidTipoPuertoException e) {
-            System.out.println(e.getMessage());
-        }
+    public void addTipoPuerto(TipoPuerto TipoPuerto) throws InvalidTipoPuertoException {
+        red.addTipoPuerto(TipoPuerto);
     }
 
     /**
      * Deletes a port type (TipoPuerto) from the network.
      * <p>
-     * This method attempts to delete the port type from the network (red).
-     * If the port type is invalid and cannot be deleted, an InvalidTipoPuertoException is caught and its message is printed.
+     * This method attempts to delete the port type from the network (Red).
+     * If the port type is invalid and cannot be deleted, an InvalidTipoPuertoException is thrown.
      *
      * @param TipoPuerto the port type to be deleted
+     * @throws InvalidTipoPuertoException if the port type is invalid
      */
-    public void deleteTipoPuerto(TipoPuerto TipoPuerto) {
-        try {
-            red.deleteTipoPuerto(TipoPuerto);
-        } catch (InvalidTipoPuertoException e) {
-            System.out.println(e.getMessage());
-        }
+    public void deleteTipoPuerto(TipoPuerto TipoPuerto) throws InvalidTipoPuertoException {
+        red.deleteTipoPuerto(TipoPuerto);
     }
 
     /**
-     * Modifies an existing port type (tipoPuerto) in the network.
+     * Modifies an existing port type (TipoPuerto) in the network.
      * <p>
-     * This method attempts to modify the port type in the network (red). If the modification fails due to an
-     * InvalidTipoPuertoException, the exception message is printed.
+     * This method attempts to modify the port type in the network (Red).
+     * If the port type is invalid and cannot be modified, an InvalidTipoPuertoException is thrown.
      *
      * @param oldTipoPuerto the existing port type to be replaced
      * @param newTipoPuerto the new port type to replace the old one
+     * @throws InvalidTipoPuertoException if the port type is invalid
      */
-    public void modifyTipoPuerto(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto) {
-        try {
-            red.modifyTipoPuerto(oldTipoPuerto, newTipoPuerto);
-        } catch (InvalidTipoPuertoException e) {
-            System.out.println(e.getMessage());
-        }
+    public void modifyTipoPuerto(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto) throws InvalidTipoPuertoException {
+        red.modifyTipoPuerto(oldTipoPuerto, newTipoPuerto);
+    }
+
+
+    /**
+     * Gets the map of device types (TipoEquipo) in the network.
+     * <p>
+     * This method retrieves the map of device types from the network (Red).
+     *
+     * @return a map where the key is the device type code and the value is the device type
+     */
+    public Map<String, TipoEquipo> getTiposEquipos() {
+        return red.getTiposEquipos();
     }
 
     /**
-     * Adds a device type (tipoEquipo) to the network.
+     * Adds a device type (TipoEquipo) to the network.
      * <p>
-     * This method attempts to add the device type to the network (red).
-     * If the device type is invalid and cannot be added, an InvalidTipoEquipoException is caught and its message is printed.
+     * This method attempts to add the device type to the network (Red).
+     * If the device type is invalid and cannot be added, an InvalidTipoEquipoException is thrown.
      *
      * @param tipoEquipo the device type to be added
+     * @throws InvalidTipoEquipoException if the device type is invalid
      */
-    public void addTipoEquipo(TipoEquipo tipoEquipo) {
-        try {
-            red.addTipoEquipo(tipoEquipo);
-        } catch (InvalidTipoEquipoException e) {
-            System.out.println(e.getMessage());
-        }
+    public void addTipoEquipo(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
+        red.addTipoEquipo(tipoEquipo);
     }
 
     /**
-     * Deletes a device type (tipoEquipo) from the network.
+     * Deletes a device type (TipoEquipo) from the network.
      * <p>
-     * This method attempts to delete the device type from the network (red).
-     * If the device type is invalid and cannot be deleted, an InvalidTipoEquipoException is caught and its message is printed.
+     * This method attempts to delete the device type from the network (Red).
+     * If the device type is invalid and cannot be deleted, an InvalidTipoEquipoException is thrown.
      *
      * @param tipoEquipo the device type to be deleted
+     * @throws InvalidTipoEquipoException if the device type is invalid
      */
-    public void deleteTipoEquipo(TipoEquipo tipoEquipo) {
-        try {
-            red.deleteTipoEquipo(tipoEquipo);
-        } catch (InvalidTipoEquipoException e) {
-            System.out.println(e.getMessage());
-        }
+    public void deleteTipoEquipo(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
+        red.deleteTipoEquipo(tipoEquipo);
     }
 
     /**
-     * Modifies an existing device type (tipoEquipo) in the network.
+     * Modifies an existing device type (TipoEquipo) in the network.
      * <p>
-     * This method attempts to modify the device type in the network (red). If the modification fails due to an
-     * InvalidTipoEquipoException, the exception message is printed.
+     * This method attempts to modify the device type in the network (Red).
+     * If the device type is invalid and cannot be modified, an InvalidTipoEquipoException is thrown.
      *
      * @param oldTipoEquipo the existing device type to be replaced
      * @param newTipoEquipo the new device type to replace the old one
+     * @throws InvalidTipoEquipoException if the device type is invalid
      */
-    public void modifyTipoEquipo(TipoEquipo oldTipoEquipo, TipoEquipo newTipoEquipo) {
-        try {
-            red.modifyTipoEquipo(oldTipoEquipo, newTipoEquipo);
-        } catch (InvalidTipoEquipoException e) {
-            System.out.println(e.getMessage());
-        }
+    public void modifyTipoEquipo(TipoEquipo oldTipoEquipo, TipoEquipo newTipoEquipo) throws InvalidTipoEquipoException {
+        red.modifyTipoEquipo(oldTipoEquipo, newTipoEquipo);
     }
 
 

@@ -15,7 +15,6 @@ import java.util.Map;
 
 public class Gui extends javax.swing.JFrame {
     private Coordinator coordinator;
-    private LoadEquipoDialog loadEquipoDialog;
     private static final String VERTEX_STYLE = "fontColor=white;strokeColor=black;fillColor=";
     private static final String EDGE_STYLE = "endArrow=none;strokeColor=";
     private static final int VERTEX_WIDTH = 80;
@@ -28,7 +27,6 @@ public class Gui extends javax.swing.JFrame {
      * Creates new form Gui
      */
     public Gui() {
-        this.loadEquipoDialog = new LoadEquipoDialog(this);
         initComponents();
         initStyles();
         initMxGraphStyle();
@@ -277,21 +275,21 @@ public class Gui extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_conexionesBTActionPerformed
 
-    private void tiposEquiposBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiposEquiposBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tiposEquiposBTActionPerformed
+    private void tiposEquiposBTActionPerformed(java.awt.event.ActionEvent evt) {
+        new TableTiposEquiposDialog(this, true, coordinator);
+    }
 
-    private void tiposCablesBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiposCablesBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tiposCablesBTActionPerformed
+    private void tiposCablesBTActionPerformed(java.awt.event.ActionEvent evt) {
+        new TableTiposCablesDialog(this, true, coordinator);
+    }
 
-    private void tiposPuertosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tiposPuertosBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_tiposPuertosBTActionPerformed
+    private void tiposPuertosBTActionPerformed(java.awt.event.ActionEvent evt) {
+        new TableTiposPuertosDialog(this, true, coordinator);
+    }
 
-    private void ubicacionesBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ubicacionesBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ubicacionesBTActionPerformed
+    private void ubicacionesBTActionPerformed(java.awt.event.ActionEvent evt) {
+        new TableUbicacionesDialog(this, true, coordinator);
+    }
 
     private void pingRangeBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pingRangeBTActionPerformed
         // TODO add your handling code here:
@@ -410,61 +408,53 @@ public class Gui extends javax.swing.JFrame {
         }
     }
 
+
     /**
      * Modifies the visual representation of a vertex in the graph.
+     * This method updates the vertex style and value based on the new Equipo object,
+     * and also updates the styles of all edges connected to the vertex.
      *
-     * @param equipo The Equipo object representing the vertex to be modified.
+     * @param o The original Equipo object representing the vertex to be modified.
+     * @param n The new Equipo object representing the updated vertex.
      */
-    public void modifyVisualVertex(Equipo equipo) {
+    public void modifyVisualVertex(Equipo o, Equipo n) {
         // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
 
         // Begin updating the graph model
         mxGraph.getModel().beginUpdate();
         try {
-            // Get the vertex associated with the Equipo object
-            Object v = vertexMap.get(equipo);
+            // Get the vertex associated with the original Equipo object
+            Object v = vertexMap.get(o);
 
-            // Set the vertex style based on the estado of the Equipo
-            if (equipo.isEstado()) {
+            // Set the vertex style based on the estado of the new Equipo object
+            if (n.isEstado()) {
                 mxGraph.getModel().setStyle(v, VERTEX_STYLE + "green");
             } else {
                 mxGraph.getModel().setStyle(v, VERTEX_STYLE + "red");
             }
 
-            // Get all edges connected to the vertex and set their style based on the estado of the Equipo
+            // Get all edges connected to the vertex and set their style based on the estado of the new Equipo object
             Object[] edges = mxGraph.getEdges(v);
             for (Object edge : edges) {
-                if (equipo.isEstado()) {
+                if (n.isEstado()) {
                     mxGraph.getModel().setStyle(edge, EDGE_STYLE + "green");
                 } else {
                     mxGraph.getModel().setStyle(edge, EDGE_STYLE + "red");
                 }
             }
 
-            // Update the vertex value with the codigo of the Equipo
-            mxGraph.getModel().setValue(v, equipo.getCodigo());
-        } finally {
-            // End updating the graph model and repaint the panel
-            mxGraph.getModel().endUpdate();
-            graphJP.repaint();
-        }
-    }
+            // Update the vertex value with the codigo of the new Equipo object
+            mxGraph.getModel().setValue(v, n.getCodigo());
 
-    /**
-     * Adds a visual representation of an edge to the graph.
-     *
-     * @param conexion The Conexion object representing the edge to be added.
-     */
-    public void addVisualEdge(Conexion conexion) {
-        // Get the default parent for the graph
-        Object parent = mxGraph.getDefaultParent();
+            // Update the vertex value with the IP address of the new Equipo object, if available
+            if (!n.getDireccionesIp().isEmpty()) {
+                mxGraph.getModel().setValue(v, n.getCodigo() + "\n" + n.getDireccionesIp().get(0));
+            }
 
-        // Begin updating the graph model
-        mxGraph.getModel().beginUpdate();
-        try {
-            // Insert the edge with the specified color
-            insertColoredEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
+            // Update the vertex map with the new Equipo object
+            vertexMap.remove(o);
+            vertexMap.put(n, v);
         } finally {
             // End updating the graph model and repaint the panel
             mxGraph.getModel().endUpdate();
@@ -501,6 +491,27 @@ public class Gui extends javax.swing.JFrame {
     }
 
     /**
+     * Adds a visual representation of an edge to the graph.
+     *
+     * @param conexion The Conexion object representing the edge to be added.
+     */
+    public void addVisualEdge(Conexion conexion) {
+        // Get the default parent for the graph
+        Object parent = mxGraph.getDefaultParent();
+
+        // Begin updating the graph model
+        mxGraph.getModel().beginUpdate();
+        try {
+            // Insert the edge with the specified color
+            insertColoredEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
+        } finally {
+            // End updating the graph model and repaint the panel
+            mxGraph.getModel().endUpdate();
+            graphJP.repaint();
+        }
+    }
+
+    /**
      * Removes a visual representation of an edge from the graph.
      *
      * @param conexion The Conexion object representing the edge to be removed.
@@ -521,6 +532,7 @@ public class Gui extends javax.swing.JFrame {
 
             // Remove the edge from the graph model
             mxGraph.getModel().remove(edge);
+
         } finally {
             // End updating the graph model and repaint the panel
             mxGraph.getModel().endUpdate();
@@ -530,30 +542,14 @@ public class Gui extends javax.swing.JFrame {
 
     /**
      * Modifies the visual representation of an edge in the graph.
+     * This method removes the existing edge and adds a new edge with the updated connection.
      *
-     * @param conexion The Conexion object representing the edge to be modified.
+     * @param o The original Conexion object representing the edge to be modified.
+     * @param n The new Conexion object representing the updated edge.
      */
-    public void modifyVisualEdge(Conexion conexion) {
-        // Get the default parent for the graph
-        Object parent = mxGraph.getDefaultParent();
-
-        // Begin updating the graph model
-        mxGraph.getModel().beginUpdate();
-        try {
-            // Get the source and target vertices associated with the Conexion object
-            Equipo source = conexion.getEquipo1();
-            Equipo target = conexion.getEquipo2();
-
-            // Get the edge between the source and target vertices
-            Object edge = mxGraph.getEdgesBetween(vertexMap.get(source), vertexMap.get(target))[0];
-
-            // Update the edge value with the velocidad of the TipoCable
-            mxGraph.getModel().setValue(edge, conexion.getTipoCable().getVelocidad());
-        } finally {
-            // End updating the graph model and repaint the panel
-            mxGraph.getModel().endUpdate();
-            graphJP.repaint();
-        }
+    public void modifyVisualEdge(Conexion o, Conexion n) {
+        removeVisualEdge(o);
+        addVisualEdge(n);
     }
 
     /**
@@ -577,11 +573,11 @@ public class Gui extends javax.swing.JFrame {
 
         // Insert the edge with the specified color and velocidad
         mxGraph.insertEdge(parent, null, conexion.getTipoCable().getVelocidad(), vertexMap.get(source), vertexMap.get(target), EDGE_STYLE + strokeColor);
+
     }
 
     public void setCoordinator(Coordinator coordinator) {
         this.coordinator = coordinator;
-        loadEquipoDialog.setCoordinator(coordinator);
     }
 
 

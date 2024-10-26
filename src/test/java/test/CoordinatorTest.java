@@ -94,7 +94,7 @@ public class CoordinatorTest {
         //Se crea una nueva conexion valida
         Equipo e1 = coordinator.getVertexMap().get("TEST1");
         Equipo e2 = coordinator.getVertexMap().get("TEST5");
-        TipoCable cable = coordinator.getRed().getTiposCables().get("C5");
+        TipoCable cable = coordinator.getTiposCables().get("C5");
         Conexion c = new Conexion(cable, e1, e1.getPuertos().get(0).getTipoPuerto(), e2, e2.getPuertos().get(0).getTipoPuerto());
 
         //Se agrega la conexion a través del coordinador
@@ -154,7 +154,7 @@ public class CoordinatorTest {
 
         // Modify an existing valid connection
         Conexion vieja = coordinator.getEdgesMap().get("TEST3-TEST4");
-        Conexion nueva = new Conexion(coordinator.getRed().getTiposCables().get("C5"), vieja.getEquipo1(), vieja.getPuerto1(), coordinator.getVertexMap().get("TEST5"), coordinator.getVertexMap().get("TEST5").getPuertos().getFirst().getTipoPuerto());
+        Conexion nueva = new Conexion(coordinator.getTiposCables().get("C5"), vieja.getEquipo1(), vieja.getPuerto1(), coordinator.getVertexMap().get("TEST5"), coordinator.getVertexMap().get("TEST5").getPuertos().getFirst().getTipoPuerto());
 
         coordinator.modifyConnection(vieja, nueva);
         // Verify that the connection has been modified
@@ -208,7 +208,7 @@ public class CoordinatorTest {
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
 
         //Se crea un nuevo equipo valido
-        Equipo e = new Equipo("TEST7", "Test7", "Test7", "Test7", coordinator.getRed().getTiposEquipos().get("AP"), coordinator.getRed().getUbicaciones().get("RL3"), new Puerto(1,coordinator.getRed().getTiposPuertos().get("100M")), "777.777.77.77", true);
+        Equipo e = new Equipo("TEST7", "Test7", "Test7", "Test7", coordinator.getTiposEquipos().get("AP"), coordinator.getUbicaciones().get("RL3"), new Puerto(1,coordinator.getTiposPuertos().get("100M")), "777.777.77.77", true);
 
         //Se agrega el equipo a través del coordinador
         coordinator.addEquipo(e);
