@@ -7,6 +7,9 @@ package gui;
 import controller.Coordinator;
 import models.Equipo;
 
+import java.util.Map;
+import java.util.Set;
+
 /**
  *
  * @author lucia
@@ -94,8 +97,8 @@ public class StateMapEquiposDialog extends javax.swing.JDialog {
         model.setRowCount(0);
 
         // Add each TipoCable to the table model
-        for (Equipo equipo : coordinator.getEquipos()) {
-            model.addRow(new Object[]{equipo.getCodigo(), equipo.isEstado() ? "Activo" : "Inactivo"});
+        for (Map.Entry<Equipo, Boolean> set : coordinator.mapStatus().entrySet()) {
+            model.addRow(new Object[]{set.getKey().getCodigo(), set.getValue() ? "Activo" : "Inactivo"});
         }
 
         // Sort the table
