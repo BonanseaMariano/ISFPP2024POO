@@ -256,6 +256,8 @@ public class Coordinator {
             ips.addAll(equipo.getDireccionesIp());
         }
 
+        ips.sort((String::compareTo));
+
         return ips.toArray(new String[ips.size()]);
     }
 

@@ -4,17 +4,36 @@
  */
 package gui;
 
+import controller.Coordinator;
+
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Map;
+
 /**
  *
  * @author lucia
  */
 public class PingRangeDialog extends javax.swing.JDialog {
 
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton;
+    private javax.swing.JComboBox<String> jComboBoxPing2;
+    private javax.swing.JComboBox<String> jComboBoxPing1;
+    private javax.swing.JLabel jTitlePing1;
+    private javax.swing.JLabel jTitlePing2;
+    private javax.swing.JPanel jPanelBG;
+    private javax.swing.JPanel jPanelBox;
+    // End of variables declaration//GEN-END:variables
+
+    private Coordinator coordinator;
     /**
      * Creates new form TraceRoute
      */
-    public PingRangeDialog(java.awt.Frame parent, boolean modal) {
+    public PingRangeDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
+        this.coordinator = coordinator;
         initComponents();
     }
 
@@ -28,63 +47,64 @@ public class PingRangeDialog extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        jPanel2 = new javax.swing.JPanel();
-        jPanel3 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jComboBox3 = new javax.swing.JComboBox<>();
-        jComboBox4 = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
+        jPanelBG = new javax.swing.JPanel();
+        jPanelBox = new javax.swing.JPanel();
+        jTitlePing1 = new javax.swing.JLabel();
+        jTitlePing2 = new javax.swing.JLabel();
+        jComboBoxPing2 = new javax.swing.JComboBox<>();
+        jComboBoxPing1 = new javax.swing.JComboBox<>();
+        jButton = new javax.swing.JButton();
+        String[] ips = coordinator.getEquiposIps();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Ping Range");
 
-        jPanel2.setVerifyInputWhenFocusTarget(false);
+        jPanelBG.setVerifyInputWhenFocusTarget(false);
 
-        jPanel3.setLayout(new java.awt.GridBagLayout());
+        jPanelBox.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Ping 1");
+        jTitlePing1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTitlePing1.setText("Ping 1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipadx = 65;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(85, 45, 0, 0);
-        jPanel3.add(jLabel1, gridBagConstraints);
+        jPanelBox.add(jTitlePing1, gridBagConstraints);
 
-        jLabel2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel2.setText("Ping 2");
+        jTitlePing2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTitlePing2.setText("Ping 2");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.ipadx = 65;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(85, 10, 0, 33);
-        jPanel3.add(jLabel2, gridBagConstraints);
+        jPanelBox.add(jTitlePing2, gridBagConstraints);
 
-        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxPing2.setModel(new javax.swing.DefaultComboBoxModel<>(ips));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 36;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(18, 10, 0, 33);
-        jPanel3.add(jComboBox3, gridBagConstraints);
+        jPanelBox.add(jComboBoxPing2, gridBagConstraints);
 
-        jComboBox4.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        jComboBoxPing1.setModel(new javax.swing.DefaultComboBoxModel<>(ips));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.ipadx = 36;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(18, 45, 0, 0);
-        jPanel3.add(jComboBox4, gridBagConstraints);
+        jPanelBox.add(jComboBoxPing1, gridBagConstraints);
 
-        jButton1.setText("Buscar");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        jButton.setText("Hacer Ping");
+        jButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                rangePings(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -92,79 +112,58 @@ public class PingRangeDialog extends javax.swing.JDialog {
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
         gridBagConstraints.insets = new java.awt.Insets(18, 9, 110, 0);
-        jPanel3.add(jButton1, gridBagConstraints);
+        jPanelBox.add(jButton, gridBagConstraints);
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanelBG);
+        jPanelBG.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
-        getContentPane().add(jPanel2, java.awt.BorderLayout.CENTER);
+        getContentPane().add(jPanelBG, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+    private void rangePings(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
+        String pingRangeText = "El estado de los pings es de: ";
+        String ip1 = (String) jComboBoxPing1.getSelectedItem();
+        String ip2 = (String) jComboBoxPing2.getSelectedItem();
+        Collection<String> ipsCollection = new ArrayList<>();
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
+        ipsCollection.add(ip1);
+        if(ip1.compareTo(ip2) > 0){
+            for(String ip : coordinator.getEquiposIps()) {
+                if (ip.compareTo(ip1) < 0 && ip.compareTo(ip2) > 0) {
+                    ipsCollection.add(ip);
                 }
             }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(PingRangeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(PingRangeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(PingRangeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(PingRangeDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                PingRangeDialog dialog = new PingRangeDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+        }else if (ip1.equals(ip2)) {
+            ipsCollection.add(ip1);
+        }else{
+            for(String ip : coordinator.getEquiposIps()) {
+                if (ip.compareTo(ip1) > 0 && ip.compareTo(ip2) < 0) {
+                    ipsCollection.add(ip);
+                }
             }
-        });
-    }
+        }
+        ipsCollection.add(ip2);
+        for(Map.Entry   <String, Boolean> entry : coordinator.pingRange(ipsCollection).entrySet()) {
+            pingRangeText += "\n" + entry.getKey() + ": " + (entry.getValue() ? "Conectado" : "Desconectado");
+        }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox3;
-    private javax.swing.JComboBox<String> jComboBox4;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JPanel jPanel3;
-    // End of variables declaration//GEN-END:variables
+        JOptionPane.showMessageDialog(
+                null,
+                pingRangeText,
+                "Ping Range Status",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+
+    }//GEN-LAST:event_jButton1ActionPerformed
 }

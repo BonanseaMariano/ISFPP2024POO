@@ -294,7 +294,7 @@ public class Gui extends javax.swing.JFrame {
     private void pingRangeBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pingRangeBTActionPerformed
         // TODO add your handling code here:
 
-        PingRangeDialog pingRangeDialog = new PingRangeDialog(this, true);
+        PingRangeDialog pingRangeDialog = new PingRangeDialog(this, true, coordinator);
         pingRangeDialog.setVisible(true);
     }//GEN-LAST:event_pingRangeBTActionPerformed
 
