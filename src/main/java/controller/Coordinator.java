@@ -239,6 +239,16 @@ public class Coordinator {
         return new ArrayList<>(red.getEquipos().values());
     }
 
+    public String[] getEquiposIps() {
+        ArrayList<String> ips = new ArrayList<>();
+
+        for (Equipo equipo : getEquipos()){
+            ips.addAll(equipo.getDireccionesIp());
+        }
+
+        return ips.toArray(new String[ips.size()]);
+    }
+
     /**
      * Gets the list of connections (conexiones) in the network.
      *
@@ -540,4 +550,5 @@ public class Coordinator {
     public Map<Equipo, Boolean> mapStatus() {
         return logic.mapStatus();
     }
+
 }

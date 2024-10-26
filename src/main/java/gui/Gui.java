@@ -240,10 +240,16 @@ public class Gui extends javax.swing.JFrame {
 
     private void tracerouteBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tracerouteBTActionPerformed
         // TODO add your handling code here:
+
+        TraceRouteDialog traceRouteDialog = new TraceRouteDialog(this, true);
+        traceRouteDialog.setVisible(true);
     }//GEN-LAST:event_tracerouteBTActionPerformed
 
     private void pingBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pingBTActionPerformed
         // TODO add your handling code here:
+
+        PingDialog pingDialog = new PingDialog(this, true, coordinator);
+        pingDialog.setVisible(true);
     }//GEN-LAST:event_pingBTActionPerformed
 
     private void statusMapBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusMapBTActionPerformed
@@ -252,10 +258,15 @@ public class Gui extends javax.swing.JFrame {
             System.out.println(entry.getKey().getCodigo() + " " + entry.getValue());
         }
         // TODO add your handling code here:
+        StateMapEquiposDialog stateMapEquiposDialog = new StateMapEquiposDialog(this, true);
+        stateMapEquiposDialog.setVisible(true);
     }//GEN-LAST:event_statusMapBTActionPerformed
 
     private void problemsBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_problemsBTActionPerformed
         // TODO add your handling code here:
+
+        ConnectivityProblemsDialog connectivityProblemsDialog = new ConnectivityProblemsDialog(this, true);
+        connectivityProblemsDialog.setVisible(true);
     }//GEN-LAST:event_problemsBTActionPerformed
 
     private void equiposBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equiposBTActionPerformed
