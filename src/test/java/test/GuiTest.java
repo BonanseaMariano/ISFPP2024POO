@@ -34,6 +34,7 @@ public class GuiTest {
         /* Se establecen relaciones con la clase coordinador */
         coordinator.setRed(red);
         coordinator.setLogic(logic);
+        coordinator.setGui(gui);
 
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
         for (Conexion conexion : coordinator.getConexiones()) {

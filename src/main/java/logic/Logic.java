@@ -31,18 +31,18 @@ public class Logic {
      * The keys are strings representing the device identifiers,
      * and the values are Equipo objects representing the devices.
      */
-    private Map<String, Equipo> equiposMap;
+    private Map<String, Equipo> vertexMap;
     /**
      * A map that stores the connections (conexiones) in the network.
      * The keys are strings representing the connection identifiers,
      * and the values are Conexion objects representing the connections.
      */
-    private Map<String, Conexion> conexionesMap;
+    private Map<String, Conexion> edgesMap;
 
     public Logic() {
         graph = new SimpleWeightedGraph<>(Conexion.class);
-        equiposMap = new ConcurrentHashMap<>();
-        conexionesMap = new ConcurrentHashMap<>();
+        vertexMap = new ConcurrentHashMap<>();
+        edgesMap = new ConcurrentHashMap<>();
     }
 
     /**
@@ -64,13 +64,13 @@ public class Logic {
     }
 
     /**
-     * Retrieves the map of equipos (devices) in the network.
+     * Retrieves the map of vertexes (equipos) in the graph.
      *
      * @return a map where the keys are strings representing the device identifiers,
      * and the values are Equipo objects representing the devices
      */
-    public Map<String, Equipo> getEquiposMap() {
-        return equiposMap;
+    public Map<String, Equipo> getVertexMap() {
+        return vertexMap;
     }
 
     /**
@@ -79,8 +79,8 @@ public class Logic {
      * @return a map where the keys are strings representing the connection identifiers,
      * and the values are Conexion objects representing the connections
      */
-    public Map<String, Conexion> getConexionesMap() {
-        return conexionesMap;
+    public Map<String, Conexion> getEdgesMap() {
+        return edgesMap;
     }
 
     /**
@@ -111,11 +111,11 @@ public class Logic {
      * @param equipo the vertex (equipo) to be added to the graph
      */
     public void addVertex(Equipo equipo) throws IllegalArgumentException {
-        if(equiposMap.containsKey(equipo.getCodigo())) {
+        if(vertexMap.containsKey(equipo.getCodigo())) {
             throw new IllegalArgumentException("El equipo ya existe");
         }
         graph.addVertex(equipo);
-        equiposMap.put(equipo.getCodigo(), equipo);
+        vertexMap.put(equipo.getCodigo(), equipo);
     }
 
     /**
@@ -129,14 +129,14 @@ public class Logic {
      * @throws InvalidEquipoException if the old equipo does not exist in the graph or if the new equipo already exists
      */
     public void modifyVertex(Equipo oldEquipo, Equipo newEquipo) throws InvalidEquipoException {
-        if (equiposMap.containsKey(oldEquipo.getCodigo())) {
-            if (!oldEquipo.getCodigo().equals(newEquipo.getCodigo()) && equiposMap.containsKey(newEquipo.getCodigo())) {
+        if (vertexMap.containsKey(oldEquipo.getCodigo())) {
+            if (!oldEquipo.getCodigo().equals(newEquipo.getCodigo()) && vertexMap.containsKey(newEquipo.getCodigo())) {
                 throw new InvalidEquipoException("No se puede modificar el equipo porque la modificacion se traduce en un equipo ya existente");
             }
 
             // Add newEquipo to the graph and map
-            addVertex(newEquipo);
-            equiposMap.put(newEquipo.getCodigo(), newEquipo);
+            graph.addVertex(newEquipo);
+            vertexMap.put(newEquipo.getCodigo(), newEquipo);
 
             // Reconnect all edges from oldEquipo to newEquipo
             for (Conexion conexion : graph.edgesOf(oldEquipo)) {
@@ -147,8 +147,8 @@ public class Logic {
                     graph.addEdge(newEquipo, conexion.getEquipo2(), conexion);
                     graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
                     // Update the conexiones map
-                    conexionesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
-                    conexionesMap.put(conexion.getEquipo1().getCodigo() + "-" + newEquipo.getCodigo(), conexion);
+                    edgesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
+                    edgesMap.put(conexion.getEquipo1().getCodigo() + "-" + newEquipo.getCodigo(), conexion);
                 } else if (conexion.getEquipo2().equals(oldEquipo)) {
                     // Modify the conexion
                     conexion.setEquipo2(newEquipo);
@@ -156,14 +156,14 @@ public class Logic {
                     graph.addEdge(conexion.getEquipo1(), newEquipo, conexion);
                     graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
                     // Update the conexiones map
-                    conexionesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
-                    conexionesMap.put(newEquipo.getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
+                    edgesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
+                    edgesMap.put(newEquipo.getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
                 }
             }
 
             // Remove oldEquipo from the graph and map
             graph.removeVertex(oldEquipo);
-            equiposMap.remove(oldEquipo.getCodigo());
+            vertexMap.remove(oldEquipo.getCodigo());
 
         } else {
             throw new InvalidEquipoException("No se puede modificar el equipo porque no existe");
@@ -182,7 +182,7 @@ public class Logic {
      */
     public void deleteVertex(Equipo equipo) throws InvalidEquipoException {
         if (graph.removeVertex(equipo)) {
-            equiposMap.remove(equipo.getCodigo());
+            vertexMap.remove(equipo.getCodigo());
         } else {
             throw new InvalidEquipoException("No se puede eliminar el equipo porque no existe");
         }
@@ -229,7 +229,7 @@ public class Logic {
             deleteEdge(conexion);
             throw new CicleException("No se puede agregar " + conexion + " porque se forma un ciclo");
         }
-        conexionesMap.put(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
+        edgesMap.put(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
     }
 
     /**
@@ -247,7 +247,7 @@ public class Logic {
      */
     public void modifyEdge(Conexion old, Conexion modified) throws InvalidConexionException, LoopException, CicleException, NoAvailablePortsException {
         if (graph.removeEdge(old)) {
-            conexionesMap.remove(old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo());
+            edgesMap.remove(old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo());
             addEdge(modified);
         } else {
             throw new InvalidConexionException("No se puede modificar la conexión porque no existe");
@@ -266,7 +266,7 @@ public class Logic {
      */
     public void deleteEdge(Conexion conexion) throws InvalidConexionException {
         if (graph.removeEdge(conexion)) {
-            conexionesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
+            edgesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
         } else {
             throw new InvalidConexionException("No se puede eliminar la conexión porque no existe");
         }

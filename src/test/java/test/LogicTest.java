@@ -1,15 +1,10 @@
 package test;
 
 import controller.Coordinator;
-import exceptions.CicleException;
-import exceptions.InvalidConexionException;
-import exceptions.LoopException;
-import exceptions.NoAvailablePortsException;
 import logic.Logic;
 import logic.Red;
 import models.Conexion;
 import models.Equipo;
-import models.TipoCable;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -60,7 +55,7 @@ public class LogicTest {
             // Verifica que cada equipo (vertice) de logica este en el mapa de vertices de coordinator
             assertEquals(equipo, coordinator.getVertexMap().get(equipo.getCodigo()));
             // Verifica que cada equipo (vertice) de logica este en el mapa de equipos de logica
-            assertEquals(equipo, logic.getEquiposMap().get(equipo.getCodigo()));
+            assertEquals(equipo, logic.getVertexMap().get(equipo.getCodigo()));
             // Verifica que cada equipo (vertice) de logica este en el mapa de equipos de Red
             assertEquals(equipo, red.getEquipos().get(equipo.getCodigo()));
             // Imprime los equipos (vertices) del grafo de logica
@@ -72,7 +67,7 @@ public class LogicTest {
             // Verifica que cada conexion (edge) de logica este en la lista de conexiones de coordinator
             assertTrue(coordinator.getConexiones().contains(conexion));
             // Verifica que cada conexion (edge) de logica este en el mapa de conexiones de logica
-            assertEquals(conexion, logic.getConexionesMap().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
+            assertEquals(conexion, logic.getEdgesMap().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
             // Verifica que cada conexion (edge) de logica este en el mapa de conexiones de Red
             assertEquals(conexion, red.getConexiones().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
             // Imprime las conexiones (aristas) del grafo de logica

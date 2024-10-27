@@ -171,7 +171,7 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
             }
 
             sql = "UPDATE direcciones_ip ";
-            sql += "SET direccion_ip = ? ";
+            sql += "SET ip = ? ";
             sql += "WHERE equipo = ? ";
             pstm = con.prepareStatement(sql);
             for (String direccionIp : n.getDireccionesIp()) {

@@ -58,7 +58,7 @@ public class CoordinatorTest {
             // Verifica que cada equipo (vertice) de logica este en el mapa de vertices de coordinator
             assertEquals(equipo, coordinator.getVertexMap().get(equipo.getCodigo()));
             // Verifica que cada equipo (vertice) de logica este en el mapa de equipos de logica
-            assertEquals(equipo, logic.getEquiposMap().get(equipo.getCodigo()));
+            assertEquals(equipo, logic.getVertexMap().get(equipo.getCodigo()));
             // Verifica que cada equipo (vertice) de logica este en el mapa de equipos de Red
             assertEquals(equipo, red.getEquipos().get(equipo.getCodigo()));
             // Imprime los equipos (vertices) del grafo de logica
@@ -70,7 +70,7 @@ public class CoordinatorTest {
             // Verifica que cada conexion (edge) de logica este en la lista de conexiones de coordinator
             assertTrue(coordinator.getConexiones().contains(conexion));
             // Verifica que cada conexion (edge) de logica este en el mapa de conexiones de logica
-            assertEquals(conexion, logic.getConexionesMap().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
+            assertEquals(conexion, logic.getEdgesMap().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
             // Verifica que cada conexion (edge) de logica este en el mapa de conexiones de Red
             assertEquals(conexion, red.getConexiones().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
             // Imprime las conexiones (aristas) del grafo de logica
@@ -102,7 +102,7 @@ public class CoordinatorTest {
         //Se verifica que la conexion se haya agregado al grafo de logica
         assertTrue(logic.getGraph().containsEdge(c));
         //Se verifica que la conexion se haya agregado al mapa de conexiones de logica
-        assertEquals(c, logic.getConexionesMap().get(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
+        assertEquals(c, logic.getEdgesMap().get(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
         //Se verifica que la conexion se haya agregado al mapa de conexiones de Red
         assertEquals(c, red.getConexiones().get(c.getEquipo1().getCodigo() + "-" + c.getEquipo2().getCodigo()));
 

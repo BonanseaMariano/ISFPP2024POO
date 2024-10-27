@@ -1,26 +1,68 @@
 package gui;
 
 import controller.Coordinator;
+import exceptions.InvalidEquipoException;
 import models.Equipo;
+import models.Puerto;
 import models.TipoEquipo;
+import models.Ubicacion;
 
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
 
+/**
+ * A dialog for displaying and editing equipment data.
+ * <p>
+ * This class extends `javax.swing.JDialog` and provides a user interface for viewing and modifying
+ * the details of an equipment (`Equipo`). It includes fields for the equipment's code, description,
+ * brand, model, type, ports, IP addresses, and status.
+ */
 public class DataEquiposDialog extends javax.swing.JDialog {
     // Width of the dialog
-    private static final int WIDTH_DIALOG = 650;
+    private static final int WIDTH_DIALOG = 400;
     // Height of the dialog
-    private static final int HEIGHT_DIALOG = 500;
-    private Coordinator coordinator;
-    private Equipo equipo;
+    private static final int HEIGHT_DIALOG = 400;
+    // Checkbox for the equipment's status
+    private javax.swing.JCheckBox EstadoCB;
+    // Text field for the equipment's code
+    private javax.swing.JTextField codigoTF;
+    // Text field for the equipment's description
+    private javax.swing.JTextField descripcionTF;
+    // Text field for the equipment's brand
+    private javax.swing.JTextField marcaTF;
+    // Text field for the equipment's model
+    private javax.swing.JTextField modeloTF;
+    // Combo box for selecting the equipment's type
+    private JComboBox<TipoEquipo> tipoEquipoCB;
+    // Combo box for selecting the equipment's location
+    private JComboBox<Ubicacion> ubicacionCB;
+    // The coordinator responsible for managing the application's logic and data flow
+    private final Coordinator coordinator;
+    // The equipment object that holds the details of the equipment being managed
+    private final Equipo oldEquipo;
+    // The new equipment object that will hold the updated details or new ones of the equipment
+    private Equipo newEquipo;
+    // A flag that indicates whether the dialog is in editing mode
+    private boolean isEditing = false;
 
 
+    /**
+     * Constructs a new DataEquiposDialog.
+     * <p>
+     * This constructor initializes the dialog with the given parent, modality, coordinator, and equipment.
+     * It sets up the components, styles, and content of the dialog, and makes it visible.
+     *
+     * @param parent      the parent dialog of this dialog
+     * @param modal       specifies whether dialog blocks user input to other top-level windows when shown
+     * @param coordinator the coordinator responsible for managing the application's logic and data flow
+     * @param equipo      the equipment object that holds the details of the equipment being managed
+     */
     public DataEquiposDialog(java.awt.Dialog parent, boolean modal, Coordinator coordinator, Equipo equipo) {
         super(parent, modal);
         this.coordinator = coordinator;
-        this.equipo = equipo;
+        this.oldEquipo = equipo;
+        this.newEquipo = new Equipo();
         initComponents();
         initStyle();
         initContent();
@@ -39,55 +81,68 @@ public class DataEquiposDialog extends javax.swing.JDialog {
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Initializes the content of the dialog.
+     * <p>
+     * This method sets the fields with the equipment's data if the equipment is not null.
+     * It copies the ports and IP addresses from the current equipment to the new equipment.
+     * If the equipment is null, it creates a new equipment object.
+     */
     private void initContent() {
-        if (equipo != null) {
-            codigoTF.setText(equipo.getCodigo());
-            descripcionTF.setText(equipo.getDescripcion());
-            marcaTF.setText(equipo.getMarca());
-            modeloTF.setText(equipo.getModelo());
-            tipoEquipoCB.setSelectedItem(equipo.getTipoEquipo());
-            EstadoCB.setSelected(equipo.isEstado());
-        } else {
-            equipo = new Equipo();
+        if (oldEquipo != null) { // If the equipment is not null, set the fields with the equipment's data
+            codigoTF.setText(oldEquipo.getCodigo());
+            codigoTF.setEditable(false);
+            descripcionTF.setText(oldEquipo.getDescripcion());
+            marcaTF.setText(oldEquipo.getMarca());
+            modeloTF.setText(oldEquipo.getModelo());
+            tipoEquipoCB.setSelectedItem(oldEquipo.getTipoEquipo());
+            ubicacionCB.setSelectedItem(oldEquipo.getUbicacion());
+            EstadoCB.setSelected(oldEquipo.isEstado());
+            // Copy the ports and IP addresses from the current equipment to the new equipment
+            for (Puerto p : oldEquipo.getPuertos()) {
+                newEquipo.addPuerto(p);
+            }
+            // Copy the IP addresses from the current equipment to the new equipment
+            for (String ip : oldEquipo.getDireccionesIp()) {
+                newEquipo.addIP(ip);
+            }
+            isEditing = true;
         }
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
-     * WARNING: Do NOT modify this code. The content of this method is always
-     * regenerated by the Form Editor.
+     * Initializes the components of the dialog.
+     * <p>
+     * This method sets up the main panel, content panel, and various UI components such as text fields,
+     * labels, buttons, and combo boxes. It also configures the layout and adds action listeners to the buttons.
      */
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        // Main panel of the dialog
+        JPanel bg = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(5, 5, 5, 5); // Margin between components
 
-        bg = new javax.swing.JPanel();
-        contentPanel = new javax.swing.JPanel();
-        codigoTF = new javax.swing.JTextField();
-        descripcionTF = new javax.swing.JTextField();
-        marcaTF = new javax.swing.JTextField();
-        modeloTF = new javax.swing.JTextField();
-        tipoEquipoCB = new JComboBox<TipoEquipo>();
-        puertosBT = new javax.swing.JToggleButton();
-        ipsBT = new javax.swing.JButton();
+        // Initialize components
+        codigoTF = new javax.swing.JTextField(15);
+        descripcionTF = new javax.swing.JTextField(15);
+        marcaTF = new javax.swing.JTextField(15);
+        modeloTF = new javax.swing.JTextField(15);
+        tipoEquipoCB = new JComboBox<>();
+        ubicacionCB = new JComboBox<>();
+        JToggleButton puertosBT = new JToggleButton("Puertos Equipo");
+        JButton ipsBT = new JButton("Direcciones IP Equipo");
         EstadoCB = new javax.swing.JCheckBox();
-        codigoLbl = new javax.swing.JLabel();
-        descripcionLbl = new javax.swing.JLabel();
-        marcaLbl = new javax.swing.JLabel();
-        modeloLbl = new javax.swing.JLabel();
-        tipoEquipoLbl = new javax.swing.JLabel();
-        puertosLbl = new javax.swing.JLabel();
-        ipsLbl = new javax.swing.JLabel();
-        estadoLbl = new javax.swing.JLabel();
-        buttonsPannel = new javax.swing.JPanel();
-        aceptarBT = new javax.swing.JButton();
-        cancelarBT = new javax.swing.JButton();
-        izquierda = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        derecha = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        superior = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-        inferior = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 32767));
-
-        bg.setPreferredSize(new java.awt.Dimension(500, 500));
+        JLabel codigoLbl = new JLabel("Codigo:");
+        JLabel descripcionLbl = new JLabel("Descripcion:");
+        JLabel marcaLbl = new JLabel("Marca:");
+        JLabel modeloLbl = new JLabel("Modelo:");
+        JLabel tipoEquipoLbl = new JLabel("TipoEquipo:");
+        JLabel ubicacionLbl = new JLabel("Ubicación:");
+        JLabel puertosLbl = new JLabel("Puertos:");
+        JLabel ipsLbl = new JLabel("Direcciones IP:");
+        JLabel estadoLbl = new JLabel("Estado:");
+        JButton aceptarBT = new JButton("Aceptar");
+        JButton cancelarBT = new JButton("Cancelar");
 
         // Load the equipment types into the combo box
         List<TipoEquipo> tiposEquipos = coordinator.getTiposEquipos().values().stream().toList();
@@ -97,7 +152,15 @@ public class DataEquiposDialog extends javax.swing.JDialog {
         }
         tipoEquipoCB.setModel(comboBoxModel);
 
-        // Set a custom renderer to display only the codigo attribute
+        // Load the locations into the combo box
+        List<Ubicacion> ubicaciones = coordinator.getUbicaciones().values().stream().toList();
+        DefaultComboBoxModel<Ubicacion> ubicacionModel = new DefaultComboBoxModel<>();
+        for (Ubicacion ubicacion : ubicaciones) {
+            ubicacionModel.addElement(ubicacion);
+        }
+        ubicacionCB.setModel(ubicacionModel);
+
+        // Set custom renderers
         tipoEquipoCB.setRenderer(new DefaultListCellRenderer() {
             @Override
             public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
@@ -109,182 +172,94 @@ public class DataEquiposDialog extends javax.swing.JDialog {
             }
         });
 
-        puertosBT.setText("Puertos Equipo");
-        puertosBT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                puertosBTActionPerformed(evt);
+        ubicacionCB.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean cellHasFocus) {
+                Component c = super.getListCellRendererComponent(list, value, index, isSelected, cellHasFocus);
+                if (value instanceof Ubicacion) {
+                    setText(((Ubicacion) value).getCodigo());
+                }
+                return c;
             }
         });
 
-        ipsBT.setText("Drecciones Ip Equipo");
-        ipsBT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ipsBTActionPerformed(evt);
-            }
-        });
+        // Add components to bg with GridBagConstraints
+        gbc.anchor = GridBagConstraints.WEST;
 
-        EstadoCB.setSelected(true);
+        // Row 1
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        bg.add(codigoLbl, gbc);
+        gbc.gridx = 1;
+        bg.add(codigoTF, gbc);
 
-        codigoLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        codigoLbl.setText("Codigo: ");
+        // Row 2
+        gbc.gridx = 0;
+        gbc.gridy = 1;
+        bg.add(descripcionLbl, gbc);
+        gbc.gridx = 1;
+        bg.add(descripcionTF, gbc);
 
-        descripcionLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        descripcionLbl.setText("Descripcion:");
+        // Row 3
+        gbc.gridx = 0;
+        gbc.gridy = 2;
+        bg.add(marcaLbl, gbc);
+        gbc.gridx = 1;
+        bg.add(marcaTF, gbc);
 
-        marcaLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        marcaLbl.setText("Marca:");
+        // Row 4
+        gbc.gridx = 0;
+        gbc.gridy = 3;
+        bg.add(modeloLbl, gbc);
+        gbc.gridx = 1;
+        bg.add(modeloTF, gbc);
 
-        modeloLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        modeloLbl.setText("Modelo:");
+        // Row 5
+        gbc.gridx = 0;
+        gbc.gridy = 4;
+        bg.add(tipoEquipoLbl, gbc);
+        gbc.gridx = 1;
+        bg.add(tipoEquipoCB, gbc);
 
-        tipoEquipoLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        tipoEquipoLbl.setText("TipoEquipo:");
+        // Row 6
+        gbc.gridx = 0;
+        gbc.gridy = 5;
+        bg.add(ubicacionLbl, gbc);
+        gbc.gridx = 1;
+        bg.add(ubicacionCB, gbc);
 
-        puertosLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        puertosLbl.setText("Puertos:");
+        // Row 7
+        gbc.gridx = 0;
+        gbc.gridy = 6;
+        bg.add(puertosLbl, gbc);
+        gbc.gridx = 1;
+        bg.add(puertosBT, gbc);
 
-        ipsLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        ipsLbl.setText("Direcciones IP:");
+        // Row 8
+        gbc.gridx = 0;
+        gbc.gridy = 7;
+        bg.add(ipsLbl, gbc);
+        gbc.gridx = 1;
+        bg.add(ipsBT, gbc);
 
-        estadoLbl.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        estadoLbl.setText("Estado:");
+        // Row 9
+        gbc.gridx = 0;
+        gbc.gridy = 8;
+        bg.add(estadoLbl, gbc);
+        gbc.gridx = 1;
+        bg.add(EstadoCB, gbc);
 
-        buttonsPannel.setLayout(new java.awt.GridLayout(1, 0, 50, 0));
+        // Row 10 - Buttons
+        gbc.gridx = 0;
+        gbc.gridy = 9;
+        gbc.gridwidth = 2;
+        gbc.anchor = GridBagConstraints.CENTER;
+        JPanel buttonPanel = new JPanel();
+        buttonPanel.add(aceptarBT);
+        buttonPanel.add(cancelarBT);
+        bg.add(buttonPanel, gbc);
 
-        aceptarBT.setText("Aceptar");
-        aceptarBT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        aceptarBT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                aceptarBTActionPerformed(evt);
-            }
-        });
-        buttonsPannel.add(aceptarBT);
-
-        cancelarBT.setText("Cancelar");
-        cancelarBT.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        cancelarBT.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cancelarBTActionPerformed(evt);
-            }
-        });
-        buttonsPannel.add(cancelarBT);
-
-        javax.swing.GroupLayout contentPanelLayout = new javax.swing.GroupLayout(contentPanel);
-        contentPanel.setLayout(contentPanelLayout);
-        contentPanelLayout.setHorizontalGroup(
-                contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(contentPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(buttonsPannel, javax.swing.GroupLayout.PREFERRED_SIZE, 501, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(contentPanelLayout.createSequentialGroup()
-                                                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addComponent(codigoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(descripcionLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(marcaLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(modeloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(tipoEquipoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(puertosLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(ipsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                        .addComponent(estadoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                        .addGroup(contentPanelLayout.createSequentialGroup()
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                                        .addComponent(codigoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(descripcionTF, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(marcaTF, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(modeloTF, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(tipoEquipoCB, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(puertosBT, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                                        .addComponent(ipsBT, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, contentPanelLayout.createSequentialGroup()
-                                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
-                                                                .addComponent(EstadoCB, javax.swing.GroupLayout.PREFERRED_SIZE, 331, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-        );
-        contentPanelLayout.setVerticalGroup(
-                contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(contentPanelLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(contentPanelLayout.createSequentialGroup()
-                                                .addComponent(codigoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, 0)
-                                                .addComponent(descripcionLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, 0)
-                                                .addComponent(marcaLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, 0)
-                                                .addComponent(modeloLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, 0)
-                                                .addComponent(tipoEquipoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, 0)
-                                                .addComponent(puertosLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(0, 0, 0)
-                                                .addComponent(ipsLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(contentPanelLayout.createSequentialGroup()
-                                                .addComponent(codigoTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(10, 10, 10)
-                                                .addComponent(descripcionTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(10, 10, 10)
-                                                .addComponent(marcaTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(10, 10, 10)
-                                                .addComponent(modeloTF, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(10, 10, 10)
-                                                .addComponent(tipoEquipoCB, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(10, 10, 10)
-                                                .addComponent(puertosBT, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(10, 10, 10)
-                                                .addComponent(ipsBT, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                                .addGroup(contentPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(estadoLbl, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGroup(contentPanelLayout.createSequentialGroup()
-                                                .addGap(12, 12, 12)
-                                                .addComponent(EstadoCB)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(buttonsPannel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap())
-        );
-
-        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
-        bg.setLayout(bgLayout);
-        bgLayout.setHorizontalGroup(
-                bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(bgLayout.createSequentialGroup()
-                                .addContainerGap()
-                                .addComponent(izquierda, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(derecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addContainerGap())
-                        .addGroup(bgLayout.createSequentialGroup()
-                                .addGap(255, 255, 255)
-                                .addComponent(superior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(inferior, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(265, 265, 265))
-        );
-        bgLayout.setVerticalGroup(
-                bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(bgLayout.createSequentialGroup()
-                                .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(bgLayout.createSequentialGroup()
-                                                .addGap(183, 183, 183)
-                                                .addComponent(izquierda, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(bgLayout.createSequentialGroup()
-                                                .addGap(174, 174, 174)
-                                                .addComponent(derecha, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, bgLayout.createSequentialGroup()
-                                                .addComponent(superior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(contentPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(inferior, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                .addContainerGap())
-        );
-
+        // Set layout for the dialog
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -293,56 +268,84 @@ public class DataEquiposDialog extends javax.swing.JDialog {
         );
         layout.setVerticalGroup(
                 layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, 372, Short.MAX_VALUE)
+                        .addComponent(bg, javax.swing.GroupLayout.PREFERRED_SIZE, 372, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         // Set the preferred size of the dialog
         setPreferredSize(new java.awt.Dimension(WIDTH_DIALOG, HEIGHT_DIALOG));
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
 
-    private void aceptarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aceptarBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_aceptarBTActionPerformed
+        // Add action listeners
+        puertosBT.addActionListener(e -> puertosBTActionPerformed());
+        ipsBT.addActionListener(e -> ipsBTActionPerformed());
+        aceptarBT.addActionListener(e -> aceptarBTActionPerformed());
+        cancelarBT.addActionListener(e -> cancelarBTActionPerformed());
+    }
 
-    private void cancelarBTActionPerformed(java.awt.event.ActionEvent evt) {
+    /**
+     * Handles the action event for the accept button.
+     * <p>
+     * This method sets the properties of the new equipment object based on the input fields.
+     * If the dialog is in editing mode, it attempts to modify the existing equipment.
+     * Otherwise, it attempts to add a new equipment. In both cases, it handles any
+     * `InvalidEquipoException` that may be thrown and displays an error message.
+     * Finally, it closes the dialog.
+     */
+    private void aceptarBTActionPerformed() {
+        newEquipo.setCodigo(codigoTF.getText());
+        newEquipo.setDescripcion(descripcionTF.getText());
+        newEquipo.setMarca(marcaTF.getText());
+        newEquipo.setModelo(modeloTF.getText());
+        newEquipo.setTipoEquipo((TipoEquipo) tipoEquipoCB.getSelectedItem());
+        newEquipo.setUbicacion((Ubicacion) ubicacionCB.getSelectedItem());
+        newEquipo.setEstado(EstadoCB.isSelected());
+
+        if (isEditing) {
+            try {
+                coordinator.modifyEquipo(oldEquipo, newEquipo);
+            } catch (InvalidEquipoException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                this.dispose();
+            }
+            JOptionPane.showMessageDialog(this, "Equipo modificado correctamente", "Equipo modificado", JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            try {
+                coordinator.addEquipo(newEquipo);
+            } catch (InvalidEquipoException e) {
+                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                this.dispose();
+            }
+            JOptionPane.showMessageDialog(this, "Equipo agregado correctamente", "Equipo agregado", JOptionPane.INFORMATION_MESSAGE);
+        }
         this.dispose();
     }
 
-    private void puertosBTActionPerformed(java.awt.event.ActionEvent evt) {
-        new TablePuertosEquipoDialog(this, true, coordinator, equipo);
+    /**
+     * Handles the action event for the cancel button.
+     * <p>
+     * This method closes the dialog when the cancel button is pressed.
+     */
+    private void cancelarBTActionPerformed() {
+        this.dispose();
     }
 
-    private void ipsBTActionPerformed(java.awt.event.ActionEvent evt) {
-        new TableIpsEquipoDialog(this, true, coordinator, equipo);
+    /**
+     * Handles the action event for the ports button.
+     * <p>
+     * This method opens a new dialog for managing the equipment's ports.
+     */
+    private void puertosBTActionPerformed() {
+        new TablePuertosEquipoDialog(this, true, coordinator, newEquipo);
     }
 
-    // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JCheckBox EstadoCB;
-    private javax.swing.JButton aceptarBT;
-    private javax.swing.JPanel bg;
-    private javax.swing.JPanel buttonsPannel;
-    private javax.swing.JButton cancelarBT;
-    private javax.swing.JLabel codigoLbl;
-    private javax.swing.JTextField codigoTF;
-    private javax.swing.JPanel contentPanel;
-    private javax.swing.Box.Filler derecha;
-    private javax.swing.JLabel descripcionLbl;
-    private javax.swing.JTextField descripcionTF;
-    private javax.swing.JLabel estadoLbl;
-    private javax.swing.Box.Filler inferior;
-    private javax.swing.JButton ipsBT;
-    private javax.swing.JLabel ipsLbl;
-    private javax.swing.Box.Filler izquierda;
-    private javax.swing.JLabel marcaLbl;
-    private javax.swing.JTextField marcaTF;
-    private javax.swing.JLabel modeloLbl;
-    private javax.swing.JTextField modeloTF;
-    private javax.swing.JToggleButton puertosBT;
-    private javax.swing.JLabel puertosLbl;
-    private javax.swing.Box.Filler superior;
-    private JComboBox<TipoEquipo> tipoEquipoCB;
-    private javax.swing.JLabel tipoEquipoLbl;
-    // End of variables declaration//GEN-END:variables
+    /**
+     * Handles the action event for the IP addresses button.
+     * <p>
+     * This method opens a new dialog for managing the equipment's IP addresses.
+     */
+    private void ipsBTActionPerformed() {
+        new TableIpsEquipoDialog(this, true, coordinator, newEquipo);
+    }
+
 }

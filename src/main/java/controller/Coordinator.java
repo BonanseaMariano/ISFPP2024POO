@@ -167,18 +167,19 @@ public class Coordinator {
      * Adds a device (Equipo) to the network.
      * <p>
      * This method attempts to add the device to the network (Red), logic layer, and graphical user interface (Gui).
-     * If any exception occurs during the process, the device is not added and an error message is printed.
+     * If the device is invalid and cannot be added, an InvalidEquipoException is thrown.
      *
      * @param equipo the device to be added
+     * @throws InvalidEquipoException if the device is invalid
      */
-    public void addEquipo(Equipo equipo) {
+    public void addEquipo(Equipo equipo) throws InvalidEquipoException {
         try {
             red.addEquipo(equipo);
             logic.addVertex(equipo);
             gui.addVisualVertex(equipo);
         } catch (InvalidEquipoException | InvalidUbicacionException | InvalidTipoEquipoException |
                  InvalidTipoPuertoException | InvalidDireccionIPException | IllegalArgumentException e) {
-            System.out.println(e.getMessage());
+            throw new InvalidEquipoException(e.getMessage());
         }
     }
 
@@ -186,19 +187,15 @@ public class Coordinator {
     /**
      * Deletes a device (Equipo) from the network.
      * <p>
-     * This method attempts to delete the device from the network (Red), logic layer, and graphical user interface (Gui).
-     * If the device is invalid and cannot be deleted, an InvalidEquipoException is caught and its message is printed.
+     * This method removes the device from the network (Red), logic layer, and graphical user interface (Gui).
      *
      * @param equipo the device to be deleted
+     * @throws InvalidEquipoException if the device is invalid
      */
-    public void deleteEquipo(Equipo equipo) {
-        try {
-            red.deleteEquipo(equipo);
-            logic.deleteVertex(equipo);
-            gui.removeVisualVertex(equipo);
-        } catch (InvalidEquipoException e) {
-            System.out.println(e.getMessage());
-        }
+    public void deleteEquipo(Equipo equipo) throws InvalidEquipoException {
+        red.deleteEquipo(equipo);
+        logic.deleteVertex(equipo);
+        gui.removeVisualVertex(equipo);
     }
 
 
@@ -207,18 +204,20 @@ public class Coordinator {
      * <p>
      * This method attempts to modify the device in the network (Red), logic layer, and graphical user interface (Gui).
      * If any exception occurs during the process, the device is not modified and an error message is printed.
+     * If an exception occurs while modifying the network or GUI, the changes in the logic layer are reverted.
      *
      * @param oldEquipo the existing device to be replaced
      * @param newEquipo the new device to replace the old one
+     * @throws InvalidEquipoException if the device is invalid
      */
-    public void modifyEquipo(Equipo oldEquipo, Equipo newEquipo) {
+    public void modifyEquipo(Equipo oldEquipo, Equipo newEquipo) throws InvalidEquipoException {
         try {
             red.modifyEquipo(oldEquipo, newEquipo);
             logic.modifyVertex(oldEquipo, newEquipo);
             gui.modifyVisualVertex(oldEquipo, newEquipo);
         } catch (InvalidEquipoException | InvalidUbicacionException | InvalidTipoEquipoException |
                  InvalidTipoPuertoException | InvalidDireccionIPException e) {
-            System.out.println(e.getMessage());
+            throw new InvalidEquipoException(e.getMessage());
         }
     }
 
@@ -236,7 +235,7 @@ public class Coordinator {
 
     /**
      * Retrieves the keys of the equipment in the network.
-     *
+     * <p>
      * This method returns an array of strings that contains the keys
      * of all the equipment in the network. The keys are obtained from
      * the key set of the map of equipment maintained by the {@code red}
@@ -251,7 +250,7 @@ public class Coordinator {
 
     /**
      * Retrieves the IP addresses of all equipment in the network.
-     *
+     * <p>
      * This method collects the IP addresses from all the equipment
      * available in the network and returns them as an array of strings.
      * The IP addresses are sorted in natural order before being returned.
@@ -261,7 +260,7 @@ public class Coordinator {
     public String[] getEquiposIps() {
         ArrayList<String> ips = new ArrayList<>();
 
-        for (Equipo equipo : getEquipos()){
+        for (Equipo equipo : getEquipos()) {
             ips.addAll(equipo.getDireccionesIp());
         }
         Collections.sort(ips, new Comparator<String>() {
@@ -286,7 +285,7 @@ public class Coordinator {
 
     /**
      * Retrieves the equipment associated with the specified code.
-     *
+     * <p>
      * This method looks up and returns the equipment object that corresponds
      * to the given code from the network's equipment map. If no equipment
      * is found with the specified code, it returns {@code null}.
@@ -547,7 +546,7 @@ public class Coordinator {
      * @return a map where the key is the device code and the value is the device
      */
     public Map<String, Equipo> getVertexMap() {
-        return logic.getEquiposMap();
+        return logic.getVertexMap();
     }
 
     /**
@@ -558,7 +557,7 @@ public class Coordinator {
      * @return a map where the key is the connection code and the value is the connection
      */
     public Map<String, Conexion> getEdgesMap() {
-        return logic.getConexionesMap();
+        return logic.getEdgesMap();
     }
 
     /**
@@ -628,7 +627,7 @@ public class Coordinator {
      * This method uses the logic layer to retrieve the status of each device in the network.
      *
      * @return a map where the key is the device and the value is true if the device is active, false otherwise
-     */gi
+     */
     public Map<Equipo, Boolean> mapStatus() {
         return logic.mapStatus();
     }
