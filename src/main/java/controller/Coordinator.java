@@ -628,7 +628,7 @@ public class Coordinator {
      * This method uses the logic layer to retrieve the status of each device in the network.
      *
      * @return a map where the key is the device and the value is true if the device is active, false otherwise
-     */
+     */gi
     public Map<Equipo, Boolean> mapStatus() {
         return logic.mapStatus();
     }

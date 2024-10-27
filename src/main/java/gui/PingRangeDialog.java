@@ -147,7 +147,7 @@ public class PingRangeDialog extends javax.swing.JDialog {
         }else{
             ipsCollection.add(ip1);
         }
-        
+
         ipsCollection.add(ip2);
         for(Map.Entry   <String, Boolean> entry : coordinator.pingRange(ipsCollection).entrySet()) {
             pingRangeText += "\n" + entry.getKey() + ": " + (entry.getValue() ? "Conectado" : "Desconectado");
