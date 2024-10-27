@@ -234,10 +234,30 @@ public class Coordinator {
         return new ArrayList<>(red.getEquipos().values());
     }
 
-    public String[] getEquiposKeys(){
+    /**
+     * Retrieves the keys of the equipment in the network.
+     *
+     * This method returns an array of strings that contains the keys
+     * of all the equipment in the network. The keys are obtained from
+     * the key set of the map of equipment maintained by the {@code red}
+     * instance. This method is useful for obtaining a list of identifiers
+     * for the available equipment in the network.
+     *
+     * @return an array of strings representing the keys of the equipment in the network.
+     */
+    public String[] getEquiposKeys() {
         return red.getEquipos().keySet().toArray(new String[red.getEquipos().size()]);
     }
 
+    /**
+     * Retrieves the IP addresses of all equipment in the network.
+     *
+     * This method collects the IP addresses from all the equipment
+     * available in the network and returns them as an array of strings.
+     * The IP addresses are sorted in natural order before being returned.
+     *
+     * @return an array of strings containing the IP addresses of the equipment in the network.
+     */
     public String[] getEquiposIps() {
         ArrayList<String> ips = new ArrayList<>();
 
@@ -250,6 +270,16 @@ public class Coordinator {
         return ips.toArray(new String[ips.size()]);
     }
 
+    /**
+     * Retrieves the equipment associated with the specified code.
+     *
+     * This method looks up and returns the equipment object that corresponds
+     * to the given code from the network's equipment map. If no equipment
+     * is found with the specified code, it returns {@code null}.
+     *
+     * @param codigo the code of the equipment to retrieve.
+     * @return the {@code Equipo} object associated with the specified code, or {@code null} if not found.
+     */
     public Equipo getEquipo(String codigo) {
         return red.getEquipos().get(codigo);
     }
