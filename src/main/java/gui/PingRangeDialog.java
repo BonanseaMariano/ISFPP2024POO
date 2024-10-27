@@ -138,21 +138,16 @@ public class PingRangeDialog extends javax.swing.JDialog {
         Collection<String> ipsCollection = new ArrayList<>();
 
         ipsCollection.add(ip1);
-        if(ip1.compareTo(ip2) > 0){
-            for(String ip : coordinator.getEquiposIps()) {
-                if (ip.compareTo(ip1) < 0 && ip.compareTo(ip2) > 0) {
-                    ipsCollection.add(ip);
-                }
-            }
-        }else if (ip1.equals(ip2)) {
-            ipsCollection.add(ip1);
-        }else{
+        if (!ip1.equals(ip2)) {
             for(String ip : coordinator.getEquiposIps()) {
                 if (ip.compareTo(ip1) > 0 && ip.compareTo(ip2) < 0) {
                     ipsCollection.add(ip);
                 }
             }
+        }else{
+            ipsCollection.add(ip1);
         }
+        
         ipsCollection.add(ip2);
         for(Map.Entry   <String, Boolean> entry : coordinator.pingRange(ipsCollection).entrySet()) {
             pingRangeText += "\n" + entry.getKey() + ": " + (entry.getValue() ? "Conectado" : "Desconectado");
