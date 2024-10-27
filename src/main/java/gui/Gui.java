@@ -256,7 +256,7 @@ public class Gui extends javax.swing.JFrame {
             System.out.println(entry.getKey().getCodigo() + " " + entry.getValue());
         }
         // TODO add your handling code here:
-        StateMapEquiposDialog stateMapEquiposDialog = new StateMapEquiposDialog(this, true,coordinator);
+        StateMapEquiposDialog stateMapEquiposDialog = new StateMapEquiposDialog(this, true, coordinator);
         stateMapEquiposDialog.setVisible(true);
     }//GEN-LAST:event_statusMapBTActionPerformed
 
@@ -267,9 +267,9 @@ public class Gui extends javax.swing.JFrame {
         connectivityProblemsDialog.setVisible(true);
     }//GEN-LAST:event_problemsBTActionPerformed
 
-    private void equiposBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_equiposBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_equiposBTActionPerformed
+    private void equiposBTActionPerformed(java.awt.event.ActionEvent evt) {
+        new TableEquiposDialog(this, true, coordinator);
+    }
 
     private void conexionesBTActionPerformed(java.awt.event.ActionEvent evt) {
         new TableConexionesDialog(this, true, coordinator);

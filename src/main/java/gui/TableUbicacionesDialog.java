@@ -3,6 +3,8 @@ package gui;
 import controller.Coordinator;
 import models.Ubicacion;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.util.Map;
 
 /**
@@ -12,7 +14,10 @@ import java.util.Map;
 public class TableUbicacionesDialog extends javax.swing.JDialog {
     // Table displaying the locations
     private javax.swing.JTable table;
-
+    // Width of the dialog
+    private static final int WIDTH_DIALOG = 400;
+    // Height of the dialog
+    private static final int HEIGHT_DIALOG = 350;
     // Coordinator instance to manage the application's business logic
     private Coordinator coordinator;
 
@@ -116,6 +121,15 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         // Set the selection mode to select rows
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
+        // Create a cell renderer that centers the text
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Apply the renderer to each column
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         scrollPane.setViewportView(table);
 
         bottomPanel.setLayout(new java.awt.GridLayout(1, 3, 5, 0));
@@ -157,6 +171,9 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         );
 
         getContentPane().add(bg, java.awt.BorderLayout.CENTER);
+
+        // Set the preferred size of the dialog
+        setPreferredSize(new java.awt.Dimension(WIDTH_DIALOG, HEIGHT_DIALOG));
 
         pack();
     }

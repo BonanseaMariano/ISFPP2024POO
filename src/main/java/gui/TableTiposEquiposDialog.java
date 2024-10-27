@@ -3,6 +3,8 @@ package gui;
 import controller.Coordinator;
 import models.TipoEquipo;
 
+import javax.swing.*;
+import javax.swing.table.DefaultTableCellRenderer;
 import java.util.Map;
 
 /**
@@ -12,7 +14,10 @@ import java.util.Map;
 public class TableTiposEquiposDialog extends javax.swing.JDialog {
     // Table displaying the equipment types
     private javax.swing.JTable table;
-
+    // Width of the dialog
+    private static final int WIDTH_DIALOG = 400;
+    // Height of the dialog
+    private static final int HEIGHT_DIALOG = 300;
     // Coordinator instance to manage the application's business logic
     private Coordinator coordinator;
 
@@ -84,7 +89,6 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
      * It also sets the layout for the background panel and adds the components to the dialog's content pane.
      */
     private void initComponents() {
-
         // Main background panel of the dialog
         javax.swing.JPanel bg = new javax.swing.JPanel();
         // Scroll pane that contains the table
@@ -120,6 +124,15 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
         // Set the selection mode to select rows
         table.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
 
+        // Create a cell renderer that centers the text
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment(SwingConstants.CENTER);
+
+        // Apply the renderer to each column
+        for (int i = 0; i < table.getColumnCount(); i++) {
+            table.getColumnModel().getColumn(i).setCellRenderer(centerRenderer);
+        }
+
         scrollPane.setViewportView(table);
 
         bottomPanel.setLayout(new java.awt.GridLayout(1, 3, 5, 0));
@@ -146,21 +159,24 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
                         .addGroup(bgLayout.createSequentialGroup()
                                 .addContainerGap()
                                 .addGroup(bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(scrollPane, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-                                        .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE))
+                                        .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE)
+                                        .addComponent(bottomPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 600, Short.MAX_VALUE))
                                 .addContainerGap())
         );
         bgLayout.setVerticalGroup(
                 bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(bgLayout.createSequentialGroup()
                                 .addContainerGap()
-                                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 250, Short.MAX_VALUE)
+                                .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(bottomPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
         );
 
         getContentPane().add(bg, java.awt.BorderLayout.CENTER);
+
+        // Set the preferred size of the dialog
+        setPreferredSize(new java.awt.Dimension(WIDTH_DIALOG, HEIGHT_DIALOG));
 
         pack();
     }
