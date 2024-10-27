@@ -76,14 +76,14 @@ public class DAOEquipoImplFile implements DAOEquipo {
                 //Si tiene mas de un puerto
                 if (puertos.size() > 1) {
                     for (int i = 1; i < puertos.size(); i++) {
-                        equipo.agregarPuerto(puertos.get(i));
+                        equipo.addPuerto(puertos.get(i));
                     }
                 }
 
                 //Si tiene mas de una direccion IP
                 if (direccionesIp.size() > 1) {
                     for (int i = 1; i < direccionesIp.size(); i++) {
-                        equipo.agregarDireccionIp(direccionesIp.get(i));
+                        equipo.addIP(direccionesIp.get(i));
                     }
                 }
                 list.add(equipo);

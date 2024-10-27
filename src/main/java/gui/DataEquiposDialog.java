@@ -47,6 +47,8 @@ public class DataEquiposDialog extends javax.swing.JDialog {
             modeloTF.setText(equipo.getModelo());
             tipoEquipoCB.setSelectedItem(equipo.getTipoEquipo());
             EstadoCB.setSelected(equipo.isEstado());
+        } else {
+            equipo = new Equipo();
         }
     }
 
@@ -304,17 +306,17 @@ public class DataEquiposDialog extends javax.swing.JDialog {
         // TODO add your handling code here:
     }//GEN-LAST:event_aceptarBTActionPerformed
 
-    private void cancelarBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelarBTActionPerformed
+    private void cancelarBTActionPerformed(java.awt.event.ActionEvent evt) {
         this.dispose();
-    }//GEN-LAST:event_cancelarBTActionPerformed
+    }
 
-    private void puertosBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_puertosBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_puertosBTActionPerformed
+    private void puertosBTActionPerformed(java.awt.event.ActionEvent evt) {
+        new TablePuertosEquipoDialog(this, true, coordinator, equipo);
+    }
 
-    private void ipsBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ipsBTActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ipsBTActionPerformed
+    private void ipsBTActionPerformed(java.awt.event.ActionEvent evt) {
+        new TableIpsEquipoDialog(this, true, coordinator, equipo);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox EstadoCB;

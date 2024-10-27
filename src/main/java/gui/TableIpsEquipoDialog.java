@@ -6,6 +6,7 @@ import utils.Utils;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
+import java.util.Arrays;
 
 /**
  * This class represents a dialog that displays a table with all the IPs of a specific equipment.
@@ -202,8 +203,14 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
                 return;
             }
 
+            //Verify if the IP already exists
+            if (Arrays.stream(coordinator.getEquiposIps()).toList().contains(ip)) {
+                javax.swing.JOptionPane.showMessageDialog(null, "Error: La IP ya existe", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
             // Add the new IP to the equipo
-            equipo.agregarDireccionIp(ip);
+            equipo.addIP(ip);
 
             // Update the table
             javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) table.getModel();
@@ -255,8 +262,16 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
                     return;
                 }
 
+                //Verify if the new IP already exists except the current IP
+                if (Arrays.stream(coordinator.getEquiposIps()).toList().contains(newIp) && !newIp.equals(currentIp)) {
+                    javax.swing.JOptionPane.showMessageDialog(null, "Error: La IP ya existe", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+
+
                 // Update the IP in the equipo
-//                equipo.updateIp(currentIp, newIp);
+                equipo.removeIP(currentIp);
+                equipo.addIP(newIp);
 
                 // Update the row in the table model
                 model.setValueAt(newIp, modelRow, 0);
@@ -292,7 +307,7 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
             int confirm = javax.swing.JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la IP " + currentIp + "?", "Confirmar eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 // Remove the IP from the equipo
-//                equipo.removeIp(currentIp);
+                equipo.removeIP(currentIp);
 
                 // Remove the row from the table model
                 model.removeRow(modelRow);
@@ -320,4 +335,5 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
 
         return panel;
     }
+
 }

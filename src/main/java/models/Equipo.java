@@ -26,9 +26,9 @@ public class Equipo {
         this.tipoEquipo = tipoEquipo;
         this.ubicacion = ubicacion;
         this.puertos = new ArrayList<>();
-        agregarPuerto(puerto);
+        addPuerto(puerto);
         this.direccionesIp = new ArrayList<>();
-        agregarDireccionIp(direccionIP);
+        addIP(direccionIP);
         this.estado = estado;
     }
 
@@ -37,15 +37,23 @@ public class Equipo {
         this.direccionesIp = new ArrayList<>();
     }
 
-    public void agregarPuerto(Puerto puerto) {
+    public void addPuerto(Puerto puerto) {
         puertos.add(puerto);
     }
 
-    public void agregarDireccionIp(String direccionIp) throws InvalidDireccionIPException {
+    public void removePuerto(Puerto puerto) {
+        puertos.remove(puerto);
+    }
+
+    public void addIP(String direccionIp) throws InvalidDireccionIPException {
         if (!direccionIp.isBlank() && !Utils.validateIP(direccionIp)) {
             throw new InvalidDireccionIPException("No se puede agregar la dirección IP porque no es válida.");
         }
         direccionesIp.add(direccionIp);
+    }
+
+    public void removeIP(String direccionIp) {
+        direccionesIp.remove(direccionIp);
     }
 
     public int getCantidadPuertos() {

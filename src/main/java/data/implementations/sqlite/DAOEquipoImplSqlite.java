@@ -111,7 +111,7 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
                 pstm.setString(1, equipo.getCodigo());
                 rs = pstm.executeQuery();
                 while (rs.next()) {
-                    equipo.agregarPuerto(new Puerto(rs.getInt("cantidad"), tiposPuertos.get(rs.getString("tipo_puerto"))));
+                    equipo.addPuerto(new Puerto(rs.getInt("cantidad"), tiposPuertos.get(rs.getString("tipo_puerto"))));
                 }
 
                 sql = "SELECT ip FROM direcciones_ip ";
@@ -120,7 +120,7 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
                 pstm.setString(1, equipo.getCodigo());
                 rs = pstm.executeQuery();
                 while (rs.next()) {
-                    equipo.agregarDireccionIp(rs.getString("ip"));
+                    equipo.addIP(rs.getString("ip"));
                 }
             }
             return ret;

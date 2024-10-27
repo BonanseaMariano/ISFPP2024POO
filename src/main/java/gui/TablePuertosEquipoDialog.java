@@ -8,7 +8,6 @@ import models.Puerto;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
-import java.util.Map;
 
 /**
  * This class represents a dialog that displays a table with all the ports of a specific equipment.
@@ -237,7 +236,8 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
                     }
                 }
 
-                equipo.agregarPuerto(puerto);
+                // Add the Puerto to the equipo
+                equipo.addPuerto(puerto);
 
                 // Update the table
                 javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) table.getModel();
@@ -314,8 +314,20 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
                 if (newTipoPuerto == null) {
                     javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
                 } else {
+
+                    // Check if the port already exists in the device except for the current port
+                    for (Puerto p : equipo.getPuertos()) {
+                        if (p.getTipoPuerto().equals(newTipoPuerto) && !p.getTipoPuerto().equals(currentTipoPuerto)) {
+                            javax.swing.JOptionPane.showMessageDialog(null, "Error: el tipo de puerto ya existe en este equipo", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                            return;
+                        }
+                    }
+
                     // Update the Puerto in the equipo
-//                equipo.updatePuerto(currentTipoPuerto, newTipoPuerto, newCantidad);
+                    Puerto puerto = new Puerto(currentCantidad, currentTipoPuerto);
+                    equipo.removePuerto(puerto);
+                    puerto = new Puerto(newCantidad, newTipoPuerto);
+                    equipo.addPuerto(puerto);
 
                     // Update the row in the table model
                     model.setValueAt(newCantidad, modelRow, 0);
@@ -357,7 +369,8 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
             int confirm = javax.swing.JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el Puerto de tipo " + currentTipoPuertoDescripcion + "?", "Confirmar eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 // Remove the Puerto from the equipo
-//                equipo.removePuerto(currentTipoPuerto);
+                Puerto currentPuerto = new Puerto(currentCantidad, currentTipoPuerto);
+                equipo.removePuerto(currentPuerto);
 
                 // Remove the row from the table model
                 model.removeRow(modelRow);
