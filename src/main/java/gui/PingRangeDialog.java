@@ -35,6 +35,7 @@ public class PingRangeDialog extends javax.swing.JDialog {
         super(parent, modal);
         this.coordinator = coordinator;
         initComponents();
+        initStyles();
     }
 
     /**
@@ -160,4 +161,8 @@ public class PingRangeDialog extends javax.swing.JDialog {
         );
 
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void initStyles() {
+        this.setLocationRelativeTo(null);
+    }
 }
