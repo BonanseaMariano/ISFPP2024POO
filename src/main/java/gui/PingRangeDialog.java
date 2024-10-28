@@ -5,6 +5,7 @@
 package gui;
 
 import controller.Coordinator;
+import utils.Utils;
 
 import javax.swing.*;
 import java.util.ArrayList;
@@ -141,15 +142,14 @@ public class PingRangeDialog extends javax.swing.JDialog {
         ipsCollection.add(ip1);
         if (!ip1.equals(ip2)) {
             for(String ip : coordinator.getEquiposIps()) {
-                if (ip.compareTo(ip1) > 0 && ip.compareTo(ip2) < 0) {
+                if (Utils.ipComparator().compare(ip, ip1) > 0 && Utils.ipComparator().compare(ip, ip2) < 0) {
                     ipsCollection.add(ip);
                 }
             }
-
             ipsCollection.add(ip2);
         }
 
-        for(Map.Entry   <String, Boolean> entry : coordinator.pingRange(ipsCollection).entrySet()) {
+        for(Map.Entry<String, Boolean> entry : coordinator.pingRange(ipsCollection).entrySet()) {
             pingRangeText += "\n" + entry.getKey() + ": " + (entry.getValue() ? "Conectado" : "Desconectado");
         }
 

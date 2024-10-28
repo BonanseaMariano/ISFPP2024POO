@@ -380,7 +380,7 @@ public class Logic {
      * @return a map where the keys are IP addresses and the values are booleans indicating if the IP address is active
      */
     public Map<String, Boolean> pingRange(Collection<String> ips) {
-        Map<String, Boolean> results = new ConcurrentHashMap<>();
+        Map<String, Boolean> results = new LinkedHashMap<>();
         for (String ip : ips) {
             results.put(ip, ping(ip));
         }

@@ -5,6 +5,7 @@ import gui.Gui;
 import logic.Logic;
 import logic.Red;
 import models.*;
+import utils.Utils;
 
 import java.util.*;
 
@@ -263,23 +264,7 @@ public class Coordinator {
         for (Equipo equipo : getEquipos()) {
             ips.addAll(equipo.getDireccionesIp());
         }
-        Collections.sort(ips, new Comparator<String>() {
-            @Override
-            public int compare(String ip1, String ip2) {
-                String[] octets1 = ip1.split("\\.");
-                String[] octets2 = ip2.split("\\.");
-
-                for (int i = 0; i < 4; i++) {
-                    int octet1 = Integer.parseInt(octets1[i]);
-                    int octet2 = Integer.parseInt(octets2[i]);
-
-                    if (octet1 != octet2) {
-                        return Integer.compare(octet1, octet2);
-                    }
-                }
-                return 0; // They are equal
-            }
-        });
+        Collections.sort(ips, Utils.ipComparator());
         return ips.toArray(new String[ips.size()]);
     }
 
