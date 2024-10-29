@@ -466,12 +466,13 @@ public class Logic {
     private void validationDfs(Equipo vertex, Graph<Equipo, Conexion> parteConectada) {
         // Add the vertex to the connected subgraph
         parteConectada.addVertex(vertex);
-
-        // Iterate through adjacent vertices
-        for (Equipo adjacentVertex : Graphs.neighborListOf(graph, vertex)) {
-            // If the adjacent vertex has not been visited, add it to the connected subgraph and continue DFS
-            if (!parteConectada.containsVertex(adjacentVertex) && adjacentVertex.isEstado()) {
-                validationDfs(adjacentVertex, parteConectada);
+        if(vertex.isEstado()) {
+            // Iterate through adjacent vertices
+            for (Equipo adjacentVertex : Graphs.neighborListOf(graph, vertex)) {
+                // If the adjacent vertex has not been visited, add it to the connected subgraph and continue DFS
+                if (!parteConectada.containsVertex(adjacentVertex) && adjacentVertex.isEstado()) {
+                    validationDfs(adjacentVertex, parteConectada);
+                }
             }
         }
     }

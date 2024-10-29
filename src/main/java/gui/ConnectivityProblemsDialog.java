@@ -45,7 +45,7 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
     public ConnectivityProblemsDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator, String equipo) {
         super(parent, modal);
         this.coordinator = coordinator;
-        initComponents();
+        initComponents(equipo);
         initMxGraphStyle();
         visualizeGraph(equipo);
         initStyles();
@@ -58,7 +58,7 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
      */
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
-    private void initComponents() {
+    private void initComponents(String equipo) {
 
         parentJP = new javax.swing.JPanel();
         graphJP = new javax.swing.JPanel();
@@ -73,7 +73,7 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
         graphJP.setLayout(new java.awt.BorderLayout());
 
         titleJLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleJLabel.setText("Problemas de conexion");
+        titleJLabel.setText("Problemas de conexion de : " +  equipo);
 
         javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(tileJP);
         tileJP.setLayout(jPanel5Layout);
@@ -122,10 +122,27 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
     }
 
     /**
-     * Visualizes the graph by adding vertices and edges, and applying a hierarchical layout.
+     * Visualizes the graph representation of a specific team and its connections.
      *
-     * @param vEquipo   String of Equipo object representing the vertices of the graph.
-     * //@param conexiones List of Conexion objects representing the edges of the graph.
+     * This method retrieves the connected part of the graph for the specified team,
+     * represented by the given team name. It updates the graph model by inserting
+     * vertices for each team (Equipo) and edges for each connection (Conexion).
+     * After updating the model, it applies a hierarchical layout to the graph and
+     * creates a graph component to display it within the designated panel.
+     *
+     * @param vEquipo The name of the team (Equipo) to visualize. This parameter
+     *                is used to retrieve the corresponding graph model from the
+     *                coordinator.
+     *
+     * @throws IllegalArgumentException if the specified team does not exist
+     *                                   in the coordinator.
+     *
+     * @see Graph
+     * @see Equipo
+     * @see Conexion
+     * @see mxGraph
+     * @see mxGraphComponent
+     * @see mxHierarchicalLayout
      */
     public void visualizeGraph(String vEquipo) {
 
