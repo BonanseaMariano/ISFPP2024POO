@@ -10,6 +10,7 @@ import com.mxgraph.view.mxGraph;
 import controller.Coordinator;
 import models.Conexion;
 import models.Equipo;
+import org.jgrapht.Graph;
 
 import java.awt.*;
 import java.util.HashMap;
@@ -41,12 +42,12 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
     /**
      * Creates new form ConnectivityProblemsDialog
      */
-    public ConnectivityProblemsDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
+    public ConnectivityProblemsDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator, String equipo) {
         super(parent, modal);
         this.coordinator = coordinator;
         initComponents();
         initMxGraphStyle();
-        visualizeGraph(coordinator.getEquipos(), coordinator.getConexiones());
+        visualizeGraph(equipo);
         initStyles();
     }
 
@@ -105,48 +106,6 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * //@param args the command line arguments
-     */
-    /*public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-     /*   try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(ConnectivityProblemsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(ConnectivityProblemsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(ConnectivityProblemsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(ConnectivityProblemsDialog.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the dialog */
-     /*   java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                ConnectivityProblemsDialog dialog = new ConnectivityProblemsDialog(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }*/
-
     private void initMxGraphStyle() {
         mxGraph = new mxGraph() {
             @Override
@@ -165,23 +124,24 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
     /**
      * Visualizes the graph by adding vertices and edges, and applying a hierarchical layout.
      *
-     * @param equipos    List of Equipo objects representing the vertices of the graph.
-     * @param conexiones List of Conexion objects representing the edges of the graph.
+     * @param vEquipo   String of Equipo object representing the vertices of the graph.
+     * //@param conexiones List of Conexion objects representing the edges of the graph.
      */
-    public void visualizeGraph(List<Equipo> equipos, List<Conexion> conexiones) {
+    public void visualizeGraph(String vEquipo) {
 
         // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
 
+        Graph<Equipo, Conexion> model = coordinator.getConnectedPart(coordinator.getEquipo(vEquipo));
         // Begin updating the graph model
         mxGraph.getModel().beginUpdate();
         try {
             // Insert vertices for each Equipo object
-            for (Equipo equipo : equipos) {
+            for (Equipo equipo : model.vertexSet()) {
                 insertColoredVertex(equipo);
             }
             // Insert edges for each Conexion object
-            for (Conexion conexion : conexiones) {
+            for (Conexion conexion : model.edgeSet()) {
                 insertColoredEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
             }
         } finally {

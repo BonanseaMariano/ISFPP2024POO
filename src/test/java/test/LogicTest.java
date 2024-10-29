@@ -129,7 +129,7 @@ public class LogicTest {
         // Se actualizan los datos de logica con los datos de coordinator
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
         // Se obtiene la parte conectada de un vertice (Deveria mostrar TEST1, TEST2, TEST3. Fijarse corriendo GUITest)
-        for (Conexion conexion : coordinator.getConnectedPart(coordinator.getVertexMap().get("TEST1"))) {
+        for (Conexion conexion : coordinator.getConnectedPart(coordinator.getVertexMap().get("TEST1")).edgeSet()) {
             System.out.println(conexion);
         }
 

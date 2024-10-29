@@ -5,6 +5,7 @@ import gui.Gui;
 import logic.Logic;
 import logic.Red;
 import models.*;
+import org.jgrapht.Graph;
 import utils.Utils;
 
 import java.util.*;
@@ -602,8 +603,8 @@ public class Coordinator {
      * @param equipo the device for which to get the connected part of the network
      * @return a set of connections representing the connected part of the network for the specified device
      */
-    public Set<Conexion> getConnectedPart(Equipo equipo) {
-        return logic.getConnectedPart(equipo).edgeSet();
+    public Graph<Equipo, Conexion> getConnectedPart(Equipo equipo) {
+        return logic.getConnectedPart(equipo);
     }
 
     /**

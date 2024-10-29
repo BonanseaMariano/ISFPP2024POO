@@ -8,6 +8,7 @@ import models.Conexion;
 import models.Equipo;
 import models.TipoCable;
 
+import javax.swing.*;
 import java.awt.*;
 import java.util.HashMap;
 import java.util.List;
@@ -263,8 +264,14 @@ public class Gui extends javax.swing.JFrame {
     private void problemsBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_problemsBTActionPerformed
         // TODO add your handling code here:
 
-        ConnectivityProblemsDialog connectivityProblemsDialog = new ConnectivityProblemsDialog(this, true, coordinator);
-        connectivityProblemsDialog.setVisible(true);
+        JComboBox<String> comboBox = new JComboBox<>(coordinator.getEquiposKeys());
+        // Mostrar el JOptionPane con el JComboBox
+        int resultado = JOptionPane.showConfirmDialog(null, comboBox, "Selecciona un equipo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (resultado == JOptionPane.OK_OPTION) {
+            ConnectivityProblemsDialog connectivityProblemsDialog = new ConnectivityProblemsDialog(this, true, coordinator, comboBox.getSelectedItem().toString());
+
+            connectivityProblemsDialog.setVisible(true);
+        }
     }//GEN-LAST:event_problemsBTActionPerformed
 
     private void equiposBTActionPerformed(java.awt.event.ActionEvent evt) {
