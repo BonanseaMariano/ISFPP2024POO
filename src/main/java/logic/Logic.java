@@ -401,34 +401,6 @@ public class Logic {
     }
 
     /**
-     * Creates a copy of the graph, removing vertices and edges where isEstado() == false.
-     *
-     * @return a new graph with only active vertices and edges
-     */
-    private Graph<Equipo, Conexion> copyGraph() {
-        Graph<Equipo, Conexion> newGraph = new SimpleWeightedGraph<>(Conexion.class);
-
-        // Add vertices with isEstado() == true
-        for (Equipo equipo : graph.vertexSet()) {
-            if (equipo.isEstado()) {
-                newGraph.addVertex(equipo);
-            }
-        }
-
-        // Add edges where both vertices are in the new graph
-        for (Conexion conexion : graph.edgeSet()) {
-            Equipo source = graph.getEdgeSource(conexion);
-            Equipo target = graph.getEdgeTarget(conexion);
-            if (newGraph.containsVertex(source) && newGraph.containsVertex(target)) {
-                newGraph.addEdge(source, target, conexion);
-                newGraph.setEdgeWeight(conexion, graph.getEdgeWeight(conexion));
-            }
-        }
-
-        return newGraph;
-    }
-
-    /**
      * Retrieves the connected part of the network starting from a given vertex.
      * This method creates a new graph containing only the vertices and edges
      * that are reachable from the specified vertex using a Depth-First Search (DFS) approach.
