@@ -2,7 +2,17 @@ package utils;
 
 import java.util.Comparator;
 
+/**
+ * Utility class containing various utility methods.
+ */
 public class Utils {
+
+    /**
+     * Validates if the given IP address is in the correct format.
+     *
+     * @param ip the IP address to validate
+     * @return true if the IP address is valid, false otherwise
+     */
     public static boolean validateIP(String ip) {
         if (!ip.matches("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$")) {
             return false;
@@ -10,6 +20,11 @@ public class Utils {
         return true;
     }
 
+    /**
+     * Provides a comparator for comparing IP addresses.
+     *
+     * @return a Comparator for comparing IP addresses
+     */
     public static Comparator<String> ipComparator() {
         return new Comparator<String>() {
             @Override

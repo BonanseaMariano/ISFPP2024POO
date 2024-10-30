@@ -145,16 +145,17 @@ public class Red {
 
     /* ----------------------------- Conexion ----------------------------- */
 
+
     /**
-     * Validates a connection (conexion) in the network (red).
+     * Validates a connection (conexion) to ensure it can be added to the network (red).
      *
      * @param conexion the connection (conexion) to be validated
      * @throws InvalidEquipoException     if one of the devices (equipos) does not exist in the network
-     * @throws InvalidTipoCableException  if the type of cable does not exist
-     * @throws InvalidTipoPuertoException if one of the types of ports does not exist
-     * @throws NoAvailablePortsException  if there are no available ports on either device
+     * @throws InvalidConexionException   if there are no available ports on either device
+     * @throws InvalidTipoCableException  if the type of cable does not exist in the network
+     * @throws InvalidTipoPuertoException if one of the types of ports does not exist in the network
      */
-    private void connectionValidation(Conexion conexion) throws InvalidEquipoException, InvalidConexionException, NoAvailablePortsException, InvalidTipoCableException, InvalidTipoPuertoException {
+    private void connectionValidation(Conexion conexion) throws InvalidEquipoException, InvalidConexionException, InvalidTipoCableException, InvalidTipoPuertoException {
         if (!this.equipos.containsKey(conexion.getEquipo1().getCodigo()) || !this.equipos.containsKey(conexion.getEquipo2().getCodigo())) {
             throw new InvalidEquipoException("No se puede agregar la conexión porque uno de los equipos no existe");
         }
@@ -165,7 +166,7 @@ public class Red {
             throw new InvalidTipoPuertoException("No se puede agregar la conexión porque uno de los tipos de puertos no existe");
         }
         if (availablePorts(conexion.getEquipo1()) == 0 || availablePorts(conexion.getEquipo2()) == 0) {
-            throw new NoAvailablePortsException("No se puede agregar la conexión porque no hay puertos disponibles.");
+            throw new InvalidConexionException("No se puede agregar la conexión porque no hay puertos disponibles.");
         }
     }
 
@@ -176,7 +177,7 @@ public class Red {
      * @throws InvalidEquipoException   if one of the devices (equipos) does not exist in the network
      * @throws InvalidConexionException if the connection already exists
      */
-    public void addConexion(Conexion conexion) throws InvalidEquipoException, InvalidConexionException, NoAvailablePortsException, InvalidTipoCableException, InvalidTipoPuertoException {
+    public void addConexion(Conexion conexion) throws InvalidEquipoException, InvalidConexionException, InvalidTipoCableException, InvalidTipoPuertoException {
         String conexionkey = conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo();
         connectionValidation(conexion);
         if (this.conexiones.containsKey(conexionkey)) {
@@ -186,21 +187,22 @@ public class Red {
         this.conexionService.insert(conexion);
     }
 
+
     /**
      * Modifies an existing connection (conexion) in the network (red).
      * <p>
-     * This method validates the modified connection, replaces the old connection with the modified connection in the map,
-     * and updates the connection in the database.
+     * This method first validates the modified connection. If the old connection does not exist, an InvalidConexionException is thrown.
+     * If the modification results in a connection that already exists, an InvalidConexionException is thrown.
+     * The old connection is then removed, and the modified connection is added to the map and updated in the database.
      *
      * @param old      the existing connection (conexion) to be replaced
      * @param modified the new connection (conexion) to replace the old one
      * @throws InvalidEquipoException     if one of the devices (equipos) does not exist in the network
-     * @throws InvalidConexionException   if the old connection does not exist or if the modification results in a duplicate connection
-     * @throws NoAvailablePortsException  if there are no available ports on either device
-     * @throws InvalidTipoCableException  if the type of cable does not exist
-     * @throws InvalidTipoPuertoException if one of the types of ports does not exist
+     * @throws InvalidConexionException   if the old connection does not exist or if the modification results in a connection that already exists
+     * @throws InvalidTipoCableException  if the type of cable does not exist in the network
+     * @throws InvalidTipoPuertoException if one of the types of ports does not exist in the network
      */
-    public void modifyConnection(Conexion old, Conexion modified) throws InvalidEquipoException, InvalidConexionException, NoAvailablePortsException, InvalidTipoCableException, InvalidTipoPuertoException {
+    public void modifyConnection(Conexion old, Conexion modified) throws InvalidEquipoException, InvalidConexionException, InvalidTipoCableException, InvalidTipoPuertoException {
         String oldkey = old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo();
         String modifiedKey = modified.getEquipo1().getCodigo() + "-" + modified.getEquipo2().getCodigo();
         connectionValidation(modified);
@@ -673,13 +675,6 @@ public class Red {
      */
     public Map<String, TipoPuerto> getTiposPuertos() {
         return tiposPuertos;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Red red)) return false;
-        return Objects.equals(nombre, red.nombre);
     }
 
     @Override

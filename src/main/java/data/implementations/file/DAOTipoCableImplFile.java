@@ -9,17 +9,41 @@ import java.util.*;
 
 import static utils.Constatnts.DELIMITER;
 
+/**
+ * Implementation of the DAOTipoCable interface for file-based storage.
+ */
 public class DAOTipoCableImplFile implements DAOTipoCable {
+    /**
+     * The filename where the TipoCable data is stored.
+     */
     private final String filename;
+
+    /**
+     * List of TipoCable objects.
+     */
     private List<TipoCable> list;
+
+    /**
+     * Flag indicating whether the data needs to be updated.
+     */
     private boolean actualizar;
 
+    /**
+     * Constructs a new DAOTipoCableImplFile instance.
+     * Initializes the filename and sets the actualizar flag to true.
+     */
     public DAOTipoCableImplFile() {
         ResourceBundle rb = ResourceBundle.getBundle("secuencial");
         filename = rb.getString("tiposCables");
         actualizar = true;
     }
 
+    /**
+     * Reads TipoCable data from a file.
+     *
+     * @param file the file to read from
+     * @return a list of TipoCable objects
+     */
     private List<TipoCable> readFromFile(String file) {
         List<TipoCable> list = new ArrayList<>();
         Scanner inFile = null;
@@ -48,6 +72,12 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
         return list;
     }
 
+    /**
+     * Writes TipoCable data to a file.
+     *
+     * @param list the list of TipoCable objects to write
+     * @param file the file to write to
+     */
     private void writeToFile(List<TipoCable> list, String file) {
         Formatter outFile = null;
         try {
@@ -65,6 +95,11 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
         }
     }
 
+    /**
+     * Creates a new TipoCable object and writes it to the file.
+     *
+     * @param tipoCable the TipoCable object to create
+     */
     @Override
     public void create(TipoCable tipoCable) {
         list.add(tipoCable);
@@ -72,6 +107,11 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
         actualizar = true;
     }
 
+    /**
+     * Reads all TipoCable objects from the file.
+     *
+     * @return a list of TipoCable objects
+     */
     @Override
     public List<TipoCable> read() {
         if (actualizar) {
@@ -81,6 +121,12 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
         return list;
     }
 
+    /**
+     * Updates an existing TipoCable object and writes the changes to the file.
+     *
+     * @param o the original TipoCable object
+     * @param n the new TipoCable object
+     */
     @Override
     public void update(TipoCable o, TipoCable n) {
         int pos = list.indexOf(o);
@@ -89,6 +135,11 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
         actualizar = true;
     }
 
+    /**
+     * Deletes a TipoCable object and writes the changes to the file.
+     *
+     * @param tipoCable the TipoCable object to delete
+     */
     @Override
     public void delete(TipoCable tipoCable) {
         list.remove(tipoCable);

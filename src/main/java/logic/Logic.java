@@ -39,6 +39,10 @@ public class Logic {
      */
     private Map<String, Conexion> edgesMap;
 
+    /**
+     * Constructs a new Logic instance.
+     * Initializes the graph, vertexMap, and edgesMap.
+     */
     public Logic() {
         graph = new SimpleWeightedGraph<>(Conexion.class);
         vertexMap = new ConcurrentHashMap<>();
@@ -111,7 +115,7 @@ public class Logic {
      * @param equipo the vertex (equipo) to be added to the graph
      */
     public void addVertex(Equipo equipo) throws IllegalArgumentException {
-        if(vertexMap.containsKey(equipo.getCodigo())) {
+        if (vertexMap.containsKey(equipo.getCodigo())) {
             throw new IllegalArgumentException("El equipo ya existe");
         }
         graph.addVertex(equipo);
@@ -189,18 +193,19 @@ public class Logic {
     }
 
     /**
-     * Validates the given connection (conexion) for loops and available ports.
+     * Validates a connection (conexion) to ensure it can be added to the graph.
      *
-     * @param conexion the connection to be validated
-     * @throws LoopException             if the connection forms a loop (i.e., both equipos are the same)
-     * @throws NoAvailablePortsException if there are no available ports on either of the equipos
+     * @param conexion the connection (conexion) to be validated
+     * @throws InvalidConexionException if the connection is invalid
      */
-    private void edgeValidation(Conexion conexion) throws LoopException, NoAvailablePortsException {
+    private void edgeValidation(Conexion conexion) throws InvalidConexionException {
+        // Check if the connection forms a loop (both equipos are the same)
         if (conexion.getEquipo1().equals(conexion.getEquipo2())) {
-            throw new LoopException("No se puede agregar la conexion porque los equipos son iguales");
+            throw new InvalidConexionException("No se puede agregar la conexion porque los equipos son iguales");
         }
+        // Check if there are available ports on both equipos
         if (!availablePorts(conexion.getEquipo1()) || !availablePorts(conexion.getEquipo2())) {
-            throw new NoAvailablePortsException("No se puede agregar la conexion porque no hay puertos disponibles en alguno de los dos equipos");
+            throw new InvalidConexionException("No se puede agregar la conexion porque no hay puertos disponibles en alguno de los dos equipos");
         }
     }
 
@@ -208,17 +213,14 @@ public class Logic {
      * Adds an edge (conexion) to the graph.
      * <p>
      * This method first checks if the edge already exists in the graph. If it does, an InvalidConexionException is thrown.
-     * It then validates the edge for loops, cycles, and available ports. If the edge passes validation, it is added to the graph,
-     * and its weight is set based on the type of cable. If adding the edge forms a cycle, the edge is removed, and a CicleException is thrown.
-     * Finally, the edge is added to the conexiones map.
+     * It then validates the edge, adds it to the graph, and sets the edge weight based on the connection's cable speed.
+     * If adding the edge forms a cycle, the edge is removed and an InvalidConexionException is thrown.
+     * Finally, the edge is added to the edgesMap.
      *
      * @param conexion the edge (conexion) to be added to the graph
-     * @throws InvalidConexionException  if the edge already exists in the graph
-     * @throws LoopException             if the edge forms a loop (i.e., both equipos are the same)
-     * @throws CicleException            if the edge forms a cycle in the graph
-     * @throws NoAvailablePortsException if there are no available ports on either of the equipos
+     * @throws InvalidConexionException if the edge already exists or if adding the edge forms a cycle
      */
-    public void addEdge(Conexion conexion) throws InvalidConexionException, LoopException, CicleException, NoAvailablePortsException {
+    public void addEdge(Conexion conexion) throws InvalidConexionException {
         if (graph.containsEdge(conexion)) {
             throw new InvalidConexionException("No se puede agregar la conexión porque ya existe");
         }
@@ -227,7 +229,7 @@ public class Logic {
         graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
         if (ciclesValidation()) {
             deleteEdge(conexion);
-            throw new CicleException("No se puede agregar " + conexion + " porque se forma un ciclo");
+            throw new InvalidConexionException("No se puede agregar " + conexion + " porque se forma un ciclo");
         }
         edgesMap.put(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
     }
@@ -235,17 +237,14 @@ public class Logic {
     /**
      * Modifies an existing edge (conexion) in the graph.
      * <p>
-     * This method first attempts to remove the old edge from the graph. If successful, it adds the modified edge.
-     * If the old edge does not exist in the graph, an InvalidConexionException is thrown.
+     * This method first attempts to remove the old edge from the graph. If successful, it removes the old edge from the edgesMap
+     * and then adds the modified edge to the graph. If the old edge does not exist, an InvalidConexionException is thrown.
      *
      * @param old      the existing edge (conexion) to be removed
      * @param modified the new edge (conexion) to be added
-     * @throws InvalidConexionException  if the old edge does not exist in the graph
-     * @throws LoopException             if the modified edge forms a loop (i.e., both equipos are the same)
-     * @throws CicleException            if the modified edge forms a cycle in the graph
-     * @throws NoAvailablePortsException if there are no available ports on either of the equipos
+     * @throws InvalidConexionException if the old edge does not exist in the graph
      */
-    public void modifyEdge(Conexion old, Conexion modified) throws InvalidConexionException, LoopException, CicleException, NoAvailablePortsException {
+    public void modifyEdge(Conexion old, Conexion modified) throws InvalidConexionException {
         if (graph.removeEdge(old)) {
             edgesMap.remove(old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo());
             addEdge(modified);
@@ -438,7 +437,7 @@ public class Logic {
     private void validationDfs(Equipo vertex, Graph<Equipo, Conexion> parteConectada) {
         // Add the vertex to the connected subgraph
         parteConectada.addVertex(vertex);
-        if(vertex.isEstado()) {
+        if (vertex.isEstado()) {
             // Iterate through adjacent vertices
             for (Equipo adjacentVertex : Graphs.neighborListOf(graph, vertex)) {
                 // If the adjacent vertex has not been visited, add it to the connected subgraph and continue DFS

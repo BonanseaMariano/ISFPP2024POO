@@ -7,7 +7,6 @@ import services.*;
 
 import java.util.List;
 
-
 class DataTest {
     List<TipoEquipo> tiposEquipos;
     List<TipoPuerto> tiposPuertos;
@@ -16,6 +15,11 @@ class DataTest {
     List<Equipo> equipos;
     List<Conexion> conexiones;
 
+    /**
+     * Sets up the test environment by initializing the lists of different types of network components.
+     * <p>
+     * This method is executed before each test to ensure that the lists are populated with data from the respective services.
+     */
     @BeforeEach
     public void setUp() {
         TipoEquipoService tipoEquipoService = new TipoEquipoServiceImpl();
@@ -33,15 +37,20 @@ class DataTest {
         conexiones = conexionService.getAll();
     }
 
+    /**
+     * Tests the retrieval and printing of all locations (ubicaciones).
+     */
     @Test
     void testUbicacionesFile() {
-
         System.out.println("\t-- Ubicaciones --");
         for (Ubicacion ubicacion : ubicaciones) {
             System.out.println(ubicacion);
         }
     }
 
+    /**
+     * Tests the retrieval and printing of all types of devices (tipos de equipos).
+     */
     @Test
     void testTiposEquiposFile() {
         System.out.println("\t-- Tipos de Equipos --");
@@ -50,6 +59,9 @@ class DataTest {
         }
     }
 
+    /**
+     * Tests the retrieval and printing of all types of ports (tipos de puertos).
+     */
     @Test
     void testTiposPuertosFile() {
         System.out.println("\t-- Tipos de Puertos --");
@@ -58,6 +70,9 @@ class DataTest {
         }
     }
 
+    /**
+     * Tests the retrieval and printing of all types of cables (tipos de cables).
+     */
     @Test
     void testTiposCablesFile() {
         System.out.println("\t-- Tipos de Cables --");
@@ -66,7 +81,9 @@ class DataTest {
         }
     }
 
-
+    /**
+     * Tests the retrieval and printing of all devices (equipos).
+     */
     @Test
     void testEquiposFile() {
         System.out.println("\t-- Equipos --");
@@ -75,6 +92,9 @@ class DataTest {
         }
     }
 
+    /**
+     * Tests the retrieval and printing of all connections (conexiones).
+     */
     @Test
     void testConexionesFile() {
         System.out.println("\t-- Conexiones --");

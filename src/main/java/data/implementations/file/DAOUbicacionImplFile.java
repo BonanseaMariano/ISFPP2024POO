@@ -9,17 +9,40 @@ import java.util.*;
 
 import static utils.Constatnts.DELIMITER;
 
+/**
+ * Implementation of the DAOUbicacion interface for file-based storage.
+ */
 public class DAOUbicacionImplFile implements DAOUbicacion {
+    /**
+     * The name of the file where Ubicacion objects are stored.
+     */
     private final String filename;
+
+    /**
+     * The list of Ubicacion objects.
+     */
     private List<Ubicacion> list;
+
+    /**
+     * Flag indicating whether the list needs to be updated from the file.
+     */
     private boolean actualizar;
 
+    /**
+     * Constructor that initializes the filename and sets the actualizar flag to true.
+     */
     public DAOUbicacionImplFile() {
         ResourceBundle rb = ResourceBundle.getBundle("secuencial");
         filename = rb.getString("ubicaciones");
         actualizar = true;
     }
 
+    /**
+     * Reads Ubicacion objects from a file.
+     *
+     * @param file the file to read from
+     * @return a list of Ubicacion objects
+     */
     private List<Ubicacion> readFromFile(String file) {
         List<Ubicacion> list = new ArrayList<>();
         Scanner inFile = null;
@@ -47,6 +70,12 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
         return list;
     }
 
+    /**
+     * Writes a list of Ubicacion objects to a file.
+     *
+     * @param list the list of Ubicacion objects to write
+     * @param file the file to write to
+     */
     private void writeToFile(List<Ubicacion> list, String file) {
         Formatter outFile = null;
         try {
@@ -64,6 +93,11 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
         }
     }
 
+    /**
+     * Adds a new Ubicacion object to the list and writes the updated list to the file.
+     *
+     * @param ubicacion the Ubicacion object to add
+     */
     @Override
     public void create(Ubicacion ubicacion) {
         list.add(ubicacion);
@@ -71,6 +105,11 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
         actualizar = true;
     }
 
+    /**
+     * Reads the list of Ubicacion objects from the file if the actualizar flag is true.
+     *
+     * @return the list of Ubicacion objects
+     */
     @Override
     public List<Ubicacion> read() {
         if (actualizar) {
@@ -80,6 +119,12 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
         return list;
     }
 
+    /**
+     * Updates an existing Ubicacion object in the list and writes the updated list to the file.
+     *
+     * @param o the existing Ubicacion object
+     * @param n the new Ubicacion object
+     */
     @Override
     public void update(Ubicacion o, Ubicacion n) {
         int pos = list.indexOf(o);
@@ -88,11 +133,15 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
         actualizar = true;
     }
 
+    /**
+     * Removes a Ubicacion object from the list and writes the updated list to the file.
+     *
+     * @param ubicacion the Ubicacion object to remove
+     */
     @Override
     public void delete(Ubicacion ubicacion) {
         list.remove(ubicacion);
         writeToFile(list, filename);
         actualizar = true;
     }
-
 }

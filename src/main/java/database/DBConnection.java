@@ -10,7 +10,9 @@ import java.util.ResourceBundle;
  * is properly closed when the JVM shuts down.
  */
 public class DBConnection {
-    // The static Connection object that holds the database connection instance.
+    /**
+     * The established database connection.
+     */
     private static Connection con = null;
 
     /**

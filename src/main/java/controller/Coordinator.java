@@ -104,14 +104,14 @@ public class Coordinator {
     public void addConnection(Conexion conexion) throws InvalidConexionException {
         try {
             logic.addEdge(conexion);
-        } catch (InvalidConexionException | LoopException | CicleException | NoAvailablePortsException e) {
+        } catch (InvalidConexionException e) {
             throw new InvalidConexionException(e.getMessage());
         }
 
         try {
             red.addConexion(conexion);
             gui.addVisualEdge(conexion);
-        } catch (InvalidEquipoException | InvalidConexionException | NoAvailablePortsException |
+        } catch (InvalidEquipoException | InvalidConexionException |
                  InvalidTipoCableException | InvalidTipoPuertoException e) {
             logic.deleteEdge(conexion);
             throw new InvalidConexionException(e.getMessage());
@@ -148,14 +148,14 @@ public class Coordinator {
     public void modifyConnection(Conexion oldConexion, Conexion newConexion) throws InvalidConexionException {
         try {
             logic.modifyEdge(oldConexion, newConexion);
-        } catch (InvalidConexionException | LoopException | CicleException | NoAvailablePortsException e) {
+        } catch (InvalidConexionException e) {
             throw new InvalidConexionException(e.getMessage());
         }
 
         try {
             red.modifyConnection(oldConexion, newConexion);
             gui.modifyVisualEdge(oldConexion, newConexion);
-        } catch (InvalidConexionException | NoAvailablePortsException e) {
+        } catch (InvalidConexionException e) {
             System.out.println(e.getMessage());
         } catch (InvalidEquipoException |
                  InvalidTipoCableException | InvalidTipoPuertoException e) {

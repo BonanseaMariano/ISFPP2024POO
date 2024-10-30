@@ -1,6 +1,7 @@
 package test;
 
 import controller.Coordinator;
+import gui.Gui;
 import logic.Logic;
 import logic.Red;
 import models.Conexion;
@@ -17,22 +18,25 @@ public class LogicTest {
     Red red;
     Logic logic;
     Coordinator coordinator;
+    Gui gui;
 
     @BeforeEach
     void setUp() {
         /* Se instancian las clases */
         red = Red.getRed();
         logic = new Logic();
+        gui = new Gui();
         coordinator = new Coordinator();
 
         /* Se establecen las relaciones entre clases */
         logic.setCoordinator(coordinator);
         red.setCoordinator(coordinator);
-
+        gui.setCoordinator(coordinator);
 
         /* Se establecen relaciones con la clase coordinador */
         coordinator.setRed(red);
         coordinator.setLogic(logic);
+        coordinator.setGui(gui);
     }
 
     /**
@@ -88,12 +92,12 @@ public class LogicTest {
 
         // Camino valido
         System.out.println("\t---- Path ----");
-        List<Conexion> path = coordinator.shortestPath(coordinator.getVertexMap().get("TEST1"), coordinator.getVertexMap().get("TEST4"));
+        List<Conexion> path = coordinator.shortestPath(coordinator.getVertexMap().get("FW02"), coordinator.getVertexMap().get("SWFT"));
         System.out.println(path);
         System.out.println("Max BW :" + coordinator.maxBandwith(path));
 
         // Camino inexistente
-        assertNull(coordinator.shortestPath(coordinator.getVertexMap().get("TEST1"), coordinator.getVertexMap().get("TEST5")));
+        assertNull(coordinator.shortestPath(coordinator.getVertexMap().get("TEST1"), coordinator.getVertexMap().get("SW04")));
     }
 
     /**
@@ -109,7 +113,7 @@ public class LogicTest {
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
         // Se prueban pings individuales
         assertTrue(coordinator.ping("111.111.11.11"));
-        assertFalse(coordinator.ping("777.777.77.77"));
+        assertFalse(coordinator.ping("111.222.77.88"));
         assertFalse(coordinator.ping("333.333.33.33"));
         // Se prueban pings en grupo
         List<String> ips = List.of("111.111.11.11", "222.222.22.22", "444.444.44.44", "555.555.55.55");
@@ -123,15 +127,19 @@ public class LogicTest {
         }
     }
 
-    //TODO: Revisar getConnectedPart
+    /**
+     * Tests the retrieval of the connected part of a vertex.
+     * <p>
+     * This test updates the logic data with the coordinator data and retrieves the connected part of a vertex.
+     * It prints the connections (edges) of the connected part.
+     */
     @Test
     void testGetConnectedPart() {
         // Se actualizan los datos de logica con los datos de coordinator
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
-        // Se obtiene la parte conectada de un vertice (Deveria mostrar TEST1, TEST2, TEST3. Fijarse corriendo GUITest)
+        // Se obtiene la parte conectada de un vertice
         for (Conexion conexion : coordinator.getConnectedPart(coordinator.getVertexMap().get("TEST1")).edgeSet()) {
             System.out.println(conexion);
         }
-
     }
 }

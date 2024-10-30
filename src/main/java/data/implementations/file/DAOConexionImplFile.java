@@ -12,14 +12,44 @@ import java.util.*;
 
 import static utils.Constatnts.DELIMITER;
 
+/**
+ * Implementation of the DAOConexion interface for file-based storage.
+ */
 public class DAOConexionImplFile implements DAOConexion {
+    /**
+     * The filename where the Conexion data is stored.
+     */
     private final String filename;
+
+    /**
+     * List of Conexion objects.
+     */
     private List<Conexion> list;
+
+    /**
+     * Flag indicating whether the data needs to be updated.
+     */
     private boolean actualizar;
+
+    /**
+     * Hashtable mapping cable types to their codes.
+     */
     private Hashtable<String, TipoCable> tiposCables;
+
+    /**
+     * Hashtable mapping equipment to their codes.
+     */
     private Hashtable<String, Equipo> equipos;
+
+    /**
+     * Hashtable mapping port types to their codes.
+     */
     private Hashtable<String, TipoPuerto> tiposPuertos;
 
+    /**
+     * Constructs a new DAOConexionImplFile instance.
+     * Initializes the hashtables and loads data from the resource bundle.
+     */
     public DAOConexionImplFile() {
         tiposCables = loadTiposCables();
         equipos = loadEquipos();
@@ -29,7 +59,12 @@ public class DAOConexionImplFile implements DAOConexion {
         actualizar = true;
     }
 
-
+    /**
+     * Reads Conexion data from a file.
+     *
+     * @param file the file to read from
+     * @return a list of Conexion objects
+     */
     private List<Conexion> readFromFile(String file) {
         List<Conexion> list = new ArrayList<>();
         Scanner inFile = null;
@@ -60,6 +95,12 @@ public class DAOConexionImplFile implements DAOConexion {
         return list;
     }
 
+    /**
+     * Writes Conexion data to a file.
+     *
+     * @param list the list of Conexion objects to write
+     * @param file the file to write to
+     */
     private void writeToFile(List<Conexion> list, String file) {
         Formatter outFile = null;
         try {
@@ -77,6 +118,11 @@ public class DAOConexionImplFile implements DAOConexion {
         }
     }
 
+    /**
+     * Creates a new Conexion object and writes it to the file.
+     *
+     * @param conexion the Conexion object to create
+     */
     @Override
     public void create(Conexion conexion) {
         list.add(conexion);
@@ -84,6 +130,11 @@ public class DAOConexionImplFile implements DAOConexion {
         actualizar = true;
     }
 
+    /**
+     * Reads all Conexion objects from the file.
+     *
+     * @return a list of Conexion objects
+     */
     @Override
     public List<Conexion> read() {
         if (actualizar) {
@@ -93,6 +144,12 @@ public class DAOConexionImplFile implements DAOConexion {
         return list;
     }
 
+    /**
+     * Updates an existing Conexion object and writes the changes to the file.
+     *
+     * @param o the original Conexion object
+     * @param n the new Conexion object
+     */
     @Override
     public void update(Conexion o, Conexion n) {
         int pos = list.indexOf(o);
@@ -101,6 +158,11 @@ public class DAOConexionImplFile implements DAOConexion {
         actualizar = true;
     }
 
+    /**
+     * Deletes a Conexion object and writes the changes to the file.
+     *
+     * @param conexion the Conexion object to delete
+     */
     @Override
     public void delete(Conexion conexion) {
         list.remove(conexion);
@@ -108,6 +170,11 @@ public class DAOConexionImplFile implements DAOConexion {
         actualizar = true;
     }
 
+    /**
+     * Loads cable types from the file.
+     *
+     * @return a hashtable mapping cable types to their codes
+     */
     private Hashtable<String, TipoCable> loadTiposCables() {
         Hashtable<String, TipoCable> tiposCables = new Hashtable<>();
         List<TipoCable> list = new DAOTipoCableImplFile().read();
@@ -117,6 +184,11 @@ public class DAOConexionImplFile implements DAOConexion {
         return tiposCables;
     }
 
+    /**
+     * Loads equipment from the file.
+     *
+     * @return a hashtable mapping equipment to their codes
+     */
     private Hashtable<String, Equipo> loadEquipos() {
         Hashtable<String, Equipo> equipos = new Hashtable<>();
         List<Equipo> list = new DAOEquipoImplFile().read();
@@ -126,6 +198,11 @@ public class DAOConexionImplFile implements DAOConexion {
         return equipos;
     }
 
+    /**
+     * Loads port types from the file.
+     *
+     * @return a hashtable mapping port types to their codes
+     */
     private Hashtable<String, TipoPuerto> loadTiposPuertos() {
         Hashtable<String, TipoPuerto> tiposPuertos = new Hashtable<>();
         List<TipoPuerto> list = new DAOTipoPuertoImplFile().read();

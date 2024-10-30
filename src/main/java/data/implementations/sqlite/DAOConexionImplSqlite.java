@@ -7,24 +7,44 @@ import models.Equipo;
 import models.TipoCable;
 import models.TipoPuerto;
 
-
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 
-
+/**
+ * Implementation of the DAOConexion interface for SQLite database.
+ */
 public class DAOConexionImplSqlite implements DAOConexion {
+    /**
+     * Hashtable to store TipoCable objects.
+     */
     private Hashtable<String, TipoCable> tiposCables;
+
+    /**
+     * Hashtable to store Equipo objects.
+     */
     private Hashtable<String, Equipo> equipos;
+
+    /**
+     * Hashtable to store TipoPuerto objects.
+     */
     private Hashtable<String, TipoPuerto> tiposPuertos;
 
+    /**
+     * Constructor that initializes the Hashtables by loading data from the database.
+     */
     public DAOConexionImplSqlite() {
         tiposCables = loadTiposCables();
         equipos = loadEquipos();
         tiposPuertos = loadTiposPuertos();
     }
 
+    /**
+     * Creates a new Conexion record in the database.
+     *
+     * @param conexion the Conexion object to create
+     */
     @Override
     public void create(Conexion conexion) {
         Connection con = null;
@@ -58,6 +78,11 @@ public class DAOConexionImplSqlite implements DAOConexion {
         }
     }
 
+    /**
+     * Reads all Conexion records from the database.
+     *
+     * @return a list of Conexion objects
+     */
     @Override
     public List<Conexion> read() {
         Connection con = null;
@@ -95,6 +120,12 @@ public class DAOConexionImplSqlite implements DAOConexion {
         }
     }
 
+    /**
+     * Updates an existing Conexion record in the database.
+     *
+     * @param o the existing Conexion object
+     * @param n the new Conexion object
+     */
     @Override
     public void update(Conexion o, Conexion n) {
         Connection con = null;
@@ -130,6 +161,11 @@ public class DAOConexionImplSqlite implements DAOConexion {
         }
     }
 
+    /**
+     * Deletes a Conexion record from the database.
+     *
+     * @param conexion the Conexion object to delete
+     */
     @Override
     public void delete(Conexion conexion) {
         Connection con = null;
@@ -159,6 +195,11 @@ public class DAOConexionImplSqlite implements DAOConexion {
         }
     }
 
+    /**
+     * Loads TipoCable objects from the database into a Hashtable.
+     *
+     * @return a Hashtable of TipoCable objects
+     */
     private Hashtable<String, TipoCable> loadTiposCables() {
         Hashtable<String, TipoCable> tiposCables = new Hashtable<>();
         List<TipoCable> list = new DAOTipoCableImplSqlite().read();
@@ -168,6 +209,11 @@ public class DAOConexionImplSqlite implements DAOConexion {
         return tiposCables;
     }
 
+    /**
+     * Loads Equipo objects from the database into a Hashtable.
+     *
+     * @return a Hashtable of Equipo objects
+     */
     private Hashtable<String, Equipo> loadEquipos() {
         Hashtable<String, Equipo> equipos = new Hashtable<>();
         List<Equipo> list = new DAOEquipoImplSqlite().read();
@@ -177,6 +223,11 @@ public class DAOConexionImplSqlite implements DAOConexion {
         return equipos;
     }
 
+    /**
+     * Loads TipoPuerto objects from the database into a Hashtable.
+     *
+     * @return a Hashtable of TipoPuerto objects
+     */
     private Hashtable<String, TipoPuerto> loadTiposPuertos() {
         Hashtable<String, TipoPuerto> tiposPuertos = new Hashtable<>();
         List<TipoPuerto> list = new DAOTipoPuertoImplSqlite().read();

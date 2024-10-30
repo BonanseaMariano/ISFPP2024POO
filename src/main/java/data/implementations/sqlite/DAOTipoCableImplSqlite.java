@@ -9,9 +9,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 
-
+/**
+ * Implementation of the DAOTipoCable interface for SQLite database.
+ */
 public class DAOTipoCableImplSqlite implements DAOTipoCable {
 
+    /**
+     * Creates a new TipoCable record in the database.
+     *
+     * @param tipoCable the TipoCable object to create
+     */
     @Override
     public void create(TipoCable tipoCable) {
         Connection con = null;
@@ -43,6 +50,11 @@ public class DAOTipoCableImplSqlite implements DAOTipoCable {
         }
     }
 
+    /**
+     * Reads all TipoCable records from the database.
+     *
+     * @return a list of TipoCable objects
+     */
     @Override
     public List<TipoCable> read() {
         Connection con = null;
@@ -74,6 +86,12 @@ public class DAOTipoCableImplSqlite implements DAOTipoCable {
         }
     }
 
+    /**
+     * Updates an existing TipoCable record in the database.
+     *
+     * @param o the existing TipoCable object
+     * @param n the new TipoCable object
+     */
     @Override
     public void update(TipoCable o, TipoCable n) {
         Connection con = null;
@@ -106,6 +124,11 @@ public class DAOTipoCableImplSqlite implements DAOTipoCable {
         }
     }
 
+    /**
+     * Deletes a TipoCable record from the database.
+     *
+     * @param tipoCable the TipoCable object to delete
+     */
     @Override
     public void delete(TipoCable tipoCable) {
         Connection con = null;

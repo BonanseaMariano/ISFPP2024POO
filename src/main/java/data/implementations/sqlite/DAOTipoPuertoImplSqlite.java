@@ -9,9 +9,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 
-
+/**
+ * Implementation of the DAOTipoPuerto interface for SQLite database.
+ */
 public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
 
+    /**
+     * Creates a new TipoPuerto record in the database.
+     *
+     * @param tipoPuerto the TipoPuerto object to create
+     */
     @Override
     public void create(TipoPuerto tipoPuerto) {
         Connection con = null;
@@ -43,6 +50,11 @@ public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
         }
     }
 
+    /**
+     * Reads all TipoPuerto records from the database.
+     *
+     * @return a list of TipoPuerto objects
+     */
     @Override
     public List<TipoPuerto> read() {
         Connection con = null;
@@ -74,6 +86,12 @@ public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
         }
     }
 
+    /**
+     * Updates an existing TipoPuerto record in the database.
+     *
+     * @param o the existing TipoPuerto object
+     * @param n the new TipoPuerto object
+     */
     @Override
     public void update(TipoPuerto o, TipoPuerto n) {
         Connection con = null;
@@ -105,6 +123,11 @@ public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
         }
     }
 
+    /**
+     * Deletes a TipoPuerto record from the database.
+     *
+     * @param tipoPuerto the TipoPuerto object to delete
+     */
     @Override
     public void delete(TipoPuerto tipoPuerto) {
         Connection con = null;

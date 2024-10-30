@@ -9,9 +9,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 
-
+/**
+ * Implementation of the DAOTipoEquipo interface for SQLite database.
+ */
 public class DAOTipoEquipoImplSqlite implements DAOTipoEquipo {
 
+    /**
+     * Creates a new TipoEquipo record in the database.
+     *
+     * @param tipoEquipo the TipoEquipo object to create
+     */
     @Override
     public void create(TipoEquipo tipoEquipo) {
         Connection con = null;
@@ -42,6 +49,11 @@ public class DAOTipoEquipoImplSqlite implements DAOTipoEquipo {
         }
     }
 
+    /**
+     * Reads all TipoEquipo records from the database.
+     *
+     * @return a list of TipoEquipo objects
+     */
     @Override
     public List<TipoEquipo> read() {
         Connection con = null;
@@ -73,6 +85,12 @@ public class DAOTipoEquipoImplSqlite implements DAOTipoEquipo {
         }
     }
 
+    /**
+     * Updates an existing TipoEquipo record in the database.
+     *
+     * @param o the existing TipoEquipo object
+     * @param n the new TipoEquipo object
+     */
     @Override
     public void update(TipoEquipo o, TipoEquipo n) {
         Connection con = null;
@@ -103,6 +121,11 @@ public class DAOTipoEquipoImplSqlite implements DAOTipoEquipo {
         }
     }
 
+    /**
+     * Deletes a TipoEquipo record from the database.
+     *
+     * @param tipoEquipo the TipoEquipo object to delete
+     */
     @Override
     public void delete(TipoEquipo tipoEquipo) {
         Connection con = null;

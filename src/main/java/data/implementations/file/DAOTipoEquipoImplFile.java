@@ -9,17 +9,40 @@ import java.util.*;
 
 import static utils.Constatnts.DELIMITER;
 
+/**
+ * Implementation of the DAOTipoEquipo interface for file-based storage.
+ */
 public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
+    /**
+     * The name of the file where TipoEquipo objects are stored.
+     */
     private final String filename;
+
+    /**
+     * The list of TipoEquipo objects.
+     */
     private List<TipoEquipo> list;
+
+    /**
+     * Flag indicating whether the list needs to be updated from the file.
+     */
     private boolean actualizar;
 
+    /**
+     * Constructor that initializes the filename and sets the actualizar flag to true.
+     */
     public DAOTipoEquipoImplFile() {
         ResourceBundle rb = ResourceBundle.getBundle("secuencial");
         filename = rb.getString("tiposEquipos");
         actualizar = true;
     }
 
+    /**
+     * Reads TipoEquipo objects from a file.
+     *
+     * @param file the file to read from
+     * @return a list of TipoEquipo objects
+     */
     private List<TipoEquipo> readFromFile(String file) {
         List<TipoEquipo> list = new ArrayList<>();
         Scanner inFile = null;
@@ -47,6 +70,12 @@ public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
         return list;
     }
 
+    /**
+     * Writes a list of TipoEquipo objects to a file.
+     *
+     * @param list the list of TipoEquipo objects to write
+     * @param file the file to write to
+     */
     private void writeToFile(List<TipoEquipo> list, String file) {
         Formatter outFile = null;
         try {
@@ -64,6 +93,11 @@ public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
         }
     }
 
+    /**
+     * Adds a new TipoEquipo object to the list and writes the updated list to the file.
+     *
+     * @param tipoEquipo the TipoEquipo object to add
+     */
     @Override
     public void create(TipoEquipo tipoEquipo) {
         list.add(tipoEquipo);
@@ -71,6 +105,11 @@ public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
         actualizar = true;
     }
 
+    /**
+     * Reads the list of TipoEquipo objects from the file if the actualizar flag is true.
+     *
+     * @return the list of TipoEquipo objects
+     */
     @Override
     public List<TipoEquipo> read() {
         if (actualizar) {
@@ -80,6 +119,12 @@ public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
         return list;
     }
 
+    /**
+     * Updates an existing TipoEquipo object in the list and writes the updated list to the file.
+     *
+     * @param o the existing TipoEquipo object
+     * @param n the new TipoEquipo object
+     */
     @Override
     public void update(TipoEquipo o, TipoEquipo n) {
         int pos = list.indexOf(o);
@@ -88,6 +133,11 @@ public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
         actualizar = true;
     }
 
+    /**
+     * Removes a TipoEquipo object from the list and writes the updated list to the file.
+     *
+     * @param tipoEquipo the TipoEquipo object to remove
+     */
     @Override
     public void delete(TipoEquipo tipoEquipo) {
         list.remove(tipoEquipo);

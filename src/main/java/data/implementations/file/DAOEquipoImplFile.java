@@ -6,21 +6,50 @@ import data.interfaces.DAOTipoPuerto;
 import data.interfaces.DAOUbicacion;
 import models.*;
 
-
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.*;
 
 import static utils.Constatnts.DELIMITER;
 
+/**
+ * Implementation of the DAOEquipo interface for file-based storage.
+ */
 public class DAOEquipoImplFile implements DAOEquipo {
+    /**
+     * The filename where the Equipo data is stored.
+     */
     private final String filename;
+
+    /**
+     * List of Equipo objects.
+     */
     private List<Equipo> list;
+
+    /**
+     * Flag indicating whether the data needs to be updated.
+     */
     private boolean actualizar;
+
+    /**
+     * Hashtable mapping equipment types to their codes.
+     */
     private Hashtable<String, TipoEquipo> tiposEquipos;
+
+    /**
+     * Hashtable mapping locations to their codes.
+     */
     private Hashtable<String, Ubicacion> ubicaciones;
+
+    /**
+     * Hashtable mapping port types to their codes.
+     */
     private Hashtable<String, TipoPuerto> tiposPuertos;
 
+    /**
+     * Constructs a new DAOEquipoImplFile instance.
+     * Initializes the hashtables and loads data from the resource bundle.
+     */
     public DAOEquipoImplFile() {
         tiposEquipos = loadTipoEquipos();
         ubicaciones = loadUbicaciones();
@@ -30,6 +59,12 @@ public class DAOEquipoImplFile implements DAOEquipo {
         actualizar = true;
     }
 
+    /**
+     * Reads Equipo data from a file.
+     *
+     * @param file the file to read from
+     * @return a list of Equipo objects
+     */
     private List<Equipo> readFromFile(String file) {
         List<Equipo> list = new ArrayList<>();
         Scanner inFile = null;
@@ -50,7 +85,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
                 String direccionIpString = inFile.next();
                 Boolean estado = inFile.nextBoolean();
 
-                //Puertos
+                // Puertos
                 for (String puerto : puertoString.split("/")) {
                     int cantidad;
                     TipoPuerto tipoPuerto;
@@ -68,19 +103,19 @@ public class DAOEquipoImplFile implements DAOEquipo {
                     puertos.add(new Puerto(cantidad, tipoPuerto));
                 }
 
-                //Direcciones IP
+                // Direcciones IP
                 Collections.addAll(direccionesIp, direccionIpString.split(","));
 
-                Equipo equipo = new Equipo(codigo, descripcion, marca, modelo, tipoEquipo, ubicacion, puertos.getFirst(), direccionesIp.getFirst(), estado);
+                Equipo equipo = new Equipo(codigo, descripcion, marca, modelo, tipoEquipo, ubicacion, puertos.get(0), direccionesIp.get(0), estado);
 
-                //Si tiene mas de un puerto
+                // Si tiene mas de un puerto
                 if (puertos.size() > 1) {
                     for (int i = 1; i < puertos.size(); i++) {
                         equipo.addPuerto(puertos.get(i));
                     }
                 }
 
-                //Si tiene mas de una direccion IP
+                // Si tiene mas de una direccion IP
                 if (direccionesIp.size() > 1) {
                     for (int i = 1; i < direccionesIp.size(); i++) {
                         equipo.addIP(direccionesIp.get(i));
@@ -104,6 +139,12 @@ public class DAOEquipoImplFile implements DAOEquipo {
         return list;
     }
 
+    /**
+     * Writes Equipo data to a file.
+     *
+     * @param list the list of Equipo objects to write
+     * @param file the file to write to
+     */
     private void writeToFile(List<Equipo> list, String file) {
         Formatter outFile = null;
         boolean isFirst = true;
@@ -127,9 +168,9 @@ public class DAOEquipoImplFile implements DAOEquipo {
                 if (!direccionesIp.isEmpty()) {
                     direccionesIp.setLength(direccionesIp.length() - 1);
                 }
-                if(!isFirst) {
+                if (!isFirst) {
                     outFile.format("\n");
-                }else{
+                } else {
                     isFirst = false;
                 }
                 outFile.format("%s;%s;%s;%s;%s;%s;%s;%s;%s;",
@@ -154,6 +195,11 @@ public class DAOEquipoImplFile implements DAOEquipo {
         }
     }
 
+    /**
+     * Creates a new Equipo object and writes it to the file.
+     *
+     * @param equipo the Equipo object to create
+     */
     @Override
     public void create(Equipo equipo) {
         list.add(equipo);
@@ -161,6 +207,11 @@ public class DAOEquipoImplFile implements DAOEquipo {
         actualizar = true;
     }
 
+    /**
+     * Reads all Equipo objects from the file.
+     *
+     * @return a list of Equipo objects
+     */
     @Override
     public List<Equipo> read() {
         if (actualizar) {
@@ -170,6 +221,12 @@ public class DAOEquipoImplFile implements DAOEquipo {
         return list;
     }
 
+    /**
+     * Updates an existing Equipo object and writes the changes to the file.
+     *
+     * @param o the original Equipo object
+     * @param n the new Equipo object
+     */
     @Override
     public void update(Equipo o, Equipo n) {
         int pos = list.indexOf(o);
@@ -178,6 +235,11 @@ public class DAOEquipoImplFile implements DAOEquipo {
         actualizar = true;
     }
 
+    /**
+     * Deletes a Equipo object and writes the changes to the file.
+     *
+     * @param equipo the Equipo object to delete
+     */
     @Override
     public void delete(Equipo equipo) {
         list.remove(equipo);
@@ -185,6 +247,11 @@ public class DAOEquipoImplFile implements DAOEquipo {
         actualizar = true;
     }
 
+    /**
+     * Loads equipment types from the file.
+     *
+     * @return a hashtable mapping equipment types to their codes
+     */
     private Hashtable<String, TipoEquipo> loadTipoEquipos() {
         Hashtable<String, TipoEquipo> tiposEquipos = new Hashtable<>();
         DAOTipoEquipo tipoEquipoDAO = new DAOTipoEquipoImplFile();
@@ -194,6 +261,11 @@ public class DAOEquipoImplFile implements DAOEquipo {
         return tiposEquipos;
     }
 
+    /**
+     * Loads locations from the file.
+     *
+     * @return a hashtable mapping locations to their codes
+     */
     private Hashtable<String, Ubicacion> loadUbicaciones() {
         Hashtable<String, Ubicacion> ubicaciones = new Hashtable<>();
         DAOUbicacion ubicacionDAO = new DAOUbicacionImplFile();
@@ -203,6 +275,11 @@ public class DAOEquipoImplFile implements DAOEquipo {
         return ubicaciones;
     }
 
+    /**
+     * Loads port types from the file.
+     *
+     * @return a hashtable mapping port types to their codes
+     */
     private Hashtable<String, TipoPuerto> loadTipoPuertos() {
         Hashtable<String, TipoPuerto> tiposPuertos = new Hashtable<>();
         DAOTipoPuerto tipoPuertoDAO = new DAOTipoPuertoImplFile();

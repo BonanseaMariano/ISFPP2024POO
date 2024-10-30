@@ -12,18 +12,39 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 
-
+/**
+ * Implementation of the DAOEquipo interface for SQLite database.
+ */
 public class DAOEquipoImplSqlite implements DAOEquipo {
+    /**
+     * Hashtable to store TipoEquipo objects.
+     */
     private Hashtable<String, TipoEquipo> tiposEquipos;
+
+    /**
+     * Hashtable to store Ubicacion objects.
+     */
     private Hashtable<String, Ubicacion> ubicaciones;
+
+    /**
+     * Hashtable to store TipoPuerto objects.
+     */
     private Hashtable<String, TipoPuerto> tiposPuertos;
 
+    /**
+     * Constructor that initializes the Hashtables by loading data from the database.
+     */
     public DAOEquipoImplSqlite() {
         tiposEquipos = loadTipoEquipos();
         ubicaciones = loadUbicaciones();
         tiposPuertos = loadTipoPuertos();
     }
 
+    /**
+     * Creates a new Equipo record in the database.
+     *
+     * @param equipo the Equipo object to create
+     */
     @Override
     public void create(Equipo equipo) {
         Connection con = null;
@@ -82,6 +103,11 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
         }
     }
 
+    /**
+     * Reads all Equipo records from the database.
+     *
+     * @return a list of Equipo objects
+     */
     @Override
     public List<Equipo> read() {
         Connection con = null;
@@ -93,7 +119,7 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
             pstm = con.prepareStatement(sql);
             rs = pstm.executeQuery();
             List<Equipo> ret = new ArrayList<>();
-            while (rs.next()) { //Primer while para cargar los equipos
+            while (rs.next()) { // Primer while para cargar los equipos
                 Equipo e = new Equipo();
                 e.setCodigo(rs.getString("codigo"));
                 e.setMarca(rs.getString("marca"));
@@ -104,7 +130,7 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
                 ret.add(e);
             }
 
-            for (Equipo equipo : ret) { //Segundo while para cargar los puertos y direcciones ip a cada equipo
+            for (Equipo equipo : ret) { // Segundo while para cargar los puertos y direcciones ip a cada equipo
                 sql = "SELECT cantidad, tipo_puerto FROM puertos ";
                 sql += "WHERE equipo = ? ";
                 pstm = con.prepareStatement(sql);
@@ -140,6 +166,12 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
         }
     }
 
+    /**
+     * Updates an existing Equipo record in the database.
+     *
+     * @param o the existing Equipo object
+     * @param n the new Equipo object
+     */
     @Override
     public void update(Equipo o, Equipo n) {
         Connection con = null;
@@ -196,6 +228,11 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
         }
     }
 
+    /**
+     * Deletes an Equipo record from the database.
+     *
+     * @param equipo the Equipo object to delete
+     */
     @Override
     public void delete(Equipo equipo) {
         Connection con = null;
@@ -210,13 +247,11 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
             pstm.setString(1, equipo.getCodigo());
             pstm.executeUpdate();
 
-
             sql = "DELETE FROM puertos ";
             sql += "WHERE equipo = ? ";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, equipo.getCodigo());
             pstm.executeUpdate();
-
 
             sql = "DELETE FROM conexiones ";
             sql += "WHERE equipo1 = ? OR equipo2 = ? ";
@@ -224,7 +259,6 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
             pstm.setString(1, equipo.getCodigo());
             pstm.setString(2, equipo.getCodigo());
             pstm.executeUpdate();
-
 
             sql = "DELETE FROM equipos ";
             sql += "WHERE codigo = ? ";
@@ -248,6 +282,11 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
         }
     }
 
+    /**
+     * Loads TipoEquipo objects from the database into a Hashtable.
+     *
+     * @return a Hashtable of TipoEquipo objects
+     */
     private Hashtable<String, TipoEquipo> loadTipoEquipos() {
         Hashtable<String, TipoEquipo> tiposEquipos = new Hashtable<>();
         DAOTipoEquipo tipoEquipoDAO = new DAOTipoEquipoImplSqlite();
@@ -257,6 +296,11 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
         return tiposEquipos;
     }
 
+    /**
+     * Loads Ubicacion objects from the database into a Hashtable.
+     *
+     * @return a Hashtable of Ubicacion objects
+     */
     private Hashtable<String, Ubicacion> loadUbicaciones() {
         Hashtable<String, Ubicacion> ubicaciones = new Hashtable<>();
         DAOUbicacion ubicacionDAO = new DAOUbicacionImplSqlite();
@@ -266,6 +310,11 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
         return ubicaciones;
     }
 
+    /**
+     * Loads TipoPuerto objects from the database into a Hashtable.
+     *
+     * @return a Hashtable of TipoPuerto objects
+     */
     private Hashtable<String, TipoPuerto> loadTipoPuertos() {
         Hashtable<String, TipoPuerto> tiposPuertos = new Hashtable<>();
         DAOTipoPuerto tipoPuertoDAO = new DAOTipoPuertoImplSqlite();

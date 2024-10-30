@@ -9,9 +9,16 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.*;
 
-
+/**
+ * Implementation of the DAOUbicacion interface for SQLite database.
+ */
 public class DAOUbicacionImplSqlite implements DAOUbicacion {
 
+    /**
+     * Creates a new Ubicacion record in the database.
+     *
+     * @param ubicacion the Ubicacion object to create
+     */
     @Override
     public void create(Ubicacion ubicacion) {
         Connection con = null;
@@ -42,6 +49,11 @@ public class DAOUbicacionImplSqlite implements DAOUbicacion {
         }
     }
 
+    /**
+     * Reads all Ubicacion records from the database.
+     *
+     * @return a list of Ubicacion objects
+     */
     @Override
     public List<Ubicacion> read() {
         Connection con = null;
@@ -73,6 +85,12 @@ public class DAOUbicacionImplSqlite implements DAOUbicacion {
         }
     }
 
+    /**
+     * Updates an existing Ubicacion record in the database.
+     *
+     * @param o the existing Ubicacion object
+     * @param n the new Ubicacion object
+     */
     @Override
     public void update(Ubicacion o, Ubicacion n) {
         Connection con = null;
@@ -103,6 +121,11 @@ public class DAOUbicacionImplSqlite implements DAOUbicacion {
         }
     }
 
+    /**
+     * Deletes a Ubicacion record from the database.
+     *
+     * @param ubicacion the Ubicacion object to delete
+     */
     @Override
     public void delete(Ubicacion ubicacion) {
         Connection con = null;
