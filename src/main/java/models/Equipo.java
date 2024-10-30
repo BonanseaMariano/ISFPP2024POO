@@ -1,11 +1,13 @@
 package models;
 
 import exceptions.InvalidDireccionIPException;
+import utils.LoggerUtil;
 import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.logging.Logger;
 
 /**
  * Represents a device (equipo) in the network.
@@ -129,6 +131,7 @@ public class Equipo {
      * @return the total number of ports
      */
     public int getCantidadPuertos() {
+        LoggerUtil.logDebug("Equipo.getCantidadPuertos()");
         int cantPuertos = 0;
         for (Puerto p : puertos) {
             cantPuertos += p.getCantidad();

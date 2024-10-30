@@ -7,6 +7,7 @@ import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleWeightedGraph;
+import utils.LoggerUtil;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -457,6 +458,7 @@ public class Logic {
      * @return true if the number of connected edges is less than or equal to the number of available ports, false otherwise
      */
     private boolean availablePorts(Equipo equipo) {
+        LoggerUtil.logDebug("Checking available ports for ");
         return edgeLength(equipo) < equipo.getCantidadPuertos();
     }
 
