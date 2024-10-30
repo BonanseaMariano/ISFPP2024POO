@@ -6,34 +6,46 @@ import models.Ubicacion;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * This class represents a dialog that displays a table with all the locations
  * in the system. It allows the user to add, modify and delete locations.
  */
 public class TableUbicacionesDialog extends javax.swing.JDialog {
-    // Table displaying the locations
-    private javax.swing.JTable table;
-    // Width of the dialog
+    /**
+     * Width of the dialog.
+     */
     private static final int WIDTH_DIALOG = 400;
-    // Height of the dialog
+    /**
+     * Height of the dialog.
+     */
     private static final int HEIGHT_DIALOG = 350;
-    // Coordinator instance to manage the application's business logic
+    /**
+     * Coordinator instance to manage the application's business logic.
+     */
     private Coordinator coordinator;
+    /**
+     * Resource bundle for internationalization.
+     */
+    private ResourceBundle rb;
+    /**
+     * Table displaying the locations.
+     */
+    private javax.swing.JTable table;
+
 
     /**
      * Constructs a new TableUbicacionesDialog.
-     * <p>
-     * This constructor initializes the dialog with the specified parent frame, modality, and coordinator.
-     * It sets up the components, styles, and content of the dialog, and makes it visible.
      *
      * @param parent      the parent frame of the dialog
      * @param modal       specifies whether the dialog blocks user input to other top-level windows when shown
-     * @param coordinator the coordinator instance to manage the application's business logic
+     * @param coordinator the Coordinator instance to manage the application's business logic
      */
     public TableUbicacionesDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
         this.coordinator = coordinator;
+        this.rb = coordinator.getResourceBundle();
         initComponents();
         initStyle();
         initContent();
@@ -49,7 +61,7 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
      */
     private void initStyle() {
         this.setLocationRelativeTo(null);
-        this.setTitle("Ubicaciones");
+        this.setTitle(rb.getString("TableUbicaciones_title"));
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
@@ -103,7 +115,7 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         // Set the table model with 2 columns: "Codigo" and "Descripcion"
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
-                new String[]{"Codigo", "Descripcion"}
+                new String[]{rb.getString("TableDialog_idColumn"), rb.getString("TableDialog_descriptionColumn")}
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -134,17 +146,17 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
 
         bottomPanel.setLayout(new java.awt.GridLayout(1, 3, 5, 0));
 
-        agregarBT.setText("Agregar");
+        agregarBT.setText(rb.getString("TableDialog_addButton"));
         agregarBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         agregarBT.addActionListener(_ -> agregarBTActionPerformed());
         bottomPanel.add(agregarBT);
 
-        modificarBT.setText("Modificar");
+        modificarBT.setText(rb.getString("TableDialog_modifyButton"));
         modificarBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         modificarBT.addActionListener(_ -> modificarBTActionPerformed());
         bottomPanel.add(modificarBT);
 
-        eliminarBT.setText("Eliminar");
+        eliminarBT.setText(rb.getString("TableDialog_deleteButton"));
         eliminarBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         eliminarBT.addActionListener(_ -> eliminarBTActionPerformed());
         bottomPanel.add(eliminarBT);
@@ -340,9 +352,9 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(2, 1, 2, 5));
 
         // Agregar los campos y etiquetas al panel
-        panel.add(new javax.swing.JLabel("Codigo:"));
+        panel.add(new javax.swing.JLabel(rb.getString("TableDialog_idColumn") + ":"));
         panel.add(codigoField);
-        panel.add(new javax.swing.JLabel("Descripcion:"));
+        panel.add(new javax.swing.JLabel(rb.getString("TableDialog_descriptionColumn") + ":"));
         panel.add(descripcionField);
 
         return panel;

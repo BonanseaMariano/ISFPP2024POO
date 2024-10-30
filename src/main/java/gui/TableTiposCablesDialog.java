@@ -6,20 +6,33 @@ import models.TipoCable;
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * This class represents a dialog that displays a table with all the cable types
  * in the system. It allows the user to add, modify and delete cable types.
  */
 public class TableTiposCablesDialog extends javax.swing.JDialog {
-    // Table that displays the cable types
-    private javax.swing.JTable table;
-    // Width of the dialog
+    /**
+     * Width of the dialog.
+     */
     private static final int WIDTH_DIALOG = 400;
-    // Height of the dialog
+    /**
+     * Height of the dialog.
+     */
     private static final int HEIGHT_DIALOG = 300;
-    // Coordinator instance that manages the connections and other related data
+    /**
+     * Coordinator instance to manage the application's business logic.
+     */
     private Coordinator coordinator;
+    /**
+     * Resource bundle for internationalization.
+     */
+    private ResourceBundle rb;
+    /**
+     * Table displaying the equipment types.
+     */
+    private javax.swing.JTable table;
 
     /**
      * Constructs a new TableTiposCablesDialog.
@@ -34,6 +47,7 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
     public TableTiposCablesDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
         this.coordinator = coordinator;
+        this.rb = coordinator.getResourceBundle();
         initComponents();
         initStyle();
         initContent();
@@ -49,7 +63,7 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
      */
     private void initStyle() {
         this.setLocationRelativeTo(null);
-        this.setTitle("Tipos de Cables");
+        this.setTitle(rb.getString("TableTiposCables_title"));
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
@@ -103,7 +117,7 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
         // Set the table model with 3 columns: "Codigo", "Descripcion", and "Velocidad"
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
-                new String[]{"Codigo", "Descripcion", "Velocidad"}
+                new String[]{rb.getString("TableDialog_idColumn"), rb.getString("TableDialog_descriptionColumn"), rb.getString("TableDialog_speedColumn")}
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -134,17 +148,17 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
 
         bottomPanel.setLayout(new java.awt.GridLayout(1, 3, 5, 0));
 
-        agregarBT.setText("Agregar");
+        agregarBT.setText(rb.getString("TableDialog_addButton"));
         agregarBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         agregarBT.addActionListener(_ -> agregarBTActionPerformed());
         bottomPanel.add(agregarBT);
 
-        modificarBT.setText("Modificar");
+        modificarBT.setText(rb.getString("TableDialog_modifyButton"));
         modificarBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         modificarBT.addActionListener(_ -> modificarBTActionPerformed());
         bottomPanel.add(modificarBT);
 
-        eliminarBT.setText("Eliminar");
+        eliminarBT.setText(rb.getString("TableDialog_deleteButton"));
         eliminarBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         eliminarBT.addActionListener(_ -> eliminarBTActionPerformed());
         bottomPanel.add(eliminarBT);
@@ -360,11 +374,11 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(3, 1, 2, 5));
 
         // Add the fields and labels to the panel
-        panel.add(new javax.swing.JLabel("Codigo:"));
+        panel.add(new javax.swing.JLabel(rb.getString("TableDialog_idColumn") + ":"));
         panel.add(codigoField);
-        panel.add(new javax.swing.JLabel("Descripcion:"));
+        panel.add(new javax.swing.JLabel(rb.getString("TableDialog_descriptionColumn") + ":"));
         panel.add(descripcionField);
-        panel.add(new javax.swing.JLabel("Velocidad:"));
+        panel.add(new javax.swing.JLabel(rb.getString("TableDialog_speedColumn") + ":"));
         panel.add(velocidadField);
 
         return panel;

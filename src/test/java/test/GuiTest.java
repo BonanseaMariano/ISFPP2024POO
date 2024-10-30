@@ -1,5 +1,6 @@
 package test;
 
+import config.Config;
 import controller.Coordinator;
 import gui.Gui;
 import logic.Logic;
@@ -9,8 +10,9 @@ import models.Conexion;
 public class GuiTest {
     Red red;
     Logic logic;
-    Coordinator coordinator;
+    Config config;
     Gui gui;
+    Coordinator coordinator;
 
     /**
      * The main method to run the GUI test.
@@ -30,17 +32,20 @@ public class GuiTest {
         red = Red.getRed();
         logic = new Logic();
         gui = new Gui();
+        config = Config.getConfig();
         coordinator = new Coordinator();
 
         // Establish relationships between classes
         logic.setCoordinator(coordinator);
         red.setCoordinator(coordinator);
         gui.setCoordinator(coordinator);
+        config.setCoordinator(coordinator);
 
         // Establish relationships with the coordinator class
         coordinator.setRed(red);
         coordinator.setLogic(logic);
         coordinator.setGui(gui);
+        coordinator.setConfig(config);
 
         // Update data and print connections
         logic.updateData(coordinator.getEquipos(), coordinator.getConexiones());
@@ -49,7 +54,7 @@ public class GuiTest {
         }
 
         // Visualize the graph and show the GUI
-        gui.visualizeGraph(coordinator.getEquipos(), coordinator.getConexiones());
-        gui.show();
+        gui.init();
+        gui.setVisible(true);
     }
 }

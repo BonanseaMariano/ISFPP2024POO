@@ -15,8 +15,10 @@ import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 public class Gui extends javax.swing.JFrame {
+    private ResourceBundle rb;
     private Coordinator coordinator;
     private static final String VERTEX_STYLE = "fontColor=white;strokeColor=black;fillColor=";
     private static final String EDGE_STYLE = "endArrow=none;strokeColor=";
@@ -30,12 +32,16 @@ public class Gui extends javax.swing.JFrame {
     private Map<Equipo, Object> vertexMap;
 
     /**
-     * Creates new form Gui
+     * Initializes the GUI components and visualizes the graph.
+     * This method sets up the resource bundle, initializes the components,
+     * styles, and the mxGraph, and visualizes the graph with the given equipos and conexiones.
      */
-    public Gui() {
+    public void init() {
+        rb = coordinator.getResourceBundle();
         initComponents();
         initStyles();
         initMxGraphStyle();
+        visualizeGraph(coordinator.getEquipos(), coordinator.getConexiones());
     }
 
     private void initStyles() {
@@ -210,17 +216,17 @@ public class Gui extends javax.swing.JFrame {
         javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
         bg.setLayout(bgLayout);
         bgLayout.setHorizontalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(bgLayout.createSequentialGroup()
-                .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(menuJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(6, 6, 6))
+                bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(bgLayout.createSequentialGroup()
+                                .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(menuJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(6, 6, 6))
         );
         bgLayout.setVerticalGroup(
-            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(menuJP, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
-            .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(menuJP, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                        .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
         );
 
         menuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
@@ -255,22 +261,22 @@ public class Gui extends javax.swing.JFrame {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 800, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, 0)
-                    .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGap(0, 0, 0)))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 800, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, 0)
+                                        .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                        .addGap(0, 0, 0)))
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 577, Short.MAX_VALUE)
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(0, 0, 0)
-                    .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
-                    .addGap(0, 0, 0)))
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGap(0, 577, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(layout.createSequentialGroup()
+                                        .addGap(0, 0, 0)
+                                        .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                                        .addGap(0, 0, 0)))
         );
 
         pack();
@@ -402,7 +408,7 @@ public class Gui extends javax.swing.JFrame {
      * @param equipos    List of Equipo objects representing the vertices of the graph.
      * @param conexiones List of Conexion objects representing the edges of the graph.
      */
-    public void visualizeGraph(List<Equipo> equipos, List<Conexion> conexiones) {
+    private void visualizeGraph(List<Equipo> equipos, List<Conexion> conexiones) {
 
         // Get the default parent for the graph
         Object parent = mxGraph.getDefaultParent();
@@ -662,6 +668,11 @@ public class Gui extends javax.swing.JFrame {
 
     }
 
+    /**
+     * Sets the coordinator instance.
+     *
+     * @param coordinator the Coordinator instance to set
+     */
     public void setCoordinator(Coordinator coordinator) {
         this.coordinator = coordinator;
     }
@@ -674,7 +685,9 @@ public class Gui extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Gui().setVisible(true);
+                Gui gui = new Gui();
+                gui.init();
+                gui.setVisible(true);
             }
         });
     }

@@ -11,20 +11,33 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.Map;
+import java.util.ResourceBundle;
 
 /**
  * This class represents a dialog that displays a table with all the connections
  * in the system. It allows the user to add, modify and delete connections.
  */
 public class TableConexionesDialog extends javax.swing.JDialog {
-    // Table that displays the connections
-    private javax.swing.JTable table;
-    // Width of the dialog
+    /**
+     * Width of the dialog.
+     */
     private static final int WIDTH_DIALOG = 400;
-    // Height of the dialog
+    /**
+     * Height of the dialog.
+     */
     private static final int HEIGHT_DIALOG = 300;
-    // Coordinator instance that manages the connections and other related data
+    /**
+     * Coordinator instance that manages the connections and other related data.
+     */
     private Coordinator coordinator;
+    /**
+     * Resource bundle for internationalization.
+     */
+    private ResourceBundle rb;
+    /**
+     * Table that displays the connections.
+     */
+    private javax.swing.JTable table;
 
     /**
      * Constructs a new TableConexionesDialog.
@@ -39,6 +52,7 @@ public class TableConexionesDialog extends javax.swing.JDialog {
     public TableConexionesDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
         this.coordinator = coordinator;
+        this.rb = coordinator.getResourceBundle();
         initComponents();
         initStyle();
         initContent();
@@ -53,7 +67,7 @@ public class TableConexionesDialog extends javax.swing.JDialog {
      */
     private void initStyle() {
         this.setLocationRelativeTo(null);
-        this.setTitle("Conexiones");
+        this.setTitle(rb.getString("TableConexiones_title"));
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
@@ -113,7 +127,7 @@ public class TableConexionesDialog extends javax.swing.JDialog {
         // Set the table model with 5 columns: "Equipo 1", "Tipo Puerto 1", "Equipo 2", "Tipo Puerto 2", and "Tipo de Cable"
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
-                new String[]{"Equipo 1", "Tipo Puerto 1", "Equipo 2", "Tipo Puerto 2", "Tipo de Cable"}
+                new String[]{rb.getString("TableConexiones_originDeviceColumn"), rb.getString("TableConexiones_originPortColumn"), rb.getString("TableConexiones_destinationDeviceColumn"), rb.getString("TableConexiones_destinationPortColumn"), rb.getString("TableConexiones_cableTypeColumn")}
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -144,17 +158,17 @@ public class TableConexionesDialog extends javax.swing.JDialog {
 
         bottomPanel.setLayout(new java.awt.GridLayout(1, 3, 5, 0));
 
-        agregarBT.setText("Agregar");
+        agregarBT.setText(rb.getString("TableDialog_addButton"));
         agregarBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         agregarBT.addActionListener(_ -> agregarBTActionPerformed());
         bottomPanel.add(agregarBT);
 
-        modificarBT.setText("Modificar");
+        modificarBT.setText(rb.getString("TableDialog_modifyButton"));
         modificarBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         modificarBT.addActionListener(_ -> modificarBTActionPerformed());
         bottomPanel.add(modificarBT);
 
-        eliminarBT.setText("Eliminar");
+        eliminarBT.setText(rb.getString("TableDialog_deleteButton"));
         eliminarBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         eliminarBT.addActionListener(_ -> eliminarBTActionPerformed());
         bottomPanel.add(eliminarBT);
@@ -405,15 +419,15 @@ public class TableConexionesDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(5, 1, 2, 5));
 
         // Add the fields and labels to the panel
-        panel.add(new javax.swing.JLabel("Equipo 1:"));
+        panel.add(new javax.swing.JLabel(rb.getString("TableConexiones_originDeviceColumn") + ":"));
         panel.add(equipo1ComboBox);
-        panel.add(new javax.swing.JLabel("Tipo Puerto 1:"));
+        panel.add(new javax.swing.JLabel(rb.getString("TableConexiones_originPortColumn") + ":"));
         panel.add(tipoPuerto1ComboBox);
-        panel.add(new javax.swing.JLabel("Equipo 2:"));
+        panel.add(new javax.swing.JLabel(rb.getString("TableConexiones_destinationDeviceColumn") + ":"));
         panel.add(equipo2ComboBox);
-        panel.add(new javax.swing.JLabel("Tipo Puerto 2:"));
+        panel.add(new javax.swing.JLabel(rb.getString("TableConexiones_destinationPortColumn") + ":"));
         panel.add(tipoPuerto2ComboBox);
-        panel.add(new javax.swing.JLabel("Tipo de Cable:"));
+        panel.add(new javax.swing.JLabel(rb.getString("TableConexiones_cableTypeColumn") + ":"));
         panel.add(tipoCableComboBox);
 
         return panel;

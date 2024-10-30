@@ -1,5 +1,6 @@
 package test;
 
+import config.Config;
 import controller.Coordinator;
 import gui.Gui;
 import logic.Logic;
@@ -17,8 +18,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class LogicTest {
     Red red;
     Logic logic;
-    Coordinator coordinator;
     Gui gui;
+    Config config;
+    Coordinator coordinator;
+
 
     @BeforeEach
     void setUp() {
@@ -26,17 +29,20 @@ public class LogicTest {
         red = Red.getRed();
         logic = new Logic();
         gui = new Gui();
+        config = Config.getConfig();
         coordinator = new Coordinator();
 
         /* Se establecen las relaciones entre clases */
         logic.setCoordinator(coordinator);
         red.setCoordinator(coordinator);
         gui.setCoordinator(coordinator);
+        config.setCoordinator(coordinator);
 
         /* Se establecen relaciones con la clase coordinador */
         coordinator.setRed(red);
         coordinator.setLogic(logic);
         coordinator.setGui(gui);
+        coordinator.setConfig(config);
     }
 
     /**

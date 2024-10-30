@@ -1,5 +1,6 @@
 package controller;
 
+import config.Config;
 import exceptions.*;
 import gui.Gui;
 import logic.Logic;
@@ -22,16 +23,18 @@ public class Coordinator {
      * The network (Red) instance.
      */
     private Red red;
-
     /**
      * The logic (Logic) instance.
      */
     private Logic logic;
-
     /**
      * The graphical user interface (Gui) instance.
      */
     private Gui gui;
+    /**
+     * The configuration (Config) instance.
+     */
+    private Config config;
 
     /**
      * Gets the network (Red) instance.
@@ -86,6 +89,25 @@ public class Coordinator {
     public void setGui(Gui gui) {
         this.gui = gui;
     }
+
+    /**
+     * Gets the configuration (Config) instance.
+     *
+     * @return the configuration instance
+     */
+    public Config getConfig() {
+        return config;
+    }
+
+    /**
+     * Sets the configuration (Config) instance.
+     *
+     * @param config the configuration instance to set
+     */
+    public void setConfig(Config config) {
+        this.config = config;
+    }
+
 
 
     /* ----------------------------- Synchronized methods  ----------------------------- */
@@ -618,4 +640,14 @@ public class Coordinator {
         return logic.mapStatus();
     }
 
+    /* ----------------------------- config  ----------------------------- */
+
+    /**
+     * Gets the resource bundle for internationalization.
+     *
+     * @return the resource bundle
+     */
+    public ResourceBundle getResourceBundle() {
+        return config.getResourceBundle();
+    }
 }

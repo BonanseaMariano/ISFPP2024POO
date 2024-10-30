@@ -7,6 +7,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
 import java.awt.*;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 /**
@@ -14,14 +15,26 @@ import java.util.function.Consumer;
  * It allows the user to add, modify and delete equipment.
  */
 public class TableEquiposDialog extends JDialog {
-    // Table that displays the equipment
-    private JTable table;
-    // Width of the dialog
+    /**
+     * Width of the dialog.
+     */
     private static final int WIDTH_DIALOG = 650;
-    // Height of the dialog
+    /**
+     * Height of the dialog.
+     */
     private static final int HEIGHT_DIALOG = 500;
-    // Coordinator instance that manages the equipment and other related data
+    /**
+     * Coordinator instance that manages the equipment and other related data.
+     */
     private Coordinator coordinator;
+    /**
+     * Resource bundle for internationalization.
+     */
+    private ResourceBundle rb;
+    /**
+     * Table that displays the equipment.
+     */
+    private JTable table;
 
 
     /**
@@ -37,6 +50,7 @@ public class TableEquiposDialog extends JDialog {
     public TableEquiposDialog(Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
         this.coordinator = coordinator;
+        this.rb = coordinator.getResourceBundle();
         initComponents();
         initStyle();
         initContent();
@@ -51,7 +65,7 @@ public class TableEquiposDialog extends JDialog {
      */
     private void initStyle() {
         this.setLocationRelativeTo(null);
-        this.setTitle("Equipos");
+        this.setTitle(rb.getString("TableEquipos_title"));
         this.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
@@ -79,9 +93,9 @@ public class TableEquiposDialog extends JDialog {
                     equipo.getModelo(),
                     equipo.getTipoEquipo().getCodigo(),
                     equipo.getUbicacion().getCodigo(),
-                    "Ver Puertos",
-                    "Ver IPs",
-                    equipo.isEstado() ? "Activo" : "Inactivo"
+                    rb.getString("TableEquipos_seePortsButton"),
+                    rb.getString("TableEquipos_seeIpsButton"),
+                    equipo.isEstado() ? rb.getString("TableEquipos_statusActive") : rb.getString("TableEquipos_statusInactive")
             });
         }
 
@@ -115,7 +129,7 @@ public class TableEquiposDialog extends JDialog {
         // Set the table model with the specified columns
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
                 new Object[][]{},
-                new String[]{"Codigo", "Descripcion", "Marca", "Modelo", "Tipo Equipo", "Ubicacion", "Puertos", "Direcciones Ip", "Estado"}
+                new String[]{rb.getString("TableDialog_idColumn"), rb.getString("TableDialog_descriptionColumn"), rb.getString("TableEquipos_brandColumn"), rb.getString("TableEquipos_modelColumn"), rb.getString("TableEquipos_deviceTypeColumn"), rb.getString("TableEquipos_locationColumn"), rb.getString("TablePuertosEquipo_title"), rb.getString("TableIpsEquipo_title"), rb.getString("TableEquipos_statusColumn")}
         ) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -150,17 +164,17 @@ public class TableEquiposDialog extends JDialog {
 
         bottomPanel.setLayout(new GridLayout(1, 3, 5, 0));
 
-        agregarBT.setText("Agregar");
+        agregarBT.setText(rb.getString("TableDialog_addButton"));
         agregarBT.setCursor(new Cursor(Cursor.HAND_CURSOR));
         agregarBT.addActionListener(_ -> agregarBTActionPerformed());
         bottomPanel.add(agregarBT);
 
-        modificarBT.setText("Modificar");
+        modificarBT.setText(rb.getString("TableDialog_modifyButton"));
         modificarBT.setCursor(new Cursor(Cursor.HAND_CURSOR));
         modificarBT.addActionListener(_ -> modificarBTActionPerformed());
         bottomPanel.add(modificarBT);
 
-        eliminarBT.setText("Eliminar");
+        eliminarBT.setText(rb.getString("TableDialog_deleteButton"));
         eliminarBT.setCursor(new Cursor(Cursor.HAND_CURSOR));
         eliminarBT.addActionListener(_ -> eliminarBTActionPerformed());
         bottomPanel.add(eliminarBT);
