@@ -6,10 +6,12 @@ import com.mxgraph.view.mxGraph;
 import controller.Coordinator;
 import models.Conexion;
 import models.Equipo;
-import models.TipoCable;
 
 import javax.swing.*;
 import java.awt.*;
+import java.io.File;
+import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +22,9 @@ public class Gui extends javax.swing.JFrame {
     private static final String EDGE_STYLE = "endArrow=none;strokeColor=";
     private static final int VERTEX_WIDTH = 80;
     private static final int VERTEX_HEIGHT = 30;
+
+    private static final String DOC_PATH = "Documentacion/Alcance del proyecto - Bonansea Mareano y Rivero Lucia.docx";
+    private static final String JAVADOC_PATH = "Documentacion/Javadoc/index.html";
 
     private com.mxgraph.view.mxGraph mxGraph;
     private Map<Equipo, Object> vertexMap;
@@ -47,7 +52,7 @@ public class Gui extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
+        bg = new javax.swing.JPanel();
         menuJP = new javax.swing.JPanel();
         upperMenu = new javax.swing.JPanel();
         titleLB = new javax.swing.JLabel();
@@ -65,11 +70,16 @@ public class Gui extends javax.swing.JFrame {
         statusMapBT = new javax.swing.JButton();
         problemsBT = new javax.swing.JButton();
         graphJP = new javax.swing.JPanel();
+        menuBar = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        ayudaMenu = new javax.swing.JMenu();
+        javaDocMI = new javax.swing.JMenuItem();
+        documentacionMI = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Red Lan");
 
-        jPanel1.setPreferredSize(new java.awt.Dimension(800, 600));
+        bg.setPreferredSize(new java.awt.Dimension(800, 600));
 
         menuJP.setMinimumSize(new java.awt.Dimension(0, 400));
         menuJP.setPreferredSize(new java.awt.Dimension(300, 600));
@@ -197,41 +207,70 @@ public class Gui extends javax.swing.JFrame {
         graphJP.setPreferredSize(new java.awt.Dimension(500, 600));
         graphJP.setLayout(new java.awt.BorderLayout());
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(menuJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(6, 6, 6))
+        javax.swing.GroupLayout bgLayout = new javax.swing.GroupLayout(bg);
+        bg.setLayout(bgLayout);
+        bgLayout.setHorizontalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(bgLayout.createSequentialGroup()
+                .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 488, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(menuJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6))
         );
-        jPanel1Layout.setVerticalGroup(
-                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(menuJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        bgLayout.setVerticalGroup(
+            bgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(menuJP, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+            .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
         );
+
+        menuBar.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+
+        jMenu1.setText("File");
+        menuBar.add(jMenu1);
+
+        ayudaMenu.setText("Ayuda");
+
+        javaDocMI.setText("JavaDoc");
+        javaDocMI.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        javaDocMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                javaDocMIActionPerformed(evt);
+            }
+        });
+        ayudaMenu.add(javaDocMI);
+
+        documentacionMI.setText("Documentacion");
+        documentacionMI.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        documentacionMI.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                documentacionMIActionPerformed(evt);
+            }
+        });
+        ayudaMenu.add(documentacionMI);
+
+        menuBar.add(ayudaMenu);
+
+        setJMenuBar(menuBar);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 800, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, 0)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(0, 0, 0)))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 800, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGap(0, 0, 0)))
         );
         layout.setVerticalGroup(
-                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGap(0, 600, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createSequentialGroup()
-                                        .addGap(0, 0, 0)
-                                        .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                        .addGap(0, 0, 0)))
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 577, Short.MAX_VALUE)
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(0, 0, 0)
+                    .addComponent(bg, javax.swing.GroupLayout.DEFAULT_SIZE, 577, Short.MAX_VALUE)
+                    .addGap(0, 0, 0)))
         );
 
         pack();
@@ -304,6 +343,43 @@ public class Gui extends javax.swing.JFrame {
         PingRangeDialog pingRangeDialog = new PingRangeDialog(this, true, coordinator);
         pingRangeDialog.setVisible(true);
     }//GEN-LAST:event_pingRangeBTActionPerformed
+
+    private void javaDocMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_javaDocMIActionPerformed
+        try {
+            // Create a URI object with the path to the documentation
+            URI uri = new File(JAVADOC_PATH).toURI();
+
+            // Get the desktop instance and open the URI in the default browser
+            if (Desktop.isDesktopSupported()) {
+                Desktop.getDesktop().browse(uri);
+            } else {
+                System.err.println("Desktop is not supported. Cannot open the documentation.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_javaDocMIActionPerformed
+
+    private void documentacionMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_documentacionMIActionPerformed
+        try {
+            // Create a File object with the path to the documentation
+            File file = new File(DOC_PATH);
+
+            // Get the desktop instance and open the file in the default application
+            if (Desktop.isDesktopSupported()) {
+                Desktop desktop = Desktop.getDesktop();
+                if (file.exists()) {
+                    desktop.open(file);
+                } else {
+                    System.err.println("The file does not exist.");
+                }
+            } else {
+                System.err.println("Desktop is not supported. Cannot open the documentation.");
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }//GEN-LAST:event_documentacionMIActionPerformed
 
     private void initMxGraphStyle() {
         mxGraph = new mxGraph() {
@@ -604,11 +680,16 @@ public class Gui extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenu ayudaMenu;
+    private javax.swing.JPanel bg;
     private javax.swing.JButton conexionesBT;
+    private javax.swing.JMenuItem documentacionMI;
     private javax.swing.JButton equiposBT;
     private javax.swing.JPanel graphJP;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuItem javaDocMI;
     private javax.swing.JPanel lowerMenu;
+    private javax.swing.JMenuBar menuBar;
     private javax.swing.JPanel menuJP;
     private javax.swing.JButton pingBT;
     private javax.swing.JButton pingRangeBT;
