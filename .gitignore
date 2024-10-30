@@ -36,3 +36,9 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+# Exclude all Javadoc directories
+**/Javadoc/
+
+# Include the specific Javadoc directory
+!Documentacion/Javadoc/
