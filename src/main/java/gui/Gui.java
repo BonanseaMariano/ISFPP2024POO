@@ -6,6 +6,7 @@ import com.mxgraph.view.mxGraph;
 import controller.Coordinator;
 import models.Conexion;
 import models.Equipo;
+import utils.Constatnts;
 
 import javax.swing.*;
 import java.awt.*;
@@ -18,17 +19,55 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 public class Gui extends javax.swing.JFrame {
-    private ResourceBundle rb;
-    private Coordinator coordinator;
-    private static final String VERTEX_STYLE = "fontColor=white;strokeColor=black;fillColor=";
-    private static final String EDGE_STYLE = "endArrow=none;strokeColor=";
-    private static final int VERTEX_WIDTH = 80;
-    private static final int VERTEX_HEIGHT = 30;
-
+    /**
+     * Path to the project scope documentation file.
+     */
     private static final String DOC_PATH = "Documentacion/Alcance del proyecto - Bonansea Mareano y Rivero Lucia.docx";
+    /**
+     * Path to the Javadoc documentation index file.
+     */
     private static final String JAVADOC_PATH = "Documentacion/Javadoc/index.html";
-
+    /**
+     * Width of the vertex
+     */
+    private static final int VERTEX_WIDTH = 80;
+    /**
+     * Height of the vertex
+     */
+    private static final int VERTEX_HEIGHT = 30;
+    /**
+     * Width of the dialog
+     */
+    private static final int WIDTH_FRAME = 400;
+    /**
+     * Height of the dialog
+     */
+    private static final int HEIGHT_FRAME = 400;
+    /**
+     * Coordinator instance
+     */
+    private Coordinator coordinator;
+    /**
+     * Resource bundle for internationalization
+     */
+    private ResourceBundle rb;
+    /**
+     * Style for the vertices in the graph.
+     * The style includes font color, stroke color, and fill color.
+     */
+    private static final String VERTEX_STYLE = "fontColor=white;strokeColor=black;fillColor=";
+    /**
+     * Style for the edges in the graph.
+     * The style includes the end arrow and stroke color.
+     */
+    private static final String EDGE_STYLE = "endArrow=none;strokeColor=";
+    /**
+     * Instance of the mxGraph used for visualizing the graph.
+     */
     private com.mxgraph.view.mxGraph mxGraph;
+    /**
+     * Map to store the association between Equipo objects and their corresponding vertices in the graph.
+     */
     private Map<Equipo, Object> vertexMap;
 
     /**
@@ -44,8 +83,16 @@ public class Gui extends javax.swing.JFrame {
         visualizeGraph(coordinator.getEquipos(), coordinator.getConexiones());
     }
 
+    /**
+     * Initializes the styles for the GUI components.
+     * This method sets the location of the window to the center of the screen,
+     * sets the title of the window, sets the icon image, and configures the default close operation.
+     */
     private void initStyles() {
         this.setLocationRelativeTo(null);
+        this.setTitle(rb.getString("GUI_title"));
+        this.setIconImage(Toolkit.getDefaultToolkit().getImage("src/main/resources/images/MainIcon.png"));
+        this.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
     }
 
 
@@ -82,8 +129,6 @@ public class Gui extends javax.swing.JFrame {
         javaDocMI = new javax.swing.JMenuItem();
         documentacionMI = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Red Lan");
 
         bg.setPreferredSize(new java.awt.Dimension(800, 600));
 
@@ -96,13 +141,13 @@ public class Gui extends javax.swing.JFrame {
 
         titleLB.setFont(new java.awt.Font("Unispace", 1, 18)); // NOI18N
         titleLB.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleLB.setText("Red Lan");
+        titleLB.setText(rb.getString("GUI_title"));
         upperMenu.add(titleLB);
 
         upperButtonsPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 5, 1));
         upperButtonsPanel.setLayout(new java.awt.GridLayout(3, 2, 5, 5));
 
-        equiposBT.setText("Equipos");
+        equiposBT.setText(rb.getString("TableEquipos_title"));
         equiposBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         equiposBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -111,7 +156,7 @@ public class Gui extends javax.swing.JFrame {
         });
         upperButtonsPanel.add(equiposBT);
 
-        conexionesBT.setText("Conexiones");
+        conexionesBT.setText(rb.getString("TableConexiones_title"));
         conexionesBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         conexionesBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -120,7 +165,7 @@ public class Gui extends javax.swing.JFrame {
         });
         upperButtonsPanel.add(conexionesBT);
 
-        tiposEquiposBT.setText("Tipos Equipos");
+        tiposEquiposBT.setText(rb.getString("TableTiposEquipos_title"));
         tiposEquiposBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tiposEquiposBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -129,7 +174,7 @@ public class Gui extends javax.swing.JFrame {
         });
         upperButtonsPanel.add(tiposEquiposBT);
 
-        tiposCablesBT.setText("Tipos Cables");
+        tiposCablesBT.setText(rb.getString("TableTiposCables_title"));
         tiposCablesBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tiposCablesBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -138,7 +183,7 @@ public class Gui extends javax.swing.JFrame {
         });
         upperButtonsPanel.add(tiposCablesBT);
 
-        tiposPuertosBT.setText("Tipos Puertos");
+        tiposPuertosBT.setText(rb.getString("TableTiposPuertos_title"));
         tiposPuertosBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tiposPuertosBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -147,7 +192,7 @@ public class Gui extends javax.swing.JFrame {
         });
         upperButtonsPanel.add(tiposPuertosBT);
 
-        ubicacionesBT.setText("Ubicaciones");
+        ubicacionesBT.setText(rb.getString("TableUbicaciones_title"));
         ubicacionesBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         ubicacionesBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,7 +208,7 @@ public class Gui extends javax.swing.JFrame {
         lowerMenu.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 5, 5));
         lowerMenu.setLayout(new java.awt.GridLayout(5, 1, 0, 5));
 
-        tracerouteBT.setText("Ruta entre Equipos");
+        tracerouteBT.setText(rb.getString("GUI_tracerouteButton"));
         tracerouteBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tracerouteBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -172,7 +217,7 @@ public class Gui extends javax.swing.JFrame {
         });
         lowerMenu.add(tracerouteBT);
 
-        pingBT.setText("Ping");
+        pingBT.setText(rb.getString("GUI_pingButton"));
         pingBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pingBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -181,7 +226,7 @@ public class Gui extends javax.swing.JFrame {
         });
         lowerMenu.add(pingBT);
 
-        pingRangeBT.setText("Ping Rango");
+        pingRangeBT.setText(rb.getString("GUI_pingRangeButton"));
         pingRangeBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         pingRangeBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -190,7 +235,7 @@ public class Gui extends javax.swing.JFrame {
         });
         lowerMenu.add(pingRangeBT);
 
-        statusMapBT.setText("Mapa de estado equipos");
+        statusMapBT.setText(rb.getString("GUI_statusMapButton"));
         statusMapBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         statusMapBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -199,7 +244,7 @@ public class Gui extends javax.swing.JFrame {
         });
         lowerMenu.add(statusMapBT);
 
-        problemsBT.setText("Problemas Conectividad");
+        problemsBT.setText(rb.getString("GUI_connectionProblemsButton"));
         problemsBT.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         problemsBT.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -234,9 +279,9 @@ public class Gui extends javax.swing.JFrame {
         jMenu1.setText("File");
         menuBar.add(jMenu1);
 
-        ayudaMenu.setText("Ayuda");
+        ayudaMenu.setText(rb.getString("GUI_helpMenu"));
 
-        javaDocMI.setText("JavaDoc");
+        javaDocMI.setText(rb.getString("GUI_javadoc"));
         javaDocMI.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         javaDocMI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -245,7 +290,7 @@ public class Gui extends javax.swing.JFrame {
         });
         ayudaMenu.add(javaDocMI);
 
-        documentacionMI.setText("Documentacion");
+        documentacionMI.setText(rb.getString("GUI_documentation"));
         documentacionMI.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         documentacionMI.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -282,75 +327,133 @@ public class Gui extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void tracerouteBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_tracerouteBTActionPerformed
-        // TODO add your handling code here:
-
-        TraceRouteDialog traceRouteDialog = new TraceRouteDialog(this, true, coordinator);
-        traceRouteDialog.setVisible(true);
-    }//GEN-LAST:event_tracerouteBTActionPerformed
-
-    private void pingBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pingBTActionPerformed
-        // TODO add your handling code here:
-
-        PingDialog pingDialog = new PingDialog(this, true, coordinator);
-        pingDialog.setVisible(true);
-    }//GEN-LAST:event_pingBTActionPerformed
-
-    private void statusMapBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_statusMapBTActionPerformed
-        System.out.println("\t---- Status Map ----");
-        for (Map.Entry<Equipo, Boolean> entry : coordinator.mapStatus().entrySet()) {
-            System.out.println(entry.getKey().getCodigo() + " " + entry.getValue());
-        }
-        // TODO add your handling code here:
-        StateMapEquiposDialog stateMapEquiposDialog = new StateMapEquiposDialog(this, true, coordinator);
-        stateMapEquiposDialog.setVisible(true);
-    }//GEN-LAST:event_statusMapBTActionPerformed
-
-    private void problemsBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_problemsBTActionPerformed
-        // TODO add your handling code here:
-
-        JComboBox<String> comboBox = new JComboBox<>(coordinator.getEquiposKeys());
-        // Mostrar el JOptionPane con el JComboBox
-        int resultado = JOptionPane.showConfirmDialog(null, comboBox, "Selecciona un equipo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
-        if (resultado == JOptionPane.OK_OPTION) {
-            ConnectivityProblemsDialog connectivityProblemsDialog = new ConnectivityProblemsDialog(this, true, coordinator, comboBox.getSelectedItem().toString());
-
-            connectivityProblemsDialog.setVisible(true);
-        }
-    }//GEN-LAST:event_problemsBTActionPerformed
-
+    /**
+     * Action performed when the "Equipos" button is clicked.
+     * Opens the TableEquiposDialog.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
     private void equiposBTActionPerformed(java.awt.event.ActionEvent evt) {
         new TableEquiposDialog(this, true, coordinator);
     }
 
+    /**
+     * Action performed when the "Conexiones" button is clicked.
+     * Opens the TableConexionesDialog.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
     private void conexionesBTActionPerformed(java.awt.event.ActionEvent evt) {
         new TableConexionesDialog(this, true, coordinator);
     }
 
+    /**
+     * Action performed when the "Tipos de Equipos" button is clicked.
+     * Opens the TableTiposEquiposDialog.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
     private void tiposEquiposBTActionPerformed(java.awt.event.ActionEvent evt) {
         new TableTiposEquiposDialog(this, true, coordinator);
     }
 
+    /**
+     * Action performed when the "Tipos de Cables" button is clicked.
+     * Opens the TableTiposCablesDialog.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
     private void tiposCablesBTActionPerformed(java.awt.event.ActionEvent evt) {
         new TableTiposCablesDialog(this, true, coordinator);
     }
 
+    /**
+     * Action performed when the "Tipos de Puertos" button is clicked.
+     * Opens the TableTiposPuertosDialog.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
     private void tiposPuertosBTActionPerformed(java.awt.event.ActionEvent evt) {
         new TableTiposPuertosDialog(this, true, coordinator);
     }
 
+    /**
+     * Action performed when the "Ubicaciones" button is clicked.
+     * Opens the TableUbicacionesDialog.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
     private void ubicacionesBTActionPerformed(java.awt.event.ActionEvent evt) {
         new TableUbicacionesDialog(this, true, coordinator);
     }
 
-    private void pingRangeBTActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pingRangeBTActionPerformed
-        // TODO add your handling code here:
+    /**
+     * Action performed when the "Traceroute" button is clicked.
+     * Opens the TraceRouteDialog.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
+    private void tracerouteBTActionPerformed(java.awt.event.ActionEvent evt) {
+        TraceRouteDialog traceRouteDialog = new TraceRouteDialog(this, true, coordinator);
+        traceRouteDialog.setVisible(true);
+    }
 
+    /**
+     * Action performed when the "Ping" button is clicked.
+     * Opens the PingDialog.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
+    private void pingBTActionPerformed(java.awt.event.ActionEvent evt) {
+        PingDialog pingDialog = new PingDialog(this, true, coordinator);
+        pingDialog.setVisible(true);
+    }
+
+    /**
+     * Action performed when the "Ping Range" button is clicked.
+     * Opens the PingRangeDialog.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
+    private void pingRangeBTActionPerformed(java.awt.event.ActionEvent evt) {
         PingRangeDialog pingRangeDialog = new PingRangeDialog(this, true, coordinator);
         pingRangeDialog.setVisible(true);
-    }//GEN-LAST:event_pingRangeBTActionPerformed
+    }
 
-    private void javaDocMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_javaDocMIActionPerformed
+    /**
+     * Action performed when the "Status Map" button is clicked.
+     * Opens the StateMapEquiposDialog.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
+    private void statusMapBTActionPerformed(java.awt.event.ActionEvent evt) {
+        StateMapEquiposDialog stateMapEquiposDialog = new StateMapEquiposDialog(this, true, coordinator);
+        stateMapEquiposDialog.setVisible(true);
+    }
+
+    /**
+     * Action performed when the "Problems" button is clicked.
+     * Opens the ConnectivityProblemsDialog after selecting an equipment.
+     *
+     * @param evt the ActionEvent triggered by the button click
+     */
+    private void problemsBTActionPerformed(java.awt.event.ActionEvent evt) {
+        JComboBox<String> comboBox = new JComboBox<>(coordinator.getEquiposKeys());
+        // Show the JOptionPane with the JComboBox
+        int resultado = JOptionPane.showConfirmDialog(null, comboBox, "Selecciona un equipo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
+        if (resultado == JOptionPane.OK_OPTION) {
+            ConnectivityProblemsDialog connectivityProblemsDialog = new ConnectivityProblemsDialog(this, true, coordinator, comboBox.getSelectedItem().toString());
+            connectivityProblemsDialog.setVisible(true);
+        }
+    }
+
+    /**
+     * Action performed when the "Javadoc" menu item is clicked.
+     * Opens the Javadoc documentation in the default browser.
+     *
+     * @param evt the ActionEvent triggered by the menu item click
+     */
+    private void javaDocMIActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             // Create a URI object with the path to the documentation
             URI uri = new File(JAVADOC_PATH).toURI();
@@ -364,9 +467,15 @@ public class Gui extends javax.swing.JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_javaDocMIActionPerformed
+    }
 
-    private void documentacionMIActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_documentacionMIActionPerformed
+    /**
+     * Action performed when the "Documentation" menu item is clicked.
+     * Opens the project scope documentation file in the default application.
+     *
+     * @param evt the ActionEvent triggered by the menu item click
+     */
+    private void documentacionMIActionPerformed(java.awt.event.ActionEvent evt) {
         try {
             // Create a File object with the path to the documentation
             File file = new File(DOC_PATH);
@@ -385,18 +494,22 @@ public class Gui extends javax.swing.JFrame {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }//GEN-LAST:event_documentacionMIActionPerformed
+    }
 
+    /**
+     * Initializes the styles for the mxGraph component.
+     * Disables the creation of new edges and allows only vertices to be moved.
+     */
     private void initMxGraphStyle() {
         mxGraph = new mxGraph() {
             @Override
             public boolean isCellConnectable(Object cell) {
-                return false; // Deshabilitar la creación de nuevas aristas
+                return false; // Disable the creation of new edges
             }
 
             @Override
             public boolean isCellMovable(Object cell) {
-                return !getModel().isEdge(cell); // Permitir mover solo los vértices
+                return !getModel().isEdge(cell); // Allow only vertices to be moved
             }
         };
         vertexMap = new HashMap<>();
