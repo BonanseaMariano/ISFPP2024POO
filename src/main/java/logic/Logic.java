@@ -117,7 +117,7 @@ public class Logic {
      */
     public void addVertex(Equipo equipo) throws IllegalArgumentException {
         if (vertexMap.containsKey(equipo.getCodigo())) {
-            throw new IllegalArgumentException("El equipo ya existe");
+            throw new IllegalArgumentException(coordinator.getResourceBundle().getString("Invalid_existingA"));
         }
         graph.addVertex(equipo);
         vertexMap.put(equipo.getCodigo(), equipo);
@@ -136,7 +136,7 @@ public class Logic {
     public void modifyVertex(Equipo oldEquipo, Equipo newEquipo) throws InvalidEquipoException {
         if (vertexMap.containsKey(oldEquipo.getCodigo())) {
             if (!oldEquipo.getCodigo().equals(newEquipo.getCodigo()) && vertexMap.containsKey(newEquipo.getCodigo())) {
-                throw new InvalidEquipoException("No se puede modificar el equipo porque la modificacion se traduce en un equipo ya existente");
+                throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_existingM"));
             }
 
             // Add newEquipo to the graph and map
@@ -171,7 +171,7 @@ public class Logic {
             vertexMap.remove(oldEquipo.getCodigo());
 
         } else {
-            throw new InvalidEquipoException("No se puede modificar el equipo porque no existe");
+            throw new InvalidEquipoException(coordinator.getResourceBundle().getString("InvalidDevice_noDeviceM"));
         }
     }
 
@@ -189,7 +189,7 @@ public class Logic {
         if (graph.removeVertex(equipo)) {
             vertexMap.remove(equipo.getCodigo());
         } else {
-            throw new InvalidEquipoException("No se puede eliminar el equipo porque no existe");
+            throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownD"));
         }
     }
 
@@ -202,11 +202,11 @@ public class Logic {
     private void edgeValidation(Conexion conexion) throws InvalidConexionException {
         // Check if the connection forms a loop (both equipos are the same)
         if (conexion.getEquipo1().equals(conexion.getEquipo2())) {
-            throw new InvalidConexionException("No se puede agregar la conexion porque los equipos son iguales");
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("InvalidConnection_sameDevice"));
         }
         // Check if there are available ports on both equipos
         if (!availablePorts(conexion.getEquipo1()) || !availablePorts(conexion.getEquipo2())) {
-            throw new InvalidConexionException("No se puede agregar la conexion porque no hay puertos disponibles en alguno de los dos equipos");
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("InvalidConnection_noAvailablePorts"));
         }
     }
 
@@ -223,14 +223,14 @@ public class Logic {
      */
     public void addEdge(Conexion conexion) throws InvalidConexionException {
         if (graph.containsEdge(conexion)) {
-            throw new InvalidConexionException("No se puede agregar la conexión porque ya existe");
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("InvalidConnection_existingConnection"));
         }
         edgeValidation(conexion);
         graph.addEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
         graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
         if (ciclesValidation()) {
             deleteEdge(conexion);
-            throw new InvalidConexionException("No se puede agregar " + conexion + " porque se forma un ciclo");
+            throw new InvalidConexionException(conexion + " " + coordinator.getResourceBundle().getString("InvalidConnection_cycle"));
         }
         edgesMap.put(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
     }
@@ -250,7 +250,7 @@ public class Logic {
             edgesMap.remove(old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo());
             addEdge(modified);
         } else {
-            throw new InvalidConexionException("No se puede modificar la conexión porque no existe");
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_unknownM"));
         }
     }
 
@@ -268,7 +268,7 @@ public class Logic {
         if (graph.removeEdge(conexion)) {
             edgesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
         } else {
-            throw new InvalidConexionException("No se puede eliminar la conexión porque no existe");
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_unknownD"));
         }
     }
 

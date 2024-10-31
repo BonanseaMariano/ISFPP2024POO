@@ -157,16 +157,16 @@ public class Red {
      */
     private void connectionValidation(Conexion conexion) throws InvalidEquipoException, InvalidConexionException, InvalidTipoCableException, InvalidTipoPuertoException {
         if (!this.equipos.containsKey(conexion.getEquipo1().getCodigo()) || !this.equipos.containsKey(conexion.getEquipo2().getCodigo())) {
-            throw new InvalidEquipoException("No se puede agregar la conexión porque uno de los equipos no existe");
+            throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownAM") + " " + conexion.getEquipo1().getCodigo() + "/" + conexion.getEquipo2().getCodigo());
         }
         if (!this.tiposCables.containsKey(conexion.getTipoCable().getCodigo())) {
-            throw new InvalidTipoCableException("No se puede agregar la conexión porque el tipo de cable no existe");
+            throw new InvalidTipoCableException(coordinator.getResourceBundle().getString("Invalid_unknownAM") + " " + conexion.getTipoCable().getCodigo());
         }
         if (!this.tiposPuertos.containsKey(conexion.getPuerto1().getCodigo()) || !this.tiposPuertos.containsKey(conexion.getPuerto2().getCodigo())) {
-            throw new InvalidTipoPuertoException("No se puede agregar la conexión porque uno de los tipos de puertos no existe");
+            throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_unknownAM") + " " + conexion.getPuerto1().getCodigo() + "/" + conexion.getPuerto2().getCodigo());
         }
         if (availablePorts(conexion.getEquipo1()) == 0 || availablePorts(conexion.getEquipo2()) == 0) {
-            throw new InvalidConexionException("No se puede agregar la conexión porque no hay puertos disponibles.");
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("InvalidConnection_noAvailablePorts"));
         }
     }
 
@@ -181,7 +181,7 @@ public class Red {
         String conexionkey = conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo();
         connectionValidation(conexion);
         if (this.conexiones.containsKey(conexionkey)) {
-            throw new InvalidConexionException("No se puede agregar la conexión porque ya existe.");
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_existingA"));
         }
         this.conexiones.put(conexionkey, conexion);
         this.conexionService.insert(conexion);
@@ -207,10 +207,10 @@ public class Red {
         String modifiedKey = modified.getEquipo1().getCodigo() + "-" + modified.getEquipo2().getCodigo();
         connectionValidation(modified);
         if (!this.conexiones.containsKey(oldkey)) {
-            throw new InvalidConexionException("No se puede modificar la conexión porque no existe");
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_unknownM"));
         }
         if (!oldkey.equals(modifiedKey) && this.conexiones.containsKey(modifiedKey)) {
-            throw new InvalidConexionException("No se puede modificar la conexión porque la modificaion se traduce en una conexión ya existente");
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_existingM"));
         }
 
         this.conexiones.remove(oldkey);
@@ -227,7 +227,7 @@ public class Red {
     public void deleteConexion(Conexion conexion) throws InvalidConexionException {
         String conexionkey = conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo();
         if (!this.conexiones.containsKey(conexionkey)) {
-            throw new InvalidConexionException("No se puede modificar la conexión porque no existe.");
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_unknownD"));
         }
         this.conexiones.remove(conexionkey);
         this.conexionService.delete(conexion);
@@ -248,17 +248,17 @@ public class Red {
     private void equipoValidation(Equipo equipo) throws InvalidUbicacionException, InvalidTipoEquipoException, InvalidTipoPuertoException, InvalidDireccionIPException {
         System.out.println(equipo.getUbicacion().getCodigo());
         if (!this.ubicaciones.containsKey(equipo.getUbicacion().getCodigo())) {
-            throw new InvalidUbicacionException("No se puede agregar el equipo porque la ubicación no existe en la red.");
+            throw new InvalidUbicacionException(coordinator.getResourceBundle().getString("Invalid_unknownAM") + " " + equipo.getUbicacion().getCodigo());
         }
         if (equipo.getDireccionesIp().stream().noneMatch(Utils::validateIP)) {
-            throw new InvalidDireccionIPException("No se puede agregar el equipo porque la IP es invalida: " + equipo.getDireccionesIp());
+            throw new InvalidDireccionIPException(coordinator.getResourceBundle().getString("InvalidDevice_invalidIp") + equipo.getDireccionesIp());
         }
         if (!this.tiposEquipos.containsKey(equipo.getTipoEquipo().getCodigo())) {
-            throw new InvalidTipoEquipoException("No se puede agregar el equipo porque el tipo de equipo no existe en la red.");
+            throw new InvalidTipoEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownA") + " " + equipo.getTipoEquipo().getCodigo());
         }
         for (Puerto puerto : equipo.getPuertos()) {
             if (!this.tiposPuertos.containsKey(puerto.getTipoPuerto().getCodigo())) {
-                throw new InvalidTipoPuertoException("No se puede agregar el equipo porque uno de los tipos de puertos no existe en la red.");
+                throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_unknownAM") + " " + puerto.getTipoPuerto().getCodigo());
             }
         }
     }
@@ -276,7 +276,7 @@ public class Red {
     public void addEquipo(Equipo equipo) throws InvalidEquipoException, InvalidUbicacionException, InvalidTipoEquipoException, InvalidTipoPuertoException, InvalidDireccionIPException {
         equipoValidation(equipo);
         if (this.equipos.containsKey(equipo.getCodigo())) {
-            throw new IllegalArgumentException("No se puede agregar el equipo porque ya existe.");
+            throw new IllegalArgumentException(coordinator.getResourceBundle().getString("Invalid_existingA"));
         }
         this.equipos.put(equipo.getCodigo(), equipo);
         this.equipoService.insert(equipo);
@@ -298,7 +298,7 @@ public class Red {
      */
     public void modifyEquipo(Equipo oldEquipo, Equipo newEquipo) throws InvalidEquipoException, InvalidUbicacionException, InvalidTipoEquipoException, InvalidTipoPuertoException, InvalidDireccionIPException {
         if (!this.equipos.containsKey(oldEquipo.getCodigo())) {
-            throw new InvalidEquipoException("No se puede modificar el equipo porque no existe.");
+            throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownM"));
         }
         equipoValidation(newEquipo);
 
@@ -315,7 +315,7 @@ public class Red {
      */
     public void deleteEquipo(Equipo equipo) throws InvalidEquipoException {
         if (!this.equipos.containsKey(equipo.getCodigo())) {
-            throw new InvalidEquipoException("No se puede eliminar el equipo porque no existe.");
+            throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownD"));
         }
         for (Conexion conexion : this.conexiones.values()) {
             if (conexion.getEquipo1().equals(equipo) || conexion.getEquipo2().equals(equipo)) {
@@ -356,10 +356,10 @@ public class Red {
      */
     private void ubicationValidation(Ubicacion ubicacion) throws InvalidUbicacionException {
         if (!this.ubicaciones.containsKey(ubicacion.getCodigo())) {
-            throw new InvalidUbicacionException("No se puede modificar o eliminar la ubicación porque no existe");
+            throw new InvalidUbicacionException(coordinator.getResourceBundle().getString("Invalid_unknownDM") + " " + ubicacion.getCodigo());
         }
         if (this.equipos.values().stream().anyMatch(equipo -> equipo.getUbicacion().equals(ubicacion))) {
-            throw new InvalidUbicacionException("No se puede modificar o eliminar la ubicación porque hay equipos en ella");
+            throw new InvalidUbicacionException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
         }
     }
 
@@ -371,7 +371,7 @@ public class Red {
      */
     public void addUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
         if (this.ubicaciones.containsKey(ubicacion.getCodigo())) {
-            throw new InvalidUbicacionException("No se puede agregar la ubicación porque ya existe");
+            throw new InvalidUbicacionException(coordinator.getResourceBundle().getString("Invalid_existingA"));
         }
         this.ubicaciones.put(ubicacion.getCodigo(), ubicacion);
         this.ubicacionService.insert(ubicacion);
@@ -390,7 +390,7 @@ public class Red {
     public void modifyUbicacion(Ubicacion oldUbicacion, Ubicacion newUbicacion) throws InvalidUbicacionException {
         ubicationValidation(oldUbicacion);
         if (!oldUbicacion.getCodigo().equals(newUbicacion.getCodigo()) && this.ubicaciones.containsKey(newUbicacion.getCodigo())) {
-            throw new InvalidUbicacionException("No se puede modificar la ubicación porque la modificación se traduce en una ubicación ya existente");
+            throw new InvalidUbicacionException(coordinator.getResourceBundle().getString("Invalid_existingM"));
         }
         this.ubicaciones.remove(oldUbicacion.getCodigo());
         this.ubicaciones.put(newUbicacion.getCodigo(), newUbicacion);
@@ -420,10 +420,10 @@ public class Red {
      */
     private void tipoCableValidation(TipoCable tipoCable) throws InvalidTipoCableException {
         if (!this.tiposCables.containsKey(tipoCable.getCodigo())) {
-            throw new InvalidTipoCableException("No se puede modificar o eliminar el tipo de cable porque no existe en la red");
+            throw new InvalidTipoCableException(coordinator.getResourceBundle().getString("Invalid_unknownDM") + " " + tipoCable.getCodigo());
         }
         if (this.conexiones.values().stream().anyMatch(conexion -> (conexion.getTipoCable().equals(tipoCable)))) {
-            throw new InvalidTipoCableException("No se puede modificar o eliminar el tipo de cable porque hay conexiones con ese tipo de cable");
+            throw new InvalidTipoCableException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
         }
     }
 
@@ -435,7 +435,7 @@ public class Red {
      */
     public void addTipoCable(TipoCable tipoCable) throws InvalidTipoCableException {
         if (tiposCables.containsKey(tipoCable.getCodigo())) {
-            throw new InvalidTipoCableException("No se puede agregar el tipo de cable porque ya existe en la red");
+            throw new InvalidTipoCableException(coordinator.getResourceBundle().getString("Invalid_existingA"));
         }
         this.tiposCables.put(tipoCable.getCodigo(), tipoCable);
         this.tipoCableService.insert(tipoCable);
@@ -454,7 +454,7 @@ public class Red {
     public void modifyTipoCable(TipoCable oldTipoCable, TipoCable newTipoCable) throws InvalidTipoCableException {
         tipoCableValidation(oldTipoCable);
         if (!oldTipoCable.getCodigo().equals(newTipoCable.getCodigo()) && this.tiposCables.containsKey(newTipoCable.getCodigo())) {
-            throw new InvalidTipoCableException("No se puede modificar el tipo de cable porque la modificación se traduce en un tipo de cable ya existente");
+            throw new InvalidTipoCableException(coordinator.getResourceBundle().getString("Invalid_existingM"));
         }
         this.tiposCables.remove(oldTipoCable.getCodigo());
         this.tiposCables.put(newTipoCable.getCodigo(), newTipoCable);
@@ -484,10 +484,10 @@ public class Red {
      */
     private void tipoEquipoValidation(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
         if (!this.tiposEquipos.containsKey(tipoEquipo.getCodigo())) {
-            throw new InvalidTipoEquipoException("No se puede modificar o eliminar el tipo de equipo porque no existe en la red");
+            throw new InvalidTipoEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownDM") + " " + tipoEquipo.getCodigo());
         }
         if (this.equipos.values().stream().anyMatch(equipo -> (equipo.getTipoEquipo().equals(tipoEquipo)))) {
-            throw new InvalidTipoEquipoException("No se puede modificar o eliminar el tipo de equipo porque hay equipos con ese tipo de equipo");
+            throw new InvalidTipoEquipoException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
         }
     }
 
@@ -499,7 +499,7 @@ public class Red {
      */
     public void addTipoEquipo(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
         if (tiposEquipos.containsKey(tipoEquipo.getCodigo())) {
-            throw new InvalidTipoEquipoException("No se puede agregar el tipo de equipo porque ya existe en la red");
+            throw new InvalidTipoEquipoException(coordinator.getResourceBundle().getString("Invalid_existingA"));
         }
         this.tiposEquipos.put(tipoEquipo.getCodigo(), tipoEquipo);
         this.tipoEquipoService.insert(tipoEquipo);
@@ -518,7 +518,7 @@ public class Red {
     public void modifyTipoEquipo(TipoEquipo oldTipoEquipo, TipoEquipo newTipoEquipo) throws InvalidTipoEquipoException {
         tipoEquipoValidation(oldTipoEquipo);
         if (!oldTipoEquipo.getCodigo().equals(newTipoEquipo.getCodigo()) && this.tiposEquipos.containsKey(newTipoEquipo.getCodigo())) {
-            throw new InvalidTipoEquipoException("No se puede modificar el tipo de equipo porque la modificación se traduce en un tipo de equipo ya existente");
+            throw new InvalidTipoEquipoException(coordinator.getResourceBundle().getString("Invalid_existingM"));
         }
         this.tiposEquipos.remove(oldTipoEquipo.getCodigo());
         this.tiposEquipos.put(newTipoEquipo.getCodigo(), newTipoEquipo);
@@ -548,13 +548,13 @@ public class Red {
      */
     private void tipoPuertoValidation(TipoPuerto tipoPuerto) throws InvalidTipoPuertoException {
         if (!this.tiposPuertos.containsKey(tipoPuerto.getCodigo())) {
-            throw new InvalidTipoPuertoException("No se puede modificar o eliminar el tipo de puerto porque no existe en la red");
+            throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_unknownDM") + " " + tipoPuerto.getCodigo());
         }
         if (this.equipos.values().stream().anyMatch(equipo -> (equipo.getPuertos().stream().anyMatch(puerto -> (puerto.getTipoPuerto().equals(tipoPuerto)))))) {
-            throw new InvalidTipoPuertoException("No se puede modificar o eliminar el tipo de puerto porque hay equipos con ese tipo de puerto");
+            throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
         }
         if (this.conexiones.values().stream().anyMatch(conexion -> (conexion.getPuerto1().equals(tipoPuerto) || conexion.getPuerto2().equals(tipoPuerto)))) {
-            throw new InvalidTipoPuertoException("No se puede modificar o eliminar el tipo de puerto porque hay conexiones con ese tipo de puerto");
+            throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
         }
     }
 
@@ -566,7 +566,7 @@ public class Red {
      */
     public void addTipoPuerto(TipoPuerto tipoPuerto) throws InvalidTipoPuertoException {
         if (tiposPuertos.containsKey(tipoPuerto.getCodigo())) {
-            throw new InvalidTipoPuertoException("No se puede agregar el tipo de puerto porque ya existe en la red");
+            throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_existingA"));
         }
         this.tiposPuertos.put(tipoPuerto.getCodigo(), tipoPuerto);
         this.tipoPuertoService.insert(tipoPuerto);
@@ -585,7 +585,7 @@ public class Red {
     public void modifyTipoPuerto(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto) throws InvalidTipoPuertoException {
         tipoPuertoValidation(oldTipoPuerto);
         if (!oldTipoPuerto.getCodigo().equals(newTipoPuerto.getCodigo()) && this.tiposPuertos.containsKey(newTipoPuerto.getCodigo())) {
-            throw new InvalidTipoPuertoException("No se puede modificar el tipo de puerto porque la modificación se traduce en un tipo de puerto ya existente");
+            throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_existingM"));
         }
         this.tiposPuertos.remove(oldTipoPuerto.getCodigo());
         this.tiposPuertos.put(newTipoPuerto.getCodigo(), newTipoPuerto);
