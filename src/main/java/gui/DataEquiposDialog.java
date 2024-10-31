@@ -10,6 +10,7 @@ import models.Ubicacion;
 import javax.swing.*;
 import java.awt.*;
 import java.util.List;
+import java.util.ResourceBundle;
 
 /**
  * A dialog for displaying and editing equipment data.
@@ -19,31 +20,61 @@ import java.util.List;
  * brand, model, type, ports, IP addresses, and status.
  */
 public class DataEquiposDialog extends javax.swing.JDialog {
-    // Width of the dialog
+    /**
+     * Width of the dialog
+     */
     private static final int WIDTH_DIALOG = 400;
-    // Height of the dialog
+    /**
+     * Height of the dialog
+     */
     private static final int HEIGHT_DIALOG = 400;
-    // Checkbox for the equipment's status
+    /**
+     * Checkbox for the equipment's status
+     */
     private javax.swing.JCheckBox EstadoCB;
-    // Text field for the equipment's code
+    /**
+     * Text field for the equipment's code
+     */
     private javax.swing.JTextField codigoTF;
-    // Text field for the equipment's description
+    /**
+     * Text field for the equipment's description
+     */
     private javax.swing.JTextField descripcionTF;
-    // Text field for the equipment's brand
+    /**
+     * Text field for the equipment's brand
+     */
     private javax.swing.JTextField marcaTF;
-    // Text field for the equipment's model
+    /**
+     * Text field for the equipment's model
+     */
     private javax.swing.JTextField modeloTF;
-    // Combo box for selecting the equipment's type
+    /**
+     * Combo box for selecting the equipment's type
+     */
     private JComboBox<TipoEquipo> tipoEquipoCB;
-    // Combo box for selecting the equipment's location
+    /**
+     * Combo box for selecting the equipment's location
+     */
     private JComboBox<Ubicacion> ubicacionCB;
-    // The coordinator responsible for managing the application's logic and data flow
+    /**
+     * The coordinator responsible for managing the application's logic and data flow
+     */
     private final Coordinator coordinator;
-    // The equipment object that holds the details of the equipment being managed
+    /**
+     * Resource bundle for internationalization
+     */
+    private ResourceBundle rb;
+    /**
+     * The equipment object that holds the details of the equipment being managed
+     */
     private final Equipo oldEquipo;
-    // The new equipment object that will hold the updated details or new ones of the equipment
+    /**
+     * The new equipment object that will hold the updated details or new ones of the equipment
+     */
     private Equipo newEquipo;
-    // A flag that indicates whether the dialog is in editing mode
+    /**
+     * A flag that indicates whether the dialog is in editing mode
+     */
     private boolean isEditing = false;
 
 
@@ -61,6 +92,7 @@ public class DataEquiposDialog extends javax.swing.JDialog {
     public DataEquiposDialog(java.awt.Dialog parent, boolean modal, Coordinator coordinator, Equipo equipo) {
         super(parent, modal);
         this.coordinator = coordinator;
+        this.rb = coordinator.getResourceBundle();
         this.oldEquipo = equipo;
         this.newEquipo = new Equipo();
         initComponents();
@@ -77,7 +109,7 @@ public class DataEquiposDialog extends javax.swing.JDialog {
      */
     private void initStyle() {
         this.setLocationRelativeTo(null);
-        this.setTitle("Datos del Equipo");
+        this.setTitle(rb.getString("TableEquipos_dataTitle"));
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
@@ -129,20 +161,20 @@ public class DataEquiposDialog extends javax.swing.JDialog {
         modeloTF = new javax.swing.JTextField(15);
         tipoEquipoCB = new JComboBox<>();
         ubicacionCB = new JComboBox<>();
-        JToggleButton puertosBT = new JToggleButton("Puertos Equipo");
-        JButton ipsBT = new JButton("Direcciones IP Equipo");
+        JToggleButton puertosBT = new JToggleButton(rb.getString("TablePuertosEquipo_title"));
+        JButton ipsBT = new JButton(rb.getString("TableIpsEquipo_title"));
         EstadoCB = new javax.swing.JCheckBox();
-        JLabel codigoLbl = new JLabel("Codigo:");
-        JLabel descripcionLbl = new JLabel("Descripcion:");
-        JLabel marcaLbl = new JLabel("Marca:");
-        JLabel modeloLbl = new JLabel("Modelo:");
-        JLabel tipoEquipoLbl = new JLabel("TipoEquipo:");
-        JLabel ubicacionLbl = new JLabel("Ubicación:");
-        JLabel puertosLbl = new JLabel("Puertos:");
-        JLabel ipsLbl = new JLabel("Direcciones IP:");
-        JLabel estadoLbl = new JLabel("Estado:");
-        JButton aceptarBT = new JButton("Aceptar");
-        JButton cancelarBT = new JButton("Cancelar");
+        JLabel codigoLbl = new JLabel(rb.getString("TableDialog_idColumn") + ":");
+        JLabel descripcionLbl = new JLabel(rb.getString("TableDialog_descriptionColumn") + ":");
+        JLabel marcaLbl = new JLabel(rb.getString("TableEquipos_brandColumn") + ":");
+        JLabel modeloLbl = new JLabel(rb.getString("TableEquipos_modelColumn") + ":");
+        JLabel tipoEquipoLbl = new JLabel(rb.getString("TableEquipos_deviceTypeColumn") + ":");
+        JLabel ubicacionLbl = new JLabel(rb.getString("TableEquipos_locationColumn") + ":");
+        JLabel puertosLbl = new JLabel(rb.getString("TablePuertosEquipo_title") + ":");
+        JLabel ipsLbl = new JLabel(rb.getString("TableIpsEquipo_title") + ":");
+        JLabel estadoLbl = new JLabel(rb.getString("TableEquipos_statusColumn") + ":");
+        JButton aceptarBT = new JButton(rb.getString("TableDialog_acceptButton"));
+        JButton cancelarBT = new JButton(rb.getString("TableDialog_cancelButton"));
 
         // Load the equipment types into the combo box
         List<TipoEquipo> tiposEquipos = coordinator.getTiposEquipos().values().stream().toList();
@@ -286,13 +318,11 @@ public class DataEquiposDialog extends javax.swing.JDialog {
     /**
      * Handles the action event for the accept button.
      * <p>
-     * This method sets the properties of the new equipment object based on the input fields.
-     * If the dialog is in editing mode, it attempts to modify the existing equipment.
-     * Otherwise, it attempts to add a new equipment. In both cases, it handles any
-     * `InvalidEquipoException` that may be thrown and displays an error message.
-     * Finally, it closes the dialog.
+     * This method collects the data from the input fields, validates it, and either adds a new equipment
+     * or modifies an existing one. It displays appropriate messages for success or error.
      */
     private void aceptarBTActionPerformed() {
+        // Set the new equipment's details from the input fields
         newEquipo.setCodigo(codigoTF.getText());
         newEquipo.setDescripcion(descripcionTF.getText());
         newEquipo.setMarca(marcaTF.getText());
@@ -301,22 +331,39 @@ public class DataEquiposDialog extends javax.swing.JDialog {
         newEquipo.setUbicacion((Ubicacion) ubicacionCB.getSelectedItem());
         newEquipo.setEstado(EstadoCB.isSelected());
 
+        // Validate that the code and description fields are not empty
+        if (newEquipo.getCodigo().isEmpty() || newEquipo.getDescripcion().isEmpty()) {
+            JOptionPane.showMessageDialog(this, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
+            this.dispose();
+            return;
+        }
+
+        // Validate that the equipment has at least one port and one IP address
+        if (newEquipo.getPuertos().isEmpty() || newEquipo.getDireccionesIp().isEmpty()) {
+            JOptionPane.showMessageDialog(this, rb.getString("TableEquipos_portAndIpErr"), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
+            this.dispose();
+            return;
+        }
+
+        // If editing an existing equipment, modify it
         if (isEditing) {
             try {
                 coordinator.modifyEquipo(oldEquipo, newEquipo);
             } catch (InvalidEquipoException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, e.getMessage(), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
                 this.dispose();
+                return;
             }
-            JOptionPane.showMessageDialog(this, "Equipo modificado correctamente", "Equipo modificado", JOptionPane.INFORMATION_MESSAGE);
-        } else {
+            JOptionPane.showMessageDialog(this, rb.getString("TableEquipos_modifiedSuccess"), rb.getString("TableEquipos_modifyTitle"), JOptionPane.INFORMATION_MESSAGE);
+        } else { // Otherwise, add a new equipment
             try {
                 coordinator.addEquipo(newEquipo);
             } catch (InvalidEquipoException e) {
-                JOptionPane.showMessageDialog(this, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(this, e.getMessage(), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
                 this.dispose();
+                return;
             }
-            JOptionPane.showMessageDialog(this, "Equipo agregado correctamente", "Equipo agregado", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, rb.getString("TableEquipos_addedSuccess"), rb.getString("TableEquipos_addTitle"), JOptionPane.INFORMATION_MESSAGE);
         }
         this.dispose();
     }

@@ -30,19 +30,16 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
      */
     private ResourceBundle rb;
     /**
-     * Table displaying the equipment types.
+     * Table displaying the cable types.
      */
     private javax.swing.JTable table;
 
     /**
      * Constructs a new TableTiposCablesDialog.
-     * <p>
-     * This constructor initializes the dialog with the specified parent frame, modality, and coordinator.
-     * It sets up the components, styles, and content of the dialog, and makes it visible.
      *
      * @param parent      the parent frame of the dialog
-     * @param modal       specifies whether dialog blocks user input to other top-level windows when shown
-     * @param coordinator the coordinator instance that manages the connections and other related data
+     * @param modal       specifies whether the dialog blocks user input to other top-level windows when shown
+     * @param coordinator the Coordinator instance to manage the application's business logic
      */
     public TableTiposCablesDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
@@ -57,9 +54,8 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
     /**
      * Initializes the style of the dialog.
      * <p>
-     * This method sets the dialog's location to be relative to null,
-     * sets the title of the dialog to "Tipos de Cables",
-     * and specifies the default close operation to dispose on close.
+     * This method sets the location of the dialog relative to its parent,
+     * sets the title of the dialog, and specifies the default close operation.
      */
     private void initStyle() {
         this.setLocationRelativeTo(null);
@@ -70,9 +66,8 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
     /**
      * Initializes the content of the dialog.
      * <p>
-     * This method retrieves the table model, clears any existing rows,
-     * adds each `TipoCable` from the coordinator to the table model,
-     * and sorts the table.
+     * This method retrieves the table model, clears any existing rows, and adds each
+     * TipoCable from the coordinator to the table model. Finally, it sorts the table.
      */
     private void initContent() {
         // Get the table model
@@ -96,8 +91,8 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
      * Initializes the components of the dialog.
      * <p>
      * This method sets up the main background panel, the scroll pane containing the table,
-     * the bottom panel with action buttons, and configures the table model and its sorter.
-     * It also sets the layout and adds the components to the dialog.
+     * and the bottom panel with action buttons. It also configures the table model,
+     * selection mode, and action listeners for the buttons.
      */
     private void initComponents() {
         // Main background panel of the dialog
@@ -195,8 +190,8 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
     /**
      * Handles the action performed when the "Agregar" button is clicked.
      * <p>
-     * This method creates a form for adding a new `TipoCable`, displays it in a `JOptionPane`,
-     * and processes the input to add the new `TipoCable` to the table and the coordinator.
+     * This method creates a form to input a new TipoCable, validates the input,
+     * and adds the new TipoCable to the coordinator and the table if the input is valid.
      */
     private void agregarBTActionPerformed() {
         // Create the form
@@ -206,7 +201,7 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = createFormPanel(codigoField, descripcionField, velocidadField, true);
 
         // Show the JOptionPane
-        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Agregar TipoCable", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableTiposCables_addTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
         if (result == javax.swing.JOptionPane.OK_OPTION) {
             // Get the entered values
             String codigo = codigoField.getText();
@@ -215,20 +210,20 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
             try {
                 velocidad = Integer.parseInt(velocidadField.getText());
             } catch (NumberFormatException e) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: la velocidad debe ser un número", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             // Verify that all fields are complete
             if (codigo.isEmpty() || descripcion.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
             } else {
                 // Create a new TipoCable and add it to the table
                 TipoCable nuevoTipoCable = new TipoCable(codigo, descripcion, velocidad);
                 try {
                     coordinator.addTipoCable(nuevoTipoCable);
                 } catch (Exception e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -241,7 +236,7 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
                 sorter.sort();
 
                 // Show success message
-                javax.swing.JOptionPane.showMessageDialog(null, "TipoCable agregado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableTiposCables_addedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -250,7 +245,7 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
      * Handles the action performed when the "Modificar" button is clicked.
      * <p>
      * This method retrieves the selected row from the table, displays a form with the current values,
-     * and updates the `TipoCable` in the coordinator and the table model if the user confirms the changes.
+     * and updates the TipoCable in the coordinator and the table if the input is valid.
      */
     private void modificarBTActionPerformed() {
         // Get the index of the selected row
@@ -276,7 +271,7 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
             javax.swing.JPanel panel = createFormPanel(codigoField, descripcionField, velocidadField, false);
 
             // Show the JOptionPane
-            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Modificar TipoCable", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableTiposCables_modifyTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
             if (result == javax.swing.JOptionPane.OK_OPTION) {
                 // Get the entered values
                 String newDescripcion = descripcionField.getText();
@@ -284,13 +279,13 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
                 try {
                     newVelocidad = Integer.parseInt(velocidadField.getText());
                 } catch (NumberFormatException e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: la velocidad debe ser un número", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " debe ser un número", rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 // Verify that all fields are complete
                 if (newDescripcion.isEmpty()) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 } else {
                     // Update the TipoCable in the coordinator
                     TipoCable tipoCable = coordinator.getTiposCables().get(currentCodigo);
@@ -299,7 +294,7 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
                     try {
                         coordinator.modifyTipoCable(tipoCable, tipoCable);
                     } catch (Exception e) {
-                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
@@ -308,7 +303,7 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
                     model.setValueAt(newVelocidad, modelRow, 2);
 
                     // Show success message
-                    javax.swing.JOptionPane.showMessageDialog(null, "TipoCable modificado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableTiposCables_modifiedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
@@ -317,8 +312,8 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
     /**
      * Handles the action performed when the "Eliminar" button is clicked.
      * <p>
-     * This method retrieves the selected row from the table, confirms the deletion with the user,
-     * and removes the `TipoCable` from the coordinator and the table model if the user confirms the deletion.
+     * This method retrieves the selected row from the table, confirms the deletion,
+     * and if confirmed, deletes the TipoCable from the coordinator and removes the row from the table.
      */
     private void eliminarBTActionPerformed() {
         // Get the index of the selected row
@@ -336,29 +331,30 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
             String codigo = (String) model.getValueAt(modelRow, 0);
 
             // Show the confirmation message
-            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el TipoCable " + codigo, "Confirmar eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, rb.getString("TableDialog_confirmDelete") + " " + rb.getString("TableTiposCables_name") + " " + codigo + "?", rb.getString("TableTiposCables_deleteTitle"), javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 // Delete the TipoCable from the coordinator
                 try {
                     coordinator.deleteTipoCable(coordinator.getTiposCables().get(codigo));
                 } catch (Exception e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 // Remove the row from the table model
                 model.removeRow(modelRow);
 
-                javax.swing.JOptionPane.showMessageDialog(null, "TipoCable eliminado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableTiposCables_deletedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
     /**
-     * Creates a form panel with the specified fields and layout.
+     * Creates a form panel with the specified text fields and sets the editability of the code field.
      * <p>
-     * This method sets the editability of the code field, creates a panel with a grid layout,
-     * and adds the provided text fields and their corresponding labels to the panel.
+     * This method creates a panel with a grid layout and adds labels and text fields for "Codigo",
+     * "Descripcion", and "Velocidad". The editability of the "Codigo" field is set based on the
+     * provided boolean parameter.
      *
      * @param codigoField      the text field for the code
      * @param descripcionField the text field for the description
@@ -383,5 +379,4 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
 
         return panel;
     }
-
 }

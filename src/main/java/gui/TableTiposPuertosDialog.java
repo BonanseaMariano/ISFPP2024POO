@@ -202,7 +202,7 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = createFormPanel(codigoField, descripcionField, velocidadField, true);
 
         // Show the JOptionPane
-        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Agregar TipoPuerto", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableTiposPuertos_addTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
         if (result == javax.swing.JOptionPane.OK_OPTION) {
             // Get the entered values
             String codigo = codigoField.getText();
@@ -211,20 +211,20 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
             try {
                 velocidad = Integer.parseInt(velocidadField.getText());
             } catch (NumberFormatException e) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: la velocidad debe ser un número", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " debe ser un número", rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
             // Verify that all fields are complete
             if (codigo.isEmpty() || descripcion.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
             } else {
                 // Create a new TipoPuerto and add it to the table
                 TipoPuerto nuevoTipoPuerto = new TipoPuerto(codigo, descripcion, velocidad);
                 try {
                     coordinator.addTipoPuerto(nuevoTipoPuerto);
                 } catch (Exception e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -237,7 +237,7 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
                 sorter.sort();
 
                 // Show success message
-                javax.swing.JOptionPane.showMessageDialog(null, "TipoPuerto agregado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableTiposPuertos_addedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -272,7 +272,7 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
             javax.swing.JPanel panel = createFormPanel(codigoField, descripcionField, velocidadField, false);
 
             // Show the JOptionPane
-            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Modificar TipoPuerto", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableTiposPuertos_modifyTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
             if (result == javax.swing.JOptionPane.OK_OPTION) {
                 // Get the entered values
                 String newDescripcion = descripcionField.getText();
@@ -280,13 +280,13 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
                 try {
                     newVelocidad = Integer.parseInt(velocidadField.getText());
                 } catch (NumberFormatException e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: la velocidad debe ser un número", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " debe ser un número", rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 // Verify that all fields are complete
                 if (newDescripcion.isEmpty()) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 } else {
                     // Update the TipoPuerto in the coordinator
                     TipoPuerto tipoPuerto = coordinator.getTiposPuertos().get(currentCodigo);
@@ -295,7 +295,7 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
                     try {
                         coordinator.modifyTipoPuerto(tipoPuerto, tipoPuerto);
                     } catch (Exception e) {
-                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
@@ -304,7 +304,7 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
                     model.setValueAt(newVelocidad, modelRow, 2);
 
                     // Show success message
-                    javax.swing.JOptionPane.showMessageDialog(null, "TipoPuerto modificado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableTiposPuertos_modifiedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
@@ -313,8 +313,9 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
     /**
      * Handles the action performed when the "Eliminar" button is clicked.
      * <p>
-     * This method retrieves the selected row from the table, confirms the deletion,
-     * and removes the TipoPuerto from the coordinator and the table if confirmed.
+     * This method retrieves the selected row from the table, confirms the deletion with the user,
+     * and if confirmed, deletes the TipoPuerto from the coordinator and removes the row from the table.
+     * If an error occurs during deletion, an error message is displayed.
      */
     private void eliminarBTActionPerformed() {
         // Get the index of the selected row
@@ -332,20 +333,20 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
             String codigo = (String) model.getValueAt(modelRow, 0);
 
             // Show the confirmation message
-            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el TipoPuerto " + codigo, "Confirmar eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, rb.getString("TableDialog_confirmDelete") + " " + rb.getString("TableTiposPuertos_name") + " " + codigo + "?", rb.getString("TableTiposPuertos_deleteTitle"), javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 // Delete the TipoPuerto from the coordinator
                 try {
                     coordinator.deleteTipoPuerto(coordinator.getTiposPuertos().get(codigo));
                 } catch (Exception e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 // Remove the row from the table model
                 model.removeRow(modelRow);
 
-                javax.swing.JOptionPane.showMessageDialog(null, "TipoPuerto eliminado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableTiposPuertos_deletedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }

@@ -195,8 +195,8 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
     /**
      * Handles the action performed when the "Agregar" button is clicked.
      * <p>
-     * This method creates a form to add a new equipment type, displays it in a JOptionPane,
-     * and processes the input to add the new equipment type to the table and the coordinator.
+     * This method creates a form to input a new TipoEquipo, validates the input,
+     * and adds the new TipoEquipo to the coordinator and the table if the input is valid.
      */
     private void agregarBTActionPerformed() {
         // Create the form
@@ -205,7 +205,7 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = createFormPanel(codigoField, descripcionField, true);
 
         // Show the JOptionPane
-        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Agregar Tipo de Equipo", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableTiposEquipos_addTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
         if (result == javax.swing.JOptionPane.OK_OPTION) {
             // Get the entered values
             String codigo = codigoField.getText();
@@ -213,14 +213,14 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
 
             // Verify that all fields are complete
             if (codigo.isEmpty() || descripcion.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
             } else {
                 // Create a new TipoEquipo and add it to the table
                 TipoEquipo nuevoTipoEquipo = new TipoEquipo(codigo, descripcion);
                 try {
                     coordinator.addTipoEquipo(nuevoTipoEquipo);
                 } catch (Exception e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -233,7 +233,7 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
                 sorter.sort();
 
                 // Show success message
-                javax.swing.JOptionPane.showMessageDialog(null, "Tipo de Equipo agregado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableTiposEquipos_addedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -241,8 +241,8 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
     /**
      * Handles the action performed when the "Modificar" button is clicked.
      * <p>
-     * This method retrieves the selected row from the table, displays a form to modify the equipment type,
-     * and updates the equipment type in the table and the coordinator if the user confirms the changes.
+     * This method retrieves the selected row from the table, displays a form with the current values,
+     * and updates the TipoEquipo in the coordinator and the table if the input is valid.
      */
     private void modificarBTActionPerformed() {
         // Get the index of the selected row
@@ -266,14 +266,14 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
             javax.swing.JPanel panel = createFormPanel(codigoField, descripcionField, false);
 
             // Show the JOptionPane
-            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Modificar Tipo de Equipo", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableTiposEquipos_modifyTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
             if (result == javax.swing.JOptionPane.OK_OPTION) {
                 // Get the entered values
                 String newDescripcion = descripcionField.getText();
 
                 // Verify that all fields are complete
                 if (newDescripcion.isEmpty()) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 } else {
                     // Update the TipoEquipo in the coordinator
                     TipoEquipo tipoEquipo = coordinator.getTiposEquipos().get(currentCodigo);
@@ -281,7 +281,7 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
                     try {
                         coordinator.modifyTipoEquipo(tipoEquipo, tipoEquipo);
                     } catch (Exception e) {
-                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
@@ -289,7 +289,7 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
                     model.setValueAt(newDescripcion, modelRow, 1);
 
                     // Show success message
-                    javax.swing.JOptionPane.showMessageDialog(null, "Tipo de Equipo modificado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableTiposEquipos_modifiedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
@@ -299,7 +299,8 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
      * Handles the action performed when the "Eliminar" button is clicked.
      * <p>
      * This method retrieves the selected row from the table, confirms the deletion with the user,
-     * and removes the equipment type from the table and the coordinator if the user confirms the deletion.
+     * and if confirmed, deletes the TipoEquipo from the coordinator and removes the row from the table.
+     * If an error occurs during deletion, an error message is displayed.
      */
     private void eliminarBTActionPerformed() {
         // Get the index of the selected row
@@ -317,21 +318,20 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
             String codigo = (String) model.getValueAt(modelRow, 0);
 
             // Show the confirmation message
-            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el Tipo de Equipo " + codigo, "Confirmar eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, rb.getString("TableDialog_confirmDelete") + " " + rb.getString("TableTiposEquipos_name") + " " + codigo + "?", rb.getString("TableTiposEquipos_deleteTitle"), javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 // Delete the TipoEquipo from the coordinator
                 try {
                     coordinator.deleteTipoEquipo(coordinator.getTiposEquipos().get(codigo));
                 } catch (Exception e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 // Remove the row from the table model
                 model.removeRow(modelRow);
 
-                // Show success message
-                javax.swing.JOptionPane.showMessageDialog(null, "Tipo de Equipo eliminado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableTiposEquipos_deletedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }

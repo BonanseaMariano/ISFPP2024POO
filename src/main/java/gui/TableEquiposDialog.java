@@ -247,16 +247,16 @@ public class TableEquiposDialog extends JDialog {
             String codigo = (String) table.getModel().getValueAt(modelRow, 0);
             Equipo equipo = coordinator.getEquiposMap().get(codigo);
 
-            int confirm = JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el equipo " + codigo + "?", "Confirmar eliminación", JOptionPane.YES_NO_OPTION);
+            int confirm = JOptionPane.showConfirmDialog(null, rb.getString("TableDialog_confirmDelete") + " " + rb.getString("TableEquipos_name") + " " + codigo + "?", rb.getString("TableEquipos_deleteTitle"), JOptionPane.YES_NO_OPTION);
             if (confirm == JOptionPane.YES_OPTION) {
                 try {
                     coordinator.deleteEquipo(equipo);
                 } catch (Exception e) {
-                    JOptionPane.showMessageDialog(null, e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 ((javax.swing.table.DefaultTableModel) table.getModel()).removeRow(modelRow);
-                JOptionPane.showMessageDialog(null, "Equipo eliminado", "Éxito", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(null, rb.getString("TableEquipos_deletedSuccess"), rb.getString("TableDialog_success"), JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }

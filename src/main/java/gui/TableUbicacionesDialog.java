@@ -203,7 +203,7 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = createFormPanel(codigoField, descripcionField, true);
 
         // Mostrar el JOptionPane
-        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Agregar Ubicación", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableUbicaciones_addTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
         if (result == javax.swing.JOptionPane.OK_OPTION) {
             // Obtener los valores ingresados
             String codigo = codigoField.getText();
@@ -211,14 +211,14 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
 
             // Verificar que todos los campos estén completos
             if (codigo.isEmpty() || descripcion.isEmpty()) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
             } else {
                 // Crear una nueva ubicación y agregarla a la tabla
                 Ubicacion nuevaUbicacion = new Ubicacion(codigo, descripcion);
                 try {
                     coordinator.addUbicacion(nuevaUbicacion);
                 } catch (Exception e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -231,7 +231,7 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
                 sorter.sort();
 
                 // Mostrar mensaje de aprobación
-                javax.swing.JOptionPane.showMessageDialog(null, "Ubicación agregada", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableUbicaciones_addedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -264,14 +264,14 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
             javax.swing.JPanel panel = createFormPanel(codigoField, descripcionField, false);
 
             // Mostrar el JOptionPane
-            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Modificar Ubicación", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableUbicaciones_modifyTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
             if (result == javax.swing.JOptionPane.OK_OPTION) {
                 // Obtener los valores ingresados
                 String newDescripcion = descripcionField.getText();
 
                 // Verificar que todos los campos estén completos
                 if (newDescripcion.isEmpty()) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 } else {
                     // Actualizar la ubicación en el coordinator
                     Ubicacion ubicacion = coordinator.getUbicaciones().get(currentCodigo);
@@ -279,7 +279,7 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
                     try {
                         coordinator.modifyUbicacion(ubicacion, ubicacion);
                     } catch (Exception e) {
-                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
@@ -287,7 +287,7 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
                     model.setValueAt(newDescripcion, modelRow, 1);
 
                     // Mostrar mensaje de aprobación
-                    javax.swing.JOptionPane.showMessageDialog(null, "Ubicación modificada", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableUbicaciones_modifiedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
@@ -315,20 +315,20 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
             String codigo = (String) model.getValueAt(modelRow, 0);
 
             // Mostrar el mensaje de confirmación
-            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la ubicación " + codigo, "Confirmar eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
-            if (confirm == javax.swing.JOptionPane.YES_OPTION) {
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, rb.getString("TableDialog_confirmDelete") + " " + rb.getString("TableUbicaciones_name") + codigo + "?", rb.getString("TableUbicaciones_deleteTitle"), JOptionPane.OK_CANCEL_OPTION);
+            if (confirm == JOptionPane.OK_OPTION) {
                 // Eliminar la ubicación del coordinator
                 try {
                     coordinator.deleteUbicacion(coordinator.getUbicaciones().get(codigo));
                 } catch (Exception e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 // Eliminar la fila del modelo de la tabla
                 model.removeRow(modelRow);
 
-                javax.swing.JOptionPane.showMessageDialog(null, "Ubicación eliminada", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableUbicaciones_deletedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }

@@ -208,20 +208,20 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = createFormPanel(ipField);
 
         // Show the JOptionPane
-        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Agregar IP", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableIpsEquipo_addTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
         if (result == javax.swing.JOptionPane.OK_OPTION) {
             // Get the entered value
             String ip = ipField.getText();
 
             // Validate the IP
             if (!Utils.validateIP(ip)) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: IP no válida", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableIpsEquipo_ipColumn") + " " + rb.getString("TableDialog_invalidIP"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
-            //Verify if the IP already exists
+            // Verify if the IP already exists
             if (Arrays.stream(coordinator.getEquiposIps()).toList().contains(ip)) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: La IP ya existe", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableIpsEquipo_ipColumn") + " " + rb.getString("TableDialog_ipExists"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -237,7 +237,7 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
             sorter.sort();
 
             // Show success message
-            javax.swing.JOptionPane.showMessageDialog(null, "IP agregada", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+            javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableIpsEquipo_addedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
@@ -267,23 +267,22 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
             javax.swing.JPanel panel = createFormPanel(ipField);
 
             // Show the JOptionPane
-            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Modificar IP", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableIpsEquipo_modifyTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
             if (result == javax.swing.JOptionPane.OK_OPTION) {
                 // Get the entered value
                 String newIp = ipField.getText();
 
                 // Validate the IP
                 if (!Utils.validateIP(newIp)) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: IP no válida", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableIpsEquipo_ipColumn") + " " + rb.getString("TableDialog_invalidIP"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                //Verify if the new IP already exists except the current IP
+                // Verify if the new IP already exists except the current IP
                 if (Arrays.stream(coordinator.getEquiposIps()).toList().contains(newIp) && !newIp.equals(currentIp)) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: La IP ya existe", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableIpsEquipo_ipColumn") + " " + rb.getString("TableDialog_ipExists"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
-
 
                 // Update the IP in the equipo
                 equipo.removeIP(currentIp);
@@ -293,7 +292,7 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
                 model.setValueAt(newIp, modelRow, 0);
 
                 // Show success message
-                javax.swing.JOptionPane.showMessageDialog(null, "IP modificada", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableIpsEquipo_modifiedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -320,7 +319,7 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
             String currentIp = (String) model.getValueAt(modelRow, 0);
 
             // Show the confirmation message
-            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la IP " + currentIp + "?", "Confirmar eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, rb.getString("TableDialog_confirmDelete") + " " + rb.getString("TableIpsEquipo_ipColumn") + " " + currentIp + "?", rb.getString("TableIpsEquipo_deleteTitle"), javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 // Remove the IP from the equipo
                 equipo.removeIP(currentIp);
@@ -328,7 +327,7 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
                 // Remove the row from the table model
                 model.removeRow(modelRow);
 
-                javax.swing.JOptionPane.showMessageDialog(null, "IP eliminada", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableIpsEquipo_deletedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }

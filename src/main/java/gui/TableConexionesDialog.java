@@ -228,7 +228,7 @@ public class TableConexionesDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = createFormPanel(equipo1ComboBox, tipoPuerto1ComboBox, equipo2ComboBox, tipoPuerto2ComboBox, tipoCableComboBox);
 
         // Show the JOptionPane
-        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Agregar Conexion", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableConexiones_addTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
         if (result == javax.swing.JOptionPane.OK_OPTION) {
             // Get the entered values
             Equipo equipo1 = (Equipo) equipo1ComboBox.getSelectedItem();
@@ -239,14 +239,14 @@ public class TableConexionesDialog extends javax.swing.JDialog {
 
             // Verify that all fields are complete
             if (equipo1 == null || tipoPuerto1 == null || equipo2 == null || tipoPuerto2 == null || tipoCable == null) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
             } else {
                 // Create a new Conexion and add it to the table
                 Conexion nuevaConexion = new Conexion(tipoCable, equipo1, tipoPuerto1, equipo2, tipoPuerto2);
                 try {
                     coordinator.addConnection(nuevaConexion);
                 } catch (InvalidConexionException e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
@@ -265,7 +265,7 @@ public class TableConexionesDialog extends javax.swing.JDialog {
                 sorter.sort();
 
                 // Show success message
-                javax.swing.JOptionPane.showMessageDialog(null, "Conexion agregada", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableConexiones_addedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -322,7 +322,7 @@ public class TableConexionesDialog extends javax.swing.JDialog {
             javax.swing.JPanel panel = createFormPanel(equipo1ComboBox, tipoPuerto1ComboBox, equipo2ComboBox, tipoPuerto2ComboBox, tipoCableComboBox);
 
             // Show the JOptionPane
-            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Modificar Conexion", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TableConexiones_modifyTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
             if (result == javax.swing.JOptionPane.OK_OPTION) {
                 // Get the entered values
                 Equipo newEquipo1 = (Equipo) equipo1ComboBox.getSelectedItem();
@@ -333,7 +333,7 @@ public class TableConexionesDialog extends javax.swing.JDialog {
 
                 // Verify that all fields are complete
                 if (newEquipo1 == null || newTipoPuerto1 == null || newEquipo2 == null || newTipoPuerto2 == null || newTipoCable == null) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 } else {
                     // Create the conexion with the new values
                     Conexion newConexion = new Conexion(newTipoCable, newEquipo1, newTipoPuerto1, newEquipo2, newTipoPuerto2);
@@ -341,7 +341,7 @@ public class TableConexionesDialog extends javax.swing.JDialog {
                     try {
                         coordinator.modifyConnection(oldConexion, newConexion);
                     } catch (InvalidConexionException e) {
-                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;
                     }
 
@@ -353,7 +353,7 @@ public class TableConexionesDialog extends javax.swing.JDialog {
                     model.setValueAt(newTipoCable.getDescripcion(), modelRow, 4);
 
                     // Show success message
-                    javax.swing.JOptionPane.showMessageDialog(null, "Conexion modificada", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableConexiones_modifiedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
@@ -383,20 +383,20 @@ public class TableConexionesDialog extends javax.swing.JDialog {
             String equipo2 = (String) model.getValueAt(modelRow, 2);
 
             // Show the confirmation message
-            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar la Conexion entre " + equipo1 + " y " + equipo2 + "?", "Confirmar eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, rb.getString("TableDialog_confirmDelete") + " " + rb.getString("TableConexiones_name") + " " + equipo1 + " -> " + equipo2 + "?", rb.getString("TableConexiones_deleteTitle"), javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 // Delete the Conexion from the coordinator
                 try {
                     coordinator.deleteConnection(coordinator.getConexionesMap().get(equipo1 + "-" + equipo2));
                 } catch (InvalidConexionException e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
                 // Remove the row from the table model
                 model.removeRow(modelRow);
 
-                javax.swing.JOptionPane.showMessageDialog(null, "Conexion eliminada", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableConexiones_deletedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }

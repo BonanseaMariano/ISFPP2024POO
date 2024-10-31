@@ -226,21 +226,21 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = createFormPanel(cantidadField, tipoPuertoComboBox);
 
         // Show the JOptionPane
-        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Agregar Puerto", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+        int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TablePuertosEquipo_addTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
         if (result == javax.swing.JOptionPane.OK_OPTION) {
             // Get the entered values
             int cantidad;
             try {
                 cantidad = Integer.parseInt(cantidadField.getText());
             } catch (NumberFormatException e) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: la cantidad debe ser un número", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 return;
             }
             TipoPuerto tipoPuerto = (TipoPuerto) tipoPuertoComboBox.getSelectedItem();
 
             // Verify that all fields are complete
             if (tipoPuerto == null) {
-                javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
             } else {
                 // Add the new Puerto to the equipo
                 Puerto puerto = new Puerto(cantidad, tipoPuerto);
@@ -248,7 +248,7 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
                 // Check if the port already exists
                 for (Puerto p : equipo.getPuertos()) {
                     if (p.getTipoPuerto().equals(tipoPuerto)) {
-                        javax.swing.JOptionPane.showMessageDialog(null, "Error: el tipo de puerto ya existe en este equipo", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                        javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TablePuertosEquipo_portExistsError"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;
                     }
                 }
@@ -265,7 +265,7 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
                 sorter.sort();
 
                 // Show success message
-                javax.swing.JOptionPane.showMessageDialog(null, "Puerto agregado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TablePuertosEquipo_addedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
@@ -290,10 +290,8 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
 
             // Get the current values of the selected row
             int currentCantidad = (int) model.getValueAt(modelRow, 0);
-            String currentTipoPuertoDescripcion = (String) model.getValueAt(modelRow, 1);
-            TipoPuerto currentTipoPuerto = coordinator.getTiposPuertos().values().stream()
-                    .filter(tp -> tp.getDescripcion().equals(currentTipoPuertoDescripcion))
-                    .findFirst().orElse(null);
+            String currentTipoPuertoCodigo = (String) model.getValueAt(modelRow, 1);
+            TipoPuerto currentTipoPuerto = coordinator.getTiposPuertos().get(currentTipoPuertoCodigo);
 
             // Create the form with the current values
             javax.swing.JTextField cantidadField = new javax.swing.JTextField(String.valueOf(currentCantidad), 10);
@@ -315,27 +313,26 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
             javax.swing.JPanel panel = createFormPanel(cantidadField, tipoPuertoComboBox);
 
             // Show the JOptionPane
-            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, "Modificar Puerto", javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
+            int result = javax.swing.JOptionPane.showConfirmDialog(null, panel, rb.getString("TablePuertosEquipo_modifyTitle"), javax.swing.JOptionPane.OK_CANCEL_OPTION, javax.swing.JOptionPane.PLAIN_MESSAGE);
             if (result == javax.swing.JOptionPane.OK_OPTION) {
                 // Get the entered values
                 int newCantidad;
                 try {
                     newCantidad = Integer.parseInt(cantidadField.getText());
                 } catch (NumberFormatException e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: la cantidad debe ser un número", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 TipoPuerto newTipoPuerto = (TipoPuerto) tipoPuertoComboBox.getSelectedItem();
 
                 // Verify that all fields are complete
                 if (newTipoPuerto == null) {
-                    javax.swing.JOptionPane.showMessageDialog(null, "Error: todos los campos deben estar completos", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 } else {
-
                     // Check if the port already exists in the device except for the current port
                     for (Puerto p : equipo.getPuertos()) {
                         if (p.getTipoPuerto().equals(newTipoPuerto) && !p.getTipoPuerto().equals(currentTipoPuerto)) {
-                            javax.swing.JOptionPane.showMessageDialog(null, "Error: el tipo de puerto ya existe en este equipo", "Error", javax.swing.JOptionPane.ERROR_MESSAGE);
+                            javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TablePuertosEquipo_portExistsError"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                             return;
                         }
                     }
@@ -348,10 +345,10 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
 
                     // Update the row in the table model
                     model.setValueAt(newCantidad, modelRow, 0);
-                    model.setValueAt(newTipoPuerto.getDescripcion(), modelRow, 1);
+                    model.setValueAt(newTipoPuerto.getCodigo(), modelRow, 1);
 
                     // Show success message
-                    javax.swing.JOptionPane.showMessageDialog(null, "Puerto modificado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TablePuertosEquipo_modifiedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
                 }
             }
         }
@@ -377,13 +374,11 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
 
             // Get the current values of the selected row
             int currentCantidad = (int) model.getValueAt(modelRow, 0);
-            String currentTipoPuertoDescripcion = (String) model.getValueAt(modelRow, 1);
-            TipoPuerto currentTipoPuerto = coordinator.getTiposPuertos().values().stream()
-                    .filter(tp -> tp.getDescripcion().equals(currentTipoPuertoDescripcion))
-                    .findFirst().orElse(null);
+            String currentTipoPuertoCodigo = (String) model.getValueAt(modelRow, 1);
+            TipoPuerto currentTipoPuerto = coordinator.getTiposPuertos().get(currentTipoPuertoCodigo);
 
             // Show the confirmation message
-            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, "¿Está seguro que desea eliminar el Puerto de tipo " + currentTipoPuertoDescripcion + "?", "Confirmar eliminación", javax.swing.JOptionPane.YES_NO_OPTION);
+            int confirm = javax.swing.JOptionPane.showConfirmDialog(null, rb.getString("TableDialog_confirmDelete") + " " + rb.getString("TablePuertosEquipo_portTypeColumn") + " " + currentTipoPuertoCodigo + "?", rb.getString("TablePuertosEquipo_deleteTitle"), javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 // Remove the Puerto from the equipo
                 Puerto currentPuerto = new Puerto(currentCantidad, currentTipoPuerto);
@@ -392,7 +387,7 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
                 // Remove the row from the table model
                 model.removeRow(modelRow);
 
-                javax.swing.JOptionPane.showMessageDialog(null, "Puerto eliminado", "Éxito", javax.swing.JOptionPane.INFORMATION_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TablePuertosEquipo_deletedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
