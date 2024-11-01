@@ -46,12 +46,10 @@ public class PingTask extends SwingWorker<Void, Integer> {
 
         while ((line = reader.readLine()) != null) {
             outputArea.append(line + "\n");
-            if (line.contains("Reply from")) {
-                progress++;
-                int progressPercentage = (int) ((progress / (float) pingCount) * 100);
-                publish(progressPercentage);
-                setProgress(progressPercentage);
-            }
+            progress++;
+            int progressPercentage = (int) ((progress / (float) pingCount) * 100);
+            publish(progressPercentage);
+            setProgress(progressPercentage);
         }
 
         process.waitFor();
