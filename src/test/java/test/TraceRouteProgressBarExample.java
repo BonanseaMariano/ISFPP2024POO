@@ -1,13 +1,13 @@
 package test;
 
-import gui.swingWorkers.PingTask;
+import gui.swingWorkers.TraceRouteTask;
 
 import javax.swing.*;
 import java.awt.*;
 
-public class PingProgressBarExample {
+public class TraceRouteProgressBarExample {
     public static void main(String[] args) {
-        JFrame frame = new JFrame("Ping Progress Bar Example");
+        JFrame frame = new JFrame("TraceRoute Progress Bar Example");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(400, 300);
 
@@ -19,21 +19,17 @@ public class PingProgressBarExample {
         outputArea.setEditable(false);
 
         JTextField ipField = new JTextField("8.8.8.8", 15); // Default IP address
-        JTextField pingCountField = new JTextField("10", 5); // Default ping count
 
-        JButton startButton = new JButton("Start Ping");
+        JButton startButton = new JButton("Start TraceRoute");
         startButton.addActionListener(e -> {
             String ipAddress = ipField.getText();
-            int pingCount = Integer.parseInt(pingCountField.getText());
-            PingTask task = new PingTask(ipAddress, pingCount, progressBar, outputArea);
+            TraceRouteTask task = new TraceRouteTask(ipAddress, progressBar, outputArea);
             task.execute();
         });
 
         JPanel inputPanel = new JPanel();
         inputPanel.add(new JLabel("IP Address:"));
         inputPanel.add(ipField);
-        inputPanel.add(new JLabel("Ping Count:"));
-        inputPanel.add(pingCountField);
 
         frame.setLayout(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
