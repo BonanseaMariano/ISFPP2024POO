@@ -26,16 +26,26 @@ public class TraceRouteTask extends SwingWorker<Void, Integer> {
         this.outputArea = outputArea;
     }
 
+
     /**
-     * Executes the traceroute command in the background.
-     * Reads the output of the traceroute command and updates the progress bar and text area.
+     * Performs the traceroute operation in the background.
+     * Detects the operating system and uses the appropriate command to execute the traceroute.
+     * Updates the output area and progress bar with the results.
      *
      * @return null
      * @throws Exception if an error occurs during the execution of the traceroute command
      */
     @Override
     protected Void doInBackground() throws Exception {
-        String command = "tracert " + ipAddress;
+        String os = System.getProperty("os.name").toLowerCase();
+        String command;
+
+        if (os.contains("win")) {
+            command = "tracert " + ipAddress;
+        } else {
+            command = "traceroute " + ipAddress;
+        }
+
         Process process = Runtime.getRuntime().exec(command);
         BufferedReader reader = new BufferedReader(new InputStreamReader(process.getInputStream()));
         String line;
