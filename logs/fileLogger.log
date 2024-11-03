@@ -7234,3 +7234,291 @@
 2024-11-03 09:02:00 - [utils.LoggerUtil] - DEBUG - Equipo: SWB1 Status: true
 2024-11-03 09:02:00 - [utils.LoggerUtil] - DEBUG - Equipo: SWAP Status: true
 2024-11-03 09:02:00 - [utils.LoggerUtil] - DEBUG - Equipo: SWAM Status: true
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:14:54 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:15:24 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Checking available ports for 
+2024-11-03 09:20:06 - [utils.LoggerUtil] - DEBUG - Equipo.getCantidadPuertos()

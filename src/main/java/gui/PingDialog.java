@@ -9,7 +9,13 @@ import java.util.ResourceBundle;
 
 public class PingDialog extends javax.swing.JDialog {
 
-    private javax.swing.JComboBox<String> jComboBox1;
+    /**
+     * ComboBox for selecting an IP address or equipment for the ping operation.
+     */
+    private javax.swing.JComboBox<String> jComboBoxPing;
+    /**
+     * Coordinator instance
+     */
     private final Coordinator coordinator;
     /**
      * Resource bundle for internationalization.
@@ -27,6 +33,11 @@ public class PingDialog extends javax.swing.JDialog {
         initStyles();
     }
 
+    /**
+     * Initializes the visual styles of the dialog window.
+     * Sets minimum size, centers the dialog on screen, makes it visible,
+     * and sets the close operation to dispose the dialog when closed.
+     */
     private void initStyles() {
         this.setMinimumSize(new Dimension(550, 400));
         this.setLocationRelativeTo(null);
@@ -35,54 +46,55 @@ public class PingDialog extends javax.swing.JDialog {
     }
 
     /**
-     * This method is called from within the constructor to initialize the form.
+     * Initializes the components within the dialog, setting up the layout and configuring
+     * necessary UI elements, such as labels, buttons, and combo boxes.
      */
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        JPanel jPanel1 = new JPanel();
-        JPanel jPanel2 = new JPanel();
-        jComboBox1 = new javax.swing.JComboBox<>();
-        JLabel jLabel1 = new JLabel();
-        JButton jButton1 = new JButton();
+        JPanel bgPanel = new JPanel();
+        JPanel mainPanel = new JPanel();
+        jComboBoxPing = new javax.swing.JComboBox<>();
+        JLabel jTitle = new JLabel();
+        JButton jButton = new JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(rb.getString("Ping_title"));
 
-        jPanel1.setLayout(new java.awt.GridBagLayout());
+        bgPanel.setLayout(new java.awt.GridBagLayout());
 
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(coordinator.getEquiposIps()));
+        jComboBoxPing.setModel(new javax.swing.DefaultComboBoxModel<>(coordinator.getEquiposIps()));
 
-        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText(rb.getString("Ping_enterIp"));
+        jTitle.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jTitle.setText(rb.getString("Ping_enterIp"));
 
-        jButton1.setText(rb.getString("Ping_button"));
+        jButton.setText(rb.getString("Ping_button"));
 
-        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-        jPanel2.setLayout(jPanel2Layout);
-        jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
+        mainPanel.setLayout(mainPanelLayout);
+        mainPanelLayout.setHorizontalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(84, 84, 84)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jComboBoxPing, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(83, Short.MAX_VALUE))
         );
-        jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel2Layout.createSequentialGroup()
+        mainPanelLayout.setVerticalGroup(
+            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(mainPanelLayout.createSequentialGroup()
                 .addGap(90, 90, 90)
-                .addComponent(jLabel1)
+                .addComponent(jTitle)
                 .addGap(18, 18, 18)
-                .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jComboBoxPing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton1)
+                .addComponent(jButton)
                 .addContainerGap(105, Short.MAX_VALUE))
         );
 
-        jButton1.addActionListener(this::ping);
+        jButton.addActionListener(this::ping);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -90,26 +102,33 @@ public class PingDialog extends javax.swing.JDialog {
         gridBagConstraints.ipadx = 50;
         gridBagConstraints.ipady = 77;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        jPanel1.add(jPanel2, gridBagConstraints);
+        bgPanel.add(mainPanel, gridBagConstraints);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+            .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
 
         pack();
     }
 
-    private void ping(java.awt.event.ActionEvent evt) {
-        String pingText = rb.getString("Ping_device")+" "+ Objects.requireNonNull(jComboBox1.getSelectedItem())+" " +rb.getString("Ping_status") +" : ";
 
-        pingText += coordinator.ping(jComboBox1.getSelectedItem().toString()) ? rb.getString("TableEquipos_statusActive") : rb.getString("TableEquipos_statusInactive");
+    /**
+     * Handles the ping action for the selected equipment or IP.
+     * Displays a message dialog indicating the active or inactive status of the selected device.
+     *
+     * @param evt the event triggered when the ping button is clicked
+     */
+    private void ping(java.awt.event.ActionEvent evt) {
+        String pingText = rb.getString("Ping_device")+" "+ Objects.requireNonNull(jComboBoxPing.getSelectedItem())+" " +rb.getString("Ping_status") +" : ";
+
+        pingText += coordinator.ping(jComboBoxPing.getSelectedItem().toString()) ? rb.getString("TableEquipos_statusActive") : rb.getString("TableEquipos_statusInactive");
         JOptionPane.showMessageDialog(
                 null,
                 pingText,

@@ -12,7 +12,13 @@ import java.util.ResourceBundle;
 
 public class StateMapEquiposDialog extends javax.swing.JDialog {
 
+    /**
+     * Table displaying the list of devices and their statuses.
+     */
     private javax.swing.JTable jTable;
+    /**
+     * Coordinator instance
+     */
     private final Coordinator coordinator;
     /**
      * Resource bundle for internationalization.
@@ -21,7 +27,11 @@ public class StateMapEquiposDialog extends javax.swing.JDialog {
 
 
     /**
-     * Creates new form StateMapEquiposDialog
+     * Constructs a new StateMapEquiposDialog form.
+     *
+     * @param parent      the parent Frame that owns this dialog
+     * @param modal       specifies whether the dialog blocks user input to other top-level windows when shown
+     * @param coordinator the Coordinator instance responsible for handling data and actions related to this dialog
      */
     public StateMapEquiposDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
@@ -32,6 +42,10 @@ public class StateMapEquiposDialog extends javax.swing.JDialog {
         initStyle();
     }
 
+    /**
+     * Initializes the visual style and configuration of the dialog window.
+     * Sets the minimum size, centers the dialog on screen, and configures the close operation.
+     */
     private void initStyle() {
         this.setMinimumSize(new Dimension(600, 500));
         this.setLocationRelativeTo(null);
@@ -39,6 +53,11 @@ public class StateMapEquiposDialog extends javax.swing.JDialog {
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Populates the content of the table with device status data.
+     * Clears existing rows, retrieves the list of devices and their statuses from the Coordinator,
+     * adds each entry to the table, and then sorts the rows by default.
+     */
     private void initContent() {
         // Get the table model
         javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) jTable.getModel();
@@ -56,6 +75,11 @@ public class StateMapEquiposDialog extends javax.swing.JDialog {
         sorter.sort();
     }
 
+    /**
+     * Initializes and configures the components within the dialog.
+     * Sets up the table layout, assigns a non-editable model, applies a row sorter for sorting,
+     * and centers the text within the table cells.
+     */
     private void initComponents() {
 
         // Variables declaration - do not modify//GEN-BEGIN:variables

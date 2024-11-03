@@ -16,16 +16,43 @@ import java.util.ResourceBundle;
 
 public class ConnectivityProblemsDialog extends javax.swing.JDialog {
 
+    /**
+     * Style for the vertices in the graph.
+     * The style includes font color, stroke color, and fill color.
+     */
     private static final String VERTEX_STYLE = "fontColor=white;strokeColor=black;fillColor=";
+    /**
+     * Style for the edges in the graph.
+     * The style includes the end arrow and stroke color.
+     */
     private static final String EDGE_STYLE = "endArrow=none;strokeColor=";
+    /**
+     * Width of the vertex
+     */
     private static final int VERTEX_WIDTH = 80;
+    /**
+     * Height of the vertex
+     */
     private static final int VERTEX_HEIGHT = 30;
-
+    /**
+     * Panel for displaying the graph representation of connectivity problems.
+     */
     private javax.swing.JPanel graphJP;
+    /**
+     * Instance of the mxGraph used for visualizing the graph.
+     */
     private com.mxgraph.view.mxGraph mxGraph;
+    /**
+     * Map to store the association between Equipo objects and their corresponding vertices in the graph.
+     */
     private Map<Equipo, Object> vertexMap;
-
+    /**
+     * Coordinator instance
+     */
     private final Coordinator coordinator;
+    /**
+     * Resource bundle for internationalization
+     */
     private final ResourceBundle rb;
     /**
      * Width of the dialog.
@@ -37,7 +64,12 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
     private static final int HEIGHT_DIALOG = 900;
 
     /**
-     * Creates new form ConnectivityProblemsDialog
+     * Constructs a new ConnectivityProblemsDialog.
+     *
+     * @param parent  The parent frame of the dialog.
+     * @param modal   Indicates whether the dialog should be modal.
+     * @param coordinator The Coordinator instance used to manage connectivity data.
+     * @param equipo  The name of the team (Equipo) to visualize.
      */
     public ConnectivityProblemsDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator, String equipo) {
         super(parent, modal);
@@ -49,6 +81,10 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
         initStyles();
     }
 
+    /**
+     * Initializes the styles and properties of the dialog.
+     * Sets the minimum size, location, visibility, and default close operation.
+     */
     private void initStyles() {
         this.setMinimumSize(new Dimension(WIDTH_DIALOG, HEIGHT_DIALOG));
         this.setLocationRelativeTo(null);
@@ -56,53 +92,85 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Initializes the components of the dialog.
+     *
+     * @param equipo The name of the team (Equipo) to visualize.
+     */
     private void initComponents(String equipo) {
-
+        // Main panel that contains all components of the dialog
         javax.swing.JPanel parentJP = new javax.swing.JPanel();
+
+        // Panel for displaying the graph visualization
         graphJP = new javax.swing.JPanel();
+
+        // Panel for the title of the dialog
         javax.swing.JPanel tileJP = new javax.swing.JPanel();
+
+        // Label to display the title and the selected team name
         javax.swing.JLabel titleJLabel = new javax.swing.JLabel();
 
+        // Set the default close operation for the dialog
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        // Set the title of the dialog using the resource bundle
         setTitle(rb.getString("ConnectivityProblems_title"));
 
+        // Set preferred size for the graph panel
         graphJP.setPreferredSize(new java.awt.Dimension(500, 600));
         graphJP.setLayout(new java.awt.BorderLayout());
 
+        // Center-align the title label and set its text
         titleJLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleJLabel.setText(rb.getString("ConnectivityProblems_title")+" "+rb.getString("ConnectivityProblems_of")+" : " +  equipo);
+        titleJLabel.setText(rb.getString("ConnectivityProblems_title") + " " + rb.getString("ConnectivityProblems_of") + " : " + equipo);
 
-        javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(tileJP);
-        tileJP.setLayout(jPanel5Layout);
-        jPanel5Layout.setHorizontalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(titleJLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
-        );
-        jPanel5Layout.setVerticalGroup(
-            jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(titleJLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
-        );
+        // Create a layout for the title panel
+        javax.swing.GroupLayout titleJPLayout = new javax.swing.GroupLayout(tileJP);
+        tileJP.setLayout(titleJPLayout);
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(parentJP);
-        parentJP.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(tileJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(tileJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        // Set horizontal group layout for the title panel
+        titleJPLayout.setHorizontalGroup(
+                titleJPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(titleJLabel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
         );
 
+        // Set vertical group layout for the title panel
+        titleJPLayout.setVerticalGroup(
+                titleJPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(titleJLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 57, Short.MAX_VALUE)
+        );
+
+        // Create a layout for the main panel
+        javax.swing.GroupLayout parentJPLayout = new javax.swing.GroupLayout(parentJP);
+        parentJP.setLayout(parentJPLayout);
+
+        // Set horizontal group layout for the main panel
+        parentJPLayout.setHorizontalGroup(
+                parentJPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(tileJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        // Set vertical group layout for the main panel
+        parentJPLayout.setVerticalGroup(
+                parentJPLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(parentJPLayout.createSequentialGroup()
+                                .addComponent(tileJP, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(graphJP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        // Add the main panel to the content pane of the dialog
         getContentPane().add(parentJP, java.awt.BorderLayout.CENTER);
 
+        // Pack the components within the dialog to fit their preferred sizes
         pack();
     }
 
+    /**
+     * Initializes the styles for the mxGraph instance.
+     * Sets the behavior for cell connectivity and movement.
+     */
     private void initMxGraphStyle() {
         mxGraph = new mxGraph() {
             @Override

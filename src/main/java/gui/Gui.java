@@ -438,8 +438,7 @@ public class Gui extends javax.swing.JFrame {
         // Show the JOptionPane with the JComboBox
         int resultado = JOptionPane.showConfirmDialog(null, comboBox, "Selecciona un equipo", JOptionPane.OK_CANCEL_OPTION, JOptionPane.QUESTION_MESSAGE);
         if (resultado == JOptionPane.OK_OPTION) {
-            ConnectivityProblemsDialog connectivityProblemsDialog = new ConnectivityProblemsDialog(this, true, coordinator, comboBox.getSelectedItem().toString());
-            connectivityProblemsDialog.setVisible(true);
+            new ConnectivityProblemsDialog(this, true, coordinator, comboBox.getSelectedItem().toString());
         }
     }
 

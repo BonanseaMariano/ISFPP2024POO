@@ -11,9 +11,19 @@ import java.util.ResourceBundle;
 
 public class TraceRouteDialog extends javax.swing.JDialog {
 
-    private javax.swing.JComboBox<String> jComboBoxEquipo2;
+    /**
+     * Combo box to select the first device for trace route operation.
+     */
     private javax.swing.JComboBox<String> jComboBoxEquipo1;
 
+    /**
+     * Combo box to select the second device for trace route operation.
+     */
+    private javax.swing.JComboBox<String> jComboBoxEquipo2;
+
+    /**
+     * Coordinator instance
+     */
     private final Coordinator coordinator;
     /**
      * Resource bundle for internationalization.
@@ -29,7 +39,11 @@ public class TraceRouteDialog extends javax.swing.JDialog {
     private static final int HEIGHT_DIALOG = 400;
 
     /**
-     * Creates new form TraceRoute
+     * Creates a new TraceRouteDialog instance.
+     *
+     * @param parent the parent frame of the dialog
+     * @param modal whether the dialog is modal
+     * @param coordinator the coordinator managing application logic
      */
     public TraceRouteDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
@@ -39,7 +53,11 @@ public class TraceRouteDialog extends javax.swing.JDialog {
         initStyles();
     }
 
-
+    /**
+     * Initializes the styles and layout of the dialog.
+     * Sets the minimum size, centers the dialog on the screen,
+     * makes it visible, and defines the default close operation.
+     */
     private void initStyles() {
         this.setMinimumSize(new Dimension(WIDTH_DIALOG, HEIGHT_DIALOG));
         this.setLocationRelativeTo(null);
@@ -47,6 +65,11 @@ public class TraceRouteDialog extends javax.swing.JDialog {
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
+    /**
+     * Initializes the components of the dialog.
+     * Sets up the layout, labels, combo boxes, buttons, and their properties.
+     * Configures event listeners and adds components to the dialog.
+     */
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
@@ -56,7 +79,6 @@ public class TraceRouteDialog extends javax.swing.JDialog {
         JLabel titleEquipo2 = new JLabel();
         jComboBoxEquipo2 = new javax.swing.JComboBox<>();
         jComboBoxEquipo1 = new javax.swing.JComboBox<>();
-        // Variables declaration - do not modify//GEN-BEGIN:variables
         JButton jButton = new JButton();
         String [] equipos = coordinator.getEquiposKeys();
 
@@ -130,6 +152,13 @@ public class TraceRouteDialog extends javax.swing.JDialog {
         pack();
     }
 
+    /**
+     * Handles the trace route action event by finding and displaying the shortest path between two selected devices.
+     * Retrieves the selected devices from the combo boxes, calculates the shortest path using the coordinator,
+     * and displays the route along with the maximum bandwidth in a dialog.
+     *
+     * @param evt the action event that triggers the trace route operation
+     */
     private void traceRoute(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
         StringBuilder routeText = new StringBuilder(rb.getString("TraceRoute_shortestPathBetween")+ Objects.requireNonNull(jComboBoxEquipo1.getSelectedItem()) + " " +rb.getString("TraceRoute_and") + " "+ Objects.requireNonNull(jComboBoxEquipo2.getSelectedItem()) + " " + rb.getString("TraceRoute_is")+ ":\n");

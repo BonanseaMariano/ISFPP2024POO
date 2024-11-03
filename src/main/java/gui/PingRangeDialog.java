@@ -12,9 +12,18 @@ import java.util.ResourceBundle;
 
 public class PingRangeDialog extends javax.swing.JDialog {
 
-    private javax.swing.JComboBox<String> jComboBoxPing2;
+    /**
+     * ComboBox for selecting the first IP address to ping.
+     */
     private javax.swing.JComboBox<String> jComboBoxPing1;
 
+    /**
+     * ComboBox for selecting the second IP address to ping.
+     */
+    private javax.swing.JComboBox<String> jComboBoxPing2;
+    /**
+     * Coordinator instance
+     */
     private final Coordinator coordinator;
     /**
      * Resource bundle for internationalization.
@@ -30,7 +39,11 @@ public class PingRangeDialog extends javax.swing.JDialog {
     private static final int HEIGHT_DIALOG = 500;
 
     /**
-     * Creates new form TraceRoute
+     * Creates a new instance of PingRangeDialog.
+     *
+     * @param parent   The parent frame of the dialog.
+     * @param modal    Indicates whether the dialog should be modal.
+     * @param coordinator The Coordinator instance used to manage connectivity data.
      */
     public PingRangeDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
@@ -40,7 +53,12 @@ public class PingRangeDialog extends javax.swing.JDialog {
         initStyles();
     }
 
-
+    /**
+     * Initializes the styles for the dialog.
+     * This method sets the minimum size of the dialog, centers it on the screen,
+     * makes it visible, and sets the default close operation to dispose of the dialog
+     * when it is closed.
+     */
     private void initStyles() {
         this.setMinimumSize(new Dimension(WIDTH_DIALOG,HEIGHT_DIALOG));
         this.setLocationRelativeTo(null);
@@ -50,6 +68,9 @@ public class PingRangeDialog extends javax.swing.JDialog {
 
     /**
      * This method is called from within the constructor to initialize the form.
+     * It sets up the components of the dialog, including the background panel,
+     * input fields for IP addresses, and a button to initiate the ping range action.
+     * It also configures the layout and adds components to the panel.
      */
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
@@ -133,6 +154,18 @@ public class PingRangeDialog extends javax.swing.JDialog {
         pack();
     }
 
+    /**
+     * Executes a ping operation over a range of IP addresses selected in the GUI and displays
+     * the ping status for each IP address in the range. This method retrieves two IP addresses
+     * from combo boxes `jComboBoxPing1` and `jComboBoxPing2` and includes all IPs in the range
+     * between these two addresses, using the comparator from the `Utils` class.
+     * If the two IPs are the same, only one IP is pinged.
+     *
+     * Each IP in the resulting range is pinged using the `pingRange` method from the `coordinator` object.
+     * The ping status (active or inactive) is then formatted and shown in a dialog.
+     *
+     * @param evt the action event that triggers the ping operation
+     */
     private void rangePings(java.awt.event.ActionEvent evt) {
 
         StringBuilder pingRangeText = new StringBuilder(rb.getString("PingRange_pingStatus")+": ");
