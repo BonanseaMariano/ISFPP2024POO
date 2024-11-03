@@ -10,6 +10,9 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * PingRangeDialog is a custom JDialog for performing ping operations over a range of IP addresses.
+ */
 public class PingRangeDialog extends javax.swing.JDialog {
 
     /**
@@ -41,8 +44,8 @@ public class PingRangeDialog extends javax.swing.JDialog {
     /**
      * Creates a new instance of PingRangeDialog.
      *
-     * @param parent   The parent frame of the dialog.
-     * @param modal    Indicates whether the dialog should be modal.
+     * @param parent      The parent frame of the dialog.
+     * @param modal       Indicates whether the dialog should be modal.
      * @param coordinator The Coordinator instance used to manage connectivity data.
      */
     public PingRangeDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
@@ -60,7 +63,7 @@ public class PingRangeDialog extends javax.swing.JDialog {
      * when it is closed.
      */
     private void initStyles() {
-        this.setMinimumSize(new Dimension(WIDTH_DIALOG,HEIGHT_DIALOG));
+        this.setMinimumSize(new Dimension(WIDTH_DIALOG, HEIGHT_DIALOG));
         this.setLocationRelativeTo(null);
         this.setVisible(true);
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -92,7 +95,7 @@ public class PingRangeDialog extends javax.swing.JDialog {
         jPanelBox.setLayout(new java.awt.GridBagLayout());
 
         jTitlePing1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jTitlePing1.setText(rb.getString("PingRange_enterIp")+ " 1");
+        jTitlePing1.setText(rb.getString("PingRange_enterIp") + " 1");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -102,7 +105,7 @@ public class PingRangeDialog extends javax.swing.JDialog {
         jPanelBox.add(jTitlePing1, gridBagConstraints);
 
         jTitlePing2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jTitlePing2.setText(rb.getString("PingRange_enterIp")+ " 2");
+        jTitlePing2.setText(rb.getString("PingRange_enterIp") + " 2");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -141,12 +144,12 @@ public class PingRangeDialog extends javax.swing.JDialog {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanelBG);
         jPanelBG.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanelBG, java.awt.BorderLayout.CENTER);
@@ -160,7 +163,7 @@ public class PingRangeDialog extends javax.swing.JDialog {
      * from combo boxes `jComboBoxPing1` and `jComboBoxPing2` and includes all IPs in the range
      * between these two addresses, using the comparator from the `Utils` class.
      * If the two IPs are the same, only one IP is pinged.
-     *
+     * <p>
      * Each IP in the resulting range is pinged using the `pingRange` method from the `coordinator` object.
      * The ping status (active or inactive) is then formatted and shown in a dialog.
      *
@@ -168,7 +171,7 @@ public class PingRangeDialog extends javax.swing.JDialog {
      */
     private void rangePings(java.awt.event.ActionEvent evt) {
 
-        StringBuilder pingRangeText = new StringBuilder(rb.getString("PingRange_pingStatus")+": ");
+        StringBuilder pingRangeText = new StringBuilder(rb.getString("PingRange_pingStatus") + ": ");
         String ip1 = (String) jComboBoxPing1.getSelectedItem();
         String ip2 = (String) jComboBoxPing2.getSelectedItem();
         Collection<String> ipsCollection = new ArrayList<>();
@@ -176,7 +179,7 @@ public class PingRangeDialog extends javax.swing.JDialog {
         ipsCollection.add(ip1);
         assert ip1 != null;
         if (!ip1.equals(ip2)) {
-            for(String ip : coordinator.getEquiposIps()) {
+            for (String ip : coordinator.getEquiposIps()) {
                 if (Utils.ipComparator().compare(ip, ip1) > 0 && Utils.ipComparator().compare(ip, ip2) < 0) {
                     ipsCollection.add(ip);
                 }
@@ -184,8 +187,8 @@ public class PingRangeDialog extends javax.swing.JDialog {
             ipsCollection.add(ip2);
         }
 
-        for(Map.Entry<String, Boolean> entry : coordinator.pingRange(ipsCollection).entrySet()) {
-            pingRangeText.append("\n").append(entry.getKey()).append(": ").append(entry.getValue() ? rb.getString("TableEquipos_statusActive"): rb.getString("TableEquipos_statusInactive"));
+        for (Map.Entry<String, Boolean> entry : coordinator.pingRange(ipsCollection).entrySet()) {
+            pingRangeText.append("\n").append(entry.getKey()).append(": ").append(entry.getValue() ? rb.getString("TableEquipos_statusActive") : rb.getString("TableEquipos_statusInactive"));
         }
 
         JOptionPane.showMessageDialog(

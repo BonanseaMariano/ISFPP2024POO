@@ -338,9 +338,9 @@ public class DataEquiposDialog extends javax.swing.JDialog {
             return;
         }
 
-        // Validate that the equipment has at least one port and one IP address
-        if (newEquipo.getPuertos().isEmpty() || newEquipo.getDireccionesIp().isEmpty()) {
-            JOptionPane.showMessageDialog(this, rb.getString("TableEquipos_portAndIpErr"), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
+        // Validate that the equipment has at least one port
+        if (newEquipo.getPuertos().isEmpty()) {
+            JOptionPane.showMessageDialog(this, rb.getString("TableEquipos_portErr"), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
             this.dispose();
             return;
         }

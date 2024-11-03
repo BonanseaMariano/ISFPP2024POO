@@ -54,7 +54,6 @@ public class Config {
             prop.load(input);
             Locale.setDefault(new Locale(prop.getProperty("language"), prop.getProperty("country")));
             resourceBundle = ResourceBundle.getBundle(prop.getProperty("labels"));
-            System.out.println(Locale.getDefault());
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {

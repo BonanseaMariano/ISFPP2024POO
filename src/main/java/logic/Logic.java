@@ -166,9 +166,8 @@ public class Logic {
                 }
             }
 
-            // Remove oldEquipo from the graph and map
+            // Remove oldEquipo from the graph
             graph.removeVertex(oldEquipo);
-            vertexMap.remove(oldEquipo.getCodigo());
 
         } else {
             throw new InvalidEquipoException(coordinator.getResourceBundle().getString("InvalidDevice_noDeviceM"));
@@ -458,7 +457,6 @@ public class Logic {
      * @return true if the number of connected edges is less than or equal to the number of available ports, false otherwise
      */
     private boolean availablePorts(Equipo equipo) {
-        LoggerUtil.logDebug("Checking available ports for ");
         return edgeLength(equipo) < equipo.getCantidadPuertos();
     }
 

@@ -275,6 +275,36 @@ public class DAOEquipoImplFile implements DAOEquipo {
         return ubicaciones;
     }
 
+    @Override
+    public void createIp(Equipo equipo, String IP) {
+        //TODO
+    }
+
+    @Override
+    public void deleteIp(Equipo equipo, String IP) {
+        //TODO
+    }
+
+    @Override
+    public void updateIp(Equipo equipo, String oldIP, String newIP) {
+        //TODO
+    }
+
+    @Override
+    public void createPort(Equipo equipo, Puerto puerto) {
+        //TODO
+    }
+
+    @Override
+    public void deletePort(Equipo equipo, Puerto puerto) {
+        //TODO
+    }
+
+    @Override
+    public void updatePort(Equipo equipo, Puerto oldPort, Puerto newPort) {
+        //TODO
+    }
+
     /**
      * Loads port types from the file.
      *
@@ -288,4 +318,5 @@ public class DAOEquipoImplFile implements DAOEquipo {
             tiposPuertos.put(d.getCodigo(), d);
         return tiposPuertos;
     }
+
 }

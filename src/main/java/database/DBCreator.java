@@ -6,11 +6,28 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.Statement;
 
+/**
+ * DBCreator is a utility class for creating and initializing a SQLite database.
+ * It provides methods to create the database if it does not exist and to execute SQL statements from a file.
+ */
 public class DBCreator {
 
+    /**
+     * The file path of the SQLite database.
+     */
     private static final String DB_FILE_PATH = "src/main/resources/database/RedLan.db";
+
+    /**
+     * The file path of the SQL file containing DDL statements.
+     */
     private static final String SQL_FILE_PATH = "src/main/resources/database/RedLan.sql";
 
+    /**
+     * The main method that serves as the entry point for the DBCreator utility.
+     * It creates the database if it does not exist and executes the SQL file.
+     *
+     * @param args command-line arguments (not used)
+     */
     public static void main(String[] args) {
         createDatabaseIfNotExists(DB_FILE_PATH);
         executeSQLFile(DB_FILE_PATH, SQL_FILE_PATH);

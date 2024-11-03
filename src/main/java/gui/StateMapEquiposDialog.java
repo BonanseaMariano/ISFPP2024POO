@@ -10,6 +10,9 @@ import java.awt.*;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * StateMapEquiposDialog is a custom JDialog for displaying the status of devices.
+ */
 public class StateMapEquiposDialog extends javax.swing.JDialog {
 
     /**
@@ -91,9 +94,9 @@ public class StateMapEquiposDialog extends javax.swing.JDialog {
         setTitle(rb.getString("StateMap_title"));
 
         javax.swing.table.DefaultTableModel model = new javax.swing.table.DefaultTableModel(
-            new Object [][] {},
-            new String [] { rb.getString("StateMap_deviceColumn"), rb.getString("TableEquipos_statusColumn")}
-        ){
+                new Object[][]{},
+                new String[]{rb.getString("StateMap_deviceColumn"), rb.getString("TableEquipos_statusColumn")}
+        ) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 return false; // Make cells non-editable
@@ -121,12 +124,12 @@ public class StateMapEquiposDialog extends javax.swing.JDialog {
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel);
         jPanel.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 419, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanel, java.awt.BorderLayout.CENTER);

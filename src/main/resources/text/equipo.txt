@@ -15,7 +15,7 @@ SWB1;Switch Biblioteca Arriba;;;SW;BT;8,1G;;true;
 SWB2;Switch Biblioteca Abajo;;;SW;BT;8,1G;;true;
 SWFT;Switch Fotocopiadora;;;SW;FOT;8,1G;;true;
 SWGR;Switch Gremio;;;SW;GRE;8,1G;;true;
-SWAP;SWAmpliacion;;;SW;RAP;0,1G;192.168.16.118;true;
+SWAP;SWAmpliacion;;;SW;RAP;8,1G;192.168.16.118;true;
 SWL0;SWLabs5;;;SW;L05;8,1G;192.168.16.126;true;
 SWSS;SWSrv;;;SW;RSS;8,1G;192.168.16.112;true;
 SW04;SWAulas4;;;SW;RL3;8,1G;192.168.16.115;true;

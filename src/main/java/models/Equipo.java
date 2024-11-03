@@ -1,13 +1,10 @@
 package models;
 
-import exceptions.InvalidDireccionIPException;
 import utils.LoggerUtil;
-import utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.logging.Logger;
 
 /**
  * Represents a device (equipo) in the network.
@@ -107,12 +104,8 @@ public class Equipo {
      * Adds an IP address to the device.
      *
      * @param direccionIp the IP address to add
-     * @throws InvalidDireccionIPException if the IP address is not valid
      */
-    public void addIP(String direccionIp) throws InvalidDireccionIPException {
-        if (!direccionIp.isBlank() && !Utils.validateIP(direccionIp)) {
-            throw new InvalidDireccionIPException("No se puede agregar la dirección IP porque no es válida.");
-        }
+    public void addIP(String direccionIp) {
         direccionesIp.add(direccionIp);
     }
 
@@ -131,7 +124,6 @@ public class Equipo {
      * @return the total number of ports
      */
     public int getCantidadPuertos() {
-        LoggerUtil.logDebug("Equipo.getCantidadPuertos()");
         int cantPuertos = 0;
         for (Puerto p : puertos) {
             cantPuertos += p.getCantidad();

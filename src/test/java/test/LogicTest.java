@@ -15,14 +15,37 @@ import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * LogicTest is a test class for testing the Logic class and its interactions with other components.
+ */
 public class LogicTest {
+    /**
+     * Instance of the Red class representing the network.
+     */
     Red red;
+    /**
+     * Instance of the Logic class for handling the business logic.
+     */
     Logic logic;
+    /**
+     * Instance of the Gui class for the graphical user interface.
+     */
     Gui gui;
+    /**
+     * Instance of the Config class for configuration settings.
+     */
     Config config;
+    /**
+     * Instance of the Coordinator class for coordinating interactions between components.
+     */
     Coordinator coordinator;
 
-
+    /**
+     * Sets up the test environment before each test.
+     * <p>
+     * This method initializes the instances of Red, Logic, Gui, Config, and Coordinator classes.
+     * It also establishes the relationships between these classes and sets the coordinator for each class.
+     */
     @BeforeEach
     void setUp() {
         /* Se instancian las clases */

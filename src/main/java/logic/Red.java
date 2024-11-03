@@ -4,6 +4,7 @@ import controller.Coordinator;
 import exceptions.*;
 import models.*;
 import services.*;
+import utils.LoggerUtil;
 import utils.Utils;
 
 import java.util.*;
@@ -246,11 +247,10 @@ public class Red {
      * @throws InvalidDireccionIPException if the IP address of the device is invalid
      */
     private void equipoValidation(Equipo equipo) throws InvalidUbicacionException, InvalidTipoEquipoException, InvalidTipoPuertoException, InvalidDireccionIPException {
-        System.out.println(equipo.getUbicacion().getCodigo());
         if (!this.ubicaciones.containsKey(equipo.getUbicacion().getCodigo())) {
             throw new InvalidUbicacionException(coordinator.getResourceBundle().getString("Invalid_unknownAM") + " " + equipo.getUbicacion().getCodigo());
         }
-        if (equipo.getDireccionesIp().stream().noneMatch(Utils::validateIP)) {
+        if (!equipo.getDireccionesIp().isEmpty() && equipo.getDireccionesIp().stream().noneMatch(Utils::validateIP)) {
             throw new InvalidDireccionIPException(coordinator.getResourceBundle().getString("InvalidDevice_invalidIp") + equipo.getDireccionesIp());
         }
         if (!this.tiposEquipos.containsKey(equipo.getTipoEquipo().getCodigo())) {
@@ -302,7 +302,6 @@ public class Red {
         }
         equipoValidation(newEquipo);
 
-        this.equipos.remove(oldEquipo.getCodigo());
         this.equipos.put(newEquipo.getCodigo(), newEquipo);
         this.equipoService.update(oldEquipo, newEquipo);
     }
@@ -326,6 +325,131 @@ public class Red {
         this.equipoService.delete(equipo);
     }
 
+
+    /**
+     * Adds a port (puerto) to a device (equipo).
+     * <p>
+     * This method first checks if the port already exists in the device. If it does, an InvalidPuertoEquipoException is thrown.
+     * If the port does not exist, it is added to the device and the change is inserted into the database.
+     *
+     * @param equipo the device (equipo) to which the port will be added
+     * @param puerto the port (puerto) to be added
+     * @throws InvalidPuertoEquipoException if the port already exists in the device
+     */
+    public void addPuertoEquipo(Equipo equipo, Puerto puerto) throws InvalidPuertoEquipoException {
+        if (equipo.getPuertos().contains(puerto)) {
+            throw new InvalidPuertoEquipoException(coordinator.getResourceBundle().getString("InvalidDevicePort_existingAM"));
+        }
+        equipo.addPuerto(puerto);
+        this.equipoService.insertPort(equipo, puerto); // Inserts the new port into the database
+    }
+
+    /**
+     * Deletes a port (puerto) from a device (equipo).
+     * <p>
+     * This method first checks if the device has only one port or if the port is currently utilized. If either condition is true, an InvalidPuertoEquipoException is thrown.
+     * If the port can be deleted, it is removed from the device and the change is deleted from the database.
+     *
+     * @param equipo the device (equipo) from which the port will be deleted
+     * @param puerto the port (puerto) to be deleted
+     * @throws InvalidPuertoEquipoException if the device has only one port or if the port is currently utilized
+     */
+    public void deletePuertoEquipo(Equipo equipo, Puerto puerto) throws InvalidPuertoEquipoException {
+        if (equipo.getPuertos().size() <= 1) {
+            throw new InvalidPuertoEquipoException(coordinator.getResourceBundle().getString("InvalidDevicePort_onlyOne"));
+        }
+        if (availablePorts(equipo) <= 0) {
+            throw new InvalidPuertoEquipoException(coordinator.getResourceBundle().getString("InvalidDevicePort_utilizedDM"));
+        }
+        equipo.removePuerto(puerto);
+        this.equipoService.deletePort(equipo, puerto); // Deletes the port from the database
+    }
+
+    /**
+     * Modifies a port (puerto) of a device (equipo).
+     * <p>
+     * This method first removes the old port from the device. It then checks if the new port already exists in the device or if the port is currently utilized.
+     * If either condition is true, the old port is re-added to the device and an InvalidPuertoEquipoException is thrown.
+     * If the new port can be added, it is added to the device and the change is updated in the database.
+     *
+     * @param equipo    the device (equipo) whose port will be modified
+     * @param oldPuerto the existing port (puerto) to be replaced
+     * @param newPuerto the new port (puerto) to replace the old one
+     * @throws InvalidPuertoEquipoException if the new port already exists in the device or if the port is currently utilized
+     */
+    public void modifyPuertoEquipo(Equipo equipo, Puerto oldPuerto, Puerto newPuerto) throws InvalidPuertoEquipoException {
+        equipo.removePuerto(oldPuerto);
+        if (equipo.getPuertos().stream().anyMatch(p -> !p.equals(oldPuerto) && p.equals(newPuerto))) {
+            equipo.addPuerto(oldPuerto);
+            throw new InvalidPuertoEquipoException(coordinator.getResourceBundle().getString("InvalidDevicePort_existingAM"));
+        }
+        equipo.addPuerto(newPuerto);
+        if (availablePorts(equipo) < 0) {
+            equipo.removePuerto(newPuerto);
+            equipo.addPuerto(oldPuerto);
+            throw new InvalidPuertoEquipoException(coordinator.getResourceBundle().getString("InvalidDevicePort_utilizedDM"));
+        }
+        this.equipoService.updatePort(equipo, oldPuerto, newPuerto); // Updates the port in the database
+    }
+
+    /**
+     * Adds an IP address to a device (equipo).
+     * <p>
+     * This method first validates the IP address. If the IP address is invalid or already exists in the network, an InvalidDireccionIPException is thrown.
+     * If the IP address is valid and does not exist, it is added to the device and the change is inserted into the database.
+     *
+     * @param equipo the device (equipo) to which the IP address will be added
+     * @param ip     the IP address to be added
+     * @throws InvalidDireccionIPException if the IP address is invalid or already exists in the network
+     */
+    public void addIpEquipo(Equipo equipo, String ip) throws InvalidDireccionIPException {
+        if (!Utils.validateIP(ip)) {
+            throw new InvalidDireccionIPException(coordinator.getResourceBundle().getString("InvalidDevice_invalidIp") + ip);
+        }
+        if (getEquiposIps().contains(ip)) {
+            throw new InvalidDireccionIPException(coordinator.getResourceBundle().getString("InvalidDevice_existingIPAM"));
+        }
+
+        equipo.addIP(ip);
+        this.equipoService.insertIp(equipo, ip); // Inserts the new IP address into the database
+    }
+
+    /**
+     * Modifies an IP address of a device (equipo).
+     * <p>
+     * This method first validates the new IP address. If the new IP address is invalid or already exists in the network, an InvalidDireccionIPException is thrown.
+     * If the new IP address is valid and does not exist, it replaces the old IP address in the device and the change is updated in the database.
+     *
+     * @param equipo the device (equipo) whose IP address will be modified
+     * @param oldIp  the existing IP address to be replaced
+     * @param newIp  the new IP address to replace the old one
+     * @throws InvalidDireccionIPException if the new IP address is invalid or already exists in the network
+     */
+    public void modifyIpEquipo(Equipo equipo, String oldIp, String newIp) throws InvalidDireccionIPException {
+        if (!Utils.validateIP(newIp)) {
+            throw new InvalidDireccionIPException(coordinator.getResourceBundle().getString("InvalidDevice_invalidIp") + newIp);
+        }
+        if (getEquiposIps().stream().anyMatch(ip -> !ip.equals(oldIp) && ip.equals(newIp))) {
+            throw new InvalidDireccionIPException(coordinator.getResourceBundle().getString("InvalidDevice_existingIPAM"));
+        }
+        equipo.addIP(newIp);
+        equipo.removeIP(oldIp);
+        this.equipoService.updateIp(equipo, oldIp, newIp); // Updates the IP address in the database
+    }
+
+    /**
+     * Removes an IP address from a device (equipo).
+     * <p>
+     * This method removes the IP address from the device and deletes the change from the database.
+     *
+     * @param equipo the device (equipo) from which the IP address will be removed
+     * @param ip     the IP address to be removed
+     */
+    public void removeIpEquipo(Equipo equipo, String ip) {
+        equipo.removeIP(ip);
+        this.equipoService.deleteIp(equipo, ip); // Deletes the IP address from the database
+    }
+
     /**
      * Calculates the number of available ports for a given device (equipo).
      *
@@ -342,9 +466,28 @@ public class Red {
                 totalPuertos--;
             }
         }
+        LoggerUtil.logDebug("Available ports for " + equipo.getCodigo() + ": " + totalPuertos);
         return totalPuertos;
     }
 
+
+    /**
+     * Retrieves the IP addresses of all devices (equipos) in the network.
+     * <p>
+     * This method iterates through all devices in the network, collects their IP addresses,
+     * sorts them using a custom IP comparator, and returns the sorted list of IP addresses.
+     *
+     * @return a list of strings representing the sorted IP addresses of all devices in the network
+     */
+    public List<String> getEquiposIps() {
+        ArrayList<String> ips = new ArrayList<>();
+
+        for (Equipo equipo : equipos.values()) {
+            ips.addAll(equipo.getDireccionesIp());
+        }
+        Collections.sort(ips, Utils.ipComparator());
+        return ips;
+    }
 
     /* ----------------------------- Ubicacion  ----------------------------- */
 

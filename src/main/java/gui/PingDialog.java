@@ -7,6 +7,9 @@ import java.awt.*;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * PingDialog is a custom JDialog for performing ping operations on selected equipment or IP addresses.
+ */
 public class PingDialog extends javax.swing.JDialog {
 
     /**
@@ -22,8 +25,13 @@ public class PingDialog extends javax.swing.JDialog {
      */
     private final ResourceBundle rb;
 
+
     /**
-     * Creates new form PingDialog
+     * Constructs a new PingDialog.
+     *
+     * @param parent      the parent frame of the dialog
+     * @param modal       whether the dialog is modal
+     * @param coordinator the Coordinator instance for managing interactions
      */
     public PingDialog(JFrame parent, boolean modal, Coordinator coordinator) {
         super(parent, modal);
@@ -73,25 +81,25 @@ public class PingDialog extends javax.swing.JDialog {
         javax.swing.GroupLayout mainPanelLayout = new javax.swing.GroupLayout(mainPanel);
         mainPanel.setLayout(mainPanelLayout);
         mainPanelLayout.setHorizontalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGap(84, 84, 84)
-                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jComboBoxPing, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(83, Short.MAX_VALUE))
+                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(84, 84, 84)
+                                .addGroup(mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                                        .addComponent(jButton, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 233, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jComboBoxPing, javax.swing.GroupLayout.PREFERRED_SIZE, 231, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addContainerGap(83, Short.MAX_VALUE))
         );
         mainPanelLayout.setVerticalGroup(
-            mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(mainPanelLayout.createSequentialGroup()
-                .addGap(90, 90, 90)
-                .addComponent(jTitle)
-                .addGap(18, 18, 18)
-                .addComponent(jComboBoxPing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(jButton)
-                .addContainerGap(105, Short.MAX_VALUE))
+                mainPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(mainPanelLayout.createSequentialGroup()
+                                .addGap(90, 90, 90)
+                                .addComponent(jTitle)
+                                .addGap(18, 18, 18)
+                                .addComponent(jComboBoxPing, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)
+                                .addComponent(jButton)
+                                .addContainerGap(105, Short.MAX_VALUE))
         );
 
         jButton.addActionListener(this::ping);
@@ -107,12 +115,12 @@ public class PingDialog extends javax.swing.JDialog {
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
+                layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(bgPanel, javax.swing.GroupLayout.DEFAULT_SIZE, 300, Short.MAX_VALUE)
         );
 
         pack();
@@ -126,7 +134,7 @@ public class PingDialog extends javax.swing.JDialog {
      * @param evt the event triggered when the ping button is clicked
      */
     private void ping(java.awt.event.ActionEvent evt) {
-        String pingText = rb.getString("Ping_device")+" "+ Objects.requireNonNull(jComboBoxPing.getSelectedItem())+" " +rb.getString("Ping_status") +" : ";
+        String pingText = rb.getString("Ping_device") + " " + Objects.requireNonNull(jComboBoxPing.getSelectedItem()) + " " + rb.getString("Ping_status") + " : ";
 
         pingText += coordinator.ping(jComboBoxPing.getSelectedItem().toString()) ? rb.getString("TableEquipos_statusActive") : rb.getString("TableEquipos_statusInactive");
         JOptionPane.showMessageDialog(

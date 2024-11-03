@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Coordinator;
+import exceptions.InvalidPuertoEquipoException;
 import models.Equipo;
 import models.TipoPuerto;
 import models.Puerto;
@@ -245,16 +246,13 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
                 // Add the new Puerto to the equipo
                 Puerto puerto = new Puerto(cantidad, tipoPuerto);
 
-                // Check if the port already exists
-                for (Puerto p : equipo.getPuertos()) {
-                    if (p.getTipoPuerto().equals(tipoPuerto)) {
-                        javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TablePuertosEquipo_portExistsError"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
-                        return;
-                    }
+                // Check if the port already exists in the device and add it to the device or show an error message
+                try {
+                    coordinator.addPuertoEquipo(equipo, puerto);
+                } catch (InvalidPuertoEquipoException e) {
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+                    return;
                 }
-
-                // Add the Puerto to the equipo
-                equipo.addPuerto(puerto);
 
                 // Update the table
                 javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) table.getModel();
@@ -329,19 +327,18 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
                 if (newTipoPuerto == null) {
                     javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 } else {
-                    // Check if the port already exists in the device except for the current port
-                    for (Puerto p : equipo.getPuertos()) {
-                        if (p.getTipoPuerto().equals(newTipoPuerto) && !p.getTipoPuerto().equals(currentTipoPuerto)) {
-                            javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TablePuertosEquipo_portExistsError"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
-                            return;
-                        }
-                    }
 
                     // Update the Puerto in the equipo
                     Puerto puerto = new Puerto(currentCantidad, currentTipoPuerto);
-                    equipo.removePuerto(puerto);
-                    puerto = new Puerto(newCantidad, newTipoPuerto);
-                    equipo.addPuerto(puerto);
+                    Puerto newPuerto = new Puerto(newCantidad, newTipoPuerto);
+
+                    // Check if the modification is valid and update the port or show an error message
+                    try {
+                        coordinator.modifyPuertoEquipo(equipo, puerto, newPuerto);
+                    } catch (InvalidPuertoEquipoException e) {
+                        javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+                        return;
+                    }
 
                     // Update the row in the table model
                     model.setValueAt(newCantidad, modelRow, 0);
@@ -382,7 +379,13 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 // Remove the Puerto from the equipo
                 Puerto currentPuerto = new Puerto(currentCantidad, currentTipoPuerto);
-                equipo.removePuerto(currentPuerto);
+                // Try to remove the port from the device or show an error message
+                try {
+                    coordinator.removePuertoEquipo(equipo, currentPuerto);
+                } catch (InvalidPuertoEquipoException e) {
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 // Remove the row from the table model
                 model.removeRow(modelRow);
@@ -407,7 +410,7 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(2, 1, 2, 5));
 
         // Add the fields and labels to the panel
-        panel.add(new javax.swing.JLabel(rb.getString("TablePuertosEquipo_quantityLabel") + ":"));
+        panel.add(new javax.swing.JLabel(rb.getString("TablePuertosEquipo_quantityColumn") + ":"));
         panel.add(cantidadField);
         panel.add(new javax.swing.JLabel(rb.getString("TablePuertosEquipo_portTypeColumn") + ":"));
         panel.add(tipoPuertoComboBox);

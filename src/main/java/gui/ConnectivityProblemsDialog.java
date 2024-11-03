@@ -14,6 +14,11 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 
+/**
+ * ConnectivityProblemsDialog is a custom dialog for visualizing connectivity problems in a network.
+ * It uses a graph representation to display the connections between devices (Equipos).
+ * The dialog includes various styles and properties for the graph visualization.
+ */
 public class ConnectivityProblemsDialog extends javax.swing.JDialog {
 
     /**
@@ -66,10 +71,10 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
     /**
      * Constructs a new ConnectivityProblemsDialog.
      *
-     * @param parent  The parent frame of the dialog.
-     * @param modal   Indicates whether the dialog should be modal.
+     * @param parent      The parent frame of the dialog.
+     * @param modal       Indicates whether the dialog should be modal.
      * @param coordinator The Coordinator instance used to manage connectivity data.
-     * @param equipo  The name of the team (Equipo) to visualize.
+     * @param equipo      The name of the team (Equipo) to visualize.
      */
     public ConnectivityProblemsDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator, String equipo) {
         super(parent, modal);
@@ -198,10 +203,8 @@ public class ConnectivityProblemsDialog extends javax.swing.JDialog {
      * @param vEquipo The name of the team (Equipo) to visualize. This parameter
      *                is used to retrieve the corresponding graph model from the
      *                coordinator.
-     *
      * @throws IllegalArgumentException if the specified team does not exist
-     *                                   in the coordinator.
-     *
+     *                                  in the coordinator.
      * @see Graph
      * @see Equipo
      * @see Conexion

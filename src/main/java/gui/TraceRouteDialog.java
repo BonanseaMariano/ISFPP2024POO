@@ -9,6 +9,9 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * TraceRouteDialog is a custom JDialog for performing trace route operations between two selected devices.
+ */
 public class TraceRouteDialog extends javax.swing.JDialog {
 
     /**
@@ -41,8 +44,8 @@ public class TraceRouteDialog extends javax.swing.JDialog {
     /**
      * Creates a new TraceRouteDialog instance.
      *
-     * @param parent the parent frame of the dialog
-     * @param modal whether the dialog is modal
+     * @param parent      the parent frame of the dialog
+     * @param modal       whether the dialog is modal
      * @param coordinator the coordinator managing application logic
      */
     public TraceRouteDialog(java.awt.Frame parent, boolean modal, Coordinator coordinator) {
@@ -80,7 +83,7 @@ public class TraceRouteDialog extends javax.swing.JDialog {
         jComboBoxEquipo2 = new javax.swing.JComboBox<>();
         jComboBoxEquipo1 = new javax.swing.JComboBox<>();
         JButton jButton = new JButton();
-        String [] equipos = coordinator.getEquiposKeys();
+        String[] equipos = coordinator.getEquiposKeys();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(rb.getString("TraceRoute_title"));
@@ -100,7 +103,7 @@ public class TraceRouteDialog extends javax.swing.JDialog {
         jPanelBox.add(titleEquipo1, gridBagConstraints);
 
         titleEquipo2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        titleEquipo2.setText(rb.getString("TraceRoute_device")+ " 2");
+        titleEquipo2.setText(rb.getString("TraceRoute_device") + " 2");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -139,12 +142,12 @@ public class TraceRouteDialog extends javax.swing.JDialog {
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanelBG);
         jPanelBG.setLayout(jPanel2Layout);
         jPanel2Layout.setHorizontalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         jPanel2Layout.setVerticalGroup(
-            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jPanelBox, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         getContentPane().add(jPanelBG, java.awt.BorderLayout.CENTER);
@@ -161,21 +164,21 @@ public class TraceRouteDialog extends javax.swing.JDialog {
      */
     private void traceRoute(java.awt.event.ActionEvent evt) {
         // TODO add your handling code here:
-        StringBuilder routeText = new StringBuilder(rb.getString("TraceRoute_shortestPathBetween")+ Objects.requireNonNull(jComboBoxEquipo1.getSelectedItem()) + " " +rb.getString("TraceRoute_and") + " "+ Objects.requireNonNull(jComboBoxEquipo2.getSelectedItem()) + " " + rb.getString("TraceRoute_is")+ ":\n");
+        StringBuilder routeText = new StringBuilder(rb.getString("TraceRoute_shortestPathBetween") + Objects.requireNonNull(jComboBoxEquipo1.getSelectedItem()) + " " + rb.getString("TraceRoute_and") + " " + Objects.requireNonNull(jComboBoxEquipo2.getSelectedItem()) + " " + rb.getString("TraceRoute_is") + ":\n");
         try {
-            List<Conexion> listConexionaux = coordinator.shortestPath(coordinator.getEquipo(jComboBoxEquipo1.getSelectedItem().toString()),coordinator.getEquipo(jComboBoxEquipo2.getSelectedItem().toString()));
+            List<Conexion> listConexionaux = coordinator.shortestPath(coordinator.getEquipo(jComboBoxEquipo1.getSelectedItem().toString()), coordinator.getEquipo(jComboBoxEquipo2.getSelectedItem().toString()));
             for (Conexion c : listConexionaux) {
                 routeText.append(c.getEquipo1().getCodigo()).append(" -> ").append(c.getEquipo2().getCodigo()).append("\n");
             }
 
-            routeText.append("\n"+rb.getString("TraceRoute_maxBandwidth")+": ").append(coordinator.maxBandwith(listConexionaux).toString()).append(" MB");
+            routeText.append("\n" + rb.getString("TraceRoute_maxBandwidth") + ": ").append(coordinator.maxBandwith(listConexionaux).toString()).append(" MB");
             JOptionPane.showMessageDialog(
                     null,
                     routeText.toString(),
                     rb.getString("TraceRoute_title"),
                     JOptionPane.INFORMATION_MESSAGE
             );
-        }catch (Exception e) {
+        } catch (Exception e) {
             JOptionPane.showMessageDialog(
                     null,
                     rb.getString("TraceRoute_pathNotFound"),

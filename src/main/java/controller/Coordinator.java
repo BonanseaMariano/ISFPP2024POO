@@ -7,7 +7,7 @@ import logic.Logic;
 import logic.Red;
 import models.*;
 import org.jgrapht.Graph;
-import utils.Utils;
+import utils.LoggerUtil;
 
 import java.util.*;
 
@@ -138,6 +138,7 @@ public class Coordinator {
             logic.deleteEdge(conexion);
             throw new InvalidConexionException(e.getMessage());
         }
+        LoggerUtil.logInfo("Connection added: " + conexion);
     }
 
 
@@ -153,6 +154,7 @@ public class Coordinator {
         red.deleteConexion(conexion);
         logic.deleteEdge(conexion);
         gui.removeVisualEdge(conexion);
+        LoggerUtil.logInfo("Connection deleted: " + conexion);
     }
 
 
@@ -178,12 +180,13 @@ public class Coordinator {
             red.modifyConnection(oldConexion, newConexion);
             gui.modifyVisualEdge(oldConexion, newConexion);
         } catch (InvalidConexionException e) {
-            System.out.println(e.getMessage());
+            throw new InvalidConexionException(e.getMessage());
         } catch (InvalidEquipoException |
                  InvalidTipoCableException | InvalidTipoPuertoException e) {
             logic.modifyEdge(newConexion, oldConexion); // Revert changes
             throw new InvalidConexionException(e.getMessage());
         }
+        LoggerUtil.logInfo("Connection modified: " + oldConexion + " -> " + newConexion);
     }
 
 
@@ -205,6 +208,7 @@ public class Coordinator {
                  InvalidTipoPuertoException | InvalidDireccionIPException | IllegalArgumentException e) {
             throw new InvalidEquipoException(e.getMessage());
         }
+        LoggerUtil.logInfo("Device added: " + equipo);
     }
 
 
@@ -220,6 +224,7 @@ public class Coordinator {
         red.deleteEquipo(equipo);
         logic.deleteVertex(equipo);
         gui.removeVisualVertex(equipo);
+        LoggerUtil.logInfo("Device deleted: " + equipo);
     }
 
 
@@ -243,6 +248,7 @@ public class Coordinator {
                  InvalidTipoPuertoException | InvalidDireccionIPException e) {
             throw new InvalidEquipoException(e.getMessage());
         }
+        LoggerUtil.logInfo("Device modified: " + oldEquipo + " -> " + newEquipo);
     }
 
 
@@ -269,26 +275,20 @@ public class Coordinator {
      * @return an array of strings representing the keys of the equipment in the network.
      */
     public String[] getEquiposKeys() {
-        return red.getEquipos().keySet().toArray(new String[red.getEquipos().size()]);
+        return red.getEquipos().keySet().toArray(new String[0]);
     }
 
+
     /**
-     * Retrieves the IP addresses of all equipment in the network.
+     * Retrieves the IP addresses of all devices (equipos) in the network.
      * <p>
-     * This method collects the IP addresses from all the equipment
-     * available in the network and returns them as an array of strings.
-     * The IP addresses are sorted in natural order before being returned.
+     * This method returns an array of strings containing the IP addresses of all devices in the network.
+     * The IP addresses are obtained from the network (Red) instance.
      *
-     * @return an array of strings containing the IP addresses of the equipment in the network.
+     * @return an array of strings representing the IP addresses of all devices in the network
      */
     public String[] getEquiposIps() {
-        ArrayList<String> ips = new ArrayList<>();
-
-        for (Equipo equipo : getEquipos()) {
-            ips.addAll(equipo.getDireccionesIp());
-        }
-        Collections.sort(ips, Utils.ipComparator());
-        return ips.toArray(new String[ips.size()]);
+        return red.getEquiposIps().toArray(new String[0]);
     }
 
     /**
@@ -347,6 +347,93 @@ public class Coordinator {
         return red.getUbicaciones();
     }
 
+
+    /**
+     * Adds a port (Puerto) to a device (Equipo).
+     * <p>
+     * This method delegates the addition of the port to the network (Red) instance.
+     *
+     * @param equipo the device (Equipo) to which the port is to be added
+     * @param puerto the port to be added
+     * @throws InvalidPuertoEquipoException if the port is invalid or cannot be added
+     */
+    public void addPuertoEquipo(Equipo equipo, Puerto puerto) throws InvalidPuertoEquipoException {
+        red.addPuertoEquipo(equipo, puerto);
+        LoggerUtil.logInfo("Port added: " + puerto + " to device " + equipo.getCodigo());
+    }
+
+    /**
+     * Removes a port (Puerto) from a device (Equipo).
+     * <p>
+     * This method delegates the removal of the port to the network (Red) instance.
+     *
+     * @param equipo the device (Equipo) from which the port is to be removed
+     * @param puerto the port to be removed
+     * @throws InvalidPuertoEquipoException if the port is invalid or cannot be removed
+     */
+    public void removePuertoEquipo(Equipo equipo, Puerto puerto) throws InvalidPuertoEquipoException {
+        red.deletePuertoEquipo(equipo, puerto);
+        LoggerUtil.logInfo("Port removed: " + puerto + " from device " + equipo.getCodigo());
+    }
+
+    /**
+     * Modifies a port (Puerto) of a device (Equipo).
+     * <p>
+     * This method delegates the modification of the port to the network (Red) instance.
+     *
+     * @param equipo    the device (Equipo) whose port is to be modified
+     * @param oldPuerto the old port to be replaced
+     * @param newPuerto the new port to replace the old one
+     * @throws InvalidPuertoEquipoException if the port is invalid or cannot be modified
+     */
+    public void modifyPuertoEquipo(Equipo equipo, Puerto oldPuerto, Puerto newPuerto) throws InvalidPuertoEquipoException {
+        red.modifyPuertoEquipo(equipo, oldPuerto, newPuerto);
+        LoggerUtil.logInfo("Port modified: " + oldPuerto + " -> " + newPuerto + " in device " + equipo.getCodigo());
+    }
+
+    /**
+     * Adds an IP address to a device (Equipo).
+     * <p>
+     * This method delegates the addition of the IP address to the network (Red) instance.
+     *
+     * @param equipo      the device (Equipo) to which the IP address is to be added
+     * @param direccionIP the IP address to be added
+     * @throws InvalidDireccionIPException if the IP address is invalid or cannot be added
+     */
+    public void addIPEquipo(Equipo equipo, String direccionIP) throws InvalidDireccionIPException {
+        red.addIpEquipo(equipo, direccionIP);
+        LoggerUtil.logInfo("IP address added: " + direccionIP + " to device " + equipo.getCodigo());
+    }
+
+    /**
+     * Removes an IP address from a device (Equipo).
+     * <p>
+     * This method delegates the removal of the IP address to the network (Red) instance.
+     *
+     * @param equipo      the device (Equipo) from which the IP address is to be removed
+     * @param direccionIP the IP address to be removed
+     * @throws InvalidDireccionIPException if the IP address is invalid or cannot be removed
+     */
+    public void removeIPEquipo(Equipo equipo, String direccionIP) throws InvalidDireccionIPException {
+        red.removeIpEquipo(equipo, direccionIP);
+        LoggerUtil.logInfo("IP address removed: " + direccionIP + " from device " + equipo.getCodigo());
+    }
+
+    /**
+     * Modifies the IP address of a device (Equipo).
+     * <p>
+     * This method delegates the modification of the IP address to the network (Red) instance.
+     *
+     * @param equipo         the device (Equipo) whose IP address is to be modified
+     * @param oldDireccionIP the old IP address to be replaced
+     * @param newDireccionIP the new IP address to replace the old one
+     * @throws InvalidDireccionIPException if the new IP address is invalid or cannot be modified
+     */
+    public void modifyIPEquipo(Equipo equipo, String oldDireccionIP, String newDireccionIP) throws InvalidDireccionIPException {
+        red.modifyIpEquipo(equipo, oldDireccionIP, newDireccionIP);
+        LoggerUtil.logInfo("IP address modified: " + oldDireccionIP + " -> " + newDireccionIP + " in device " + equipo.getCodigo());
+    }
+
     /**
      * Adds a location (Ubicacion) to the network.
      * <p>
@@ -358,6 +445,7 @@ public class Coordinator {
      */
     public void addUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
         red.addUbicacion(ubicacion);
+        LoggerUtil.logInfo("Location added: " + ubicacion);
     }
 
     /**
@@ -371,6 +459,7 @@ public class Coordinator {
      */
     public void deleteUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
         red.deleteUbicacion(ubicacion);
+        LoggerUtil.logInfo("Location deleted: " + ubicacion);
     }
 
     /**
@@ -385,6 +474,7 @@ public class Coordinator {
      */
     public void modifyUbicacion(Ubicacion oldUbicacion, Ubicacion newUbicacion) throws InvalidUbicacionException {
         red.modifyUbicacion(oldUbicacion, newUbicacion);
+        LoggerUtil.logInfo("Location modified: " + oldUbicacion + " -> " + newUbicacion);
     }
 
 
@@ -410,6 +500,7 @@ public class Coordinator {
      */
     public void addTipoCable(TipoCable tipoCable) throws InvalidTipoCableException {
         red.addTipoCable(tipoCable);
+        LoggerUtil.logInfo("Cable type added: " + tipoCable);
     }
 
     /**
@@ -423,6 +514,7 @@ public class Coordinator {
      */
     public void deleteTipoCable(TipoCable tipoCable) throws InvalidTipoCableException {
         red.deleteTipoCable(tipoCable);
+        LoggerUtil.logInfo("Cable type deleted: " + tipoCable);
     }
 
     /**
@@ -437,6 +529,7 @@ public class Coordinator {
      */
     public void modifyTipoCable(TipoCable oldTipoCable, TipoCable newTipoCable) throws InvalidTipoCableException {
         red.modifyTipoCable(oldTipoCable, newTipoCable);
+        LoggerUtil.logInfo("Cable type modified: " + oldTipoCable + " -> " + newTipoCable);
     }
 
 
@@ -462,6 +555,7 @@ public class Coordinator {
      */
     public void addTipoPuerto(TipoPuerto TipoPuerto) throws InvalidTipoPuertoException {
         red.addTipoPuerto(TipoPuerto);
+        LoggerUtil.logInfo("Port type added: " + TipoPuerto);
     }
 
     /**
@@ -475,6 +569,7 @@ public class Coordinator {
      */
     public void deleteTipoPuerto(TipoPuerto TipoPuerto) throws InvalidTipoPuertoException {
         red.deleteTipoPuerto(TipoPuerto);
+        LoggerUtil.logInfo("Port type deleted: " + TipoPuerto);
     }
 
     /**
@@ -489,6 +584,7 @@ public class Coordinator {
      */
     public void modifyTipoPuerto(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto) throws InvalidTipoPuertoException {
         red.modifyTipoPuerto(oldTipoPuerto, newTipoPuerto);
+        LoggerUtil.logInfo("Port type modified: " + oldTipoPuerto + " -> " + newTipoPuerto);
     }
 
 
@@ -514,6 +610,7 @@ public class Coordinator {
      */
     public void addTipoEquipo(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
         red.addTipoEquipo(tipoEquipo);
+        LoggerUtil.logInfo("Device type added: " + tipoEquipo);
     }
 
     /**
@@ -527,6 +624,7 @@ public class Coordinator {
      */
     public void deleteTipoEquipo(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
         red.deleteTipoEquipo(tipoEquipo);
+        LoggerUtil.logInfo("Device type deleted: " + tipoEquipo);
     }
 
     /**
@@ -541,6 +639,7 @@ public class Coordinator {
      */
     public void modifyTipoEquipo(TipoEquipo oldTipoEquipo, TipoEquipo newTipoEquipo) throws InvalidTipoEquipoException {
         red.modifyTipoEquipo(oldTipoEquipo, newTipoEquipo);
+        LoggerUtil.logInfo("Device type modified: " + oldTipoEquipo + " -> " + newTipoEquipo);
     }
 
 

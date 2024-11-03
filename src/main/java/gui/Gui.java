@@ -17,6 +17,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.ResourceBundle;
 
+/**
+ * Gui is a graphical user interface class that extends javax.swing.JFrame.
+ * It provides various components and functionalities for visualizing and interacting with a network of devices (Equipos).
+ */
 public class Gui extends javax.swing.JFrame {
     /**
      * Path to the project scope documentation file.

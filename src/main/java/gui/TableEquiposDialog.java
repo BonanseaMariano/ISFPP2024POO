@@ -308,8 +308,9 @@ public class TableEquiposDialog extends JDialog {
             label = (value == null) ? "" : value.toString();
             button.setText(label);
             isPushed = true;
-            // Retrieve the Equipo object correctly
-            String codigo = (String) table.getModel().getValueAt(row, 0);
+            // Retrieve the Equipo object correctly using the model index
+            int modelRow = table.convertRowIndexToModel(row);
+            String codigo = (String) table.getModel().getValueAt(modelRow, 0);
             equipo = coordinator.getEquiposMap().get(codigo);
             return button;
         }

@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Coordinator;
+import exceptions.InvalidDireccionIPException;
 import models.Equipo;
 import utils.Utils;
 
@@ -213,20 +214,14 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
             // Get the entered value
             String ip = ipField.getText();
 
-            // Validate the IP
-            if (!Utils.validateIP(ip)) {
-                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableIpsEquipo_ipColumn") + " " + rb.getString("TableDialog_invalidIP"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+
+            // Add the new IP to the equipo if valid or show an error message
+            try {
+                coordinator.addIPEquipo(equipo, ip);
+            } catch (InvalidDireccionIPException e) {
+                javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 return;
             }
-
-            // Verify if the IP already exists
-            if (Arrays.stream(coordinator.getEquiposIps()).toList().contains(ip)) {
-                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableIpsEquipo_ipColumn") + " " + rb.getString("TableDialog_ipExists"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
-                return;
-            }
-
-            // Add the new IP to the equipo
-            equipo.addIP(ip);
 
             // Update the table
             javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) table.getModel();
@@ -272,21 +267,15 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
                 // Get the entered value
                 String newIp = ipField.getText();
 
-                // Validate the IP
-                if (!Utils.validateIP(newIp)) {
-                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableIpsEquipo_ipColumn") + " " + rb.getString("TableDialog_invalidIP"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+
+                // Update the IP if valid or show an error message
+                try {
+                    coordinator.modifyIPEquipo(equipo, currentIp, newIp);
+                } catch (InvalidDireccionIPException e) {
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
 
-                // Verify if the new IP already exists except the current IP
-                if (Arrays.stream(coordinator.getEquiposIps()).toList().contains(newIp) && !newIp.equals(currentIp)) {
-                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableIpsEquipo_ipColumn") + " " + rb.getString("TableDialog_ipExists"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
-                    return;
-                }
-
-                // Update the IP in the equipo
-                equipo.removeIP(currentIp);
-                equipo.addIP(newIp);
 
                 // Update the row in the table model
                 model.setValueAt(newIp, modelRow, 0);
@@ -321,8 +310,8 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
             // Show the confirmation message
             int confirm = javax.swing.JOptionPane.showConfirmDialog(null, rb.getString("TableDialog_confirmDelete") + " " + rb.getString("TableIpsEquipo_ipColumn") + " " + currentIp + "?", rb.getString("TableIpsEquipo_deleteTitle"), javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
-                // Remove the IP from the equipo
-                equipo.removeIP(currentIp);
+                // Remove the IP
+                coordinator.removeIPEquipo(equipo, currentIp);
 
                 // Remove the row from the table model
                 model.removeRow(modelRow);
@@ -345,7 +334,7 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
         javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(1, 1, 2, 5));
 
         // Add the field and label to the panel
-        panel.add(new javax.swing.JLabel(rb.getString("TableIpsEquipo_ipLabel")));
+        panel.add(new javax.swing.JLabel(rb.getString("TableIpsEquipo_ipColumn")));
         panel.add(ipField);
 
         return panel;
