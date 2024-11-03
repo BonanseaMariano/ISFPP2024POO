@@ -394,8 +394,7 @@ public class Gui extends javax.swing.JFrame {
      * @param evt the ActionEvent triggered by the button click
      */
     private void tracerouteBTActionPerformed(java.awt.event.ActionEvent evt) {
-        TraceRouteDialog traceRouteDialog = new TraceRouteDialog(this, true, coordinator);
-        traceRouteDialog.setVisible(true);
+        new TraceRouteDialog(this, true, coordinator);
     }
 
     /**
@@ -405,8 +404,7 @@ public class Gui extends javax.swing.JFrame {
      * @param evt the ActionEvent triggered by the button click
      */
     private void pingBTActionPerformed(java.awt.event.ActionEvent evt) {
-        PingDialog pingDialog = new PingDialog(this, true, coordinator);
-        pingDialog.setVisible(true);
+        new PingDialog(this, true, coordinator);
     }
 
     /**
@@ -416,8 +414,7 @@ public class Gui extends javax.swing.JFrame {
      * @param evt the ActionEvent triggered by the button click
      */
     private void pingRangeBTActionPerformed(java.awt.event.ActionEvent evt) {
-        PingRangeDialog pingRangeDialog = new PingRangeDialog(this, true, coordinator);
-        pingRangeDialog.setVisible(true);
+        new PingRangeDialog(this, true, coordinator);
     }
 
     /**
@@ -427,8 +424,7 @@ public class Gui extends javax.swing.JFrame {
      * @param evt the ActionEvent triggered by the button click
      */
     private void statusMapBTActionPerformed(java.awt.event.ActionEvent evt) {
-        StateMapEquiposDialog stateMapEquiposDialog = new StateMapEquiposDialog(this, true, coordinator);
-        stateMapEquiposDialog.setVisible(true);
+        new StateMapEquiposDialog(this, true, coordinator);
     }
 
     /**
