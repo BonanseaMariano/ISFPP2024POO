@@ -34,3 +34,58 @@
 2024-11-03 18:14:05 - [utils.LoggerUtil] - INFO - Port modified: Puerto{cantidad=3, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} -> Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} in device GWUSG
 2024-11-04 17:26:48 - [utils.LoggerUtil] - INFO - IP address added: 162.198.52.2 to device null
 2024-11-04 17:26:57 - [utils.LoggerUtil] - INFO - IP address removed: 162.198.52.2 from device null
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWBD
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexAPL2
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexAPL0
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSW04
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWBT
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWFT
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWOF
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWMA
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexTEST1
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexTEST2
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexTEST3
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexTEST4
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWSS
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexTEST5
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexTEST6
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexAP09
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexAP07
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWGR
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexGWUSG
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexAP08
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexAP06
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWL4
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexAP03
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexAP01
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWL0
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexFW02
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWB2
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexFW01
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWB1
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWAP
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added vertexSWAM
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWBT-SWB2
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWBT-SWB1
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWBD-SWFT
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: FW02-FW01
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: FW02-GWUSG
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: TEST2-TEST3
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWAM-SWBT
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWAM-SWMA
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWAM-AP01
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: FW01-SW04
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: TEST3-TEST4
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWL0-APL0
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWBD-SWGR
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SW04-SWAM
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SW04-APL2
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SW04-SWL4
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWAM-SWBD
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SW04-SWL0
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: TEST1-TEST2
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SW04-SWSS
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWAM-AP06
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWBT-SWOF
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWAM-AP09
+2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWAM-AP08
