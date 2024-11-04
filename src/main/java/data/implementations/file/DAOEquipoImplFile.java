@@ -277,32 +277,61 @@ public class DAOEquipoImplFile implements DAOEquipo {
 
     @Override
     public void createIp(Equipo equipo, String IP) {
-        //TODO
+        Equipo newEquipo = cloneEquipo(equipo);
+        newEquipo.getDireccionesIp().add(IP);
+        update(equipo, newEquipo);
     }
 
     @Override
     public void deleteIp(Equipo equipo, String IP) {
-        //TODO
+        Equipo newEquipo = cloneEquipo(equipo);
+        newEquipo.getDireccionesIp().remove(IP);
+        update(equipo, newEquipo);
     }
 
     @Override
     public void updateIp(Equipo equipo, String oldIP, String newIP) {
-        //TODO
+        Equipo newEquipo = cloneEquipo(equipo);
+        newEquipo.getDireccionesIp().remove(oldIP);
+        newEquipo.getDireccionesIp().add(newIP);
+        update(equipo, newEquipo);
     }
 
     @Override
     public void createPort(Equipo equipo, Puerto puerto) {
-        //TODO
+        Equipo newEquipo = new Equipo();
+        newEquipo.getPuertos().add(puerto);
+        update(equipo, newEquipo);
     }
 
     @Override
     public void deletePort(Equipo equipo, Puerto puerto) {
-        //TODO
+        Equipo newEquipo = cloneEquipo(equipo);
+        newEquipo.getPuertos().remove(puerto);
+        update(equipo, newEquipo);
     }
 
     @Override
     public void updatePort(Equipo equipo, Puerto oldPort, Puerto newPort) {
-        //TODO
+        Equipo newEquipo = cloneEquipo(equipo);
+        newEquipo.getPuertos().remove(oldPort);
+        newEquipo.getPuertos().add(newPort);
+        update(equipo, newEquipo);
+    }
+
+    private Equipo cloneEquipo(Equipo equipo) {
+        Equipo newEquipo = new Equipo();
+        newEquipo.setCodigo(equipo.getCodigo());
+        newEquipo.setUbicacion(equipo.getUbicacion());
+        newEquipo.setDescripcion(equipo.getDescripcion());
+        newEquipo.setTipoEquipo(equipo.getTipoEquipo());
+        for(String IP : equipo.getDireccionesIp()) {
+            newEquipo.getDireccionesIp().add(IP);
+        }
+        for (Puerto puerto : equipo.getPuertos()) {
+            newEquipo.getPuertos().add(puerto);
+        }
+        return newEquipo;
     }
 
     /**
