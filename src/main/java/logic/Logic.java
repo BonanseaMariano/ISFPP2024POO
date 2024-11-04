@@ -122,7 +122,6 @@ public class Logic {
         }
         graph.addVertex(equipo);
         vertexMap.put(equipo.getCodigo(), equipo);
-        LoggerUtil.logInfo("Added vertex: " + equipo.getCodigo());
     }
 
     /**
@@ -170,8 +169,6 @@ public class Logic {
 
             // Remove oldEquipo from the graph
             graph.removeVertex(oldEquipo);
-
-            LoggerUtil.logInfo("Modified vertex: " + oldEquipo.getCodigo() + " to " + newEquipo.getCodigo());
         } else {
             throw new InvalidEquipoException(coordinator.getResourceBundle().getString("InvalidDevice_noDeviceM"));
         }
@@ -189,7 +186,6 @@ public class Logic {
      */
     public void deleteVertex(Equipo equipo) throws InvalidEquipoException {
         if (graph.removeVertex(equipo)) {
-            LoggerUtil.logInfo("Removed vertex: " + equipo.getCodigo());
             vertexMap.remove(equipo.getCodigo());
         } else {
             throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownD"));
@@ -236,7 +232,6 @@ public class Logic {
             throw new InvalidConexionException(conexion + " " + coordinator.getResourceBundle().getString("InvalidConnection_cycle"));
         }
         edgesMap.put(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
-        LoggerUtil.logInfo("Added edge: " + conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
     }
 
     /**
@@ -251,7 +246,6 @@ public class Logic {
      */
     public void modifyEdge(Conexion old, Conexion modified) throws InvalidConexionException {
         if (graph.removeEdge(old)) {
-            LoggerUtil.logInfo("Modified edge: " + old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo());
             edgesMap.remove(old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo());
             addEdge(modified);
         } else {
@@ -271,7 +265,6 @@ public class Logic {
      */
     public void deleteEdge(Conexion conexion) throws InvalidConexionException {
         if (graph.removeEdge(conexion)) {
-            LoggerUtil.logInfo("Removed edge: " + conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
             edgesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
         } else {
             throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_unknownD"));
