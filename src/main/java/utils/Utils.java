@@ -21,6 +21,17 @@ public class Utils {
         if (!ip.matches("^(?:[0-9]{1,3}\\.){3}[0-9]{1,3}$")) {
             return false;
         }
+        // Divide la IP en sus componentes
+        String[] octetos = ip.split("\\.");
+
+        // Verifica que cada octeto esté en el rango de 0 a 255
+        for (String octeto : octetos) {
+            int num = Integer.parseInt(octeto);
+            if (num < 0 || num > 255) {
+                return false;
+            }
+        }
+
         return true;
     }
 

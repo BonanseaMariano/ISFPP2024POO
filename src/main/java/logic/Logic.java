@@ -246,6 +246,7 @@ public class Logic {
      */
     public void modifyEdge(Conexion old, Conexion modified) throws InvalidConexionException {
         if (graph.removeEdge(old)) {
+            LoggerUtil.logDebug("Removed edge: " + old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo());
             edgesMap.remove(old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo());
             addEdge(modified);
         } else {

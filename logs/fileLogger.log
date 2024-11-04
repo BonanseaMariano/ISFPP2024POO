@@ -32,3 +32,5 @@
 2024-11-03 17:55:07 - [utils.LoggerUtil] - INFO - Port modified: Puerto{cantidad=0, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} -> Puerto{cantidad=8, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} in device null
 2024-11-03 18:14:05 - [utils.LoggerUtil] - DEBUG - Available ports for GWUSG: 0
 2024-11-03 18:14:05 - [utils.LoggerUtil] - INFO - Port modified: Puerto{cantidad=3, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} -> Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} in device GWUSG
+2024-11-04 17:26:48 - [utils.LoggerUtil] - INFO - IP address added: 162.198.52.2 to device null
+2024-11-04 17:26:57 - [utils.LoggerUtil] - INFO - IP address removed: 162.198.52.2 from device null
