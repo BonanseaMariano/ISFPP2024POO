@@ -9,8 +9,17 @@ import java.io.InputStreamReader;
  * It updates a progress bar and a text area with the results of the traceroute operation.
  */
 public class TraceRouteTask extends SwingWorker<Void, Integer> {
+    /**
+     * The IP address to trace route.
+     */
     private final String ipAddress;
+    /**
+     * The progress bar to update with the progress of the traceroute operation.
+     */
     private final JProgressBar progressBar;
+    /**
+     * The text area to update with the results of the traceroute operation.
+     */
     private final JTextArea outputArea;
 
     /**

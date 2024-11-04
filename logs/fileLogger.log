@@ -30,3 +30,5 @@
 2024-11-03 17:51:24 - [utils.LoggerUtil] - INFO - Port modified: Puerto{cantidad=8, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} -> Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} in device null
 2024-11-03 17:55:07 - [utils.LoggerUtil] - DEBUG - Available ports for null: 8
 2024-11-03 17:55:07 - [utils.LoggerUtil] - INFO - Port modified: Puerto{cantidad=0, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} -> Puerto{cantidad=8, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} in device null
+2024-11-03 18:14:05 - [utils.LoggerUtil] - DEBUG - Available ports for GWUSG: 0
+2024-11-03 18:14:05 - [utils.LoggerUtil] - INFO - Port modified: Puerto{cantidad=3, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} -> Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} in device GWUSG

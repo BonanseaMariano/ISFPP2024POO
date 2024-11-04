@@ -357,8 +357,8 @@ public class Gui extends javax.swing.JFrame {
     }
 
     /**
-     * Action performed when the "Traceroute" button is clicked.
-     * Opens the TraceRouteDialog.
+     * Action performed when the "Trace Route" button is clicked.
+     * Opens the appropriate dialog based on the simulation mode.
      *
      * @param evt the ActionEvent triggered by the button click
      */
@@ -372,7 +372,7 @@ public class Gui extends javax.swing.JFrame {
 
     /**
      * Action performed when the "Ping" button is clicked.
-     * Opens the PingDialog.
+     * Opens the appropriate dialog based on the simulation mode.
      *
      * @param evt the ActionEvent triggered by the button click
      */
@@ -382,17 +382,21 @@ public class Gui extends javax.swing.JFrame {
         } else {
             new PingDialog(this, true, coordinator);
         }
-
     }
+
 
     /**
      * Action performed when the "Ping Range" button is clicked.
-     * Opens the PingRangeDialog.
+     * Opens the appropriate dialog based on the simulation mode.
      *
      * @param evt the ActionEvent triggered by the button click
      */
     private void pingRangeBTActionPerformed(java.awt.event.ActionEvent evt) {
-        new PingRangeDialog(this, true, coordinator);
+        if (!simulation) {
+            new PingRangeProgressBarDialog(this, true, coordinator);
+        } else {
+            new PingRangeDialog(this, true, coordinator);
+        }
     }
 
     /**

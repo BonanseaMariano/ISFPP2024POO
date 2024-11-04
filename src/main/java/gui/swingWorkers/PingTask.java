@@ -9,9 +9,21 @@ import java.io.InputStreamReader;
  * It updates a progress bar and a text area with the results of the ping operation.
  */
 public class PingTask extends SwingWorker<Void, Integer> {
+    /**
+     * The IP address to ping.
+     */
     private final String ipAddress;
+    /**
+     * The number of ping requests to send.
+     */
     private final int pingCount;
+    /**
+     * The progress bar to update with the progress of the ping operation.
+     */
     private final JProgressBar progressBar;
+    /**
+     * The text area to update with the results of the ping operation.
+     */
     private final JTextArea outputArea;
 
     /**
