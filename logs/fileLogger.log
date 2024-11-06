@@ -89,3 +89,15 @@
 2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWBT-SWOF
 2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWAM-AP09
 2024-11-04 17:36:20 - [utils.LoggerUtil] - INFO - Added edge: SWAM-AP08
+2024-11-06 17:32:05 - [utils.LoggerUtil] - INFO - IP address modified: 192.168.16.2 -> 192.168.255.2 in device AP01
+2024-11-06 17:32:47 - [utils.LoggerUtil] - INFO - IP address modified: 192.168.255.2 -> 192.168.16.2 in device AP01
+2024-11-06 17:36:04 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=5, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}} to device TEST2
+2024-11-06 17:36:25 - [utils.LoggerUtil] - DEBUG - Available ports for TEST2: 6
+2024-11-06 17:36:25 - [utils.LoggerUtil] - INFO - Port removed: Puerto{cantidad=5, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}} from device TEST2
+2024-11-06 17:36:29 - [utils.LoggerUtil] - DEBUG - Available ports for TEST2: -1
+2024-11-06 17:37:01 - [utils.LoggerUtil] - DEBUG - Available ports for TEST2: -2
+2024-11-06 17:37:19 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=0, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}} to device TEST2
+2024-11-06 17:37:22 - [utils.LoggerUtil] - DEBUG - Available ports for TEST2: 1
+2024-11-06 17:37:22 - [utils.LoggerUtil] - INFO - Port removed: Puerto{cantidad=3, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} from device TEST2
+2024-11-06 17:42:45 - [utils.LoggerUtil] - DEBUG - Available ports for TEST2: -87
+2024-11-06 17:42:53 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=-6, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} to device TEST2

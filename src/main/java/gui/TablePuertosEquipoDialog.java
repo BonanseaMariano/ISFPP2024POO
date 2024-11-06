@@ -237,6 +237,10 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
                 javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 return;
             }
+            if(cantidad < 1) {
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+                return;
+            }
             TipoPuerto tipoPuerto = (TipoPuerto) tipoPuertoComboBox.getSelectedItem();
 
             // Verify that all fields are complete
