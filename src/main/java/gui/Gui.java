@@ -29,7 +29,7 @@ public class Gui extends javax.swing.JFrame {
     /**
      * Path to the Javadoc documentation index file.
      */
-    private static final String JAVADOC_PATH = "Documentacion/Javadoc/index.html";
+    private static final String JAVADOC_PATH = "docs/index.html";
     /**
      * Width of the vertex
      */
