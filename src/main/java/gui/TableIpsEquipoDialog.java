@@ -70,7 +70,10 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
      */
     private void initStyle() {
         this.setLocationRelativeTo(null);
-        this.setTitle(rb.getString("TableIpsEquipo_title") + " - " + equipo.getCodigo());
+        String idEquipo = "";
+        if (equipo != null)
+            idEquipo = " - " + equipo.getCodigo();
+        this.setTitle(rb.getString("TableIpsEquipo_title") + idEquipo);
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
@@ -87,9 +90,11 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
         // Clear existing rows
         model.setRowCount(0);
 
-        // Add each IP to the table model
-        for (String ip : equipo.getDireccionesIp()) {
-            model.addRow(new Object[]{ip});
+        // Add each IP to the table model if the equipo is not null
+        if (equipo != null) {
+            for (String ip : equipo.getDireccionesIp()) {
+                model.addRow(new Object[]{ip});
+            }
         }
 
         // Sort the table
