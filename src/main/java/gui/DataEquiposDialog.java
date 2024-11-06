@@ -331,6 +331,17 @@ public class DataEquiposDialog extends javax.swing.JDialog {
         newEquipo.setUbicacion((Ubicacion) ubicacionCB.getSelectedItem());
         newEquipo.setEstado(EstadoCB.isSelected());
 
+        //copy the ports and IP addresses from the current equipment to the new equipment if it is being edited
+        if (oldEquipo != null) {
+            for (Puerto p : oldEquipo.getPuertos()) {
+                newEquipo.addPuerto(p);
+            }
+            for (String ip : oldEquipo.getDireccionesIp()) {
+                newEquipo.addIP(ip);
+            }
+        }
+
+
         // Validate that the code and description fields are not empty
         if (newEquipo.getCodigo().isEmpty() || newEquipo.getDescripcion().isEmpty()) {
             JOptionPane.showMessageDialog(this, rb.getString("TableDialog_allFieldsRequired"), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
@@ -383,7 +394,7 @@ public class DataEquiposDialog extends javax.swing.JDialog {
      * This method opens a new dialog for managing the equipment's ports.
      */
     private void puertosBTActionPerformed() {
-        new TablePuertosEquipoDialog(this, true, coordinator, newEquipo);
+        new TablePuertosEquipoDialog(this, true, coordinator, oldEquipo);
     }
 
     /**
@@ -392,7 +403,7 @@ public class DataEquiposDialog extends javax.swing.JDialog {
      * This method opens a new dialog for managing the equipment's IP addresses.
      */
     private void ipsBTActionPerformed() {
-        new TableIpsEquipoDialog(this, true, coordinator, newEquipo);
+        new TableIpsEquipoDialog(this, true, coordinator, oldEquipo);
     }
 
 }

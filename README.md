@@ -175,7 +175,13 @@ operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sin importar el tipo de alm
 
 # [Documentación Javadoc](https://bonanseamariano.github.io/ISFPP2024POO/)
 
-# Errores detectados, posibles mejoras y extensiones:
+# Errores detectados, posibles mejoras y extensiones
+
+- No se verifica que la cantidad de puertos esté asociada a cada tipo de puerto en específico, sino que se considera la
+  cantidad total de puertos de manera general.
+- Al agregar un nuevo tipo de puerto con 0 entradas y eliminar los puertos existentes, se permite la eliminación incluso
+  si hay conexiones activas, lo que puede resultar en que un equipo esté conectado a otros equipos sin tener puertos
+  disponibles.
 
 # Conclusiones
 
@@ -216,10 +222,17 @@ y escalable.
 # Diagramas de Clases UML:
 
 ## Capa Models:
+
 ![Bonansea-Rivero_ModelsUML.png](UML%2FBonansea-Rivero_ModelsUML.png)
+
 ## Capa Logic:
+
 ![Bonansea-Rivero_LogicUML.png](UML%2FBonansea-Rivero_LogicUML.png)
+
 ## Capa Data:
+
 ![Bonansea-Rivero_DataUML.png](UML%2FBonansea-Rivero_DataUML.png)
+
 ## Capa GUI:
+
 ![Bonansea-Rivero_GUIUML.png](UML%2FBonansea-Rivero_GUIUML.png)

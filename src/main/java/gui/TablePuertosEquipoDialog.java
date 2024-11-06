@@ -72,7 +72,10 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
      */
     private void initStyle() {
         this.setLocationRelativeTo(null);
-        this.setTitle(rb.getString("TablePuertosEquipo_title") + " - " + equipo.getCodigo());
+        String idEquipo = "";
+        if (equipo != null)
+            idEquipo = " - " + equipo.getCodigo();
+        this.setTitle(rb.getString("TablePuertosEquipo_title") + idEquipo);
         this.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     }
 
@@ -89,12 +92,15 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
         // Clear existing rows
         model.setRowCount(0);
 
-        // Add each Puerto to the table model
-        for (Puerto puerto : equipo.getPuertos()) {
-            TipoPuerto tipoPuerto = puerto.getTipoPuerto();
-            Integer cantidad = puerto.getCantidad();
-            model.addRow(new Object[]{cantidad, tipoPuerto.getCodigo()});
+        // Add each Puerto to the table model if the equipment is not null
+        if (equipo != null) {
+            for (Puerto puerto : equipo.getPuertos()) {
+                TipoPuerto tipoPuerto = puerto.getTipoPuerto();
+                Integer cantidad = puerto.getCantidad();
+                model.addRow(new Object[]{cantidad, tipoPuerto.getCodigo()});
+            }
         }
+
 
         // Sort the table
         javax.swing.table.TableRowSorter<javax.swing.table.DefaultTableModel> sorter = (javax.swing.table.TableRowSorter<javax.swing.table.DefaultTableModel>) table.getRowSorter();
@@ -234,11 +240,11 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
             try {
                 cantidad = Integer.parseInt(cantidadField.getText());
             } catch (NumberFormatException e) {
-                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TablePuertosEquipo_quantityColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 return;
             }
-            if(cantidad < 1) {
-                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+            if (cantidad < 1) {
+                javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TablePuertosEquipo_quantityColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                 return;
             }
             TipoPuerto tipoPuerto = (TipoPuerto) tipoPuertoComboBox.getSelectedItem();
@@ -322,7 +328,11 @@ public class TablePuertosEquipoDialog extends javax.swing.JDialog {
                 try {
                     newCantidad = Integer.parseInt(cantidadField.getText());
                 } catch (NumberFormatException e) {
-                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TableDialog_speedColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TablePuertosEquipo_quantityColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                if (newCantidad < 1) {
+                    javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableDialog_error") + ": " + rb.getString("TablePuertosEquipo_quantityColumn") + " " + rb.getString("TableDialog_numberRequired"), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                     return;
                 }
                 TipoPuerto newTipoPuerto = (TipoPuerto) tipoPuertoComboBox.getSelectedItem();

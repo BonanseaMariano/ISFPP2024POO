@@ -101,3 +101,37 @@
 2024-11-06 17:37:22 - [utils.LoggerUtil] - INFO - Port removed: Puerto{cantidad=3, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} from device TEST2
 2024-11-06 17:42:45 - [utils.LoggerUtil] - DEBUG - Available ports for TEST2: -87
 2024-11-06 17:42:53 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=-6, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} to device TEST2
+2024-11-06 17:52:48 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: -2
+2024-11-06 17:53:36 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: -1
+2024-11-06 18:23:23 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}} to device null
+2024-11-06 18:23:38 - [utils.LoggerUtil] - DEBUG - Available ports for null: 4
+2024-11-06 18:25:36 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}} to device null
+2024-11-06 18:28:54 - [utils.LoggerUtil] - DEBUG - Codigo Equipo: TEST2
+2024-11-06 18:28:54 - [utils.LoggerUtil] - DEBUG - Equipo: Equipo{codigo='TEST2', descripcion='null', marca='', modelo='', direccionesIp=[222.222.22.22], ubicacion=Ubicacion{codigo='RL3', descripcion='Rack Laboratorio 3'}, puertos=[Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}}, Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}}], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-06 18:38:00 - [utils.LoggerUtil] - DEBUG - Codigo Equipo: TEST3
+2024-11-06 18:38:00 - [utils.LoggerUtil] - DEBUG - Equipo: Equipo{codigo='TEST3', descripcion='null', marca='', modelo='', direccionesIp=[333.333.33.33], ubicacion=Ubicacion{codigo='RL3', descripcion='Rack Laboratorio 3'}, puertos=[Puerto{cantidad=3, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}}], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-06 18:45:00 - [utils.LoggerUtil] - DEBUG - Codigo Equipo: TEST2
+2024-11-06 18:45:00 - [utils.LoggerUtil] - DEBUG - Equipo: Equipo{codigo='TEST2', descripcion='null', marca='', modelo='', direccionesIp=[222.222.22.22], ubicacion=Ubicacion{codigo='RL3', descripcion='Rack Laboratorio 3'}, puertos=[Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}}, Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}}], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-06 18:45:57 - [utils.LoggerUtil] - DEBUG - Codigo Equipo: TEST3
+2024-11-06 18:45:57 - [utils.LoggerUtil] - DEBUG - Equipo: Equipo{codigo='TEST3', descripcion='null', marca='', modelo='', direccionesIp=[333.333.33.33], ubicacion=Ubicacion{codigo='RL3', descripcion='Rack Laboratorio 3'}, puertos=[Puerto{cantidad=3, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}}], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-06 18:46:06 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}} to device TEST3
+2024-11-06 18:47:47 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: 2
+2024-11-06 18:47:47 - [utils.LoggerUtil] - INFO - Port removed: Puerto{cantidad=3, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} from device TEST3
+2024-11-06 18:48:08 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} to device TEST3
+2024-11-06 18:48:19 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: 1
+2024-11-06 18:49:18 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: 1
+2024-11-06 18:49:18 - [utils.LoggerUtil] - INFO - Port removed: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} from device TEST3
+2024-11-06 18:49:42 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} to device TEST3
+2024-11-06 18:50:10 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: 0
+2024-11-06 18:50:10 - [utils.LoggerUtil] - INFO - Port removed: Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}} from device TEST3
+2024-11-06 18:50:18 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: 0
+2024-11-06 18:50:18 - [utils.LoggerUtil] - INFO - Port modified: Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} -> Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} in device TEST3
+2024-11-06 18:51:10 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}} to device TEST3
+2024-11-06 18:51:19 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: 1
+2024-11-06 18:51:19 - [utils.LoggerUtil] - INFO - Port removed: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} from device TEST3
+2024-11-06 18:51:47 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} to device TEST3
+2024-11-06 18:51:51 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: 1
+2024-11-06 18:52:02 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: 1
+2024-11-06 18:52:02 - [utils.LoggerUtil] - INFO - Port removed: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} from device TEST3
+2024-11-06 18:52:31 - [utils.LoggerUtil] - DEBUG - Available ports for TEST3: 0
+2024-11-06 18:52:31 - [utils.LoggerUtil] - INFO - Port modified: Puerto{cantidad=1, tipoPuerto=TipoPuerto{codigo='100M', descripcion='100 Mbps', velocidad=100}} -> Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} in device TEST3
