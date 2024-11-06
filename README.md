@@ -173,7 +173,7 @@ operaciones CRUD (Crear, Leer, Actualizar, Eliminar) sin importar el tipo de alm
   la vista (interfaz de usuario) y el controlador (lógica de negocio), facilitando la gestión y escalabilidad del
   código.
 
-# [Documentación Javadoc](https://bonansemariano.github.io/ISFPP2024POO/)
+# [Documentación Javadoc](https://bonanseamariano.github.io/ISFPP2024POO/)
 
 # Errores detectados, posibles mejoras y extensiones:
 
