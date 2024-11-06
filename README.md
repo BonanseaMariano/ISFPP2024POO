@@ -216,9 +216,10 @@ y escalable.
 # Diagramas de Clases UML:
 
 ## Capa Models:
-
+![Bonansea-Rivero_ModelsUML.png](UML%2FBonansea-Rivero_ModelsUML.png)
 ## Capa Logic:
-
+![Bonansea-Rivero_LogicUML.png](UML%2FBonansea-Rivero_LogicUML.png)
 ## Capa Data:
-
+![Bonansea-Rivero_DataUML.png](UML%2FBonansea-Rivero_DataUML.png)
 ## Capa GUI:
+![Bonansea-Rivero_GUIUML.png](UML%2FBonansea-Rivero_GUIUML.png)
