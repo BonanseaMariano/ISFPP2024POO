@@ -23,9 +23,10 @@ import java.util.ResourceBundle;
  */
 public class Gui extends javax.swing.JFrame {
     /**
-     * Path to the project scope documentation file.
+     * URL of the user manual.
+     * This constant stores the link to the user manual in the GitHub repository.
      */
-    private static final String DOC_PATH = "Documentacion/Alcance del proyecto - Bonansea Mareano y Rivero Lucia.docx";
+    private static final String MANUAL_URL = "https://github.com/BonanseaMariano/ISFPP2024POO/blob/main/Manual%20de%20Usuario.md";
     /**
      * Path to the Javadoc documentation index file.
      */
@@ -260,7 +261,7 @@ public class Gui extends javax.swing.JFrame {
         javaDocMI.addActionListener(this::javaDocMIActionPerformed);
         ayudaMenu.add(javaDocMI);
 
-        documentacionMI.setText(rb.getString("GUI_documentation"));
+        documentacionMI.setText(rb.getString("GUI_userManual"));
         documentacionMI.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         documentacionMI.addActionListener(this::documentacionMIActionPerformed);
         ayudaMenu.add(documentacionMI);
@@ -447,28 +448,23 @@ public class Gui extends javax.swing.JFrame {
     }
 
     /**
-     * Action performed when the "Documentation" menu item is clicked.
-     * Opens the project scope documentation file in the default application.
+     * Action performed when the "User Manual" menu item is clicked.
+     * Opens the user manual in the default browser.
      *
      * @param evt the ActionEvent triggered by the menu item click
      */
     private void documentacionMIActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-            // Create a File object with the path to the documentation
-            File file = new File(DOC_PATH);
+            // Create a URI object with the URL to the manual
+            URI uri = new URI(MANUAL_URL);
 
-            // Get the desktop instance and open the file in the default application
+            // Get the desktop instance and open the URI in the default browser
             if (Desktop.isDesktopSupported()) {
-                Desktop desktop = Desktop.getDesktop();
-                if (file.exists()) {
-                    desktop.open(file);
-                } else {
-                    System.err.println("The file does not exist.");
-                }
+                Desktop.getDesktop().browse(uri);
             } else {
-                System.err.println("Desktop is not supported. Cannot open the documentation.");
+                System.err.println("Desktop is not supported. Cannot open the manual.");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
