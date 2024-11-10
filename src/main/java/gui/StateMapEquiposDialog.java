@@ -70,7 +70,6 @@ public class StateMapEquiposDialog extends javax.swing.JDialog {
 
         // Add each TipoCable to the table model
         for (Map.Entry<Equipo, Boolean> set : coordinator.mapStatus().entrySet()) {
-            LoggerUtil.logDebug("Equipo: " + set.getKey().getCodigo() + " Status: " + set.getValue());
             model.addRow(new Object[]{set.getKey().getCodigo(), set.getValue() ? rb.getString("TableEquipos_statusActive") : rb.getString("TableEquipos_statusInactive")});
         }
         // Sort the table

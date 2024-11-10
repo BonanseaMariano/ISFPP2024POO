@@ -349,3 +349,34 @@
 2024-11-10 15:43:53 - [utils.LoggerUtil] - INFO - Port type deleted: TipoPuerto{codigo='PRUEBA', descripcion='PRUEBA', velocidad=1000}
 2024-11-10 15:44:04 - [utils.LoggerUtil] - INFO - Cable type deleted: TipoCable{codigo='PRUEBA', descripcion='PRUEBA', velocidad=2000}
 2024-11-10 15:44:10 - [utils.LoggerUtil] - INFO - Device type deleted: TipoEquipo{codigo='PRUEBA', descripcion='PRUEBA'}
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWBD Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: APL2 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: APL0 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SW04 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWBT Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWFT Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWOF Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWMA Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: TEST1 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: TEST2 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: TEST3 Status: false
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: TEST4 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWSS Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: TEST5 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: TEST6 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: AP09 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: AP07 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWGR Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: GWUSG Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: AP08 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: AP06 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWL4 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: AP03 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: AP01 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWL0 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: FW02 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWB2 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: FW01 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWB1 Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWAP Status: true
+2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWAM Status: true
