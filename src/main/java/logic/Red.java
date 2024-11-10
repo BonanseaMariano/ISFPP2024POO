@@ -342,7 +342,7 @@ public class Red {
         if (equipo.getPuertos().size() <= 1) {
             throw new InvalidPuertoEquipoException(coordinator.getResourceBundle().getString("InvalidDevicePort_onlyOne"));
         }
-        if (0 <= equipo.totalPuertos() - puerto.getCantidad()) {
+        if (0 >= equipo.totalPuertos() - puerto.getCantidad()) {
             throw new InvalidPuertoEquipoException(coordinator.getResourceBundle().getString("InvalidDevicePort_utilizedDM"));
         }
         equipo.removePuerto(puerto);
