@@ -19,10 +19,9 @@ public interface UbicacionService {
     /**
      * Updates an existing Ubicacion entity.
      *
-     * @param oldUbicacion the existing Ubicacion entity to update
-     * @param newUbicacion the new Ubicacion entity with updated values
+     * @param ubicacion the Ubicacion entity to update
      */
-    void update(Ubicacion oldUbicacion, Ubicacion newUbicacion);
+    void update(Ubicacion ubicacion);
 
     /**
      * Deletes a Ubicacion entity.

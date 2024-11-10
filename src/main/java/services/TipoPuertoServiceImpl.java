@@ -37,12 +37,11 @@ public class TipoPuertoServiceImpl implements TipoPuertoService {
     /**
      * Updates an existing TipoPuerto entity.
      *
-     * @param oldTipoPuerto the existing TipoPuerto entity to update
-     * @param newTipoPuerto the new TipoPuerto entity with updated values
+     * @param tipoPuerto the TipoPuerto entity to update
      */
     @Override
-    public void update(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto) {
-        daoTipoPuerto.update(oldTipoPuerto, newTipoPuerto);
+    public void update(TipoPuerto tipoPuerto) {
+        daoTipoPuerto.update(tipoPuerto);
     }
 
     /**

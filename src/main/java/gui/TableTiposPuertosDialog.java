@@ -293,7 +293,7 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
                     tipoPuerto.setDescripcion(newDescripcion);
                     tipoPuerto.setVelocidad(newVelocidad);
                     try {
-                        coordinator.modifyTipoPuerto(tipoPuerto, tipoPuerto);
+                        coordinator.modifyTipoPuerto(tipoPuerto);
                     } catch (Exception e) {
                         javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;

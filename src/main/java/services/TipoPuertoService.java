@@ -19,10 +19,9 @@ public interface TipoPuertoService {
     /**
      * Updates an existing TipoPuerto entity.
      *
-     * @param oldTipoPuerto the existing TipoPuerto entity to update
-     * @param newTipoPuerto the new TipoPuerto entity with updated values
+     * @param tipoPuerto the TipoPuerto entity to update
      */
-    void update(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto);
+    void update(TipoPuerto tipoPuerto);
 
     /**
      * Deletes a TipoPuerto entity.

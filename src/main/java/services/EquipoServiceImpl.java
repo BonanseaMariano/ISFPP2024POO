@@ -57,15 +57,15 @@ public class EquipoServiceImpl implements EquipoService {
         daoEquipo.createIp(equipo, ip);
     }
 
+
     /**
      * Updates an existing Equipo entity.
      *
-     * @param oldEquipo the existing Equipo entity to update
-     * @param newEquipo the new Equipo entity with updated values
+     * @param equipo the Equipo entity to update
      */
     @Override
-    public void update(Equipo oldEquipo, Equipo newEquipo) {
-        daoEquipo.update(oldEquipo, newEquipo);
+    public void update(Equipo equipo) {
+        daoEquipo.update(equipo);
     }
 
     /**

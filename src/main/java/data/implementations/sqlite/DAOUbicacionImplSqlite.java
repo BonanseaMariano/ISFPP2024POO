@@ -88,11 +88,10 @@ public class DAOUbicacionImplSqlite implements DAOUbicacion {
     /**
      * Updates an existing Ubicacion record in the database.
      *
-     * @param o the existing Ubicacion object
-     * @param n the new Ubicacion object
+     * @param t the Ubicacion object to update
      */
     @Override
-    public void update(Ubicacion o, Ubicacion n) {
+    public void update(Ubicacion t) {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
@@ -102,8 +101,8 @@ public class DAOUbicacionImplSqlite implements DAOUbicacion {
             sql += "SET descripcion = ? ";
             sql += "WHERE codigo = ? ";
             pstm = con.prepareStatement(sql);
-            pstm.setString(1, n.getDescripcion());
-            pstm.setString(2, o.getCodigo());
+            pstm.setString(1, t.getDescripcion());
+            pstm.setString(2, t.getCodigo());
             pstm.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();

@@ -124,7 +124,21 @@ Se emplearon patrones de diseño **Factory** y **DAO** para intercambiar entre a
 
 # [Manual de Usuario](Manual%20de%20Usuario.md)
 
-# Errores detectados, posibles mejoras y extensiones
+# Consideraciones
+
+- Todos los equipos tienen el estado "Activo" por defecto en el constructor. Este estado solo se modifica posteriormente
+  cuando se desea realizar una simulación. Esto permite tener tanto el funcionamiento "real" como el de
+  simulación.
+- El peso de los arcos del grafo de lógica se calcula como: Tipo de cable de mayor ancho de banda (BW) - $x_i$,
+  donde $x$ es el BW del tipo de cable.
+- En una red local no existen bucles, por lo que la ruta entre equipos siempre es única o no existe.
+- No existen conexiones de un equipo consigo mismo.
+- Las rutas entre equipos se calculan independientemente del estado de los equipos. Posteriormente, se evalúa si la ruta
+  tiene problemas y en qué equipos, pero la ruta existe independientemente de si hay un equipo desactivado en el medio.
+- Se considera que la velocidad ingresada como dato para los cables está en MB.
+- Se contempla que dos equipos no pueden tener más de una conexión entre sí.
+
+# Errores detectados
 
 - No se verifica la cantidad de puertos específicos, solo la cantidad total.
 - Al agregar un nuevo tipo de puerto con 0 entradas y eliminar los puertos existentes, se permite la eliminación incluso

@@ -279,7 +279,7 @@ public class TableTiposEquiposDialog extends javax.swing.JDialog {
                     TipoEquipo tipoEquipo = coordinator.getTiposEquipos().get(currentCodigo);
                     tipoEquipo.setDescripcion(newDescripcion);
                     try {
-                        coordinator.modifyTipoEquipo(tipoEquipo, tipoEquipo);
+                        coordinator.modifyTipoEquipo(tipoEquipo);
                     } catch (Exception e) {
                         javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;

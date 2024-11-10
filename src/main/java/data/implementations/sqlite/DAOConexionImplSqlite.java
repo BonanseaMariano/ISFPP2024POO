@@ -123,27 +123,24 @@ public class DAOConexionImplSqlite implements DAOConexion {
     /**
      * Updates an existing Conexion record in the database.
      *
-     * @param o the existing Conexion object
-     * @param n the new Conexion object
+     * @param t the Conexion object to update
      */
     @Override
-    public void update(Conexion o, Conexion n) {
+    public void update(Conexion t) {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
         try {
             con = DBConnection.getConnection();
             String sql = "UPDATE conexiones ";
-            sql += "SET equipo1 = ?, equipo2 = ?, tipo_cable = ?, tipo_puerto1 = ?, tipo_puerto2 = ? ";
+            sql += "SET tipo_cable = ?, tipo_puerto1 = ?, tipo_puerto2 = ? ";
             sql += "WHERE equipo1 = ? AND equipo2 = ? ";
             pstm = con.prepareStatement(sql);
-            pstm.setString(1, n.getEquipo1().getCodigo());
-            pstm.setString(2, n.getEquipo2().getCodigo());
-            pstm.setString(3, n.getTipoCable().getCodigo());
-            pstm.setString(4, n.getPuerto1().getCodigo());
-            pstm.setString(5, n.getPuerto2().getCodigo());
-            pstm.setString(6, o.getEquipo1().getCodigo());
-            pstm.setString(7, o.getEquipo2().getCodigo());
+            pstm.setString(1, t.getTipoCable().getCodigo());
+            pstm.setString(2, t.getPuerto1().getCodigo());
+            pstm.setString(3, t.getPuerto2().getCodigo());
+            pstm.setString(4, t.getEquipo1().getCodigo());
+            pstm.setString(5, t.getEquipo2().getCodigo());
             pstm.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();
