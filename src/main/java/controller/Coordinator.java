@@ -346,94 +346,132 @@ public class Coordinator {
         return red.getUbicaciones();
     }
 
-
     /**
-     * Adds a port (Puerto) to a device (Equipo).
+     * Gets the map of IP addresses in the network.
      * <p>
-     * This method delegates the addition of the port to the network (Red) instance.
+     * This method retrieves the map of IP addresses from the network (Red).
      *
-     * @param equipo the device (Equipo) to which the port is to be added
-     * @param puerto the port to be added
-     * @throws InvalidPuertoEquipoException if the port is invalid or cannot be added
+     * @return a map where the key is the IP address and the value is the device
      */
     public void addPuertoEquipo(Equipo equipo, Puerto puerto) throws InvalidPuertoEquipoException {
-        red.addPuertoEquipo(equipo, puerto);
+        try {
+            red.addPuertoEquipo(equipo, puerto);
+        } catch (InvalidPuertoEquipoException e) {
+            throw new InvalidPuertoEquipoException(e.getMessage());
+        }
         LoggerUtil.logInfo("Port added: " + puerto + " to device " + equipo.getCodigo());
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
     }
 
     /**
      * Removes a port (Puerto) from a device (Equipo).
      * <p>
-     * This method delegates the removal of the port to the network (Red) instance.
+     * This method attempts to remove the port from the network (Red).
+     * If the port is invalid and cannot be removed, an InvalidPuertoEquipoException is thrown.
      *
      * @param equipo the device (Equipo) from which the port is to be removed
      * @param puerto the port to be removed
-     * @throws InvalidPuertoEquipoException if the port is invalid or cannot be removed
+     * @throws InvalidPuertoEquipoException if the port is invalid
      */
     public void removePuertoEquipo(Equipo equipo, Puerto puerto) throws InvalidPuertoEquipoException {
-        red.deletePuertoEquipo(equipo, puerto);
+        try {
+            red.deletePuertoEquipo(equipo, puerto);
+        } catch (InvalidPuertoEquipoException e) {
+            throw new InvalidPuertoEquipoException(e.getMessage());
+        }
         LoggerUtil.logInfo("Port removed: " + puerto + " from device " + equipo.getCodigo());
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
     }
 
     /**
-     * Modifies a port (Puerto) of a device (Equipo).
+     * Modifies an existing port (Puerto) of a device (Equipo).
      * <p>
-     * This method delegates the modification of the port to the network (Red) instance.
+     * This method attempts to modify the port of the device in the network (Red).
+     * If the port is invalid and cannot be modified, an InvalidPuertoEquipoException is thrown.
      *
      * @param equipo    the device (Equipo) whose port is to be modified
      * @param oldPuerto the old port to be replaced
      * @param newPuerto the new port to replace the old one
-     * @throws InvalidPuertoEquipoException if the new port is invalid or cannot be modified
+     * @throws InvalidPuertoEquipoException if the port is invalid
      */
     public void modifyPuertoEquipo(Equipo equipo, Puerto oldPuerto, Puerto newPuerto) throws InvalidPuertoEquipoException {
-        red.modifyPuertoEquipo(equipo, oldPuerto, newPuerto);
+        try {
+            red.modifyPuertoEquipo(equipo, oldPuerto, newPuerto);
+        } catch (InvalidPuertoEquipoException e) {
+            throw new InvalidPuertoEquipoException(e.getMessage());
+        }
         LoggerUtil.logInfo("Port modified: " + oldPuerto + " -> " + newPuerto + " in device " + equipo.getCodigo());
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
     }
 
     /**
      * Adds an IP address to a device (Equipo).
      * <p>
-     * This method delegates the addition of the IP address to the network (Red) instance.
+     * This method attempts to add the IP address to the network (Red).
+     * If the IP address is invalid and cannot be added, an InvalidDireccionIPException is thrown.
      *
      * @param equipo      the device (Equipo) to which the IP address is to be added
      * @param direccionIP the IP address to be added
-     * @throws InvalidDireccionIPException if the IP address is invalid or cannot be added
+     * @throws InvalidDireccionIPException if the IP address is invalid
      */
     public void addIPEquipo(Equipo equipo, String direccionIP) throws InvalidDireccionIPException {
-        red.addIpEquipo(equipo, direccionIP);
+        try {
+            red.addIpEquipo(equipo, direccionIP);
+        } catch (InvalidDireccionIPException e) {
+            throw new InvalidDireccionIPException(e.getMessage());
+        }
         gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address added: " + direccionIP + " to device " + equipo.getCodigo());
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
     }
 
     /**
      * Removes an IP address from a device (Equipo).
      * <p>
-     * This method delegates the removal of the IP address to the network (Red) instance.
+     * This method attempts to remove the IP address from the network (Red).
+     * If the IP address is invalid and cannot be removed, an InvalidDireccionIPException is thrown.
      *
      * @param equipo      the device (Equipo) from which the IP address is to be removed
      * @param direccionIP the IP address to be removed
-     * @throws InvalidDireccionIPException if the IP address is invalid or cannot be removed
+     * @throws InvalidDireccionIPException if the IP address is invalid
      */
     public void removeIPEquipo(Equipo equipo, String direccionIP) throws InvalidDireccionIPException {
-        red.removeIpEquipo(equipo, direccionIP);
+        try {
+            red.removeIpEquipo(equipo, direccionIP);
+        } catch (InvalidDireccionIPException e) {
+            throw new InvalidDireccionIPException(e.getMessage());
+        }
         gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address removed: " + direccionIP + " from device " + equipo.getCodigo());
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
     }
 
     /**
-     * Modifies the IP address of a device (Equipo).
+     * Modifies an IP address of a device (Equipo).
      * <p>
-     * This method delegates the modification of the IP address to the network (Red) instance.
+     * This method attempts to modify the IP address of the device in the network (Red).
+     * If the IP address is invalid and cannot be modified, an InvalidDireccionIPException is thrown.
      *
      * @param equipo         the device (Equipo) whose IP address is to be modified
      * @param oldDireccionIP the old IP address to be replaced
      * @param newDireccionIP the new IP address to replace the old one
-     * @throws InvalidDireccionIPException if the new IP address is invalid or cannot be modified
+     * @throws InvalidDireccionIPException if the IP address is invalid
      */
     public void modifyIPEquipo(Equipo equipo, String oldDireccionIP, String newDireccionIP) throws InvalidDireccionIPException {
-        red.modifyIpEquipo(equipo, oldDireccionIP, newDireccionIP);
+        try {
+            red.modifyIpEquipo(equipo, oldDireccionIP, newDireccionIP);
+        } catch (InvalidDireccionIPException e) {
+            throw new InvalidDireccionIPException(e.getMessage());
+        }
         gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address modified: " + oldDireccionIP + " -> " + newDireccionIP + " in device " + equipo.getCodigo());
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
     }
 
 

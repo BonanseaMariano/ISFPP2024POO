@@ -1,6 +1,7 @@
 package gui;
 
 import controller.Coordinator;
+import exceptions.InvalidEquipoException;
 import models.Equipo;
 import observer.Observer;
 import utils.LoggerUtil;
@@ -260,7 +261,7 @@ public class TableEquiposDialog extends JDialog implements Observer {
             if (confirm == JOptionPane.YES_OPTION) {
                 try {
                     coordinator.deleteEquipo(equipo);
-                } catch (Exception e) {
+                } catch (InvalidEquipoException e) {
                     JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
                     return;
                 }
