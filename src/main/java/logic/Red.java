@@ -479,14 +479,11 @@ public class Red {
      * Validates a location (ubicacion) in the network (red).
      *
      * @param ubicacion the location (ubicacion) to be validated
-     * @throws InvalidUbicacionException if the location does not exist in the network or if there are devices (equipos) in the location
+     * @throws InvalidUbicacionException if the location does not exist in the network
      */
     private void ubicationValidation(Ubicacion ubicacion) throws InvalidUbicacionException {
         if (!this.ubicaciones.containsKey(ubicacion.getCodigo())) {
             throw new InvalidUbicacionException(coordinator.getResourceBundle().getString("Invalid_unknownDM") + " " + ubicacion.getCodigo());
-        }
-        if (this.equipos.values().stream().anyMatch(equipo -> equipo.getUbicacion().equals(ubicacion))) {
-            throw new InvalidUbicacionException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
         }
     }
 
@@ -508,7 +505,7 @@ public class Red {
      * Modifies an existing location (ubicacion) in the network (red).
      *
      * @param ubicacion the location (ubicacion) to be modified
-     * @throws InvalidUbicacionException if the location does not exist in the network or if there are devices (equipos) in the location
+     * @throws InvalidUbicacionException if the location does not exist in the network
      */
     public void modifyUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
         ubicationValidation(ubicacion);
@@ -523,6 +520,9 @@ public class Red {
      */
     public void deleteUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
         ubicationValidation(ubicacion);
+        if (this.equipos.values().stream().anyMatch(equipo -> equipo.getUbicacion().equals(ubicacion))) {
+            throw new InvalidUbicacionException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
+        }
         this.ubicaciones.remove(ubicacion.getCodigo());
         this.ubicacionService.delete(ubicacion);
     }
@@ -534,14 +534,11 @@ public class Red {
      * Validates a type of cable (tipoCable) in the network (red).
      *
      * @param tipoCable the type of cable (tipoCable) to be validated
-     * @throws InvalidTipoCableException if the type of cable does not exist in the network or if there are connections using this type of cable
+     * @throws InvalidTipoCableException if the type of cable does not exist in the network
      */
     private void tipoCableValidation(TipoCable tipoCable) throws InvalidTipoCableException {
         if (!this.tiposCables.containsKey(tipoCable.getCodigo())) {
             throw new InvalidTipoCableException(coordinator.getResourceBundle().getString("Invalid_unknownDM") + " " + tipoCable.getCodigo());
-        }
-        if (this.conexiones.values().stream().anyMatch(conexion -> (conexion.getTipoCable().equals(tipoCable)))) {
-            throw new InvalidTipoCableException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
         }
     }
 
@@ -578,6 +575,9 @@ public class Red {
      */
     public void deleteTipoCable(TipoCable tipoCable) throws InvalidTipoCableException {
         tipoCableValidation(tipoCable);
+        if (this.conexiones.values().stream().anyMatch(conexion -> (conexion.getTipoCable().equals(tipoCable)))) {
+            throw new InvalidTipoCableException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
+        }
         this.tiposCables.remove(tipoCable.getCodigo());
         this.tipoCableService.delete(tipoCable);
     }
@@ -589,14 +589,11 @@ public class Red {
      * Validates a type of device (tipoEquipo) in the network (red).
      *
      * @param tipoEquipo the type of device (tipoEquipo) to be validated
-     * @throws InvalidTipoEquipoException if the type of device does not exist in the network or if there are devices using this type of device
+     * @throws InvalidTipoEquipoException if the type of device does not exist in the network
      */
     private void tipoEquipoValidation(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
         if (!this.tiposEquipos.containsKey(tipoEquipo.getCodigo())) {
             throw new InvalidTipoEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownDM") + " " + tipoEquipo.getCodigo());
-        }
-        if (this.equipos.values().stream().anyMatch(equipo -> (equipo.getTipoEquipo().equals(tipoEquipo)))) {
-            throw new InvalidTipoEquipoException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
         }
     }
 
@@ -633,6 +630,9 @@ public class Red {
      */
     public void deleteTipoEquipo(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
         tipoEquipoValidation(tipoEquipo);
+        if (this.equipos.values().stream().anyMatch(equipo -> (equipo.getTipoEquipo().equals(tipoEquipo)))) {
+            throw new InvalidTipoEquipoException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
+        }
         this.tiposEquipos.remove(tipoEquipo.getCodigo());
         this.tipoEquipoService.delete(tipoEquipo);
     }
@@ -644,17 +644,11 @@ public class Red {
      * Validates a type of port (tipoPuerto) in the network (red).
      *
      * @param tipoPuerto the type of port (tipoPuerto) to be validated
-     * @throws InvalidTipoPuertoException if the type of port does not exist in the network or if there are devices or connections using this type of port
+     * @throws InvalidTipoPuertoException if the type of port does not exist in the network
      */
     private void tipoPuertoValidation(TipoPuerto tipoPuerto) throws InvalidTipoPuertoException {
         if (!this.tiposPuertos.containsKey(tipoPuerto.getCodigo())) {
             throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_unknownDM") + " " + tipoPuerto.getCodigo());
-        }
-        if (this.equipos.values().stream().anyMatch(equipo -> (equipo.getPuertos().stream().anyMatch(puerto -> (puerto.getTipoPuerto().equals(tipoPuerto)))))) {
-            throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
-        }
-        if (this.conexiones.values().stream().anyMatch(conexion -> (conexion.getPuerto1().equals(tipoPuerto) || conexion.getPuerto2().equals(tipoPuerto)))) {
-            throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
         }
     }
 
@@ -691,6 +685,12 @@ public class Red {
      */
     public void deleteTipoPuerto(TipoPuerto tipoPuerto) throws InvalidTipoPuertoException {
         tipoPuertoValidation(tipoPuerto);
+        if (this.equipos.values().stream().anyMatch(equipo -> (equipo.getPuertos().stream().anyMatch(puerto -> (puerto.getTipoPuerto().equals(tipoPuerto)))))) {
+            throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
+        }
+        if (this.conexiones.values().stream().anyMatch(conexion -> (conexion.getPuerto1().equals(tipoPuerto) || conexion.getPuerto2().equals(tipoPuerto)))) {
+            throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_referencedDM"));
+        }
         this.tiposPuertos.remove(tipoPuerto.getCodigo());
         this.tipoPuertoService.delete(tipoPuerto);
     }
