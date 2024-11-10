@@ -292,3 +292,44 @@
 2024-11-10 15:11:23 - [utils.LoggerUtil] - INFO - Device deleted: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='PRUEBA', modelo='PRUEBA', direccionesIp=[192.168.17.1], ubicacion=Ubicacion{codigo='RAP', descripcion='Rack Ampliación'}, puertos=[Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}}], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
 2024-11-10 15:11:23 - [utils.LoggerUtil] - DEBUG - logic vertex: null
 2024-11-10 15:11:23 - [utils.LoggerUtil] - DEBUG - red equipo: null
+2024-11-10 15:16:38 - [utils.LoggerUtil] - INFO - Device added: Equipo{codigo='PRUEBA', descripcion='PRUEVBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='PRUEBA', descripcion='PRUEBA2'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 15:16:38 - [utils.LoggerUtil] - DEBUG - logic vertex: Equipo{codigo='PRUEBA', descripcion='PRUEVBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='PRUEBA', descripcion='PRUEBA2'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 15:16:38 - [utils.LoggerUtil] - DEBUG - red equipo: Equipo{codigo='PRUEBA', descripcion='PRUEVBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='PRUEBA', descripcion='PRUEBA2'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 15:16:45 - [utils.LoggerUtil] - DEBUG - Subject: Notifying observers of the change in equipment data
+2024-11-10 15:17:35 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} to device PRUEBA
+2024-11-10 15:17:56 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 2
+2024-11-10 15:17:56 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 2
+2024-11-10 15:17:56 - [utils.LoggerUtil] - INFO - Connection added: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 15:17:56 - [utils.LoggerUtil] - DEBUG - logic edge: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 15:17:56 - [utils.LoggerUtil] - DEBUG - red conexion: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 15:18:43 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 15:18:43 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 15:18:43 - [utils.LoggerUtil] - INFO - Connection modified: Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=100 Mbps -> equipo2=PRUEBA velocidadPuerto=100 Mbps}
+2024-11-10 15:18:43 - [utils.LoggerUtil] - DEBUG - logic edge: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 15:18:43 - [utils.LoggerUtil] - DEBUG - red conexion: Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=100 Mbps -> equipo2=PRUEBA velocidadPuerto=100 Mbps}
+2024-11-10 15:19:01 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 15:19:01 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 15:19:01 - [utils.LoggerUtil] - INFO - Connection modified: Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=100 Mbps}
+2024-11-10 15:19:01 - [utils.LoggerUtil] - DEBUG - logic edge: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 15:19:01 - [utils.LoggerUtil] - DEBUG - red conexion: Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=100 Mbps}
+2024-11-10 15:19:27 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 15:19:27 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 15:19:27 - [utils.LoggerUtil] - INFO - Connection modified: Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=100 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 15:19:27 - [utils.LoggerUtil] - DEBUG - logic edge: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 15:19:27 - [utils.LoggerUtil] - DEBUG - red conexion: Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=100 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 15:19:57 - [utils.LoggerUtil] - INFO - Device deleted: Equipo{codigo='PRUEBA', descripcion='PRUEVBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='PRUEBA', descripcion='PRUEBA2'}, puertos=[Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}}], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 15:19:57 - [utils.LoggerUtil] - DEBUG - logic vertex: null
+2024-11-10 15:19:57 - [utils.LoggerUtil] - DEBUG - red equipo: null
+2024-11-10 15:24:41 - [utils.LoggerUtil] - INFO - Device added: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='PRUEBA', descripcion='PRUEBA2'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 15:24:41 - [utils.LoggerUtil] - DEBUG - logic vertex: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='PRUEBA', descripcion='PRUEBA2'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 15:24:41 - [utils.LoggerUtil] - DEBUG - red equipo: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='PRUEBA', descripcion='PRUEBA2'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 15:24:43 - [utils.LoggerUtil] - DEBUG - Subject: Notifying observers of the change in equipment data
+2024-11-10 15:24:43 - [utils.LoggerUtil] - DEBUG - Observer notified: TableEquiposDialog updated
+2024-11-10 15:25:18 - [utils.LoggerUtil] - INFO - Device modified: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='OFI', descripcion='Oficina'}, puertos=[], tipoEquipo=TipoEquipo{codigo='AP', descripcion='Access Point'}}
+2024-11-10 15:25:18 - [utils.LoggerUtil] - DEBUG - logic vertex: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='OFI', descripcion='Oficina'}, puertos=[], tipoEquipo=TipoEquipo{codigo='AP', descripcion='Access Point'}}
+2024-11-10 15:25:18 - [utils.LoggerUtil] - DEBUG - red equipo: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='OFI', descripcion='Oficina'}, puertos=[], tipoEquipo=TipoEquipo{codigo='AP', descripcion='Access Point'}}
+2024-11-10 15:25:19 - [utils.LoggerUtil] - DEBUG - Subject: Notifying observers of the change in equipment data
+2024-11-10 15:25:19 - [utils.LoggerUtil] - DEBUG - Observer notified: TableEquiposDialog updated
+2024-11-10 15:28:08 - [utils.LoggerUtil] - INFO - Device deleted: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='OFI', descripcion='Oficina'}, puertos=[], tipoEquipo=TipoEquipo{codigo='AP', descripcion='Access Point'}}
+2024-11-10 15:28:08 - [utils.LoggerUtil] - DEBUG - logic vertex: null
+2024-11-10 15:28:08 - [utils.LoggerUtil] - DEBUG - red equipo: null

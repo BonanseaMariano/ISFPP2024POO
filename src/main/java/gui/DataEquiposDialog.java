@@ -8,6 +8,7 @@ import models.TipoEquipo;
 import models.Ubicacion;
 import observer.Observer;
 import observer.Subject;
+import utils.LoggerUtil;
 
 import javax.swing.*;
 import java.awt.*;
@@ -382,14 +383,16 @@ public class DataEquiposDialog extends javax.swing.JDialog implements Subject {
     }
 
     /**
-     * Notifies all registered observers with the provided equipment.
+     * Notifies all observers of the change.
      *
-     * @param equipo the equipment passed to the observers
+     * @param equipo the equipment object that holds the details of the equipment being managed
      */
     @Override
     public void notifyObservers(Equipo equipo) {
-        for (Observer observer : observers) {
-            observer.update(equipo);
-        }
+        SwingUtilities.invokeLater(() -> {
+            for (Observer observer : observers) {
+                observer.update(equipo);
+            }
+        });
     }
 }

@@ -343,13 +343,10 @@ public class TableEquiposDialog extends JDialog implements Observer {
     }
 
     /**
-     * Updates the table when an equipment is added or modified.
-     *
-     * @param equipo the equipment that was added or modified.
+     * Updates the dialog when an equipment is added or modified.
      */
     @Override
     public void update(Equipo equipo) {
-        initContent(); // Update the table
-        LoggerUtil.logDebug("Observer notified: TableEquiposDialog updated");
+        SwingUtilities.invokeLater(this::initContent);
     }
 }
