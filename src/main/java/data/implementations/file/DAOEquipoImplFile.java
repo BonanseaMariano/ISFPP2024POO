@@ -5,6 +5,7 @@ import data.interfaces.DAOTipoEquipo;
 import data.interfaces.DAOTipoPuerto;
 import data.interfaces.DAOUbicacion;
 import models.*;
+import utils.LoggerUtil;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -106,18 +107,18 @@ public class DAOEquipoImplFile implements DAOEquipo {
                 // Direcciones IP
                 Collections.addAll(direccionesIp, direccionIpString.split(","));
 
-                Equipo equipo = new Equipo(codigo, descripcion, marca, modelo, tipoEquipo, ubicacion, puertos.get(0), direccionesIp.get(0), estado);
+                Equipo equipo = new Equipo(codigo, descripcion, marca, modelo, tipoEquipo, ubicacion, null, null, estado);
 
-                // Si tiene mas de un puerto
-                if (puertos.size() > 1) {
-                    for (int i = 1; i < puertos.size(); i++) {
+                // Si tiene 1 o mas puertos
+                if (puertos.size() >= 1) {
+                    for (int i = 0; i < puertos.size(); i++) {
                         equipo.addPuerto(puertos.get(i));
                     }
                 }
 
                 // Si tiene mas de una direccion IP
-                if (direccionesIp.size() > 1) {
-                    for (int i = 1; i < direccionesIp.size(); i++) {
+                if (direccionesIp.size() >= 1 && !direccionesIp.get(0).equals("")) {
+                    for (int i = 0; i < direccionesIp.size(); i++) {
                         equipo.addIP(direccionesIp.get(i));
                     }
                 }
@@ -279,7 +280,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
     public void createIp(Equipo equipo, String IP) {
         Equipo newEquipo = cloneEquipo(equipo);
         newEquipo.getDireccionesIp().add(IP);
-//        update(equipo, newEquipo);
+        update(equipo);
     }
 
     //TODO
@@ -287,7 +288,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
     public void deleteIp(Equipo equipo, String IP) {
         Equipo newEquipo = cloneEquipo(equipo);
         newEquipo.getDireccionesIp().remove(IP);
-//        update(equipo, newEquipo);
+        update(equipo);
     }
 
     //TODO
@@ -296,7 +297,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
         Equipo newEquipo = cloneEquipo(equipo);
         newEquipo.getDireccionesIp().remove(oldIP);
         newEquipo.getDireccionesIp().add(newIP);
-//        update(equipo, newEquipo);
+        update(equipo);
     }
 
     //TODO
@@ -304,7 +305,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
     public void createPort(Equipo equipo, Puerto puerto) {
         Equipo newEquipo = new Equipo();
         newEquipo.getPuertos().add(puerto);
-//        update(equipo, newEquipo);
+        update(equipo);
     }
 
     //TODO
@@ -312,7 +313,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
     public void deletePort(Equipo equipo, Puerto puerto) {
         Equipo newEquipo = cloneEquipo(equipo);
         newEquipo.getPuertos().remove(puerto);
-//        update(equipo, newEquipo);
+        update(equipo);
     }
 
     //TODO
@@ -321,7 +322,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
         Equipo newEquipo = cloneEquipo(equipo);
         newEquipo.getPuertos().remove(oldPort);
         newEquipo.getPuertos().add(newPort);
-//        update(equipo, newEquipo);
+        update(equipo);
     }
 
     private Equipo cloneEquipo(Equipo equipo) {

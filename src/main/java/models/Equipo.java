@@ -68,9 +68,13 @@ public class Equipo {
         this.tipoEquipo = tipoEquipo;
         this.ubicacion = ubicacion;
         this.puertos = new ArrayList<>();
-        addPuerto(puerto);
+        if(puerto != null) {
+            addPuerto(puerto);
+        }
         this.direccionesIp = new ArrayList<>();
-        addIP(direccionIP);
+        if(direccionIP != null) {
+            addIP(direccionIP);
+        }
         this.estado = estado;
     }
 
