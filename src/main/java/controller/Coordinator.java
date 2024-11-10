@@ -139,8 +139,6 @@ public class Coordinator {
             throw new InvalidConexionException(e.getMessage());
         }
         LoggerUtil.logInfo("Connection added: " + conexion);
-        LoggerUtil.logDebug("" + red.getConexiones().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
-        LoggerUtil.logDebug("" + logic.getGraph().getEdge(conexion.getEquipo1(), conexion.getEquipo2()));
     }
 
 
@@ -176,8 +174,6 @@ public class Coordinator {
             gui.modifyVisualEdge(conexion, conexion);
         } catch (InvalidConexionException | InvalidEquipoException |
                  InvalidTipoCableException | InvalidTipoPuertoException e) {
-            LoggerUtil.logDebug("" + red.getConexiones().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
-            LoggerUtil.logDebug("" + logic.getGraph().getEdge(conexion.getEquipo1(), conexion.getEquipo2()));
             throw new InvalidConexionException(e.getMessage());
         }
         LoggerUtil.logInfo("Connection modified: " + conexion);
@@ -203,6 +199,8 @@ public class Coordinator {
             throw new InvalidEquipoException(e.getMessage());
         }
         LoggerUtil.logInfo("Device added: " + equipo);
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
     }
 
 
@@ -240,6 +238,8 @@ public class Coordinator {
             throw new InvalidEquipoException(e.getMessage());
         }
         LoggerUtil.logInfo("Device modified: " + equipo);
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
     }
 
 

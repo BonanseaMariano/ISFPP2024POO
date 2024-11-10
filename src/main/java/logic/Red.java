@@ -203,7 +203,8 @@ public class Red {
         if (!this.conexiones.containsKey(key)) {
             throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_unknownM"));
         }
-        this.conexionService.update(conexion);
+        this.conexiones.put(key, conexion); // Updates the connection in the map
+        this.conexionService.update(conexion); // Updates the connection in the database
     }
 
     /**
