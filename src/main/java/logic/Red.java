@@ -782,5 +782,4 @@ public class Red {
                 '}';
     }
 
-
 }

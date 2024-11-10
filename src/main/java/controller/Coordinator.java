@@ -346,12 +346,16 @@ public class Coordinator {
         return red.getUbicaciones();
     }
 
+
     /**
-     * Gets the map of IP addresses in the network.
+     * Adds a port (Puerto) to a device (Equipo).
      * <p>
-     * This method retrieves the map of IP addresses from the network (Red).
+     * This method attempts to add the port to the network (Red).
+     * If the port is invalid and cannot be added, an InvalidPuertoEquipoException is thrown.
      *
-     * @return a map where the key is the IP address and the value is the device
+     * @param equipo the device (Equipo) to which the port is to be added
+     * @param puerto the port to be added
+     * @throws InvalidPuertoEquipoException if the port is invalid
      */
     public void addPuertoEquipo(Equipo equipo, Puerto puerto) throws InvalidPuertoEquipoException {
         try {
