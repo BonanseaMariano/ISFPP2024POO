@@ -316,7 +316,12 @@ public class TableIpsEquipoDialog extends javax.swing.JDialog {
             int confirm = javax.swing.JOptionPane.showConfirmDialog(null, rb.getString("TableDialog_confirmDelete") + " " + rb.getString("TableIpsEquipo_ipColumn") + " " + currentIp + "?", rb.getString("TableIpsEquipo_deleteTitle"), javax.swing.JOptionPane.YES_NO_OPTION);
             if (confirm == javax.swing.JOptionPane.YES_OPTION) {
                 // Remove the IP
-                coordinator.removeIPEquipo(equipo, currentIp);
+                try {
+                    coordinator.removeIPEquipo(equipo, currentIp);
+                } catch (InvalidDireccionIPException e) {
+                    javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
 
                 // Remove the row from the table model
                 model.removeRow(modelRow);
