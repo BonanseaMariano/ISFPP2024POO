@@ -146,3 +146,87 @@
 2024-11-09 23:55:41 - [utils.LoggerUtil] - DEBUG - Available ports for TEST5: 1
 2024-11-09 23:55:41 - [utils.LoggerUtil] - INFO - Connection added: Conexion{velocidad=100, equipo1=PRUEBA velocidadPuerto=1000 Mbps -> equipo2=TEST5 velocidadPuerto=1000 Mbps}
 2024-11-09 23:56:42 - [utils.LoggerUtil] - INFO - Device deleted: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='RAP', descripcion='Rack Ampliación'}, puertos=[Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}}], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:10:18 - [utils.LoggerUtil] - INFO - Device added: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='RAP', descripcion='Rack Ampliación'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:11:14 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} to device PRUEBA
+2024-11-10 07:11:33 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 2
+2024-11-10 07:11:33 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 2
+2024-11-10 07:11:33 - [utils.LoggerUtil] - INFO - Connection added: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 07:12:26 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 07:12:26 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 07:12:51 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 07:12:51 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 07:13:49 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 07:13:49 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 07:14:10 - [utils.LoggerUtil] - INFO - Device modified: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='A06', descripcion='Aula 6'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:14:38 - [utils.LoggerUtil] - INFO - Device modified: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='RAM', descripcion='Rack Aula Magna'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:15:28 - [utils.LoggerUtil] - INFO - Device modified: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='OFI', descripcion='Oficina'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:17:03 - [utils.LoggerUtil] - INFO - Device modified: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='RAP', descripcion='Rack Ampliación'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:17:31 - [utils.LoggerUtil] - INFO - Device modified: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='OFI', descripcion='Oficina'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:18:22 - [utils.LoggerUtil] - INFO - IP address added: 192.168.17.2 to device PRUEBA
+2024-11-10 07:18:58 - [utils.LoggerUtil] - INFO - Device deleted: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[192.168.17.2], ubicacion=Ubicacion{codigo='RAP', descripcion='Rack Ampliación'}, puertos=[Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}}], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:32:09 - [utils.LoggerUtil] - INFO - Device added: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='RAP', descripcion='Rack Ampliación'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:32:20 - [utils.LoggerUtil] - INFO - Device modified: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='RAP', descripcion='Rack Ampliación'}, puertos=[], tipoEquipo=TipoEquipo{codigo='SW', descripcion='Switch'}}
+2024-11-10 07:32:57 - [utils.LoggerUtil] - INFO - Device modified: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='RAM', descripcion='Rack Aula Magna'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:33:52 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} to device PRUEBA
+2024-11-10 07:34:05 - [utils.LoggerUtil] - INFO - IP address added: 192.168.17.2 to device PRUEBA
+2024-11-10 07:35:03 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 2
+2024-11-10 07:35:03 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 2
+2024-11-10 07:35:03 - [utils.LoggerUtil] - INFO - Connection added: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 07:35:35 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 07:35:35 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 07:35:35 - [utils.LoggerUtil] - DEBUG - null
+2024-11-10 07:35:35 - [utils.LoggerUtil] - DEBUG - null
+2024-11-10 07:35:56 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 07:35:56 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 07:35:56 - [utils.LoggerUtil] - DEBUG - null
+2024-11-10 07:35:56 - [utils.LoggerUtil] - DEBUG - null
+2024-11-10 07:36:46 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 07:36:46 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 07:36:46 - [utils.LoggerUtil] - DEBUG - null
+2024-11-10 07:36:46 - [utils.LoggerUtil] - DEBUG - null
+2024-11-10 07:37:14 - [utils.LoggerUtil] - INFO - Device deleted: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[192.168.17.2], ubicacion=Ubicacion{codigo='RAP', descripcion='Rack Ampliación'}, puertos=[Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}}], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:43:46 - [utils.LoggerUtil] - INFO - Device added: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='RAP', descripcion='Rack Ampliación'}, puertos=[], tipoEquipo=TipoEquipo{codigo='COM', descripcion='Computadora'}}
+2024-11-10 07:44:18 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} to device PRUEBA
+2024-11-10 07:44:44 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 2
+2024-11-10 07:44:44 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 2
+2024-11-10 07:44:44 - [utils.LoggerUtil] - INFO - Connection added: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 07:44:44 - [utils.LoggerUtil] - DEBUG - null
+2024-11-10 07:44:44 - [utils.LoggerUtil] - DEBUG - null
+2024-11-10 08:03:40 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 08:03:40 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 08:03:40 - [utils.LoggerUtil] - DEBUG - null
+2024-11-10 08:04:01 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 08:04:01 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 08:04:01 - [utils.LoggerUtil] - DEBUG - null
+2024-11-10 08:11:52 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 08:11:52 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 08:11:52 - [utils.LoggerUtil] - DEBUG - Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:14:00 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 08:14:00 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 08:14:00 - [utils.LoggerUtil] - DEBUG - Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:14:00 - [utils.LoggerUtil] - DEBUG - Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:14:22 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 08:14:22 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 08:14:22 - [utils.LoggerUtil] - DEBUG - Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:14:22 - [utils.LoggerUtil] - DEBUG - Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:14:30 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 08:14:30 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 08:14:30 - [utils.LoggerUtil] - DEBUG - Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:14:30 - [utils.LoggerUtil] - DEBUG - Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:18:18 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 08:18:18 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 08:22:04 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 08:22:04 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 08:22:04 - [utils.LoggerUtil] - INFO - Connection modified: Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:22:35 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 08:22:35 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 08:22:35 - [utils.LoggerUtil] - INFO - Connection modified: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:27:07 - [utils.LoggerUtil] - INFO - Connection deleted: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:27:42 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 2
+2024-11-10 08:27:42 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 2
+2024-11-10 08:27:42 - [utils.LoggerUtil] - INFO - Connection added: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:27:42 - [utils.LoggerUtil] - DEBUG - Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:27:42 - [utils.LoggerUtil] - DEBUG - Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 08:28:11 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 08:28:11 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 08:28:11 - [utils.LoggerUtil] - INFO - Connection modified: Conexion{velocidad=1000, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}

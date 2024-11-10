@@ -139,6 +139,8 @@ public class Coordinator {
             throw new InvalidConexionException(e.getMessage());
         }
         LoggerUtil.logInfo("Connection added: " + conexion);
+        LoggerUtil.logDebug("" + red.getConexiones().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
+        LoggerUtil.logDebug("" + logic.getGraph().getEdge(conexion.getEquipo1(), conexion.getEquipo2()));
     }
 
 
@@ -174,6 +176,8 @@ public class Coordinator {
             gui.modifyVisualEdge(conexion, conexion);
         } catch (InvalidConexionException | InvalidEquipoException |
                  InvalidTipoCableException | InvalidTipoPuertoException e) {
+            LoggerUtil.logDebug("" + red.getConexiones().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
+            LoggerUtil.logDebug("" + logic.getGraph().getEdge(conexion.getEquipo1(), conexion.getEquipo2()));
             throw new InvalidConexionException(e.getMessage());
         }
         LoggerUtil.logInfo("Connection modified: " + conexion);
@@ -389,7 +393,7 @@ public class Coordinator {
      */
     public void addIPEquipo(Equipo equipo, String direccionIP) throws InvalidDireccionIPException {
         red.addIpEquipo(equipo, direccionIP);
-        gui.addVisualVertex(equipo); // Update the visual representation of the device
+        gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address added: " + direccionIP + " to device " + equipo.getCodigo());
     }
 
@@ -404,6 +408,7 @@ public class Coordinator {
      */
     public void removeIPEquipo(Equipo equipo, String direccionIP) throws InvalidDireccionIPException {
         red.removeIpEquipo(equipo, direccionIP);
+        gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address removed: " + direccionIP + " from device " + equipo.getCodigo());
     }
 
@@ -642,16 +647,6 @@ public class Coordinator {
         return logic.getVertexMap();
     }
 
-    /**
-     * Gets the map of connections (conexiones) in the network.
-     * <p>
-     * This method retrieves the map of connections from the logic layer.
-     *
-     * @return a map where the key is the connection code and the value is the connection
-     */
-    public Map<String, Conexion> getEdgesMap() {
-        return logic.getEdgesMap();
-    }
 
     /**
      * Finds the shortest path between two devices (equipos) in the network.

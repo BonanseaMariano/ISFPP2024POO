@@ -254,10 +254,10 @@ public class TableConexionesDialog extends javax.swing.JDialog {
                 javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) table.getModel();
                 model.addRow(new Object[]{
                         equipo1.getCodigo(),
-                        tipoPuerto1.getDescripcion(),
+                        tipoPuerto1.getCodigo(),
                         equipo2.getCodigo(),
-                        tipoPuerto2.getDescripcion(),
-                        tipoCable.getDescripcion()
+                        tipoPuerto2.getCodigo(),
+                        tipoCable.getCodigo()
                 });
 
                 // Sort the table
