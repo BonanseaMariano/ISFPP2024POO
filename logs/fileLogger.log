@@ -380,3 +380,34 @@
 2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWB1 Status: true
 2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWAP Status: true
 2024-11-10 16:03:09 - [utils.LoggerUtil] - DEBUG - Equipo: SWAM Status: true
+2024-11-10 18:01:24 - [utils.LoggerUtil] - INFO - Device type added: TipoEquipo{codigo='PRUEBA', descripcion='PRUEBA'}
+2024-11-10 18:01:59 - [utils.LoggerUtil] - INFO - Cable type added: TipoCable{codigo='PRUEBA', descripcion='PRUEBA', velocidad=1}
+2024-11-10 18:02:16 - [utils.LoggerUtil] - INFO - Port type added: TipoPuerto{codigo='PRUEBA', descripcion='PRUEBA', velocidad=1}
+2024-11-10 18:02:28 - [utils.LoggerUtil] - INFO - Location added: Ubicacion{codigo='PRUEBA', descripcion='PRUEBA'}
+2024-11-10 18:07:29 - [utils.LoggerUtil] - INFO - Device added: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='PRUEBA', descripcion='PRUEBA'}, puertos=[], tipoEquipo=TipoEquipo{codigo='PRUEBA', descripcion='PRUEBA'}}
+2024-11-10 18:07:29 - [utils.LoggerUtil] - DEBUG - logic vertex: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='PRUEBA', descripcion='PRUEBA'}, puertos=[], tipoEquipo=TipoEquipo{codigo='PRUEBA', descripcion='PRUEBA'}}
+2024-11-10 18:07:29 - [utils.LoggerUtil] - DEBUG - red equipo: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='PRUEBA', descripcion='PRUEBA'}, puertos=[], tipoEquipo=TipoEquipo{codigo='PRUEBA', descripcion='PRUEBA'}}
+2024-11-10 18:08:05 - [utils.LoggerUtil] - INFO - Port added: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} to device PRUEBA
+2024-11-10 18:08:22 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 2
+2024-11-10 18:08:22 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 2
+2024-11-10 18:08:22 - [utils.LoggerUtil] - INFO - Connection added: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 18:08:22 - [utils.LoggerUtil] - DEBUG - logic edge: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 18:08:22 - [utils.LoggerUtil] - DEBUG - red conexion: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 18:08:44 - [utils.LoggerUtil] - INFO - Device type modified: TipoEquipo{codigo='PRUEBA', descripcion='PRUEBA2'}
+2024-11-10 18:09:11 - [utils.LoggerUtil] - INFO - Cable type modified: TipoCable{codigo='PRUEBA', descripcion='PRUEBA2', velocidad=1}
+2024-11-10 18:09:18 - [utils.LoggerUtil] - INFO - Cable type deleted: TipoCable{codigo='PRUEBA', descripcion='PRUEBA2', velocidad=1}
+2024-11-10 18:09:33 - [utils.LoggerUtil] - INFO - Cable type added: TipoCable{codigo='PRUEBA', descripcion='PRUEBA', velocidad=2}
+2024-11-10 18:09:44 - [utils.LoggerUtil] - DEBUG - Available ports for TEST4: 1
+2024-11-10 18:09:44 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 18:09:44 - [utils.LoggerUtil] - INFO - Connection modified: Conexion{velocidad=2, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 18:09:44 - [utils.LoggerUtil] - DEBUG - logic edge: Conexion{velocidad=100, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 18:09:44 - [utils.LoggerUtil] - DEBUG - red conexion: Conexion{velocidad=2, equipo1=TEST4 velocidadPuerto=1000 Mbps -> equipo2=PRUEBA velocidadPuerto=1000 Mbps}
+2024-11-10 18:10:15 - [utils.LoggerUtil] - INFO - Cable type modified: TipoCable{codigo='PRUEBA', descripcion='PRUEBA2', velocidad=2}
+2024-11-10 18:10:23 - [utils.LoggerUtil] - INFO - Cable type modified: TipoCable{codigo='PRUEBA', descripcion='PRUEBA', velocidad=2}
+2024-11-10 18:10:27 - [utils.LoggerUtil] - INFO - Cable type modified: TipoCable{codigo='PRUEBA', descripcion='PRUEBA2', velocidad=2}
+2024-11-10 18:10:34 - [utils.LoggerUtil] - INFO - Port type modified: TipoPuerto{codigo='PRUEBA', descripcion='PRUEBA2', velocidad=1}
+2024-11-10 18:10:37 - [utils.LoggerUtil] - INFO - Port type deleted: TipoPuerto{codigo='PRUEBA', descripcion='PRUEBA2', velocidad=1}
+2024-11-10 18:10:57 - [utils.LoggerUtil] - INFO - Port type added: TipoPuerto{codigo='PRUEBA', descripcion='PRUEBA', velocidad=2}
+2024-11-10 18:11:20 - [utils.LoggerUtil] - DEBUG - Available ports for PRUEBA: 1
+2024-11-10 18:11:20 - [utils.LoggerUtil] - INFO - Port modified: Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='1G', descripcion='1Gbps', velocidad=1000}} -> Puerto{cantidad=2, tipoPuerto=TipoPuerto{codigo='PRUEBA', descripcion='PRUEBA', velocidad=2}} in device PRUEBA
+2024-11-10 18:13:00 - [utils.LoggerUtil] - INFO - Location modified: Ubicacion{codigo='PRUEBA', descripcion='PRUEBA2'}

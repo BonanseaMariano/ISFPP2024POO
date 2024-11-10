@@ -367,6 +367,7 @@ public class TableTiposPuertosDialog extends javax.swing.JDialog {
     private javax.swing.JPanel createFormPanel(javax.swing.JTextField codigoField, javax.swing.JTextField descripcionField, javax.swing.JTextField velocidadField, boolean isEditable) {
         // Set the editability of the code field
         codigoField.setEditable(isEditable);
+        velocidadField.setEditable(isEditable);
 
         // Create the panel and set the layout
         javax.swing.JPanel panel = new javax.swing.JPanel(new java.awt.GridLayout(3, 1, 2, 5));
