@@ -359,10 +359,6 @@ public class Coordinator {
         } catch (InvalidPuertoEquipoException e) {
             throw new InvalidPuertoEquipoException(e.getMessage());
         }
-        Equipo e = logic.getVertexMap().get(equipo.getCodigo());
-        if (e != null) {
-            e.addPuerto(puerto);
-        }
         LoggerUtil.logInfo("Port added: " + puerto + " to device " + equipo.getCodigo());
         LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
         LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
@@ -383,10 +379,6 @@ public class Coordinator {
             red.deletePuertoEquipo(equipo, puerto);
         } catch (InvalidPuertoEquipoException e) {
             throw new InvalidPuertoEquipoException(e.getMessage());
-        }
-        Equipo e = logic.getVertexMap().get(equipo.getCodigo());
-        if (e != null) {
-            e.removePuerto(puerto);
         }
         LoggerUtil.logInfo("Port removed: " + puerto + " from device " + equipo.getCodigo());
         LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
@@ -410,11 +402,6 @@ public class Coordinator {
         } catch (InvalidPuertoEquipoException e) {
             throw new InvalidPuertoEquipoException(e.getMessage());
         }
-        Equipo e = logic.getVertexMap().get(equipo.getCodigo());
-        if (e != null) {
-            e.removePuerto(oldPuerto);
-            e.addPuerto(newPuerto);
-        }
         LoggerUtil.logInfo("Port modified: " + oldPuerto + " -> " + newPuerto + " in device " + equipo.getCodigo());
         LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
         LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
@@ -435,10 +422,6 @@ public class Coordinator {
             red.addIpEquipo(equipo, direccionIP);
         } catch (InvalidDireccionIPException e) {
             throw new InvalidDireccionIPException(e.getMessage());
-        }
-        Equipo e = logic.getVertexMap().get(equipo.getCodigo());
-        if (e != null) {
-            e.addIP(direccionIP);
         }
         gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address added: " + direccionIP + " to device " + equipo.getCodigo());
@@ -462,10 +445,6 @@ public class Coordinator {
         } catch (InvalidDireccionIPException e) {
             throw new InvalidDireccionIPException(e.getMessage());
         }
-        Equipo e = logic.getVertexMap().get(equipo.getCodigo());
-        if (e != null) {
-            e.removeIP(direccionIP);
-        }
         gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address removed: " + direccionIP + " from device " + equipo.getCodigo());
         LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
@@ -488,11 +467,6 @@ public class Coordinator {
             red.modifyIpEquipo(equipo, oldDireccionIP, newDireccionIP);
         } catch (InvalidDireccionIPException e) {
             throw new InvalidDireccionIPException(e.getMessage());
-        }
-        Equipo e = logic.getVertexMap().get(equipo.getCodigo());
-        if (e != null) {
-            e.removeIP(oldDireccionIP);
-            e.addIP(newDireccionIP);
         }
         gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address modified: " + oldDireccionIP + " -> " + newDireccionIP + " in device " + equipo.getCodigo());
