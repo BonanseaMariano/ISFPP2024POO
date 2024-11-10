@@ -148,15 +148,14 @@ public class Red {
 
 
     /**
-     * Validates a connection (conexion) to ensure it can be added to the network (red).
+     * Validates a connection (conexion) in the network (red).
      *
      * @param conexion the connection (conexion) to be validated
      * @throws InvalidEquipoException     if one of the devices (equipos) does not exist in the network
-     * @throws InvalidConexionException   if there are no available ports on either device
      * @throws InvalidTipoCableException  if the type of cable does not exist in the network
      * @throws InvalidTipoPuertoException if one of the types of ports does not exist in the network
      */
-    private void connectionValidation(Conexion conexion) throws InvalidEquipoException, InvalidConexionException, InvalidTipoCableException, InvalidTipoPuertoException {
+    private void connectionValidation(Conexion conexion) throws InvalidEquipoException, InvalidTipoCableException, InvalidTipoPuertoException {
         if (!this.equipos.containsKey(conexion.getEquipo1().getCodigo()) || !this.equipos.containsKey(conexion.getEquipo2().getCodigo())) {
             throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownAM") + " " + conexion.getEquipo1().getCodigo() + "/" + conexion.getEquipo2().getCodigo());
         }
@@ -165,9 +164,6 @@ public class Red {
         }
         if (!this.tiposPuertos.containsKey(conexion.getPuerto1().getCodigo()) || !this.tiposPuertos.containsKey(conexion.getPuerto2().getCodigo())) {
             throw new InvalidTipoPuertoException(coordinator.getResourceBundle().getString("Invalid_unknownAM") + " " + conexion.getPuerto1().getCodigo() + "/" + conexion.getPuerto2().getCodigo());
-        }
-        if (availablePorts(conexion.getEquipo1()) == 0 || availablePorts(conexion.getEquipo2()) == 0) {
-            throw new InvalidConexionException(coordinator.getResourceBundle().getString("InvalidConnection_noAvailablePorts"));
         }
     }
 
@@ -181,6 +177,9 @@ public class Red {
     public void addConexion(Conexion conexion) throws InvalidEquipoException, InvalidConexionException, InvalidTipoCableException, InvalidTipoPuertoException {
         String conexionkey = conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo();
         connectionValidation(conexion);
+        if (availablePorts(conexion.getEquipo1()) == 0 || availablePorts(conexion.getEquipo2()) == 0) {
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("InvalidConnection_noAvailablePorts"));
+        }
         if (this.conexiones.containsKey(conexionkey)) {
             throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_existingA"));
         }
@@ -343,7 +342,7 @@ public class Red {
         if (equipo.getPuertos().size() <= 1) {
             throw new InvalidPuertoEquipoException(coordinator.getResourceBundle().getString("InvalidDevicePort_onlyOne"));
         }
-        if (0 <= availablePorts(equipo) - puerto.getCantidad()) {
+        if (0 <= equipo.totalPuertos() - puerto.getCantidad()) {
             throw new InvalidPuertoEquipoException(coordinator.getResourceBundle().getString("InvalidDevicePort_utilizedDM"));
         }
         equipo.removePuerto(puerto);
@@ -364,9 +363,11 @@ public class Red {
         }
 
         if (equipo.getPuertos().stream().anyMatch(p -> !p.equals(oldPuerto) && p.equals(newPuerto))) {
-            equipo.addPuerto(oldPuerto);
             throw new InvalidPuertoEquipoException(coordinator.getResourceBundle().getString("InvalidDevicePort_existingAM"));
         }
+
+        equipo.addPuerto(newPuerto);
+        equipo.removePuerto(oldPuerto);
 
         if (availablePorts(equipo) < 0) {
             equipo.removePuerto(newPuerto);
@@ -442,10 +443,7 @@ public class Red {
      * @return the number of available ports
      */
     private int availablePorts(Equipo equipo) {
-        int totalPuertos = 0;
-        for (Puerto puerto : equipo.getPuertos()) {
-            totalPuertos += puerto.getCantidad();
-        }
+        int totalPuertos = equipo.totalPuertos();
         for (Conexion conexion : this.conexiones.values()) {
             if (conexion.getEquipo1().equals(equipo) || conexion.getEquipo2().equals(equipo)) {
                 totalPuertos--;

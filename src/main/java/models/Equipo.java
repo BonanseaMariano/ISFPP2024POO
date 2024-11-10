@@ -68,11 +68,11 @@ public class Equipo {
         this.tipoEquipo = tipoEquipo;
         this.ubicacion = ubicacion;
         this.puertos = new ArrayList<>();
-        if(puerto != null) {
+        if (puerto != null) {
             addPuerto(puerto);
         }
         this.direccionesIp = new ArrayList<>();
-        if(direccionIP != null) {
+        if (direccionIP != null) {
             addIP(direccionIP);
         }
         this.estado = estado;
@@ -102,6 +102,19 @@ public class Equipo {
      */
     public void removePuerto(Puerto puerto) {
         puertos.remove(puerto);
+    }
+
+    /**
+     * Gets the total number of ports in the device.
+     *
+     * @return the total number of ports
+     */
+    public int totalPuertos() {
+        int totalPuertos = 0;
+        for (Puerto p : puertos) {
+            totalPuertos += p.getCantidad();
+        }
+        return totalPuertos;
     }
 
     /**
