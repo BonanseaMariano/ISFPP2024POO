@@ -99,8 +99,7 @@ public class DAOTipoCableImplSqlite implements DAOTipoCable {
         try {
             con = DBConnection.getConnection();
             String sql = "UPDATE tipos_cables ";
-            sql += "SET descripcion = ? ";
-            sql += "SET velocidad = ? ";
+            sql += "SET descripcion = ?, velocidad = ? ";
             sql += "WHERE codigo = ? ";
             pstm = con.prepareStatement(sql);
             pstm.setString(1, t.getDescripcion());

@@ -333,3 +333,19 @@
 2024-11-10 15:28:08 - [utils.LoggerUtil] - INFO - Device deleted: Equipo{codigo='PRUEBA', descripcion='PRUEBA', marca='', modelo='', direccionesIp=[], ubicacion=Ubicacion{codigo='OFI', descripcion='Oficina'}, puertos=[], tipoEquipo=TipoEquipo{codigo='AP', descripcion='Access Point'}}
 2024-11-10 15:28:08 - [utils.LoggerUtil] - DEBUG - logic vertex: null
 2024-11-10 15:28:08 - [utils.LoggerUtil] - DEBUG - red equipo: null
+2024-11-10 15:40:37 - [utils.LoggerUtil] - INFO - Cable type modified: TipoCable{codigo='C6', descripcion='UTP Cat. 7', velocidad=10000}
+2024-11-10 15:40:53 - [utils.LoggerUtil] - INFO - Cable type modified: TipoCable{codigo='C6', descripcion='UTP Cat. 6', velocidad=1000}
+2024-11-10 15:41:22 - [utils.LoggerUtil] - INFO - Device type added: TipoEquipo{codigo='PRUEBA', descripcion='PRUEBA'}
+2024-11-10 15:41:36 - [utils.LoggerUtil] - INFO - Device type modified: TipoEquipo{codigo='PRUEBA', descripcion='PRUEBA2'}
+2024-11-10 15:41:41 - [utils.LoggerUtil] - INFO - Device type modified: TipoEquipo{codigo='PRUEBA', descripcion='PRUEBA'}
+2024-11-10 15:42:13 - [utils.LoggerUtil] - INFO - Cable type added: TipoCable{codigo='PRUEBA', descripcion='PRUEBA', velocidad=1500}
+2024-11-10 15:42:26 - [utils.LoggerUtil] - INFO - Cable type modified: TipoCable{codigo='PRUEBA', descripcion='PRUEBA2', velocidad=2000}
+2024-11-10 15:42:35 - [utils.LoggerUtil] - INFO - Cable type modified: TipoCable{codigo='PRUEBA', descripcion='PRUEBA', velocidad=2000}
+2024-11-10 15:42:53 - [utils.LoggerUtil] - INFO - Port type added: TipoPuerto{codigo='PRUEBA', descripcion='PRUEBA', velocidad=1000}
+2024-11-10 15:43:04 - [utils.LoggerUtil] - INFO - Port type modified: TipoPuerto{codigo='PRUEBA', descripcion='PRUEBA2', velocidad=10000}
+2024-11-10 15:43:10 - [utils.LoggerUtil] - INFO - Port type modified: TipoPuerto{codigo='PRUEBA', descripcion='PRUEBA', velocidad=1000}
+2024-11-10 15:43:24 - [utils.LoggerUtil] - INFO - Location modified: Ubicacion{codigo='PRUEBA', descripcion='PRUEBA'}
+2024-11-10 15:43:42 - [utils.LoggerUtil] - INFO - Location deleted: Ubicacion{codigo='PRUEBA', descripcion='PRUEBA'}
+2024-11-10 15:43:53 - [utils.LoggerUtil] - INFO - Port type deleted: TipoPuerto{codigo='PRUEBA', descripcion='PRUEBA', velocidad=1000}
+2024-11-10 15:44:04 - [utils.LoggerUtil] - INFO - Cable type deleted: TipoCable{codigo='PRUEBA', descripcion='PRUEBA', velocidad=2000}
+2024-11-10 15:44:10 - [utils.LoggerUtil] - INFO - Device type deleted: TipoEquipo{codigo='PRUEBA', descripcion='PRUEBA'}
