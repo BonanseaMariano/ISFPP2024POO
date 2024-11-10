@@ -2,6 +2,8 @@ package gui;
 
 import controller.Coordinator;
 import models.Equipo;
+import observer.Observer;
+import utils.LoggerUtil;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -11,10 +13,17 @@ import java.util.ResourceBundle;
 import java.util.function.Consumer;
 
 /**
- * This class represents a dialog that displays a table with all the equipment in the system.
- * It allows the user to add, modify and delete equipment.
+ * The TableEquiposDialog class represents a dialog that displays a table of equipment.
+ * <p>
+ * This dialog allows the user to view, add, modify, and delete equipment.
+ * It displays the equipment's details in a table, including the code, description, brand, model, type, location, ports, IP addresses, and status.
+ * The user can click on the "Puertos" and "Direcciones Ip" buttons to view the ports and IP addresses of each equipment.
+ * The user can also add a new equipment by clicking the "Agregar" button, modify an existing equipment by clicking the "Modificar" button,
+ * and delete an existing equipment by clicking the "Eliminar" button.
+ * <p>
+ * This class implements the Observer interface to receive updates when an equipment is added or modified.
  */
-public class TableEquiposDialog extends JDialog {
+public class TableEquiposDialog extends JDialog implements Observer {
     /**
      * Width of the dialog.
      */
@@ -214,8 +223,8 @@ public class TableEquiposDialog extends JDialog {
      * This method opens the DataEquiposDialog to add a new equipment.
      */
     private void agregarBTActionPerformed() {
-        new DataEquiposDialog(this, true, coordinator, null);
-        initContent(); // Refresh the table content after adding
+        DataEquiposDialog dataEquiposDialog = new DataEquiposDialog(this, true, coordinator, null);
+        dataEquiposDialog.addObserver(this); // Register as an observer to receive updates
     }
 
     /**
@@ -229,8 +238,8 @@ public class TableEquiposDialog extends JDialog {
             int modelRow = table.convertRowIndexToModel(selectedRow);
             String codigo = (String) table.getModel().getValueAt(modelRow, 0);
             Equipo equipo = coordinator.getEquiposMap().get(codigo);
-            new DataEquiposDialog(this, true, coordinator, equipo);
-            initContent(); // Refresh the table content after modifying
+            DataEquiposDialog dataEquiposDialog = new DataEquiposDialog(this, true, coordinator, equipo);
+            dataEquiposDialog.addObserver(this); // Register as an observer to receive updates
         }
     }
 
@@ -331,5 +340,13 @@ public class TableEquiposDialog extends JDialog {
         protected void fireEditingStopped() {
             super.fireEditingStopped();
         }
+    }
+
+    /**
+     * Updates the dialog when an equipment is added or modified.
+     */
+    @Override
+    public void update(Equipo equipo) {
+        SwingUtilities.invokeLater(this::initContent);
     }
 }

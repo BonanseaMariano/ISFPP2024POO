@@ -139,6 +139,8 @@ public class Coordinator {
             throw new InvalidConexionException(e.getMessage());
         }
         LoggerUtil.logInfo("Connection added: " + conexion);
+        LoggerUtil.logDebug("logic edge: " + logic.getGraph().getEdge(conexion.getEquipo1(), conexion.getEquipo2()));
+        LoggerUtil.logDebug("red conexion: " + red.getConexiones().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
     }
 
 
@@ -155,38 +157,32 @@ public class Coordinator {
         logic.deleteEdge(conexion);
         gui.removeVisualEdge(conexion);
         LoggerUtil.logInfo("Connection deleted: " + conexion);
+        LoggerUtil.logDebug("logic edge: " + logic.getGraph().getEdge(conexion.getEquipo1(), conexion.getEquipo2()));
+        LoggerUtil.logDebug("red conexion: " + red.getConexiones().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
     }
 
 
     /**
      * Modifies an existing connection (Conexion) in the network.
      * <p>
-     * This method attempts to modify the connection in the logic layer, network (Red), and graphical user interface (Gui).
-     * If any exception occurs during the process, the connection is not modified and an error message is printed.
-     * If an exception occurs while modifying the network or GUI, the changes in the logic layer are reverted.
+     * This method attempts to modify the connection in the network (Red), logic layer, and graphical user interface (Gui).
+     * If the connection is invalid and cannot be modified, an InvalidConexionException is thrown.
      *
-     * @param oldConexion the existing connection to be replaced
-     * @param newConexion the new connection to replace the old one
+     * @param conexion the connection to be modified
      * @throws InvalidConexionException if the connection is invalid
      */
-    public void modifyConnection(Conexion oldConexion, Conexion newConexion) throws InvalidConexionException {
+    public void modifyConnection(Conexion conexion) throws InvalidConexionException {
         try {
-            logic.modifyEdge(oldConexion, newConexion);
-        } catch (InvalidConexionException e) {
-            throw new InvalidConexionException(e.getMessage());
-        }
-
-        try {
-            red.modifyConnection(oldConexion, newConexion);
-            gui.modifyVisualEdge(oldConexion, newConexion);
-        } catch (InvalidConexionException e) {
-            throw new InvalidConexionException(e.getMessage());
-        } catch (InvalidEquipoException |
+            red.modifyConnection(conexion);
+            logic.modifyEdge(conexion);
+            gui.modifyVisualEdge(conexion, conexion);
+        } catch (InvalidConexionException | InvalidEquipoException |
                  InvalidTipoCableException | InvalidTipoPuertoException e) {
-            logic.modifyEdge(newConexion, oldConexion); // Revert changes
             throw new InvalidConexionException(e.getMessage());
         }
-        LoggerUtil.logInfo("Connection modified: " + oldConexion + " -> " + newConexion);
+        LoggerUtil.logInfo("Connection modified: " + conexion);
+        LoggerUtil.logDebug("logic edge: " + logic.getGraph().getEdge(conexion.getEquipo1(), conexion.getEquipo2()));
+        LoggerUtil.logDebug("red conexion: " + red.getConexiones().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
     }
 
 
@@ -209,6 +205,8 @@ public class Coordinator {
             throw new InvalidEquipoException(e.getMessage());
         }
         LoggerUtil.logInfo("Device added: " + equipo);
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
     }
 
 
@@ -225,30 +223,31 @@ public class Coordinator {
         logic.deleteVertex(equipo);
         gui.removeVisualVertex(equipo);
         LoggerUtil.logInfo("Device deleted: " + equipo);
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
     }
-
 
     /**
      * Modifies an existing device (Equipo) in the network.
      * <p>
      * This method attempts to modify the device in the network (Red), logic layer, and graphical user interface (Gui).
-     * If any exception occurs during the process, the device is not modified and an error message is printed.
-     * If an exception occurs while modifying the network or GUI, the changes in the logic layer are reverted.
+     * If the device is invalid and cannot be modified, an InvalidEquipoException is thrown.
      *
-     * @param oldEquipo the existing device to be replaced
-     * @param newEquipo the new device to replace the old one
+     * @param equipo the device to be modified
      * @throws InvalidEquipoException if the device is invalid
      */
-    public void modifyEquipo(Equipo oldEquipo, Equipo newEquipo) throws InvalidEquipoException {
+    public void modifyEquipo(Equipo equipo) throws InvalidEquipoException {
         try {
-            red.modifyEquipo(oldEquipo, newEquipo);
-            logic.modifyVertex(oldEquipo, newEquipo);
-            gui.modifyVisualVertex(oldEquipo, newEquipo);
+            red.modifyEquipo(equipo);
+            logic.modifyVertex(equipo);
+            gui.modifyVisualVertex(equipo, equipo);
         } catch (InvalidEquipoException | InvalidUbicacionException | InvalidTipoEquipoException |
                  InvalidTipoPuertoException | InvalidDireccionIPException e) {
             throw new InvalidEquipoException(e.getMessage());
         }
-        LoggerUtil.logInfo("Device modified: " + oldEquipo + " -> " + newEquipo);
+        LoggerUtil.logInfo("Device modified: " + equipo);
+        LoggerUtil.logDebug("logic vertex: " + logic.getVertexMap().get(equipo.getCodigo()));
+        LoggerUtil.logDebug("red equipo: " + red.getEquipos().get(equipo.getCodigo()));
     }
 
 
@@ -384,7 +383,7 @@ public class Coordinator {
      * @param equipo    the device (Equipo) whose port is to be modified
      * @param oldPuerto the old port to be replaced
      * @param newPuerto the new port to replace the old one
-     * @throws InvalidPuertoEquipoException if the port is invalid or cannot be modified
+     * @throws InvalidPuertoEquipoException if the new port is invalid or cannot be modified
      */
     public void modifyPuertoEquipo(Equipo equipo, Puerto oldPuerto, Puerto newPuerto) throws InvalidPuertoEquipoException {
         red.modifyPuertoEquipo(equipo, oldPuerto, newPuerto);
@@ -402,6 +401,7 @@ public class Coordinator {
      */
     public void addIPEquipo(Equipo equipo, String direccionIP) throws InvalidDireccionIPException {
         red.addIpEquipo(equipo, direccionIP);
+        gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address added: " + direccionIP + " to device " + equipo.getCodigo());
     }
 
@@ -416,6 +416,7 @@ public class Coordinator {
      */
     public void removeIPEquipo(Equipo equipo, String direccionIP) throws InvalidDireccionIPException {
         red.removeIpEquipo(equipo, direccionIP);
+        gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address removed: " + direccionIP + " from device " + equipo.getCodigo());
     }
 
@@ -431,8 +432,10 @@ public class Coordinator {
      */
     public void modifyIPEquipo(Equipo equipo, String oldDireccionIP, String newDireccionIP) throws InvalidDireccionIPException {
         red.modifyIpEquipo(equipo, oldDireccionIP, newDireccionIP);
+        gui.modifyVisualVertex(equipo, equipo); // Update the visual representation of the device
         LoggerUtil.logInfo("IP address modified: " + oldDireccionIP + " -> " + newDireccionIP + " in device " + equipo.getCodigo());
     }
+
 
     /**
      * Adds a location (Ubicacion) to the network.
@@ -468,13 +471,12 @@ public class Coordinator {
      * This method attempts to modify the location in the network (Red).
      * If the location is invalid and cannot be modified, an InvalidUbicacionException is thrown.
      *
-     * @param oldUbicacion the existing location to be replaced
-     * @param newUbicacion the new location to replace the old one
+     * @param ubicacion the location to be modified
      * @throws InvalidUbicacionException if the location is invalid
      */
-    public void modifyUbicacion(Ubicacion oldUbicacion, Ubicacion newUbicacion) throws InvalidUbicacionException {
-        red.modifyUbicacion(oldUbicacion, newUbicacion);
-        LoggerUtil.logInfo("Location modified: " + oldUbicacion + " -> " + newUbicacion);
+    public void modifyUbicacion(Ubicacion ubicacion) throws InvalidUbicacionException {
+        red.modifyUbicacion(ubicacion);
+        LoggerUtil.logInfo("Location modified: " + ubicacion);
     }
 
 
@@ -523,13 +525,12 @@ public class Coordinator {
      * This method attempts to modify the cable type in the network (Red).
      * If the cable type is invalid and cannot be modified, an InvalidTipoCableException is thrown.
      *
-     * @param oldTipoCable the existing cable type to be replaced
-     * @param newTipoCable the new cable type to replace the old one
+     * @param tipoCable the cable type to be modified
      * @throws InvalidTipoCableException if the cable type is invalid
      */
-    public void modifyTipoCable(TipoCable oldTipoCable, TipoCable newTipoCable) throws InvalidTipoCableException {
-        red.modifyTipoCable(oldTipoCable, newTipoCable);
-        LoggerUtil.logInfo("Cable type modified: " + oldTipoCable + " -> " + newTipoCable);
+    public void modifyTipoCable(TipoCable tipoCable) throws InvalidTipoCableException {
+        red.modifyTipoCable(tipoCable);
+        LoggerUtil.logInfo("Cable type modified: " + tipoCable);
     }
 
 
@@ -578,13 +579,12 @@ public class Coordinator {
      * This method attempts to modify the port type in the network (Red).
      * If the port type is invalid and cannot be modified, an InvalidTipoPuertoException is thrown.
      *
-     * @param oldTipoPuerto the existing port type to be replaced
-     * @param newTipoPuerto the new port type to replace the old one
+     * @param tipoPuerto the port type to be modified
      * @throws InvalidTipoPuertoException if the port type is invalid
      */
-    public void modifyTipoPuerto(TipoPuerto oldTipoPuerto, TipoPuerto newTipoPuerto) throws InvalidTipoPuertoException {
-        red.modifyTipoPuerto(oldTipoPuerto, newTipoPuerto);
-        LoggerUtil.logInfo("Port type modified: " + oldTipoPuerto + " -> " + newTipoPuerto);
+    public void modifyTipoPuerto(TipoPuerto tipoPuerto) throws InvalidTipoPuertoException {
+        red.modifyTipoPuerto(tipoPuerto);
+        LoggerUtil.logInfo("Port type modified: " + tipoPuerto);
     }
 
 
@@ -633,13 +633,12 @@ public class Coordinator {
      * This method attempts to modify the device type in the network (Red).
      * If the device type is invalid and cannot be modified, an InvalidTipoEquipoException is thrown.
      *
-     * @param oldTipoEquipo the existing device type to be replaced
-     * @param newTipoEquipo the new device type to replace the old one
+     * @param tipoEquipo the device type to be modified
      * @throws InvalidTipoEquipoException if the device type is invalid
      */
-    public void modifyTipoEquipo(TipoEquipo oldTipoEquipo, TipoEquipo newTipoEquipo) throws InvalidTipoEquipoException {
-        red.modifyTipoEquipo(oldTipoEquipo, newTipoEquipo);
-        LoggerUtil.logInfo("Device type modified: " + oldTipoEquipo + " -> " + newTipoEquipo);
+    public void modifyTipoEquipo(TipoEquipo tipoEquipo) throws InvalidTipoEquipoException {
+        red.modifyTipoEquipo(tipoEquipo);
+        LoggerUtil.logInfo("Device type modified: " + tipoEquipo);
     }
 
 
@@ -656,16 +655,6 @@ public class Coordinator {
         return logic.getVertexMap();
     }
 
-    /**
-     * Gets the map of connections (conexiones) in the network.
-     * <p>
-     * This method retrieves the map of connections from the logic layer.
-     *
-     * @return a map where the key is the connection code and the value is the connection
-     */
-    public Map<String, Conexion> getEdgesMap() {
-        return logic.getEdgesMap();
-    }
 
     /**
      * Finds the shortest path between two devices (equipos) in the network.

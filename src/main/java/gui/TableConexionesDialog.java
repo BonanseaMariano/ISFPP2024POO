@@ -254,10 +254,10 @@ public class TableConexionesDialog extends javax.swing.JDialog {
                 javax.swing.table.DefaultTableModel model = (javax.swing.table.DefaultTableModel) table.getModel();
                 model.addRow(new Object[]{
                         equipo1.getCodigo(),
-                        tipoPuerto1.getDescripcion(),
+                        tipoPuerto1.getCodigo(),
                         equipo2.getCodigo(),
-                        tipoPuerto2.getDescripcion(),
-                        tipoCable.getDescripcion()
+                        tipoPuerto2.getCodigo(),
+                        tipoCable.getCodigo()
                 });
 
                 // Sort the table
@@ -297,18 +297,21 @@ public class TableConexionesDialog extends javax.swing.JDialog {
             String currentTipoPuerto2 = (String) model.getValueAt(modelRow, 3);
             String currentTipoCable = (String) model.getValueAt(modelRow, 4);
 
-            // Create the conexion with the current values
-            Conexion oldConexion = coordinator.getConexionesMap().get(currentEquipo1 + "-" + currentEquipo2);
-
             // Create the form with the current values
             javax.swing.JComboBox<Equipo> equipo1ComboBox = new javax.swing.JComboBox<>(coordinator.getEquipos().toArray(new Equipo[0]));
             equipo1ComboBox.setSelectedItem(coordinator.getEquiposMap().get(currentEquipo1));
+            equipo1ComboBox.setEnabled(false); // Make equipo1ComboBox disabled
+
             javax.swing.JComboBox<TipoPuerto> tipoPuerto1ComboBox = new javax.swing.JComboBox<>(coordinator.getTiposPuertos().values().toArray(new TipoPuerto[0]));
             tipoPuerto1ComboBox.setSelectedItem(coordinator.getTiposPuertos().get(currentTipoPuerto1));
+
             javax.swing.JComboBox<Equipo> equipo2ComboBox = new javax.swing.JComboBox<>(coordinator.getEquipos().toArray(new Equipo[0]));
             equipo2ComboBox.setSelectedItem(coordinator.getEquiposMap().get(currentEquipo2));
+            equipo2ComboBox.setEnabled(false); // Make equipo2ComboBox disabled
+
             javax.swing.JComboBox<TipoPuerto> tipoPuerto2ComboBox = new javax.swing.JComboBox<>(coordinator.getTiposPuertos().values().toArray(new TipoPuerto[0]));
             tipoPuerto2ComboBox.setSelectedItem(coordinator.getTiposPuertos().get(currentTipoPuerto2));
+
             javax.swing.JComboBox<TipoCable> tipoCableComboBox = new javax.swing.JComboBox<>(coordinator.getTiposCables().values().toArray(new TipoCable[0]));
             tipoCableComboBox.setSelectedItem(coordinator.getTiposCables().get(currentTipoCable));
 
@@ -339,7 +342,7 @@ public class TableConexionesDialog extends javax.swing.JDialog {
                     Conexion newConexion = new Conexion(newTipoCable, newEquipo1, newTipoPuerto1, newEquipo2, newTipoPuerto2);
 
                     try {
-                        coordinator.modifyConnection(oldConexion, newConexion);
+                        coordinator.modifyConnection(newConexion);
                     } catch (InvalidConexionException e) {
                         javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;
@@ -347,10 +350,10 @@ public class TableConexionesDialog extends javax.swing.JDialog {
 
                     // Update the row in the table model
                     model.setValueAt(newEquipo1.getCodigo(), modelRow, 0);
-                    model.setValueAt(newTipoPuerto1.getDescripcion(), modelRow, 1);
+                    model.setValueAt(newTipoPuerto1.getCodigo(), modelRow, 1);
                     model.setValueAt(newEquipo2.getCodigo(), modelRow, 2);
-                    model.setValueAt(newTipoPuerto2.getDescripcion(), modelRow, 3);
-                    model.setValueAt(newTipoCable.getDescripcion(), modelRow, 4);
+                    model.setValueAt(newTipoPuerto2.getCodigo(), modelRow, 3);
+                    model.setValueAt(newTipoCable.getCodigo(), modelRow, 4);
 
                     // Show success message
                     javax.swing.JOptionPane.showMessageDialog(null, rb.getString("TableConexiones_modifiedSuccess"), rb.getString("TableDialog_success"), javax.swing.JOptionPane.INFORMATION_MESSAGE);

@@ -36,10 +36,9 @@ public interface EquipoService {
     /**
      * Updates an existing Equipo entity.
      *
-     * @param oldEquipo the existing Equipo entity to update
-     * @param newEquipo the new Equipo entity with updated values
+     * @param equipo the Equipo entity to update
      */
-    void update(Equipo oldEquipo, Equipo newEquipo);
+    void update(Equipo equipo);
 
     /**
      * Updates an existing port for the specified Equipo.

@@ -590,7 +590,6 @@ public class Gui extends javax.swing.JFrame {
      * @param n The new Equipo object representing the updated vertex.
      */
     public void modifyVisualVertex(Equipo o, Equipo n) {
-        // Get the default parent for the graph
 
         // Begin updating the graph model
         mxGraph.getModel().beginUpdate();

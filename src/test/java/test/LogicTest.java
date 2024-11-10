@@ -100,7 +100,7 @@ public class LogicTest {
             // Verifica que cada conexion (edge) de logica este en la lista de conexiones de coordinator
             assertTrue(coordinator.getConexiones().contains(conexion));
             // Verifica que cada conexion (edge) de logica este en el mapa de conexiones de logica
-            assertEquals(conexion, logic.getEdgesMap().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
+            assertEquals(conexion, logic.getGraph().getEdge(conexion.getEquipo1(), conexion.getEquipo2()));
             // Verifica que cada conexion (edge) de logica este en el mapa de conexiones de Red
             assertEquals(conexion, red.getConexiones().get(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo()));
             // Imprime las conexiones (aristas) del grafo de logica

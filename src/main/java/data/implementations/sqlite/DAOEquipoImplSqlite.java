@@ -171,11 +171,10 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
     /**
      * Updates an existing Equipo record in the database.
      *
-     * @param o the existing Equipo object
-     * @param n the new Equipo object
+     * @param t the Equipo object to update
      */
     @Override
-    public void update(Equipo o, Equipo n) {
+    public void update(Equipo t) {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
@@ -185,62 +184,14 @@ public class DAOEquipoImplSqlite implements DAOEquipo {
             sql += "SET descripcion = ?, marca = ?, modelo = ? ,ubicacion = ? ,tipo_equipo = ? ,estado = ? ";
             sql += "WHERE codigo = ? ";
             pstm = con.prepareStatement(sql);
-            pstm.setString(1, n.getDescripcion());
-            pstm.setString(2, n.getMarca());
-            pstm.setString(3, n.getModelo());
-            pstm.setString(4, n.getUbicacion().getCodigo());
-            pstm.setString(5, n.getTipoEquipo().getCodigo());
-            pstm.setInt(6, n.isEstado() ? 1 : 0);
-            pstm.setString(7, o.getCodigo());
+            pstm.setString(1, t.getDescripcion());
+            pstm.setString(2, t.getMarca());
+            pstm.setString(3, t.getModelo());
+            pstm.setString(4, t.getUbicacion().getCodigo());
+            pstm.setString(5, t.getTipoEquipo().getCodigo());
+            pstm.setInt(6, t.isEstado() ? 1 : 0);
+            pstm.setString(7, t.getCodigo());
             pstm.executeUpdate();
-
-
-            //Verify if there are new or existing Puertos
-            for (Puerto puerto : n.getPuertos()) {
-                //Existing Puertos
-                if (o.getPuertos().contains(puerto)) {
-                    sql = "UPDATE puertos ";
-                    sql += "SET cantidad = ?, tipo_puerto = ? ";
-                    sql += "WHERE equipo = ? ";
-                    pstm = con.prepareStatement(sql);
-                    pstm.setInt(1, puerto.getCantidad());
-                    pstm.setString(2, puerto.getTipoPuerto().getCodigo());
-                    pstm.setString(3, o.getCodigo());
-                } else {
-                    //New Puertos
-                    sql = "INSERT INTO puertos (equipo, tipo_puerto, cantidad) ";
-                    sql += "VALUES(?,?,?) ";
-                    pstm = con.prepareStatement(sql);
-                    pstm.setString(1, n.getCodigo());
-                    pstm.setString(2, puerto.getTipoPuerto().getCodigo());
-                    pstm.setInt(3, puerto.getCantidad());
-                }
-                //Execute the query
-                pstm.executeUpdate();
-            }
-
-
-            // Verify if there are new or existing Ips
-            for (String direccionIp : n.getDireccionesIp()) {
-                //Existing Ips
-                if (o.getDireccionesIp().contains(direccionIp)) {
-                    sql = "UPDATE direcciones_ip ";
-                    sql += "SET ip = ? ";
-                    sql += "WHERE equipo = ? ";
-                    pstm = con.prepareStatement(sql);
-                    pstm.setString(1, o.getCodigo());
-                    pstm.setString(2, direccionIp);
-                } else {
-                    //New Ips
-                    sql = "INSERT INTO direcciones_ip (equipo, ip) ";
-                    sql += "VALUES(?,?) ";
-                    pstm = con.prepareStatement(sql);
-                    pstm.setString(1, n.getCodigo());
-                    pstm.setString(2, direccionIp);
-                }
-                //Execute the query
-                pstm.executeUpdate();
-            }
 
         } catch (Exception ex) {
             ex.printStackTrace();

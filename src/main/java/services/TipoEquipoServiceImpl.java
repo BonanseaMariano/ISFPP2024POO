@@ -37,12 +37,11 @@ public class TipoEquipoServiceImpl implements TipoEquipoService {
     /**
      * Updates an existing TipoEquipo entity.
      *
-     * @param oldTipoEquipo the existing TipoEquipo entity to update
-     * @param newTipoEquipo the new TipoEquipo entity with updated values
+     * @param tipoEquipo the TipoEquipo entity to update
      */
     @Override
-    public void update(TipoEquipo oldTipoEquipo, TipoEquipo newTipoEquipo) {
-        daoTipoEquipo.update(oldTipoEquipo, newTipoEquipo);
+    public void update(TipoEquipo tipoEquipo) {
+        daoTipoEquipo.update(tipoEquipo);
     }
 
     /**

@@ -37,12 +37,11 @@ public class UbicacionServiceImpl implements UbicacionService {
     /**
      * Updates an existing Ubicacion entity.
      *
-     * @param oldUbicacion the existing Ubicacion entity to update
-     * @param newUbicacion the new Ubicacion entity with updated values
+     * @param ubicacion the Ubicacion entity to update
      */
     @Override
-    public void update(Ubicacion oldUbicacion, Ubicacion newUbicacion) {
-        daoUbicacion.update(oldUbicacion, newUbicacion);
+    public void update(Ubicacion ubicacion) {
+        daoUbicacion.update(ubicacion);
     }
 
     /**

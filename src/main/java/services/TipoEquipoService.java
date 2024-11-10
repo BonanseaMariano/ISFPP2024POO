@@ -19,10 +19,9 @@ public interface TipoEquipoService {
     /**
      * Updates an existing TipoEquipo entity.
      *
-     * @param oldTipoEquipo the existing TipoEquipo entity to update
-     * @param newTipoEquipo the new TipoEquipo entity with updated values
+     * @param tipoEquipo the TipoEquipo entity to update
      */
-    void update(TipoEquipo oldTipoEquipo, TipoEquipo newTipoEquipo);
+    void update(TipoEquipo tipoEquipo);
 
     /**
      * Deletes a TipoEquipo entity.

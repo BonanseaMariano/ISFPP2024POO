@@ -87,26 +87,24 @@ public class DAOTipoCableImplSqlite implements DAOTipoCable {
     }
 
     /**
-     * Updates an existing TipoCable record in the database.
+     * Updates a TipoCable record in the database.
      *
-     * @param o the existing TipoCable object
-     * @param n the new TipoCable object
+     * @param t the TipoCable object to update
      */
     @Override
-    public void update(TipoCable o, TipoCable n) {
+    public void update(TipoCable t) {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
         try {
             con = DBConnection.getConnection();
             String sql = "UPDATE tipos_cables ";
-            sql += "SET descripcion = ? ";
-            sql += "SET velocidad = ? ";
+            sql += "SET descripcion = ?, velocidad = ? ";
             sql += "WHERE codigo = ? ";
             pstm = con.prepareStatement(sql);
-            pstm.setString(1, n.getDescripcion());
-            pstm.setInt(2, n.getVelocidad());
-            pstm.setString(3, o.getCodigo());
+            pstm.setString(1, t.getDescripcion());
+            pstm.setInt(2, t.getVelocidad());
+            pstm.setString(3, t.getCodigo());
             pstm.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();

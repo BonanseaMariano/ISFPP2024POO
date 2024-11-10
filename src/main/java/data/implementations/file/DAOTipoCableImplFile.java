@@ -122,15 +122,14 @@ public class DAOTipoCableImplFile implements DAOTipoCable {
     }
 
     /**
-     * Updates an existing TipoCable object and writes the changes to the file.
+     * Updates a TipoCable object and writes the changes to the file.
      *
-     * @param o the original TipoCable object
-     * @param n the new TipoCable object
+     * @param t the TipoCable object to update
      */
     @Override
-    public void update(TipoCable o, TipoCable n) {
-        int pos = list.indexOf(o);
-        list.set(pos, n);
+    public void update(TipoCable t) {
+        int pos = list.indexOf(t);
+        list.set(pos, t);
         writeToFile(list, filename);
         actualizar = true;
     }

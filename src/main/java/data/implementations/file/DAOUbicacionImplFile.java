@@ -120,15 +120,14 @@ public class DAOUbicacionImplFile implements DAOUbicacion {
     }
 
     /**
-     * Updates an existing Ubicacion object in the list and writes the updated list to the file.
+     * Updates a Ubicacion object in the list and writes the updated list to the file.
      *
-     * @param o the existing Ubicacion object
-     * @param n the new Ubicacion object
+     * @param t the Ubicacion object to update
      */
     @Override
-    public void update(Ubicacion o, Ubicacion n) {
-        int pos = list.indexOf(o);
-        list.set(pos, n);
+    public void update(Ubicacion t) {
+        int pos = list.indexOf(t);
+        list.set(pos, t);
         writeToFile(list, filename);
         actualizar = true;
     }

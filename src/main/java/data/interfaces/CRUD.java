@@ -26,10 +26,9 @@ public interface CRUD<T> {
     /**
      * Updates an existing object.
      *
-     * @param o the original object
-     * @param n the new object
+     * @param t the object to update
      */
-    void update(T o, T n);
+    void update(T t);
 
     /**
      * Deletes an object.

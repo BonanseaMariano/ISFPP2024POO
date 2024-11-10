@@ -121,15 +121,14 @@ public class DAOTipoPuertoImplFile implements DAOTipoPuerto {
     }
 
     /**
-     * Updates an existing TipoPuerto object in the list and writes the updated list to the file.
+     * Updates a TipoPuerto object in the list and writes the updated list to the file.
      *
-     * @param o the existing TipoPuerto object
-     * @param n the new TipoPuerto object
+     * @param t the TipoPuerto object to update
      */
     @Override
-    public void update(TipoPuerto o, TipoPuerto n) {
-        int pos = list.indexOf(o);
-        list.set(pos, n);
+    public void update(TipoPuerto t) {
+        int pos = list.indexOf(t);
+        list.set(pos, t);
         writeToFile(list, filename);
         actualizar = true;
     }

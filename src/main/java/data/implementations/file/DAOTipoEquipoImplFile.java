@@ -120,15 +120,14 @@ public class DAOTipoEquipoImplFile implements DAOTipoEquipo {
     }
 
     /**
-     * Updates an existing TipoEquipo object in the list and writes the updated list to the file.
+     * Updates a TipoEquipo object in the list and writes the updated list to the file.
      *
-     * @param o the existing TipoEquipo object
-     * @param n the new TipoEquipo object
+     * @param t the TipoEquipo object to update
      */
     @Override
-    public void update(TipoEquipo o, TipoEquipo n) {
-        int pos = list.indexOf(o);
-        list.set(pos, n);
+    public void update(TipoEquipo t) {
+        int pos = list.indexOf(t);
+        list.set(pos, t);
         writeToFile(list, filename);
         actualizar = true;
     }

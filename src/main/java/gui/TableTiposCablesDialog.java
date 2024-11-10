@@ -292,7 +292,7 @@ public class TableTiposCablesDialog extends javax.swing.JDialog {
                     tipoCable.setDescripcion(newDescripcion);
                     tipoCable.setVelocidad(newVelocidad);
                     try {
-                        coordinator.modifyTipoCable(tipoCable, tipoCable);
+                        coordinator.modifyTipoCable(tipoCable);
                     } catch (Exception e) {
                         javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;

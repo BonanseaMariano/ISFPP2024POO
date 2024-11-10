@@ -222,15 +222,14 @@ public class DAOEquipoImplFile implements DAOEquipo {
     }
 
     /**
-     * Updates an existing Equipo object and writes the changes to the file.
+     * Updates an Equipo object and writes the changes to the file.
      *
-     * @param o the original Equipo object
-     * @param n the new Equipo object
+     * @param t the Equipo object to update
      */
     @Override
-    public void update(Equipo o, Equipo n) {
-        int pos = list.indexOf(o);
-        list.set(pos, n);
+    public void update(Equipo t) {
+        int pos = list.indexOf(t);
+        list.set(pos, t);
         writeToFile(list, filename);
         actualizar = true;
     }
@@ -275,48 +274,54 @@ public class DAOEquipoImplFile implements DAOEquipo {
         return ubicaciones;
     }
 
+    //TODO
     @Override
     public void createIp(Equipo equipo, String IP) {
         Equipo newEquipo = cloneEquipo(equipo);
         newEquipo.getDireccionesIp().add(IP);
-        update(equipo, newEquipo);
+//        update(equipo, newEquipo);
     }
 
+    //TODO
     @Override
     public void deleteIp(Equipo equipo, String IP) {
         Equipo newEquipo = cloneEquipo(equipo);
         newEquipo.getDireccionesIp().remove(IP);
-        update(equipo, newEquipo);
+//        update(equipo, newEquipo);
     }
 
+    //TODO
     @Override
     public void updateIp(Equipo equipo, String oldIP, String newIP) {
         Equipo newEquipo = cloneEquipo(equipo);
         newEquipo.getDireccionesIp().remove(oldIP);
         newEquipo.getDireccionesIp().add(newIP);
-        update(equipo, newEquipo);
+//        update(equipo, newEquipo);
     }
 
+    //TODO
     @Override
     public void createPort(Equipo equipo, Puerto puerto) {
         Equipo newEquipo = new Equipo();
         newEquipo.getPuertos().add(puerto);
-        update(equipo, newEquipo);
+//        update(equipo, newEquipo);
     }
 
+    //TODO
     @Override
     public void deletePort(Equipo equipo, Puerto puerto) {
         Equipo newEquipo = cloneEquipo(equipo);
         newEquipo.getPuertos().remove(puerto);
-        update(equipo, newEquipo);
+//        update(equipo, newEquipo);
     }
 
+    //TODO
     @Override
     public void updatePort(Equipo equipo, Puerto oldPort, Puerto newPort) {
         Equipo newEquipo = cloneEquipo(equipo);
         newEquipo.getPuertos().remove(oldPort);
         newEquipo.getPuertos().add(newPort);
-        update(equipo, newEquipo);
+//        update(equipo, newEquipo);
     }
 
     private Equipo cloneEquipo(Equipo equipo) {
@@ -325,7 +330,7 @@ public class DAOEquipoImplFile implements DAOEquipo {
         newEquipo.setUbicacion(equipo.getUbicacion());
         newEquipo.setDescripcion(equipo.getDescripcion());
         newEquipo.setTipoEquipo(equipo.getTipoEquipo());
-        for(String IP : equipo.getDireccionesIp()) {
+        for (String IP : equipo.getDireccionesIp()) {
             newEquipo.getDireccionesIp().add(IP);
         }
         for (Puerto puerto : equipo.getPuertos()) {

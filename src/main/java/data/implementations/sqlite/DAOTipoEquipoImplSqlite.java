@@ -88,11 +88,10 @@ public class DAOTipoEquipoImplSqlite implements DAOTipoEquipo {
     /**
      * Updates an existing TipoEquipo record in the database.
      *
-     * @param o the existing TipoEquipo object
-     * @param n the new TipoEquipo object
+     * @param t the TipoEquipo object to update
      */
     @Override
-    public void update(TipoEquipo o, TipoEquipo n) {
+    public void update(TipoEquipo t) {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
@@ -102,8 +101,8 @@ public class DAOTipoEquipoImplSqlite implements DAOTipoEquipo {
             sql += "SET descripcion = ? ";
             sql += "WHERE codigo = ? ";
             pstm = con.prepareStatement(sql);
-            pstm.setString(1, n.getDescripcion());
-            pstm.setString(2, o.getCodigo());
+            pstm.setString(1, t.getDescripcion());
+            pstm.setString(2, t.getCodigo());
             pstm.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();

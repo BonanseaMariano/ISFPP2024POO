@@ -277,7 +277,7 @@ public class TableUbicacionesDialog extends javax.swing.JDialog {
                     Ubicacion ubicacion = coordinator.getUbicaciones().get(currentCodigo);
                     ubicacion.setDescripcion(newDescripcion);
                     try {
-                        coordinator.modifyUbicacion(ubicacion, ubicacion);
+                        coordinator.modifyUbicacion(ubicacion);
                     } catch (Exception e) {
                         javax.swing.JOptionPane.showMessageDialog(null, e.getMessage(), rb.getString("TableDialog_error"), javax.swing.JOptionPane.ERROR_MESSAGE);
                         return;

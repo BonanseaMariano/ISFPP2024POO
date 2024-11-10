@@ -7,8 +7,6 @@ import org.jgrapht.Graph;
 import org.jgrapht.Graphs;
 import org.jgrapht.alg.shortestpath.DijkstraShortestPath;
 import org.jgrapht.graph.SimpleWeightedGraph;
-import utils.LoggerUtil;
-import utils.Utils;
 
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -34,12 +32,6 @@ public class Logic {
      * and the values are Equipo objects representing the devices.
      */
     private Map<String, Equipo> vertexMap;
-    /**
-     * A map that stores the connections (conexiones) in the network.
-     * The keys are strings representing the connection identifiers,
-     * and the values are Conexion objects representing the connections.
-     */
-    private Map<String, Conexion> edgesMap;
 
     /**
      * Constructs a new Logic instance.
@@ -47,8 +39,7 @@ public class Logic {
      */
     public Logic() {
         graph = new SimpleWeightedGraph<>(Conexion.class);
-        vertexMap = new ConcurrentHashMap<>();
-        edgesMap = new ConcurrentHashMap<>();
+        vertexMap = new HashMap<>();
     }
 
     /**
@@ -79,15 +70,6 @@ public class Logic {
         return vertexMap;
     }
 
-    /**
-     * Retrieves the map of conexiones (connections) in the network.
-     *
-     * @return a map where the keys are strings representing the connection identifiers,
-     * and the values are Conexion objects representing the connections
-     */
-    public Map<String, Conexion> getEdgesMap() {
-        return edgesMap;
-    }
 
     /**
      * Updates the graph data with the provided lists of equipos (vertices) and conexiones (edges).
@@ -125,52 +107,31 @@ public class Logic {
     }
 
     /**
-     * Modifies an existing vertex (equipo) in the graph.
+     * Modifies a vertex (equipo) in the graph.
      * <p>
-     * This method validates the old and new equipo, replaces the old equipo with the new equipo in the graph and map,
-     * and reconnects all edges from the old equipo to the new equipo.
+     * This method first saves all the connections of the equipo to be modified.
+     * It then removes the equipo from the graph, updates the vertex map, and adds the equipo back to the graph.
+     * Finally, it re-adds all the saved connections to the equipo.
      *
-     * @param oldEquipo the existing equipo to be replaced
-     * @param newEquipo the new equipo to replace the old one
-     * @throws InvalidEquipoException if the old equipo does not exist in the graph or if the new equipo already exists
+     * @param equipo the vertex (equipo) to be modified in the graph
+     * @throws InvalidEquipoException if the equipo does not exist in the graph
      */
-    public void modifyVertex(Equipo oldEquipo, Equipo newEquipo) throws InvalidEquipoException {
-        if (vertexMap.containsKey(oldEquipo.getCodigo())) {
-            if (!oldEquipo.getCodigo().equals(newEquipo.getCodigo()) && vertexMap.containsKey(newEquipo.getCodigo())) {
-                throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_existingM"));
+    public void modifyVertex(Equipo equipo) throws InvalidEquipoException {
+        //Save all the connections of the equipo
+        List<Conexion> conexiones = new ArrayList<>();
+        for (Conexion conexion : graph.edgesOf(equipo)) {
+            conexiones.add(conexion);
+        }
+        if (!graph.removeVertex(equipo)) { // if the equipo does not exist in the graph
+            throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownM"));
+        } else { // if the equipo exists in the graph it removes it with all its connections and adds it again with the new data
+            vertexMap.put(equipo.getCodigo(), equipo);
+            graph.addVertex(equipo);
+            //Add all the connections of the equipo
+            for (Conexion conexion : conexiones) {
+                graph.addEdge(conexion.getEquipo1(), conexion.getEquipo2(), conexion);
+                graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
             }
-
-            // Add newEquipo to the graph and map
-            graph.addVertex(newEquipo);
-            vertexMap.put(newEquipo.getCodigo(), newEquipo);
-
-            // Reconnect all edges from oldEquipo to newEquipo
-            for (Conexion conexion : graph.edgesOf(oldEquipo)) {
-                if (conexion.getEquipo1().equals(oldEquipo)) {
-                    // Modify the conexion
-                    conexion.setEquipo1(newEquipo);
-                    // Add the new edge to the graph
-                    graph.addEdge(newEquipo, conexion.getEquipo2(), conexion);
-                    graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
-                    // Update the conexiones map
-                    edgesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
-                    edgesMap.put(conexion.getEquipo1().getCodigo() + "-" + newEquipo.getCodigo(), conexion);
-                } else if (conexion.getEquipo2().equals(oldEquipo)) {
-                    // Modify the conexion
-                    conexion.setEquipo2(newEquipo);
-                    // Add the new edge to the graph
-                    graph.addEdge(conexion.getEquipo1(), newEquipo, conexion);
-                    graph.setEdgeWeight(conexion, conexion.getTipoCable().getVelocidad());
-                    // Update the conexiones map
-                    edgesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
-                    edgesMap.put(newEquipo.getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
-                }
-            }
-
-            // Remove oldEquipo from the graph
-            graph.removeVertex(oldEquipo);
-        } else {
-            throw new InvalidEquipoException(coordinator.getResourceBundle().getString("InvalidDevice_noDeviceM"));
         }
     }
 
@@ -221,7 +182,7 @@ public class Logic {
      * @throws InvalidConexionException if the edge already exists or if adding the edge forms a cycle
      */
     public void addEdge(Conexion conexion) throws InvalidConexionException {
-        if (graph.containsEdge(conexion)) {
+        if (graph.containsEdge(graph.getEdge(conexion.getEquipo1(), conexion.getEquipo2()))) {
             throw new InvalidConexionException(coordinator.getResourceBundle().getString("InvalidConnection_existingConnection"));
         }
         edgeValidation(conexion);
@@ -231,25 +192,20 @@ public class Logic {
             deleteEdge(conexion);
             throw new InvalidConexionException(conexion + " " + coordinator.getResourceBundle().getString("InvalidConnection_cycle"));
         }
-        edgesMap.put(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo(), conexion);
     }
 
     /**
-     * Modifies an existing edge (conexion) in the graph.
+     * Modifies an edge (conexion) in the graph.
      * <p>
-     * This method first attempts to remove the old edge from the graph. If successful, it removes the old edge from the edgesMap
-     * and then adds the modified edge to the graph. If the old edge does not exist, an InvalidConexionException is thrown.
+     * This method modifies the edge weight of the specified conexion based on the connection's cable speed.
      *
-     * @param old      the existing edge (conexion) to be removed
-     * @param modified the new edge (conexion) to be added
-     * @throws InvalidConexionException if the old edge does not exist in the graph
+     * @param conexion the edge (conexion) to be modified in the graph
      */
-    public void modifyEdge(Conexion old, Conexion modified) throws InvalidConexionException {
-        if (graph.removeEdge(old)) {
-            edgesMap.remove(old.getEquipo1().getCodigo() + "-" + old.getEquipo2().getCodigo());
-            addEdge(modified);
-        } else {
-            throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_unknownM"));
+    public void modifyEdge(Conexion conexion) throws InvalidConexionException {
+        try {
+            graph.setEdgeWeight(graph.getEdge(conexion.getEquipo1(), conexion.getEquipo2()), conexion.getTipoCable().getVelocidad());
+        } catch (IllegalArgumentException e) {
+            throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_unknownM") + " logic");
         }
     }
 
@@ -264,9 +220,7 @@ public class Logic {
      * @throws InvalidConexionException if the conexion does not exist in the graph
      */
     public void deleteEdge(Conexion conexion) throws InvalidConexionException {
-        if (graph.removeEdge(conexion)) {
-            edgesMap.remove(conexion.getEquipo1().getCodigo() + "-" + conexion.getEquipo2().getCodigo());
-        } else {
+        if (!graph.removeEdge(graph.getEdge(conexion.getEquipo1(), conexion.getEquipo2()))) {
             throw new InvalidConexionException(coordinator.getResourceBundle().getString("Invalid_unknownD"));
         }
     }

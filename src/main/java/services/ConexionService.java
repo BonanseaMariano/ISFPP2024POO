@@ -19,10 +19,9 @@ public interface ConexionService {
     /**
      * Updates an existing Conexion entity.
      *
-     * @param oldConexion the existing Conexion entity to update
-     * @param newConexion the new Conexion entity with updated values
+     * @param conexion the Conexion entity to update
      */
-    void update(Conexion oldConexion, Conexion newConexion);
+    void update(Conexion conexion);
 
     /**
      * Deletes a Conexion entity.

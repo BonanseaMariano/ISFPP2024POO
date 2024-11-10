@@ -19,10 +19,9 @@ public interface TipoCableService {
     /**
      * Updates an existing TipoCable entity.
      *
-     * @param oldTipoCable the existing TipoCable entity to update
-     * @param newTipoCable the new TipoCable entity with updated values
+     * @param tipoCable the TipoCable entity to update
      */
-    void update(TipoCable oldTipoCable, TipoCable newTipoCable);
+    void update(TipoCable tipoCable);
 
     /**
      * Deletes a TipoCable entity.

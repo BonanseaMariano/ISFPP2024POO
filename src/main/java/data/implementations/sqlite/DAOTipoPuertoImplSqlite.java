@@ -89,11 +89,10 @@ public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
     /**
      * Updates an existing TipoPuerto record in the database.
      *
-     * @param o the existing TipoPuerto object
-     * @param n the new TipoPuerto object
+     * @param t the TipoPuerto object to update
      */
     @Override
-    public void update(TipoPuerto o, TipoPuerto n) {
+    public void update(TipoPuerto t) {
         Connection con = null;
         PreparedStatement pstm = null;
         ResultSet rs = null;
@@ -103,9 +102,9 @@ public class DAOTipoPuertoImplSqlite implements DAOTipoPuerto {
             sql += "SET descripcion = ?, velocidad = ?";
             sql += "WHERE codigo = ? ";
             pstm = con.prepareStatement(sql);
-            pstm.setString(1, n.getDescripcion());
-            pstm.setInt(2, n.getVelocidad());
-            pstm.setString(3, o.getCodigo());
+            pstm.setString(1, t.getDescripcion());
+            pstm.setInt(2, t.getVelocidad());
+            pstm.setString(3, t.getCodigo());
             pstm.executeUpdate();
         } catch (Exception ex) {
             ex.printStackTrace();

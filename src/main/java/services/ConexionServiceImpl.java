@@ -37,12 +37,11 @@ public class ConexionServiceImpl implements ConexionService {
     /**
      * Updates an existing Conexion entity.
      *
-     * @param oldConexion the existing Conexion entity to update
-     * @param newConexion the new Conexion entity with updated values
+     * @param conexion the Conexion entity to update
      */
     @Override
-    public void update(Conexion oldConexion, Conexion newConexion) {
-        daoConexion.update(oldConexion, newConexion);
+    public void update(Conexion conexion) {
+        daoConexion.update(conexion);
     }
 
     /**

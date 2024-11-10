@@ -145,15 +145,14 @@ public class DAOConexionImplFile implements DAOConexion {
     }
 
     /**
-     * Updates an existing Conexion object and writes the changes to the file.
+     * Updates a Conexion object and writes the changes to the file.
      *
-     * @param o the original Conexion object
-     * @param n the new Conexion object
+     * @param t the Conexion object to update
      */
     @Override
-    public void update(Conexion o, Conexion n) {
-        int pos = list.indexOf(o);
-        list.set(pos, n);
+    public void update(Conexion t) {
+        int pos = list.indexOf(t);
+        list.set(pos, t);
         writeToFile(list, filename);
         actualizar = true;
     }

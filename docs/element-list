@@ -11,6 +11,7 @@ gui
 gui.swingWorkers
 logic
 models
+observer
 services
 test
 utils

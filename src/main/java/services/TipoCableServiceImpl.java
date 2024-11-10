@@ -37,12 +37,11 @@ public class TipoCableServiceImpl implements TipoCableService {
     /**
      * Updates an existing TipoCable entity.
      *
-     * @param oldTipoCable the existing TipoCable entity to update
-     * @param newTipoCable the new TipoCable entity with updated values
+     * @param tipoCable the TipoCable entity to update
      */
     @Override
-    public void update(TipoCable oldTipoCable, TipoCable newTipoCable) {
-        daoTipoCable.update(oldTipoCable, newTipoCable);
+    public void update(TipoCable tipoCable) {
+        daoTipoCable.update(tipoCable);
     }
 
     /**
