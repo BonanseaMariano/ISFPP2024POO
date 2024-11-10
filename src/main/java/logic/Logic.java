@@ -125,7 +125,6 @@ public class Logic {
         if (!graph.removeVertex(equipo)) { // if the equipo does not exist in the graph
             throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownM"));
         } else { // if the equipo exists in the graph it removes it with all its connections and adds it again with the new data
-            vertexMap.remove(equipo.getCodigo());
             vertexMap.put(equipo.getCodigo(), equipo);
             graph.addVertex(equipo);
             //Add all the connections of the equipo

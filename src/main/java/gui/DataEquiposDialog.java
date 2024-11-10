@@ -6,20 +6,23 @@ import models.Equipo;
 import models.Puerto;
 import models.TipoEquipo;
 import models.Ubicacion;
+import observer.Observer;
+import observer.Subject;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 
 /**
- * A dialog for displaying and editing equipment data.
+ * DataEquiposDialog is a dialog for adding or editing equipment data.
  * <p>
- * This class extends `javax.swing.JDialog` and provides a user interface for viewing and modifying
- * the details of an equipment (`Equipo`). It includes fields for the equipment's code, description,
- * brand, model, type, ports, IP addresses, and status.
+ * This dialog allows the user to input the details of an equipment, such as the code, description, brand, model,
+ * type, location, and status. It provides fields for entering the data and buttons for accepting or canceling the operation.
+ * The dialog is used to add a new equipment or modify an existing one. It also notifies observers of the changes made.
  */
-public class DataEquiposDialog extends javax.swing.JDialog {
+public class DataEquiposDialog extends javax.swing.JDialog implements Subject {
     /**
      * Width of the dialog
      */
@@ -57,6 +60,10 @@ public class DataEquiposDialog extends javax.swing.JDialog {
      */
     private JComboBox<Ubicacion> ubicacionCB;
     /**
+     * List of observers registered with the subject
+     */
+    private final List<Observer> observers = new ArrayList<>();
+    /**
      * The coordinator responsible for managing the application's logic and data flow
      */
     private final Coordinator coordinator;
@@ -72,7 +79,6 @@ public class DataEquiposDialog extends javax.swing.JDialog {
      * A flag that indicates whether the dialog is in editing mode
      */
     private boolean isEditing;
-
 
     /**
      * Constructs a new DataEquiposDialog.
@@ -313,6 +319,13 @@ public class DataEquiposDialog extends javax.swing.JDialog {
         newEquipo.setUbicacion((Ubicacion) ubicacionCB.getSelectedItem());
         newEquipo.setEstado(EstadoCB.isSelected());
 
+        // Copy the ports and IP addresses from the current equipment to the new equipment
+        for (Puerto puerto : equipo.getPuertos()) {
+            newEquipo.addPuerto(puerto);
+        }
+        for (String ip : equipo.getDireccionesIp()) {
+            newEquipo.addIP(ip);
+        }
 
         if (!isEditing) {
             // Add the new equipment
@@ -320,7 +333,6 @@ public class DataEquiposDialog extends javax.swing.JDialog {
                 coordinator.addEquipo(newEquipo);
             } catch (InvalidEquipoException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
-                this.dispose();
                 return;
             }
             JOptionPane.showMessageDialog(this, rb.getString("TableEquipos_addedSuccess"), rb.getString("TableEquipos_addTitle"), JOptionPane.INFORMATION_MESSAGE);
@@ -331,11 +343,11 @@ public class DataEquiposDialog extends javax.swing.JDialog {
                 coordinator.modifyEquipo(newEquipo);
             } catch (InvalidEquipoException e) {
                 JOptionPane.showMessageDialog(this, e.getMessage(), rb.getString("TableDialog_error"), JOptionPane.ERROR_MESSAGE);
-                this.dispose();
                 return;
             }
             JOptionPane.showMessageDialog(this, rb.getString("TableEquipos_modifiedSuccess"), rb.getString("TableEquipos_modifyTitle"), JOptionPane.INFORMATION_MESSAGE);
         }
+        notifyObservers(newEquipo); // Notify observers of the change
         // Close the dialog
         this.dispose();
     }
@@ -349,4 +361,35 @@ public class DataEquiposDialog extends javax.swing.JDialog {
         this.dispose();
     }
 
+    /**
+     * Adds an observer to the list of observers.
+     *
+     * @param observer the observer to add
+     */
+    @Override
+    public void addObserver(Observer observer) {
+        observers.add(observer);
+    }
+
+    /**
+     * Removes an observer from the list of observers.
+     *
+     * @param observer the observer to remove
+     */
+    @Override
+    public void removeObserver(Observer observer) {
+        observers.remove(observer);
+    }
+
+    /**
+     * Notifies all registered observers with the provided equipment.
+     *
+     * @param equipo the equipment passed to the observers
+     */
+    @Override
+    public void notifyObservers(Equipo equipo) {
+        for (Observer observer : observers) {
+            observer.update(equipo);
+        }
+    }
 }

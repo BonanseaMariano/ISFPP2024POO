@@ -288,7 +288,8 @@ public class Red {
         if (!this.equipos.containsKey(equipo.getCodigo())) {
             throw new InvalidEquipoException(coordinator.getResourceBundle().getString("Invalid_unknownM"));
         }
-        this.equipoService.update(equipo);
+        this.equipos.put(equipo.getCodigo(), equipo); // Updates the device in the map
+        this.equipoService.update(equipo); // Updates the device in the database
     }
 
     /**
